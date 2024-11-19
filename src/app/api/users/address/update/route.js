@@ -1,0 +1,135 @@
+import { NextResponse } from 'next/server'
+import { PrismaClient } from '@prisma/client'
+import { isAuth } from '@/app/api/middleware/auth'
+
+const prisma = new PrismaClient()
+
+export async function PATCH(request) {
+  const {
+    userId,
+    addressId,
+    addressLine1,
+    addressLine2,
+    isDefault,
+    city,
+    state,
+    zipCode,
+    country,
+    mobileNumber,
+  } = await request.json()
+
+  if (!isAuth(request)) {
+    return NextResponse.json(
+      { message: 'Unauthorized access!' },
+      { status: 401 }
+    )
+  }
+
+  if (
+    !addressId ||
+    !addressLine1 ||
+    !city ||
+    !state ||
+    !zipCode ||
+    !country ||
+    !mobileNumber
+  ) {
+    return NextResponse.json(
+      {
+        error:
+          'All required fields (addressId, addressLine1, city, state, zipCode, country, mobileNumber) must be provided',
+      },
+      { status: 400 }
+    )
+  }
+
+  try {
+    if (addressLine1.length > 200) {
+      return NextResponse.json(
+        { message: 'Address Line 1 is too long.' },
+        { status: 400 }
+      )
+    }
+
+    if (addressLine2 && addressLine2.length > 200) {
+      return NextResponse.json(
+        { message: 'Address Line 2 is too long.' },
+        { status: 400 }
+      )
+    }
+
+    if (city.length > 25) {
+      return NextResponse.json(
+        { message: 'City name is too long.' },
+        { status: 400 }
+      )
+    }
+
+    if (state.length > 25) {
+      return NextResponse.json(
+        { message: 'State name is too long.' },
+        { status: 400 }
+      )
+    }
+
+    if (!/^\d+$/.test(mobileNumber) || zipCode.length !== 6) {
+      return NextResponse.json(
+        { message: 'Invalid zip code.' },
+        { status: 400 }
+      )
+    }
+
+    if (country.length > 15) {
+      return NextResponse.json(
+        { message: 'Country name is too long.' },
+        { status: 400 }
+      )
+    }
+
+    if (
+      !/^\d+$/.test(mobileNumber) ||
+      mobileNumber.length < 10 ||
+      mobileNumber.length > 13
+    ) {
+      return NextResponse.json(
+        {
+          message:
+            'Invalid mobile number. It should be numeric and between 10 to 13 digits.',
+        },
+        { status: 400 }
+      )
+    }
+
+    // If the address is marked as default, ensure that only one address can be default
+    if (isDefault) {
+      await prisma.userAddress.updateMany({
+        where: { userId: userId, isDefault: true },
+        data: { isDefault: false },
+      })
+    }
+
+    const updatedAddress = await prisma.userAddress.update({
+      where: { id: addressId },
+      data: {
+        addressLine1,
+        addressLine2,
+        isDefault,
+        city,
+        state,
+        zipCode,
+        country,
+        mobileNumber,
+      },
+    })
+
+    return NextResponse.json(updatedAddress, { status: 200 })
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json(
+      { message: 'Something is wrong, try again!' },
+      { status: 500 }
+    )
+  } finally {
+    await prisma.$disconnect()
+  }
+}

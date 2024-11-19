@@ -1,0 +1,41 @@
+/* eslint-disable no-undef */
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+
+export const uploadImageToCDN = async (image, name) => {
+  const s3Client = new S3Client({
+    endpoint: 'https://blr1.digitaloceanspaces.com',
+    forcePathStyle: false,
+    region: 'blr1',
+    credentials: {
+      accessKeyId: 'DO00TK892YLJBW7MV82Y',
+      secretAccessKey: '9a1ueUXe6X+ngKZoZEyvnfjQw5PI7t3bzbquBCWc2bY',
+    },
+  })
+
+  const extension = name.split('.').pop()
+  const imageName = `image-${Date.now()}.${extension}`
+
+  const file = new File([image], name, { type: image.type })
+  if (!file || !file) return
+
+  // Define the S3 parameters
+  const params = {
+    Bucket: 'the-fashion-salad',
+    Key: `clothes2wear/${imageName}`,
+    Body: image,
+    ACL: 'public-read',
+  }
+
+  try {
+    const data = await s3Client.send(new PutObjectCommand(params))
+    console.log('Image uploaded:', data)
+
+    // Construct the URL of the uploaded image
+    const imageUrl = imageName
+
+    return imageUrl
+  } catch (error) {
+    console.error('Error uploading to CDN', error)
+    throw new Error('Image upload failed')
+  }
+}
