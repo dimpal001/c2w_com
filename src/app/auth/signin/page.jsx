@@ -52,6 +52,7 @@ export default function SigninPage() {
         })
 
         enqueueSnackbar(response.data.message, { variant: 'success' })
+        setLoginSuccess('Hii')
       }
     } catch (error) {
       if (error.response.status === 301) {

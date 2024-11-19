@@ -6,9 +6,8 @@ import ProductForm from '../components/ProductForm'
 
 // eslint-disable-next-line react/prop-types
 const Page = ({ productId }) => {
-  const storedUser = localStorage.getItem('user')
-  const user = JSON.parse(storedUser)
-  console.log(user)
+  const [user, setUser] = useState(null)
+
   const [formData, setFormData] = useState({
     title: '',
     customerTypeId: '',
@@ -20,7 +19,7 @@ const Page = ({ productId }) => {
     isActive: false,
     description: '',
     summary: '',
-    userId: user.id,
+    userId: user?.id || '123',
     images: [],
     inventory: [],
     returnPolicy: '',
@@ -30,6 +29,14 @@ const Page = ({ productId }) => {
 
   useEffect(() => {
     document.title = 'Create Product | Clothes2Wear'
+  }, [])
+
+  useEffect(() => {
+    // Ensure this runs on the client side
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
+    }
   }, [])
 
   return (

@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react'
+import React from 'react'
 
 // T CSS
 export const Modal = ({ isOpen, children, size }) => {

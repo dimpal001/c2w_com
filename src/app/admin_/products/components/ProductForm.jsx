@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 'use client'
 
@@ -11,7 +10,6 @@ import { enqueueSnackbar } from 'notistack'
 import { uploadImageToCDN } from '../../../../../utils/uploadImageToCDN'
 import AddDiscount from '../create-product/AddDiscount'
 import SimilarProruct from './SimilarProruct'
-import { validation } from './validation'
 import { useRouter } from 'next/navigation'
 
 const ProductForm = ({ formData, setFormData, type }) => {
@@ -24,7 +22,6 @@ const ProductForm = ({ formData, setFormData, type }) => {
   })
   const router = useRouter()
   const [images, setImages] = useState([])
-  const [newTags, setNewTags] = useState([])
   const [currentImage, setCurrentImage] = useState({
     blob: null,
     fileName: '',
@@ -609,20 +606,6 @@ const ProductForm = ({ formData, setFormData, type }) => {
       <div className='flex flex-wrap gap-2 py-2'>
         {formData.tags.length > 0 &&
           formData.tags.map((tag, index) => (
-            <div
-              key={index}
-              className='flex gap-2 items-center rounded-sm p-1 px-2 bg-gray-300'
-            >
-              <span>{tag}</span>
-              <X
-                size={16}
-                onClick={() => handleRemoveTag(index)}
-                className='text-red-500 cursor-pointer hover:text-red-600 hover:scale-110'
-              />
-            </div>
-          ))}
-        {newTags.length > 0 &&
-          newTags.map((tag, index) => (
             <div
               key={index}
               className='flex gap-2 items-center rounded-sm p-1 px-2 bg-gray-300'

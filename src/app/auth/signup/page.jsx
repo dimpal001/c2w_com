@@ -46,6 +46,7 @@ export default function SignupPage() {
         setTimeout(() => {
           setLoginError('Incorrect login details!')
         }, 2000)
+        setLoginSuccess('')
         console.log('Login successful')
       }
     } catch (error) {

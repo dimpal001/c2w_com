@@ -10,13 +10,15 @@ import LoginCartImage from '../../../assets/login_cart.svg'
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isForgot, setIsForgot] = useState(false)
+  // const [isForgot, setIsForgot] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({ email: '', password: '' })
   const [loginError, setLoginError] = useState(null)
   const [loginSuccess, setLoginSuccess] = useState(null)
 
   const validateFields = () => {
+    setLoginSuccess('asdf')
+    setPassword('ad')
     let valid = true
     let newErrors = { email: '', password: '' }
 
