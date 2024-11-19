@@ -3,15 +3,15 @@
 import React, { useEffect, useState } from 'react'
 import { ShoppingCart, Package, Users, IndianRupee } from 'lucide-react'
 import Layout from '../components/Layout'
-// import authCheck from '@/utils/authCheck'
+import authCheck from '@/utils/authCheck'
 import { useRouter } from 'next/navigation'
-// import Loading from '../components/Loading'
+import Loading from '../components/Loading'
 import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 
 const page = () => {
   const router = useRouter()
-  // const [isAuthenticated, setIsAuthenticated] = useState(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(null)
   const [status, setStatus] = useState(null)
   const [recentOrders, setRecentOrders] = useState([])
 
@@ -44,18 +44,18 @@ const page = () => {
   }
 
   useEffect(() => {
-    // const checkAuth = async () => {
-    //   const isAuth = await authCheck(router)
-    //   setIsAuthenticated(isAuth)
-    // }
-    // checkAuth()
+    const checkAuth = async () => {
+      const isAuth = await authCheck(router)
+      setIsAuthenticated(isAuth)
+    }
+    checkAuth()
     fetchOverallStatus()
     fetchRecentOrders()
   }, [router])
 
-  // if (isAuthenticated === null || !isAuthenticated) {
-  //   return <Loading />
-  // }
+  if (isAuthenticated === null || !isAuthenticated) {
+    return <Loading />
+  }
 
   return (
     <div className='bg-blue-800 min-h-screen flex flex-col'>
