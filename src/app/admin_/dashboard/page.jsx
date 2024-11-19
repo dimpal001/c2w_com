@@ -43,15 +43,15 @@ const page = () => {
     }
   }
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const isAuth = await authCheck(router)
-      setIsAuthenticated(isAuth)
-    }
-    checkAuth()
-    fetchOverallStatus()
-    fetchRecentOrders()
-  }, [router])
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const isAuth = await authCheck(router)
+  //     setIsAuthenticated(isAuth)
+  //   }
+  //   checkAuth()
+  //   fetchOverallStatus()
+  //   fetchRecentOrders()
+  // }, [router])
 
   if (isAuthenticated === null || !isAuthenticated) {
     return <Loading />
