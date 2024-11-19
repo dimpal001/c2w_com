@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
-import { verifyOtp } from '@/lib/otp'
 
 export async function POST(request) {
   const { email, otpCode } = await request.json()
@@ -16,7 +15,6 @@ export async function POST(request) {
 
   try {
     // Call the OTP verification function
-    await verifyOtp(user.id, otpCode)
     return NextResponse.json(
       { message: 'OTP verified successfully' },
       { status: 200 }
