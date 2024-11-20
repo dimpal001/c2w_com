@@ -1,12 +1,14 @@
+/* eslint-disable no-undef */
 import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { generateOtp } from '@/lib/generateOtp'
 import { PrismaClient } from '@prisma/client'
+import jwt from 'jsonwebtoken'
 
 const prisma = new PrismaClient()
 
 export async function POST(request) {
-  const { email, password, name } = await request.json()
+  const { email, password } = await request.json()
 
   // Check if user already exists
   const existingUser = await prisma.user.findUnique({
@@ -20,15 +22,12 @@ export async function POST(request) {
     )
   }
 
-  // Hash the password
   const hashedPassword = await hash(password, 10)
 
-  // Create new user
   const user = await prisma.user.create({
     data: {
       email,
       password: hashedPassword,
-      name,
     },
   })
 
@@ -37,7 +36,7 @@ export async function POST(request) {
   const expiresAt = new Date(Date.now() + 15 * 60 * 1000)
 
   // Save the OTP to the database
-  await prisma.otp.create({
+  const otp = await prisma.otp.create({
     data: {
       userId: user.id,
       code: otpCode,
@@ -45,14 +44,26 @@ export async function POST(request) {
     },
   })
 
-  // Send OTP to user's email
-
-  return NextResponse.json(
+  const token = jwt.sign(
+    { userId: user.id, otp: otp.id },
+    process.env.JWT_SECRET,
     {
-      user,
-      message:
-        'Registration successful, please verify your email with the OTP sent.',
-    },
-    { status: 201 }
+      expiresIn: '10m',
+    }
   )
+  const response = NextResponse.json(
+    {
+      message: 'We have sent an OTP to your registered email address!',
+    },
+    { status: 200 }
+  )
+
+  response.cookies.set('otp_token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 10 * 60,
+  })
+
+  return response
 }

@@ -6,33 +6,36 @@ import 'animate.css'
 import { ArrowRight, CircleAlert } from 'lucide-react'
 import Image from 'next/image'
 import LoginCartImage from '../../../assets/login_cart.svg'
-import Link from 'next/link'
 import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
+import { useRouter } from 'next/navigation'
+import Loading from '@/app/admin_/components/Loading'
 
-export default function SignupPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+export default function FullNamePage() {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [errors, setErrors] = useState({ email: '', password: '' })
+  const [errors, setErrors] = useState({ firstName: '', lastName: '' })
+  const [checking, setChecking] = useState(true)
 
   const router = useRouter()
 
+  useEffect(() => {
+    handleCheck()
+    document.title = 'Sign In | Clothes2Wear'
+  }, [])
+
   const validateFields = () => {
     let valid = true
-    let newErrors = { email: '', password: '' }
+    let newErrors = { firstName: '', lastName: '' }
 
-    if (!email) {
-      newErrors.email = 'Email is required.'
-      valid = false
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Enter a valid email address.'
+    if (!firstName) {
+      newErrors.firstName = 'First Name is required.'
       valid = false
     }
 
-    if (!password) {
-      newErrors.password = 'Password is required.'
+    if (!lastName) {
+      newErrors.lastName = 'Last Name is required.'
       valid = false
     }
 
@@ -40,24 +43,43 @@ export default function SignupPage() {
     return valid
   }
 
-  const handleSignup = async () => {
+  const handleCheck = async () => {
+    try {
+      await axios.post(
+        '/api/auth/register/check-token',
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      setChecking(false)
+    } catch (error) {
+      router.push('/')
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    }
+  }
+
+  if (checking) {
+    return <Loading />
+  }
+
+  const handleUpdate = async () => {
     try {
       setSubmitting(true)
+      const email = localStorage.getItem('email')
       if (validateFields()) {
-        const response = await axios.post('/api/auth/register', {
-          email,
-          password,
-        })
+        const response = await axios.post(
+          '/api/auth/update-name',
+          {
+            email,
+            firstName,
+            lastName,
+          },
+          { withCredentials: true }
+        )
 
-        localStorage.setItem('email', email)
-
-        enqueueSnackbar(response?.data?.message, { variant: 'Success' })
-
-        const path = '/api/auth/register/verify-otp'
-
-        if (response.status === 200) {
-          router.push(`/auth/otp?dvx=${path}`)
-        }
+        enqueueSnackbar(response.data.message, { variant: 'success' })
+        router.push('/')
       }
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
@@ -70,10 +92,6 @@ export default function SignupPage() {
     setErrors((prev) => ({ ...prev, [field]: '' }))
   }
 
-  useEffect(() => {
-    document.title = 'Sign In | Clothes2Wear'
-  }, [])
-
   return (
     <div className='min-h-screen flex items-center max-sm:p-4 justify-center bg-[#faf6f3]'>
       <div
@@ -85,72 +103,74 @@ export default function SignupPage() {
             <h1 className='text-2xl font-bold mb-4'>Logo</h1>
             <h2 className='text-lg text-gray-500 mb-2'>Welcome !!!</h2>
             <h1 className='text-4xl font-extrabold text-black mb-8'>
-              Sign up here
+              Your full name
             </h1>
           </div>
 
           <div>
             <div className='mb-6'>
               <label
-                htmlFor='email'
+                htmlFor='firstName'
                 className='block text-gray-600 text-sm font-medium mb-2'
               >
-                Email
+                First Name
               </label>
               <input
-                type='email'
-                id='email'
-                value={email}
+                type='firstName'
+                id='firstName'
+                value={firstName}
                 onChange={(e) => {
-                  setEmail(e.target.value)
-                  clearError('email')
+                  setFirstName(e.target.value)
+                  clearError('firstName')
                 }}
-                placeholder='test@gmail.com'
+                placeholder='Your good name'
                 className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 ${
-                  errors.email
+                  errors.firstName
                     ? 'border-red-500 focus:ring-red-300'
                     : 'focus:ring-pink-300'
                 } outline-none text-gray-800`}
               />
-              {errors.email && (
+              {errors.firstName && (
                 <p className='text-red-500 text-sm mt-2 flex items-center gap-1'>
-                  <CircleAlert className='w-4 h-4' /> {errors.email}
+                  <CircleAlert className='w-4 h-4' /> {errors.firstName}
                 </p>
               )}
             </div>
 
             <div className='mb-6'>
               <label
-                htmlFor='password'
+                htmlFor='lastName'
                 className='block text-gray-600 text-sm font-medium mb-2 justify-between items-center'
               >
-                Password
+                Last Name
               </label>
-              <input
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                  clearError('password')
-                }}
-                type='password'
-                id='password'
-                placeholder='**********'
-                className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 ${
-                  errors.password
-                    ? 'border-red-500 focus:ring-red-300'
-                    : 'focus:ring-pink-300'
-                } outline-none text-gray-800`}
-              />
-              {errors.password && (
+              <div className='relative'>
+                <input
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value)
+                    clearError('lastName')
+                  }}
+                  type={'text'}
+                  id='lastName'
+                  placeholder=''
+                  className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 ${
+                    errors.lastName
+                      ? 'border-red-500 focus:ring-red-300'
+                      : 'focus:ring-pink-300'
+                  } outline-none text-gray-800`}
+                />
+              </div>
+              {errors.lastName && (
                 <p className='text-red-500 text-sm mt-2 flex items-center gap-1'>
-                  <CircleAlert className='w-4 h-4' /> {errors.password}
+                  <CircleAlert className='w-4 h-4' /> {errors.lastName}
                 </p>
               )}
             </div>
 
             <button
               disabled={submitting}
-              onClick={handleSignup}
+              onClick={handleUpdate}
               className={`w-full ${
                 submitting ? 'opacity-50' : 'opacity-100 hover:bg-pink-600'
               } bg-pink-500 text-white text-lg font-medium py-3 rounded-full flex items-center justify-center gap-2`}
@@ -159,18 +179,11 @@ export default function SignupPage() {
                 <>Please wait</>
               ) : (
                 <>
-                  Sign up <ArrowRight className='w-5 h-5' />
+                  Update <ArrowRight className='w-5 h-5' />
                 </>
               )}
             </button>
           </div>
-
-          <p className='text-center text-gray-500 mt-6'>
-            Already have an account?{' '}
-            <Link href='/auth/signin' className='text-pink-500 font-medium'>
-              Sign In
-            </Link>
-          </p>
         </div>
 
         {/* Illustration Section */}

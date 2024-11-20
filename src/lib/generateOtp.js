@@ -22,13 +22,11 @@ export async function verifyOtp(userId, otpCode) {
     throw new Error('Invalid or expired OTP')
   }
 
-  // Update the user's isVerified status
   await prisma.user.update({
     where: { id: userId },
     data: { isVerified: true },
   })
 
-  // Optionally delete the OTP entry after successful verification
   await prisma.otp.delete({
     where: { id: otpEntry.id },
   })

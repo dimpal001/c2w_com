@@ -155,3 +155,60 @@
 #     "visibility": 1
 #   }' \
   
+
+
+# Shop by season ----------------------------------------------------------------------------------------------
+
+# curl -X POST "http://localhost:3000/api/customs/shop-by-season/video/add" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM" \
+# -d '{
+#     "videoUrl": "https://dimpaldas.in"
+# }'
+
+# curl -X PATCH "http://localhost:3000/api/customs/shop-by-season/video/update" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM" \
+# -d '{
+#     "id": "01731e96-4d25-428e-a9e7-452b4c214c1c",
+#     "videoUrl": "https://dimpaldas.com"
+# }'
+
+# curl -X DELETE "http://localhost:3000/api/customs/shop-by-season/video/delete" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM" \
+# -d '{
+#     "id": "01731e96-4d25-428e-a9e7-452b4c214c1c"
+# }'
+
+# curl -X GET "http://localhost:3000/api/customs/shop-by-season/video/get" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM"
+
+
+# curl -X POST "http://localhost:3000/api/customs/shop-by-season/add" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM" \
+# -d '{
+#     "seasonId": "01731e96-4d25-428e-a9e7-452b4c214c1c",
+#     "imageUrl": "https://image-url.com",
+#     "hyperLink": "https://dimpaldas.in.hyperlink",
+#     "description": "https://dimpaldas.in.hyperlink"
+# }'
+
+# curl -X GET "http://localhost:3000/api/customs/shop-by-season/get" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM" \
+# -d '{
+#     "seasonId": "01731e96-4d25-428e-a9e7-452b4c214c1c",
+#     "imageUrl": "https://image-url.com",
+#     "hyperLink": "https://dimpaldas.in.hyperlink",
+#     "description": "https://dimpaldas.in.hyperlink"
+# }'
+
+# curl -X DELETE "http://localhost:3000/api/customs/shop-by-season/delete" \
+# -H "Content-Type: application/json" \
+# -b "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWViNmYxZC0yNTA4LTRjYzYtYjY0Yy04YTg4MTM2MzE2OGMiLCJlbWFpbCI6ImFkbWluQG1haWwuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MzIwNzU0MzgsImV4cCI6MTczMjE2MTgzOH0.JNdlia5DfqjMoCUMifQrenHRYSeD2Gh6ES0GeA4RcTM" \
+# -d '{
+#     "id": "dafb7ef2-bca2-491a-b979-67a702ac5ccc"
+# }'

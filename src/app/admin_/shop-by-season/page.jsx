@@ -1,0 +1,521 @@
+'use client'
+
+import React, { useState, useEffect, useRef } from 'react'
+import Layout from '../components/Layout'
+import axios from 'axios'
+import Button from '../components/Button'
+import DeleteModal from '@/app/Components/DeleteModal'
+import { enqueueSnackbar } from 'notistack'
+import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
+import { SquarePen, Trash2, Upload, X } from 'lucide-react'
+import Image from 'next/image'
+import ImageCroper from '@/app/Components/ImageCroper'
+import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
+import Loading from '../components/Loading'
+import DeleteSeasonModal from './DeleteSeasonModal'
+
+const Page = () => {
+  const [season, setSeason] = useState(null)
+  const [products, setProducts] = useState([])
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showDeleteSeasonModal, setShowDeleteSeasonModal] = useState(false)
+  const [showImageCroper, setShowImageCroper] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [video, setVideo] = useState(null)
+  const [videoFileName, setVideoFileName] = useState(null)
+  const [newProduct, setNewProduct] = useState({
+    seasonId: '',
+    imageUrl: '',
+    hyperLink: '',
+    description: '',
+  })
+  const [image, setImage] = useState({
+    blob: null,
+    fileName: '',
+    imageUrl: null,
+  })
+  const [showSeasonForm, setShowSeasonForm] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+
+  const fileInputRef = useRef(null)
+
+  useEffect(() => {
+    fetchSeason()
+    fetchProducts()
+  }, [])
+
+  const fetchSeason = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get('/api/customs/shop-by-season/video/get')
+      setSeason(response.data[0])
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('/api/customs/shop-by-season/get')
+      setProducts(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    document.title = 'products | Clothes2Wear'
+  }, [])
+
+  const handleFile = (blob, croppedImageUrl, fileName) => {
+    console.log(blob, croppedImageUrl, fileName)
+    setImage({
+      blob: blob,
+      imageUrl: croppedImageUrl,
+      fileName: fileName,
+    })
+  }
+
+  const addSeason = async () => {
+    if (!video) {
+      enqueueSnackbar('Upload a video', { variant: 'error' })
+      return
+    }
+
+    try {
+      setSubmitting(true)
+      const videoUrl = await uploadImageToCDN(video, videoFileName)
+
+      const response = await axios.post(
+        '/api/customs/shop-by-season/video/add',
+        {
+          videoUrl: videoUrl,
+        }
+      )
+
+      if (response.status === 200) {
+        enqueueSnackbar(response.data.message, { variant: 'success' })
+        setShowSeasonForm(false)
+        setShowForm(true)
+        setSeason(response.data.shopBySeasonVideo)
+        setVideo(null)
+      }
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const addProduct = async () => {
+    if (newProduct.description === '') {
+      enqueueSnackbar('Enter short description', { variant: 'error' })
+      return
+    }
+    if (image.fileName === '') {
+      enqueueSnackbar('Add image', { variant: 'error' })
+      return
+    }
+    if (newProduct.hyperLink === '') {
+      enqueueSnackbar('Add hyper a link', { variant: 'error' })
+      return
+    }
+    try {
+      setSubmitting(true)
+      const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
+
+      if (imageUrl) {
+        const response = await axios.post(
+          '/api/customs/shop-by-season/add',
+          {
+            seasonId: season.id,
+            description: newProduct.description,
+            imageUrl: imageUrl,
+            hyperLink: newProduct.hyperLink,
+          },
+          { withCredentials: true }
+        )
+        setProducts((prev) => [...prev, response.data.shopBySeasonProduct])
+        setNewProduct({ description: '', imageUrl: '', hyperLink: '' })
+        setImage(null)
+      }
+      setShowForm(false)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const deleteProduct = async () => {
+    try {
+      const response = await axios.delete(
+        '/api/customs/shop-by-season/delete',
+        {
+          data: { id: selectedProduct.id },
+        }
+      )
+
+      if (response.status === 200) {
+        const deleteImage = await deleteImageFromCDN(selectedProduct.imageUrl)
+        console.log(deleteImage)
+      }
+
+      setProducts((prev) =>
+        prev.filter((item) => item.id !== selectedProduct.id)
+      )
+      setShowDeleteModal(false)
+      setSelectedProduct(null)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const deleteSeason = async () => {
+    try {
+      const response = await axios.delete(
+        '/api/customs/shop-by-season/video/delete',
+        {
+          data: { id: season.id },
+        }
+      )
+
+      if (response.status === 200) {
+        const deleteImage = await deleteImageFromCDN(season.videoUrl)
+        console.log(deleteImage)
+      }
+
+      setShowDeleteSeasonModal(false)
+      fetchSeason()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateSeasonVideo = async () => {
+    if (!video) {
+      enqueueSnackbar('Upload a video', { variant: 'error' })
+      return
+    }
+
+    try {
+      setSubmitting(true)
+      const videoUrl = await uploadImageToCDN(video, videoFileName)
+
+      const response = await axios.patch(
+        '/api/customs/shop-by-season/video/update',
+        {
+          id: season.id,
+          videoUrl: videoUrl,
+        }
+      )
+
+      if (response.status === 200) {
+        enqueueSnackbar(response.data.message, { variant: 'success' })
+        setShowSeasonForm(false)
+        setSeason(response.data.shopBySeasonVideo)
+        fetchSeason()
+        fetchProducts()
+        setVideo(null)
+      }
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setNewProduct((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      setVideo(file)
+      setVideoFileName(file.name)
+    }
+  }
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click()
+  }
+
+  return (
+    <Layout>
+      {!loading ? (
+        <div className='p-6 bg-gray-100 min-h-[530px]'>
+          <div className='flex items-center justify-between mb-5'>
+            <h2 className='text-xl font-semibold text-blue-800'>
+              Shop by Season
+            </h2>
+            <div className='flex items-center gap-2'>
+              {season ? (
+                <Button
+                  label={'Add a product'}
+                  onClick={() => setShowForm(!showForm)}
+                />
+              ) : (
+                <Button
+                  label={'Create a Season'}
+                  onClick={() => setShowSeasonForm(!showSeasonForm)}
+                />
+              )}
+            </div>
+          </div>
+
+          <div
+            className={`transition-height ease-in-out overflow-hidden duration-500 ${
+              showSeasonForm
+                ? 'max-h-[1000px] opacity-100'
+                : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className='border p-4 mb-4 bg-white rounded'>
+              <h3 className='text-lg font-semibold mb-2'>
+                Add Season Backgroud Video
+              </h3>
+              <div className='grid grid-cols-2 gap-5'>
+                <div className='mb-2'>
+                  <input
+                    type='file'
+                    ref={fileInputRef}
+                    accept='video/*'
+                    onChange={handleFileChange}
+                    className='hidden'
+                  />
+                  <button
+                    onClick={handleButtonClick}
+                    className='border p-2 rounded flex justify-center w-full'
+                  >
+                    <Upload size={19} />
+                  </button>
+                </div>
+              </div>
+              {video && (
+                <video
+                  controls
+                  src={URL.createObjectURL(video)}
+                  className='w-52 mb-3'
+                ></video>
+              )}
+              <div className='flex gap-3'>
+                <Button
+                  loading={submitting}
+                  loadingText={'Submitting'}
+                  label={'Upload'}
+                  onClick={addSeason}
+                />
+                <Button
+                  label={'Close'}
+                  variant='secondary'
+                  onClick={() => setShowSeasonForm(false)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`transition-height ease-in-out overflow-hidden duration-500 ${
+              showForm ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className='border p-4 mb-4 bg-white rounded'>
+              <h3 className='text-lg font-semibold mb-2'>Add New Product</h3>
+              <div className='grid grid-cols-2 gap-5'>
+                <div className='mb-2'>
+                  <label className='block mb-1 font-semibold'>
+                    Short Description
+                  </label>
+                  <input
+                    type='text'
+                    name='description'
+                    value={newProduct.description}
+                    onChange={handleChange}
+                    className='border p-2 rounded w-full'
+                  />
+                </div>
+                <div className='mb-2'>
+                  <label className='block mb-1 font-semibold'>
+                    Upload Image
+                  </label>
+                  <button
+                    onClick={() => setShowImageCroper(true)}
+                    className='border p-2 rounded flex justify-center w-full'
+                  >
+                    <Upload size={19} />
+                  </button>
+                </div>
+                <div className='mb-2'>
+                  <label className='block mb-1 font-semibold'>Hyper Link</label>
+                  <input
+                    type='text'
+                    name='hyperLink'
+                    value={newProduct.hyperLink}
+                    onChange={handleChange}
+                    className='border p-2 rounded w-full'
+                  />
+                </div>
+              </div>
+              {image.imageUrl && (
+                <div className='relative'>
+                  <Image
+                    width={160}
+                    height={90}
+                    src={image.imageUrl}
+                    alt='Image'
+                    className='py-2 pb-4 border border-gray-700 mb-2'
+                  />
+                  <X
+                    className='text-red-600 absolute top-3 left-1 cursor-pointer'
+                    onClick={() => {
+                      setImage({
+                        blob: '',
+                        imageUrl: '',
+                        fileName: '',
+                      })
+                    }}
+                    size={35}
+                  />
+                </div>
+              )}
+              <div className='flex gap-3'>
+                <Button
+                  loading={submitting}
+                  loadingText={'Submitting'}
+                  label={'Save Product'}
+                  onClick={addProduct}
+                />
+                <Button
+                  label={'Close'}
+                  variant='secondary'
+                  onClick={() => setShowForm(false)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {season && (
+            <div className='flex gap-2 items-start'>
+              <div>
+                <video
+                  controls
+                  src={`https://cdn.thefashionsalad.com/clothes2wear/${season.videoUrl}`}
+                  className='w-72 mb-3 border border-black'
+                ></video>
+                <div className='flex gap-2 items-center'>
+                  <Trash2
+                    onClick={() => setShowDeleteSeasonModal(true)}
+                    className='text-white cursor-pointer bg-red-600 rounded-sm p-[6px]'
+                    size={30}
+                  />
+                  <SquarePen
+                    onClick={handleButtonClick}
+                    className='text-white cursor-pointer bg-blue-600 rounded-sm p-[6px]'
+                    size={30}
+                  />
+                </div>
+                <div>
+                  {video && (
+                    <div>
+                      <video
+                        controls
+                        src={URL.createObjectURL(video)}
+                        className='w-72 my-3'
+                      ></video>
+                      <Button
+                        onClick={updateSeasonVideo}
+                        loading={submitting}
+                        loadingText={'Submitting'}
+                        label={'Update'}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <table className='w-full border-collapse border border-gray-300'>
+                <thead className='bg-blue-800 text-white'>
+                  <tr>
+                    <th className='border px-4 py-2 text-left'>Description</th>
+                    <th className='border px-4 py-2 text-left'>Image</th>
+                    <th className='border px-4 py-2 text-left'>Hyper Link</th>
+                    <th className='border px-4 py-2 text-center'>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products.length > 0 &&
+                    products.map((item, index) => (
+                      <tr key={index} className='border-b'>
+                        <td className='border px-4 py-2'>
+                          {item?.description}
+                        </td>
+                        <td className='border px-4 py-2'>
+                          <img
+                            src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
+                            alt={item?.imageUrl}
+                            className='w-18 h-32 object-cover rounded'
+                          />
+                        </td>
+                        <td className='border px-4 py-2'>
+                          <a
+                            href={item?.hyperLink}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='text-blue-500 underline'
+                          >
+                            {item?.hyperLink}
+                          </a>
+                        </td>
+                        <td className='border px-2 text-center py-2'>
+                          <Button
+                            onClick={() => {
+                              setSelectedProduct(item)
+                              setShowDeleteModal(true)
+                            }}
+                            label={'Delete'}
+                            variant='error'
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {showDeleteModal && (
+            <DeleteModal
+              isOpen={true}
+              onClose={() => setShowDeleteModal(false)}
+              onDelete={() => deleteProduct()}
+            />
+          )}
+          {showImageCroper && (
+            <ImageCroper
+              isOpen={true}
+              onClose={() => setShowImageCroper(false)}
+              aspectRatio={9 / 16}
+              onCropComplete={handleFile}
+            />
+          )}
+          {showDeleteSeasonModal && (
+            <DeleteSeasonModal
+              isOpen={true}
+              onClose={() => setShowDeleteSeasonModal(false)}
+              onDelete={deleteSeason}
+            />
+          )}
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </Layout>
+  )
+}
+
+export default Page

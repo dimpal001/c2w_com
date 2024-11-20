@@ -9,25 +9,24 @@ import LoginCartImage from '../../../assets/login_cart.svg'
 import { enqueueSnackbar } from 'notistack'
 import Loading from '@/app/admin_/components/Loading'
 import axios from 'axios'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
-export default function ForgotPasswordPage() {
-  const searchParams = useSearchParams()
-  const path = searchParams.get('dvx')
-  const [otp, setOtp] = useState('')
+export default function ForgpasswordasswordPage() {
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [checking, setChecking] = useState(true)
+  const [checking, setChecking] = useState(false)
 
   const router = useRouter()
 
   useEffect(() => {
-    document.title = 'Enter OTP | Clothes2Wear'
+    document.title = 'Create New Password | Clothes2Wear'
   }, [])
 
   const handleCheck = async () => {
     try {
       const response = await axios.post(
-        '/api/auth/verify-otp/check-token',
+        '/api/auth/forgot-password/check-token',
         {},
         {
           withCredentials: true,
@@ -47,28 +46,18 @@ export default function ForgotPasswordPage() {
   }, [])
 
   const handleSubmit = async () => {
-    const email = localStorage.getItem('email')
     try {
       setSubmitting(true)
       const response = await axios.post(
-        path ? path : '/api/auth/verify-otp',
+        '/api/auth/forgot-password/new-password',
         {
-          email,
-          otp,
+          password,
         },
         { withCredentials: true }
       )
-      if (response.status === 201) {
-        enqueueSnackbar(response.data.message, { variant: 'success' })
-        router.push('/auth/new-password')
-      }
-      if (response.status === 202) {
-        enqueueSnackbar(response.data.message, { variant: 'success' })
-        router.push('/auth/full-name')
-      }
       if (response.status === 200) {
-        enqueueSnackbar(response.data.message, { variant: 'success' })
         router.push('/')
+        enqueueSnackbar(response.data.message, { variant: 'success' })
       }
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
@@ -92,26 +81,44 @@ export default function ForgotPasswordPage() {
             <h1 className='text-2xl font-bold mb-4'>Logo</h1>
             <h2 className='text-lg text-gray-500 mb-2'>Welcome back !!!</h2>
             <h1 className='text-4xl font-extrabold text-black mb-8'>
-              Submit OTP
+              Create a new password
             </h1>
           </div>
 
           <div>
             <div className='mb-6'>
               <label
-                htmlFor='otp'
+                htmlFor='password'
                 className='block text-gray-600 text-sm font-medium mb-2'
               >
-                Enter OTP
+                Enter Password
               </label>
               <input
-                type='otp'
-                id='otp'
-                value={otp}
+                type='password'
+                id='password'
+                value={password}
                 onChange={(e) => {
-                  setOtp(e.target.value)
+                  setPassword(e.target.value)
                 }}
-                placeholder='6 digits OTP'
+                placeholder='A strong password'
+                className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 outline-none focus:ring-pink-300 text-gray-800`}
+              />
+            </div>
+            <div className='mb-6'>
+              <label
+                htmlFor='confirmPassword'
+                className='block text-gray-600 text-sm font-medium mb-2'
+              >
+                Confirm Password
+              </label>
+              <input
+                type='password'
+                id='confirmPassword'
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value)
+                }}
+                placeholder='Confirm Password'
                 className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 outline-none focus:ring-pink-300 text-gray-800`}
               />
             </div>
@@ -127,7 +134,7 @@ export default function ForgotPasswordPage() {
                 <>Please wait</>
               ) : (
                 <>
-                  Submit OTP <ArrowRight className='w-5 h-5' />
+                  Submit Password <ArrowRight className='w-5 h-5' />
                 </>
               )}
             </button>

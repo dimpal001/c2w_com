@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from 'react'
 import 'animate.css'
 
-import { ArrowRight, CircleAlert, CircleCheck, Eye, EyeOff } from 'lucide-react'
+import { ArrowRight, CircleAlert, Eye, EyeOff } from 'lucide-react'
 import Image from 'next/image'
 import LoginCartImage from '../../../assets/login_cart.svg'
 import Link from 'next/link'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
+import { useRouter } from 'next/navigation'
 
 export default function SigninPage() {
   const [email, setEmail] = useState('')
@@ -17,8 +18,9 @@ export default function SigninPage() {
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({ email: '', password: '' })
   const [loginError, setLoginError] = useState(null)
-  const [loginSuccess, setLoginSuccess] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
+
+  const router = useRouter()
 
   const validateFields = () => {
     let valid = true
@@ -52,14 +54,16 @@ export default function SigninPage() {
         })
 
         enqueueSnackbar(response.data.message, { variant: 'success' })
-        setLoginSuccess('Hii')
       }
+      router.push('/')
     } catch (error) {
       if (error.response.status === 301) {
         setLoginError(error?.response?.data?.message)
-      } else {
         enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+        localStorage.setItem('email', email)
+        router.push('/auth/otp')
       }
+      setLoginError(error?.response?.data?.message)
     } finally {
       setSubmitting(false)
     }
@@ -211,15 +215,6 @@ export default function SigninPage() {
             <div className='flex items-center gap-1'>
               <CircleAlert className='text-red-600' size={16} />
               {loginError}
-            </div>
-          </div>
-        )}
-        {/* Show success part  */}
-        {loginSuccess && (
-          <div className='absolute animate__animated animate__fadeInRight animate__faster top-4 right-4 text-xs max-w-[300px] p-3 border-green-500 border rounded-lg bg-green-100 text-green-500'>
-            <div className='flex items-center gap-1'>
-              <CircleCheck className='text-green-500' size={16} />
-              {loginSuccess}
             </div>
           </div>
         )}

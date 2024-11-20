@@ -3,22 +3,21 @@
 import React, { useEffect, useState } from 'react'
 import 'animate.css'
 
-import { ArrowRight, CircleAlert, CircleCheck } from 'lucide-react'
+import { ArrowRight, CircleAlert } from 'lucide-react'
 import Image from 'next/image'
 import LoginCartImage from '../../../assets/login_cart.svg'
+import axios from 'axios'
+import { enqueueSnackbar } from 'notistack'
+import { useRouter } from 'next/navigation'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  // const [isForgot, setIsForgot] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({ email: '', password: '' })
-  const [loginError, setLoginError] = useState(null)
-  const [loginSuccess, setLoginSuccess] = useState(null)
+
+  const router = useRouter()
 
   const validateFields = () => {
-    setLoginSuccess('asdf')
-    setPassword('ad')
     let valid = true
     let newErrors = { email: '', password: '' }
 
@@ -30,27 +29,27 @@ export default function ForgotPasswordPage() {
       valid = false
     }
 
-    if (!password) {
-      newErrors.password = 'Password is required.'
-      valid = false
-    }
-
     setErrors(newErrors)
     return valid
   }
 
   const handleSignIn = async () => {
-    setLoginError(null)
     try {
       setSubmitting(true)
       if (validateFields()) {
-        setTimeout(() => {
-          setLoginError('Incorrect login details!')
-        }, 2000)
-        console.log('Login successful')
+        const response = await axios.post('/api/auth/forgot-password', {
+          email,
+        })
+
+        const path = '/api/auth/forgot-password/verify-otp'
+
+        if (response.status === 200) {
+          router.push(`/auth/otp?dvx=${path}`)
+          localStorage.setItem('email', email)
+        }
       }
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)
     }
@@ -61,7 +60,7 @@ export default function ForgotPasswordPage() {
   }
 
   useEffect(() => {
-    document.title = 'Sign In | Clothes2Wear'
+    document.title = 'Forgot Password | Clothes2Wear'
   }, [])
 
   return (
@@ -138,25 +137,6 @@ export default function ForgotPasswordPage() {
             />
           </div>
         </div>
-
-        {/* Show error part  */}
-        {loginError && (
-          <div className='absolute animate__animated animate__fadeInRight animate__faster top-4 right-4 text-xs max-w-[300px] p-3 border-red-600 border rounded-lg bg-red-100 text-red-600'>
-            <div className='flex items-center gap-1'>
-              <CircleAlert className='text-red-600' size={16} />
-              {loginError}
-            </div>
-          </div>
-        )}
-        {/* Show success part  */}
-        {loginSuccess && (
-          <div className='absolute animate__animated animate__fadeInRight animate__faster top-4 right-4 text-xs max-w-[300px] p-3 border-green-500 border rounded-lg bg-green-100 text-green-500'>
-            <div className='flex items-center gap-1'>
-              <CircleCheck className='text-green-500' size={16} />
-              {loginSuccess}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )

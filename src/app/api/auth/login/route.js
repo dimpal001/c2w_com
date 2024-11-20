@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+import { generateOtp } from '@/lib/generateOtp'
 import { PrismaClient } from '@prisma/client'
 import { compare } from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -15,13 +17,13 @@ export async function POST(request) {
         { status: 400 }
       )
     }
-    // Find the user by email
+
     const user = await prisma.user.findUnique({
       where: { email },
     })
 
     if (!user) {
-      return NextResponse.json({ message: 'Admin not found' }, { status: 404 })
+      return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
     if (user.status === 'BANNED') {
@@ -30,14 +32,6 @@ export async function POST(request) {
           message: 'Your account has been banned! Please contact administrator',
         },
         { status: 400 }
-      )
-    }
-    if (user.isVerified === false) {
-      return NextResponse.json(
-        {
-          message: 'We have sent an OTP to your registered email address!',
-        },
-        { status: 301 }
       )
     }
 
@@ -60,28 +54,62 @@ export async function POST(request) {
       )
     }
 
+    if (!user.isVerified) {
+      const otpCode = generateOtp()
+
+      const otp = await prisma.otp.create({
+        data: {
+          userId: user.id,
+          code: otpCode,
+          expiresAt: new Date(Date.now() + 10 * 60 * 1000),
+        },
+      })
+
+      // await sendOtp(user.email, otp.code)
+
+      const token = jwt.sign(
+        { userId: user.id, otp: otp.id },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: '10m',
+        }
+      )
+
+      const response = NextResponse.json(
+        {
+          message: 'We have sent an OTP to your registered email address!',
+        },
+        { status: 301 }
+      )
+
+      response.cookies.set('otp_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 10 * 60,
+      })
+
+      return response
+    }
+
     // Return success response
     const response = NextResponse.json({
       message: 'Login successful',
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
-        role: user.role,
+        fullName: user.firstName + ' ' + user.lastName,
       },
     })
 
-    // Create a JWT token
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
-      // eslint-disable-next-line no-undef
       process.env.JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn: '14d' }
     )
 
     response.cookies.set('token', token, {
       httpOnly: true,
-      // eslint-disable-next-line no-undef
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 60 * 60 * 24,

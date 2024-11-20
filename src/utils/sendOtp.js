@@ -5,7 +5,7 @@ const sendOtp = async (email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtpout.secureserver.net',
-      port: 465,
+      port: 46,
       secure: true,
       auth: {
         user: process.env.EMAIL,

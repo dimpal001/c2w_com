@@ -42,35 +42,24 @@ export async function POST(request) {
   }
 
   try {
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '10m',
+    })
+
     const response = NextResponse.json(
       {
-        message: 'Login successful',
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        },
+        message: 'Write new password',
       },
-      { status: 200 }
+      { status: 201 }
     )
 
     await prisma.otp.delete({ where: { id: decoded.otp } })
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { isVerified: true },
-    })
 
-    const token = jwt.sign(
-      { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '14d' }
-    )
-
-    response.cookies.set('token', token, {
+    response.cookies.set('change_password_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 14,
+      maxAge: 60 * 60 * 10,
     })
 
     response.cookies.delete('otp_token', {

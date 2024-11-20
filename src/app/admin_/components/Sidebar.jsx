@@ -11,6 +11,7 @@ import {
   ShoppingBasket,
   SquareMenu,
   Star,
+  SunSnow,
   TrendingUp,
   Truck,
   Users,
@@ -23,7 +24,7 @@ const Sidebar = ({ isExpanded }) => {
   const pathname = usePathname()
 
   const menuItems = [
-    { label: 'Home', icon: Home, path: '/admin_/dashboard' },
+    { label: 'Dashboard', icon: Home, path: '/admin_/dashboard' },
     { label: 'Users', icon: Users, path: '/admin_/users/user-list' },
     {
       label: 'Products',
@@ -56,6 +57,11 @@ const Sidebar = ({ isExpanded }) => {
       icon: PartyPopper,
       path: '/admin_/shop-by-occasion',
     },
+    {
+      label: 'Shop By Season',
+      icon: SunSnow,
+      path: '/admin_/shop-by-season',
+    },
   ]
 
   return (
@@ -69,7 +75,7 @@ const Sidebar = ({ isExpanded }) => {
           <div key={index}>
             <Link href={item.path || '#'} passHref>
               <div
-                className={`flex items-center p-[10px] cursor-pointer font-semibold rounded-[4px] ${
+                className={`flex items-center px-[10px] py-[8px] cursor-pointer font-semibold rounded-[4px] ${
                   pathname === item.path ? 'bg-white' : 'bg-transparent'
                 } ${pathname === item.path ? 'text-blue-800' : 'text-white'}`}
               >

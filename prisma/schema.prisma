@@ -68,6 +68,7 @@ model Otp {
 model UserAddress {
   id           String   @id @default(uuid())
   userId       String
+  fullName     String
   addressLine1 String
   addressLine2 String?
   isDefault    Boolean
@@ -363,6 +364,31 @@ model Showcases {
   imageUrl          String
   hyperLink         String
   categoryHyperLink String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShopBySeason {
+  id       String                @id @default(uuid())
+  videoUrl String?
+  products ShopBySeasonProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShopBySeasonProduct {
+  id          String  @id @default(uuid())
+  seasonId    String
+  imageUrl    String
+  hyperLink   String
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  season ShopBySeason @relation(fields: [seasonId], references: [id])
 }
 
 model HeroSliders {
@@ -370,6 +396,9 @@ model HeroSliders {
   imageUrl          String
   hyperLink         String
   categoryHyperLink String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ExclusiveCollection {
@@ -377,6 +406,9 @@ model ExclusiveCollection {
   imageUrl          String?
   hyperLink         String?
   categoryHyperLink String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Trending {
@@ -386,6 +418,9 @@ model Trending {
   price             String?
   hyperLink         String?
   categoryHyperLink String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model NewAriivals {
@@ -394,6 +429,9 @@ model NewAriivals {
   hyperLink         String?
   categoryHyperLink String?
   HyperLink         HyperLink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ShopByOccasion {
@@ -401,6 +439,9 @@ model ShopByOccasion {
   occasionName       String?
   categoryHyperLinks String?
   products           HyperLink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model HyperLink {
@@ -411,4 +452,7 @@ model HyperLink {
   newAriivals      NewAriivals     @relation(fields: [newAriivalsId], references: [id])
   ShopByOccasion   ShopByOccasion? @relation(fields: [shopByOccasionId], references: [id])
   shopByOccasionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
