@@ -13,7 +13,8 @@ export const uploadImageToCDN = async (image, name) => {
   })
 
   const extension = name.split('.').pop()
-  const imageName = `image-${Date.now()}.${extension}`
+  // const imageName = `image-${Date.now()}.${extension}`
+  const imageName = `https://cdn.thefashionsalad.com/clothes2wear/image-${Date.now()}.${extension}`
 
   const file = new File([image], name, { type: image.type })
   if (!file || !file) return

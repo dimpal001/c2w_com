@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `PaymentDetails` ALTER COLUMN `updatedAt` DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE `User` ADD COLUMN `role` ENUM('ADMIN', 'SELLER', 'BUYER') NOT NULL DEFAULT 'BUYER';

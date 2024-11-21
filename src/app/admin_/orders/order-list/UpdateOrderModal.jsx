@@ -11,25 +11,29 @@ import React, { useState } from 'react'
 import Button from '../../components/Button'
 import axios from 'axios'
 import { CheckCircle } from 'lucide-react'
+import { enqueueSnackbar } from 'notistack'
 
-const UpdateOrderModal = ({ isOpen, onClose, order }) => {
+const UpdateOrderModal = ({ isOpen, onClose, order, onCompleted }) => {
   const [submitting, setSubmitting] = useState(false)
   const [status, setStatus] = useState(order?.status || '')
-  const [note, setNote] = useState('')
-  const [trackingId, setTrackingId] = useState('')
+  const [notes, setNotes] = useState(order?.notes || '')
+  const [trackingId, setTrackingId] = useState(order?.trackingId || '')
 
   const handleUpdate = async () => {
     setSubmitting(true)
     try {
-      const response = await axios.post('/api/orders/update', {
-        orderId: order?.orderId,
+      const response = await axios.patch('/api/orders/update', {
+        id: order?.id,
         status,
-        note,
+        notes,
         trackingId,
       })
-      console.log(response.data)
+      if (response.status === 200) {
+        onClose()
+        onCompleted(response.data)
+      }
     } catch (error) {
-      console.error('Error updating order:', error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)
     }
@@ -46,7 +50,7 @@ const UpdateOrderModal = ({ isOpen, onClose, order }) => {
           <ModalCloseButton onClick={onClose} />
         </ModalHeader>
         <ModalBody>
-          <div className='space-y-6'>
+          <div className='space-y-4'>
             {/* Order Status */}
             <div>
               <label
@@ -59,12 +63,13 @@ const UpdateOrderModal = ({ isOpen, onClose, order }) => {
                 id='status'
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className='mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                className='mt-2 block w-full rounded-sm px-4 py-2 border border-gray-300'
               >
-                <option value='Pending'>Pending</option>
-                <option value='Shipped'>Shipped</option>
-                <option value='Delivered'>Delivered</option>
-                <option value='Cancelled'>Cancelled</option>
+                <option value='PENDING'>Pending</option>
+                <option value='APPROVED'>Approved</option>
+                <option value='SHIPPED'>Shipped</option>
+                <option value='DELIVERED'>Delivered</option>
+                <option value='CANCELLED'>Cancelled</option>
               </select>
             </div>
 
@@ -75,11 +80,11 @@ const UpdateOrderModal = ({ isOpen, onClose, order }) => {
               </label>
               <textarea
                 id='note'
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows='4'
                 placeholder='Add a note (optional)'
-                className='mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                className='mt-2 block w-full px-4 py-2 border border-gray-300 rounded-sm'
               />
             </div>
 
@@ -97,7 +102,7 @@ const UpdateOrderModal = ({ isOpen, onClose, order }) => {
                 onChange={(e) => setTrackingId(e.target.value)}
                 type='text'
                 placeholder='Enter Tracking ID'
-                className='mt-2 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                className='mt-2 block w-full px-4 py-2 border border-gray-300 rounded-sm'
               />
             </div>
           </div>

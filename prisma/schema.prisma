@@ -68,7 +68,7 @@ model Otp {
 model UserAddress {
   id           String   @id @default(uuid())
   userId       String
-  fullName     String
+  fullName     String?
   addressLine1 String
   addressLine2 String?
   isDefault    Boolean
@@ -307,6 +307,7 @@ model PaymentDetails {
 enum OrderStatus {
   INCOMPLETE
   PENDING
+  APPROVED
   SHIPPED
   DELIVERED
   CANCELLED

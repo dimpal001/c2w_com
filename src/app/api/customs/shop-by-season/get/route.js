@@ -5,9 +5,11 @@ const prisma = new PrismaClient()
 
 export async function GET() {
   try {
-    const shopBySeasonProduct = await prisma.shopBySeasonProduct.findMany()
+    const shopBySeason = await prisma.shopBySeason.findMany({
+      include: { products: true },
+    })
 
-    return NextResponse.json(shopBySeasonProduct, { status: 200 })
+    return NextResponse.json(shopBySeason, { status: 200 })
   } catch (error) {
     console.log(error)
     return NextResponse.json(

@@ -15,12 +15,12 @@ import Loading from '../components/Loading'
 import DeleteSeasonModal from './DeleteSeasonModal'
 
 const Page = () => {
-  const [season, setSeason] = useState(null)
-  const [products, setProducts] = useState([])
+  const [seasons, setSeasons] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showDeleteSeasonModal, setShowDeleteSeasonModal] = useState(false)
   const [showImageCroper, setShowImageCroper] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [selectedSeason, setSelectedSeason] = useState(null)
   const [video, setVideo] = useState(null)
   const [videoFileName, setVideoFileName] = useState(null)
   const [newProduct, setNewProduct] = useState({
@@ -42,28 +42,18 @@ const Page = () => {
   const fileInputRef = useRef(null)
 
   useEffect(() => {
-    fetchSeason()
-    fetchProducts()
+    fetchSeasons()
   }, [])
 
-  const fetchSeason = async () => {
+  const fetchSeasons = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('/api/customs/shop-by-season/video/get')
-      setSeason(response.data[0])
+      const response = await axios.get('/api/customs/shop-by-season/get')
+      setSeasons(response.data)
     } catch (error) {
       console.log(error)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get('/api/customs/shop-by-season/get')
-      setProducts(response.data)
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -100,9 +90,10 @@ const Page = () => {
       if (response.status === 200) {
         enqueueSnackbar(response.data.message, { variant: 'success' })
         setShowSeasonForm(false)
-        setShowForm(true)
-        setSeason(response.data.shopBySeasonVideo)
         setVideo(null)
+        fetchSeasons()
+        setSelectedSeason(null)
+        setSelectedProduct(null)
       }
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message)
@@ -129,19 +120,22 @@ const Page = () => {
       const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
 
       if (imageUrl) {
-        const response = await axios.post(
+        await axios.post(
           '/api/customs/shop-by-season/add',
           {
-            seasonId: season.id,
+            seasonId: selectedSeason.id,
             description: newProduct.description,
             imageUrl: imageUrl,
             hyperLink: newProduct.hyperLink,
           },
           { withCredentials: true }
         )
-        setProducts((prev) => [...prev, response.data.shopBySeasonProduct])
         setNewProduct({ description: '', imageUrl: '', hyperLink: '' })
+        setSelectedSeason(null)
+        fetchSeasons()
         setImage(null)
+        setSelectedSeason(null)
+        setSelectedProduct(null)
       }
       setShowForm(false)
     } catch (error) {
@@ -165,10 +159,10 @@ const Page = () => {
         console.log(deleteImage)
       }
 
-      setProducts((prev) =>
-        prev.filter((item) => item.id !== selectedProduct.id)
-      )
+      fetchSeasons()
+
       setShowDeleteModal(false)
+      setSelectedSeason(null)
       setSelectedProduct(null)
     } catch (error) {
       console.log(error)
@@ -180,17 +174,19 @@ const Page = () => {
       const response = await axios.delete(
         '/api/customs/shop-by-season/video/delete',
         {
-          data: { id: season.id },
+          data: { id: selectedSeason.id },
         }
       )
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(season.videoUrl)
+        const deleteImage = await deleteImageFromCDN(selectedSeason.videoUrl)
         console.log(deleteImage)
       }
 
       setShowDeleteSeasonModal(false)
-      fetchSeason()
+      fetchSeasons()
+      setSelectedSeason(null)
+      setSelectedProduct(null)
     } catch (error) {
       console.log(error)
     }
@@ -209,7 +205,7 @@ const Page = () => {
       const response = await axios.patch(
         '/api/customs/shop-by-season/video/update',
         {
-          id: season.id,
+          id: selectedSeason.id,
           videoUrl: videoUrl,
         }
       )
@@ -217,10 +213,11 @@ const Page = () => {
       if (response.status === 200) {
         enqueueSnackbar(response.data.message, { variant: 'success' })
         setShowSeasonForm(false)
-        setSeason(response.data.shopBySeasonVideo)
-        fetchSeason()
-        fetchProducts()
+        setSeasons(response.data.shopBySeasonVideo)
+        fetchSeasons()
         setVideo(null)
+        setSelectedSeason(null)
+        setSelectedProduct(null)
       }
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message)
@@ -255,17 +252,10 @@ const Page = () => {
               Shop by Season
             </h2>
             <div className='flex items-center gap-2'>
-              {season ? (
-                <Button
-                  label={'Add a product'}
-                  onClick={() => setShowForm(!showForm)}
-                />
-              ) : (
-                <Button
-                  label={'Create a Season'}
-                  onClick={() => setShowSeasonForm(!showSeasonForm)}
-                />
-              )}
+              <Button
+                label={'Create a Season'}
+                onClick={() => setShowSeasonForm(!showSeasonForm)}
+              />
             </div>
           </div>
 
@@ -326,7 +316,9 @@ const Page = () => {
             }`}
           >
             <div className='border p-4 mb-4 bg-white rounded'>
-              <h3 className='text-lg font-semibold mb-2'>Add New Product</h3>
+              <h3 className='text-lg font-semibold mb-2'>
+                Add New Product to the selected Season
+              </h3>
               <div className='grid grid-cols-2 gap-5'>
                 <div className='mb-2'>
                   <label className='block mb-1 font-semibold'>
@@ -400,93 +392,123 @@ const Page = () => {
             </div>
           </div>
 
-          {season && (
-            <div className='flex gap-2 items-start'>
-              <div>
-                <video
-                  controls
-                  src={`https://cdn.thefashionsalad.com/clothes2wear/${season.videoUrl}`}
-                  className='w-72 mb-3 border border-black'
-                ></video>
-                <div className='flex gap-2 items-center'>
-                  <Trash2
-                    onClick={() => setShowDeleteSeasonModal(true)}
-                    className='text-white cursor-pointer bg-red-600 rounded-sm p-[6px]'
-                    size={30}
-                  />
-                  <SquarePen
-                    onClick={handleButtonClick}
-                    className='text-white cursor-pointer bg-blue-600 rounded-sm p-[6px]'
-                    size={30}
+          {seasons.length > 0 &&
+            seasons.map((season, index) => (
+              <div
+                key={index}
+                className={`p-1 ${
+                  selectedSeason?.id === season.id
+                    ? 'bg-gray-200 my-1'
+                    : 'bg-white'
+                } border rounded-sm`}
+              >
+                <div className='flex justify-between pl-2 mb-1'>
+                  <p className='font-semibold'>Season {index + 1}</p>
+                  <Button
+                    onClick={() => {
+                      setSelectedSeason(season)
+                      setShowForm(!showForm)
+                    }}
+                    label={'Add Product'}
                   />
                 </div>
-                <div>
-                  {video && (
-                    <div>
-                      <video
-                        controls
-                        src={URL.createObjectURL(video)}
-                        className='w-72 my-3'
-                      ></video>
-                      <Button
-                        onClick={updateSeasonVideo}
-                        loading={submitting}
-                        loadingText={'Submitting'}
-                        label={'Update'}
+                <div className='flex gap-2 items-start'>
+                  <div>
+                    <video
+                      controls
+                      src={`https://cdn.thefashionsalad.com/clothes2wear/${season.videoUrl}`}
+                      className='w-72 mb-3 border border-black'
+                    ></video>
+                    <div className='flex gap-2 items-center'>
+                      <Trash2
+                        onClick={() => {
+                          setSelectedSeason(season)
+                          setShowDeleteSeasonModal(true)
+                        }}
+                        className='text-white cursor-pointer bg-red-600 rounded-sm p-[6px]'
+                        size={30}
+                      />
+                      <SquarePen
+                        onClick={() => {
+                          setSelectedSeason(season)
+                          handleButtonClick()
+                        }}
+                        className='text-white cursor-pointer bg-blue-600 rounded-sm p-[6px]'
+                        size={30}
                       />
                     </div>
-                  )}
+                    <div>
+                      {video && (
+                        <div>
+                          <video
+                            controls
+                            src={URL.createObjectURL(video)}
+                            className='w-72 my-3'
+                          ></video>
+                          <Button
+                            onClick={updateSeasonVideo}
+                            loading={submitting}
+                            loadingText={'Submitting'}
+                            label={'Update'}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <table className='w-full border-collapse border border-gray-300'>
+                    <thead className='bg-blue-800 text-white'>
+                      <tr>
+                        <th className='border px-4 py-2 text-left'>
+                          Description
+                        </th>
+                        <th className='border px-4 py-2 text-left'>Image</th>
+                        <th className='border px-4 py-2 text-left'>
+                          Hyper Link
+                        </th>
+                        <th className='border px-4 py-2 text-center'>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {season.products.length > 0 &&
+                        season.products.map((item, index) => (
+                          <tr key={index} className='border-b'>
+                            <td className='border px-4 py-2'>
+                              {item?.description}
+                            </td>
+                            <td className='border px-4 py-2'>
+                              <img
+                                src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
+                                alt={item?.imageUrl}
+                                className='w-18 h-32 object-cover rounded'
+                              />
+                            </td>
+                            <td className='border px-4 py-2'>
+                              <a
+                                href={item?.hyperLink}
+                                target='_blank'
+                                rel='noopener noreferrer'
+                                className='text-blue-500 underline'
+                              >
+                                {item?.hyperLink}
+                              </a>
+                            </td>
+                            <td className='border px-2 text-center py-2'>
+                              <Button
+                                onClick={() => {
+                                  setSelectedProduct(item)
+                                  setShowDeleteModal(true)
+                                }}
+                                label={'Delete'}
+                                variant='error'
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <table className='w-full border-collapse border border-gray-300'>
-                <thead className='bg-blue-800 text-white'>
-                  <tr>
-                    <th className='border px-4 py-2 text-left'>Description</th>
-                    <th className='border px-4 py-2 text-left'>Image</th>
-                    <th className='border px-4 py-2 text-left'>Hyper Link</th>
-                    <th className='border px-4 py-2 text-center'>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.length > 0 &&
-                    products.map((item, index) => (
-                      <tr key={index} className='border-b'>
-                        <td className='border px-4 py-2'>
-                          {item?.description}
-                        </td>
-                        <td className='border px-4 py-2'>
-                          <img
-                            src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
-                            alt={item?.imageUrl}
-                            className='w-18 h-32 object-cover rounded'
-                          />
-                        </td>
-                        <td className='border px-4 py-2'>
-                          <a
-                            href={item?.hyperLink}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            className='text-blue-500 underline'
-                          >
-                            {item?.hyperLink}
-                          </a>
-                        </td>
-                        <td className='border px-2 text-center py-2'>
-                          <Button
-                            onClick={() => {
-                              setSelectedProduct(item)
-                              setShowDeleteModal(true)
-                            }}
-                            label={'Delete'}
-                            variant='error'
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+            ))}
 
           {showDeleteModal && (
             <DeleteModal

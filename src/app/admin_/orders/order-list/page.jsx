@@ -14,7 +14,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/dropdown'
-import { Ellipsis } from 'lucide-react'
+import { CircleCheck, Ellipsis } from 'lucide-react'
 import UpdateOrderModal from './UpdateOrderModal'
 
 const page = () => {
@@ -86,6 +86,24 @@ const page = () => {
     }
   }
 
+  const handleUpdateCompleted = (updatedOrder) => {
+    console.log(updatedOrder)
+    const updatedOrderIndex = orderList.findIndex(
+      (order) => order.id === updatedOrder.id
+    )
+
+    if (updatedOrderIndex !== -1) {
+      const updatedOrderList = [...orderList]
+      updatedOrderList[updatedOrderIndex] = updatedOrder
+
+      setOrderList(updatedOrderList)
+
+      enqueueSnackbar('Order updated successfully!', { variant: 'success' })
+    } else {
+      enqueueSnackbar('Order not found!', { variant: 'error' })
+    }
+  }
+
   return (
     <>
       <Layout>
@@ -113,6 +131,7 @@ const page = () => {
                 <option value=''>Select status</option>
                 <option value='INCOMPLETE'>INCOMPLETE</option>
                 <option value='PENDING'>PENDING</option>
+                <option value='APPROVED'>APPROVED</option>
                 <option value='SHIPPED'>SHIPPED</option>
                 <option value='DELIVERED'>DELIVERED</option>
                 <option value='CANCELLED'>CANCELLED</option>
@@ -136,7 +155,7 @@ const page = () => {
                     <th className='p-2 border border-gray-300'>
                       Payment Method
                     </th>
-                    <th className='p-2 border border-gray-300'>Discount</th>
+                    <th className='p-2 border border-gray-300'>Tracking ID</th>
                     <th className='p-2 border border-gray-300'>Ordered On</th>
                     <th className='p-2 border border-gray-300 w-40'>Action</th>
                   </tr>
@@ -178,13 +197,25 @@ const page = () => {
                           </span>
                         </td>
                         <td
-                          className={`p-2 border capitalize border-gray-300 ${
-                            order.status === 'PENDING'
-                              ? 'text-yellow-600'
-                              : 'text-blue-800'
-                          }`}
+                          className={`p-2 border capitalize border-gray-300 
+                            ${order.status === 'PENDING' && 'text-yellow-600'} 
+                            ${order.status === 'INCOMPLETE' && 'text-red-600'} 
+                            ${order.status === 'CANCELLED' && 'text-red-600'} 
+                            ${order.status === 'DELIVERED' && 'text-green-600'} 
+                            ${order.status === 'APPROVED' && 'text-green-600'} 
+                            ${order.status === 'SHIPPED' && 'text-blue-600'} 
+                            
+                            `}
                         >
-                          {order.status}
+                          <p className='flex items-center gap-1'>
+                            {order.status}
+                            {order.status === 'DELIVERED' && (
+                              <CircleCheck
+                                size={20}
+                                className='text-green-600'
+                              />
+                            )}
+                          </p>
                         </td>
                         <td className='p-2 border capitalize border-gray-300'>
                           {order.totalPrice}
@@ -194,10 +225,10 @@ const page = () => {
                         </td>
                         <td
                           className={`p-2 border capitalize border-gray-300 ${
-                            order.discountId ? 'text-blue-800' : 'text-gray-600'
+                            order.trackingId === '' && 'bg-gray-200'
                           }`}
                         >
-                          {order.discountId ? 'Available' : 'Not available'}
+                          {order.trackingId}
                         </td>
                         <td className='p-2 border capitalize border-gray-300'>
                           {new Date(order.updatedAt).toLocaleString()}
@@ -258,6 +289,7 @@ const page = () => {
               isOpen={true}
               onClose={() => setShowUpdateModal(false)}
               order={selectedOrder}
+              onCompleted={handleUpdateCompleted}
             />
           )}
         </div>
