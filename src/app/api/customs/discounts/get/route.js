@@ -5,13 +5,6 @@ const prisma = new PrismaClient()
 
 export async function GET(request) {
   try {
-    if (!isAdmin(request)) {
-      return NextResponse.json(
-        { message: 'Unauthorized access!' },
-        { status: 401 }
-      )
-    }
-
     const discounts = await prisma.discount.findMany()
 
     return NextResponse.json({ discounts }, { status: 200 })

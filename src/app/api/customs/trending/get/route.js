@@ -6,13 +6,6 @@ const prisma = new PrismaClient()
 
 export async function GET(request) {
   try {
-    if (!isAdmin(request)) {
-      return NextResponse.json(
-        { message: 'Unauthorized access!' },
-        { status: 401 }
-      )
-    }
-
     const trendingProducts = await prisma.trending.findMany()
 
     return NextResponse.json({ trendingProducts }, { status: 200 })

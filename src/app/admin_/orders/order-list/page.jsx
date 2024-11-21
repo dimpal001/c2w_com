@@ -5,10 +5,17 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Input, Select } from '../../products/components/SimilarProruct'
 import Layout from '../../components/Layout'
-import Button from '../../components/Button'
 import Loading from '../../components/Loading'
 import Pagination from '../../components/Pagination'
 import { enqueueSnackbar } from 'notistack'
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from '@nextui-org/dropdown'
+import { Ellipsis } from 'lucide-react'
+import UpdateOrderModal from './UpdateOrderModal'
 
 const page = () => {
   const [orderId, setOrderId] = useState('')
@@ -17,6 +24,8 @@ const page = () => {
   const [orderStatus, setOrderStatus] = useState(null)
   const [currentPage, setCurrentPage] = useState(null)
   const [totalPages, setTotalPages] = useState(null)
+  const [selectedOrder, setSelectedOrder] = useState(null)
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
 
   const router = useRouter()
 
@@ -196,17 +205,37 @@ const page = () => {
                         <td
                           className={`p-2 border border-gray-300 text-center`}
                         >
-                          <p className='w-full flex justify-center'>
-                            <Button
-                              onClick={() =>
-                                router.push(
-                                  `/admin_/orders/single-order/${order.orderId}`
-                                )
-                              }
-                              label={'Details'}
-                              variant='warning'
-                            />
-                          </p>
+                          <div className='flex justify-center'>
+                            <Dropdown>
+                              <DropdownTrigger>
+                                <Ellipsis className='cursor-pointer' />
+                              </DropdownTrigger>
+                              <DropdownMenu
+                                className='bg-white border p-3 rounded-md shadow-xl'
+                                aria-label='Static Actions'
+                              >
+                                <DropdownItem
+                                  onClick={() => {
+                                    setSelectedOrder(order)
+                                    setShowUpdateModal(true)
+                                  }}
+                                  className='py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                >
+                                  Update
+                                </DropdownItem>
+                                <DropdownItem
+                                  onClick={() =>
+                                    router.push(
+                                      `/admin_/orders/single-order/${order.orderId}`
+                                    )
+                                  }
+                                  className='text-yellow-600 py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                >
+                                  Details
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </Dropdown>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -223,6 +252,13 @@ const page = () => {
             <div className='bg-blue-50 shadow-md w-full p-5 rounded-md flex items-center'>
               <p>No order found</p>
             </div>
+          )}
+          {showUpdateModal && (
+            <UpdateOrderModal
+              isOpen={true}
+              onClose={() => setShowUpdateModal(false)}
+              order={selectedOrder}
+            />
           )}
         </div>
       </Layout>

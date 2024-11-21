@@ -262,6 +262,8 @@ model OrderDetails {
   updatedAt     DateTime      @updatedAt
   paymentMethod PaymentMethod
   orderItems    OrderItem[]
+  notes         String?       @db.Text
+  trackingId    String?
 
   user           User             @relation(fields: [userId], references: [id])
   paymentDetails PaymentDetails[]

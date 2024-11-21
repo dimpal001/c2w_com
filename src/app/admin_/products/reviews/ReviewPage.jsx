@@ -58,7 +58,7 @@ const ReviewPage = () => {
     }
   }
 
-  const handlePreviewDelete = async () => {
+  const handleReviewDelete = async () => {
     console.log(selectedReivew)
   }
 
@@ -227,7 +227,7 @@ const ReviewPage = () => {
                       <DeleteModal
                         isOpen={true}
                         onClose={() => setDeleteModalOpen(false)}
-                        onDelete={handlePreviewDelete}
+                        onDelete={handleReviewDelete}
                       />
                     )}
                   </div>

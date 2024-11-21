@@ -5,7 +5,7 @@ import { isAdmin } from '../../middleware/adminAuth'
 const prisma = new PrismaClient()
 
 export async function DELETE(request) {
-  const { reviewId } = request.json()
+  const { reviewId } = await request.json()
 
   if (!isAdmin(request)) {
     return NextResponse.json(

@@ -212,3 +212,9 @@
 # -d '{
 #     "id": "dafb7ef2-bca2-491a-b979-67a702ac5ccc"
 # }'
+
+
+# Search Query ----------------------------------------------------------------------------------------------- 
+
+curl -X GET "http://localhost:3000/api/search?query=wedding&id=6eeb6f1d-2508-4cc6-b64c-8a881363168c" \
+-H "Content-Type: application/json"

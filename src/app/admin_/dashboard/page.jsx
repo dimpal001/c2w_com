@@ -158,8 +158,11 @@ const page = () => {
 
             {/* Sales and Products Overview */}
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-              <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800'>
-                <h4 className='text-blue-800 text-lg font-semibold'>
+              <div
+                onClick={() => router.push('/admin_/this-month-overview')}
+                className='bg-blue-50 group cursor-pointer p-6 rounded-xl shadow-md text-blue-800'
+              >
+                <h4 className='text-blue-800 group-hover:underline text-lg font-semibold'>
                   Sales Overview
                 </h4>
                 <p className='text-xl font-bold'>This Month</p>
@@ -176,8 +179,11 @@ const page = () => {
                   View the best-selling products in your store.
                 </p>
               </div>
-              <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800'>
-                <h4 className='text-blue-800 text-lg font-semibold'>
+              <div
+                onClick={() => router.push('/admin_/this-month-reviews')}
+                className='bg-blue-50 group cursor-pointer p-6 rounded-xl shadow-md text-blue-800'
+              >
+                <h4 className='text-blue-800 group-hover:underline text-lg font-semibold'>
                   Customer Feedback
                 </h4>
                 <p className='text-xl font-bold'>5-Star Reviews</p>
