@@ -1,10 +1,9 @@
-import { isAdmin } from '@/app/api/middleware/adminAuth'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function GET(request) {
+export async function GET() {
   try {
     const showcases = await prisma.showcases.findMany()
 
