@@ -18,6 +18,7 @@ export async function GET(request) {
       where: { id },
       include: {
         categories: true,
+        subcategories: true,
         inventory: {
           include: {
             size: {

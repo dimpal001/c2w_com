@@ -26,6 +26,7 @@ export async function POST(request) {
   const {
     title,
     categories,
+    subcategories,
     inventory,
     summary,
     description,
@@ -85,17 +86,23 @@ export async function POST(request) {
         categories: {
           connect: categories.map((category) => ({ id: category.id })),
         },
+        subcategories: {
+          connect: subcategories.map((subcategory) => ({ id: subcategory.id })),
+        },
         discounts: {
           connect: discounts.map((item) => ({ id: item.id })),
         },
         inventory: inventory.length > 0 && {
-          create: inventory.map(({ size, mrp, price, stock, minQuantity }) => ({
-            price: parseInt(price),
-            mrp: parseInt(mrp),
-            stock: parseInt(stock),
-            minQuantity: parseInt(minQuantity),
-            sizeId: size.id,
-          })),
+          create: inventory.map(
+            ({ size, mrp, price, stock, discount, minQuantity }) => ({
+              price: parseFloat(price),
+              mrp: parseFloat(mrp),
+              stock: parseFloat(stock),
+              discount: parseFloat(discount),
+              minQuantity: parseInt(minQuantity),
+              sizeId: size.id,
+            })
+          ),
         },
         similarProducts: {
           connect: similarProducts.map((product) => ({ id: product.id })),

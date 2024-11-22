@@ -35,7 +35,7 @@ const Page = () => {
   const fetchSBOProducts = async () => {
     try {
       const response = await axios.get('/api/customs/new-arrivals/get')
-      setSBOProducts(response.data.newAriivals)
+      setSBOProducts(response.data.newArrivals)
     } catch (error) {
       console.log(error)
     }

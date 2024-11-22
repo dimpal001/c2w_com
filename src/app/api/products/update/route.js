@@ -8,6 +8,7 @@ export async function PATCH(request) {
     productId,
     title,
     categories,
+    subcategories,
     inventory,
     summary,
     description,
@@ -44,10 +45,11 @@ export async function PATCH(request) {
 
     // Update or replace inventory
     const newInventory = inventory.map(
-      ({ size, mrp, price, stock, minQuantity }) => ({
-        price: parseInt(price),
-        mrp: parseInt(mrp),
-        stock: parseInt(stock),
+      ({ size, mrp, price, stock, discount, minQuantity }) => ({
+        price: parseFloat(price),
+        mrp: parseFloat(mrp),
+        stock: parseFloat(stock),
+        discount: parseFloat(discount),
         minQuantity: parseInt(minQuantity),
         sizeId: size.id,
       })
@@ -78,6 +80,9 @@ export async function PATCH(request) {
             : undefined,
         categories: {
           connect: categories.map((category) => ({ id: category.id })),
+        },
+        subcategories: {
+          connect: subcategories.map((subcategory) => ({ id: subcategory.id })),
         },
         discounts: {
           connect: discounts.map((discount) => ({ id: discount.id })),

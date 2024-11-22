@@ -12,12 +12,15 @@ import { Upload, X } from 'lucide-react'
 import ImageCroper from '@/app/Components/ImageCroper'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
+import EditModal from './EditModal'
 
 const Page = () => {
   const [heroSliders, setHeroSliders] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showImageCroper, setShowImageCroper] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
   const [fetching, setFetching] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [selectedSlider, setSelectedSlider] = useState(null)
   const [newHeroSlider, setNewHeroSlider] = useState({
     imageUrl: '',
@@ -68,6 +71,7 @@ const Page = () => {
       return
     }
     try {
+      setSaving(true)
       const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
 
       if (imageUrl) {
@@ -81,6 +85,9 @@ const Page = () => {
       setShowForm(false)
     } catch (error) {
       console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -127,7 +134,6 @@ const Page = () => {
               />
             </div>
           </div>
-
           <div
             className={`transition-height ease-in-out overflow-hidden duration-500 ${
               showForm ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
@@ -137,7 +143,7 @@ const Page = () => {
               <h3 className='text-lg font-semibold mb-2'>Add New Slider</h3>
               <div className='grid grid-cols-2 gap-5'>
                 <div className='mb-2'>
-                  <label className='block mb-1 font-semibold'>Image URL</label>
+                  <label className='block mb-1 font-semibold'>Image</label>
                   <button
                     onClick={() => setShowImageCroper(true)}
                     className='border p-2 rounded flex justify-center w-full'
@@ -179,7 +185,12 @@ const Page = () => {
                 </div>
               )}
               <div className='flex gap-3'>
-                <Button label={'Save Slider'} onClick={addHeroSlider} />
+                <Button
+                  loadingText={'Saving'}
+                  loading={saving}
+                  label={'Save'}
+                  onClick={addHeroSlider}
+                />
                 <Button
                   label={'Close'}
                   variant='secondary'
@@ -188,7 +199,6 @@ const Page = () => {
               </div>
             </div>
           </div>
-
           <table className='min-w-full border-collapse border border-gray-300'>
             <thead className='bg-blue-800 text-white'>
               <tr>
@@ -219,14 +229,23 @@ const Page = () => {
                       </a>
                     </td>
                     <td className='border px-2 text-center py-2'>
-                      <Button
-                        onClick={() => {
-                          setSelectedSlider(item)
-                          setShowDeleteModal(true)
-                        }}
-                        label={'Delete'}
-                        variant='error'
-                      />
+                      <div className='flex flex-col gap-2'>
+                        <Button
+                          onClick={() => {
+                            setSelectedSlider(item)
+                            setShowEditModal(true)
+                          }}
+                          label={'Edit'}
+                        />
+                        <Button
+                          onClick={() => {
+                            setSelectedSlider(item)
+                            setShowDeleteModal(true)
+                          }}
+                          label={'Delete'}
+                          variant='error'
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -245,6 +264,14 @@ const Page = () => {
               onClose={() => setShowImageCroper(false)}
               aspectRatio={16 / 9}
               onCropComplete={handleFile}
+            />
+          )}{' '}
+          {showEditModal && (
+            <EditModal
+              isOpen={true}
+              onClose={() => setShowEditModal(false)}
+              selectedHeroSlide={selectedSlider}
+              fetchHeroSlides={fetchHeroSliders}
             />
           )}
         </div>

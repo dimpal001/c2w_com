@@ -12,6 +12,7 @@ const Page = ({ productId }) => {
     title: '',
     customerTypeId: '',
     categories: [],
+    subcategories: [],
     isReturnable: false,
     estimatedDeliveryDay: 0,
     discounts: [],

@@ -15,7 +15,7 @@ export async function POST(request) {
 
     const { imageUrl, hyperLink, categoryHyperLink } = await request.json()
 
-    const newAriivals = await prisma.newAriivals.create({
+    const newArrivals = await prisma.newArrivals.create({
       data: {
         imageUrl,
         hyperLink,
@@ -24,7 +24,7 @@ export async function POST(request) {
     })
 
     return NextResponse.json(
-      { message: 'New Arrival product has been added.', newAriivals },
+      { message: 'New Arrival product has been added.', newArrivals },
       { status: 200 }
     )
   } catch (error) {

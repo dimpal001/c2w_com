@@ -4,7 +4,9 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function POST(request) {
+export async function PATCH(request) {
+  const { id, title, avatarUrl, videoUrl, hyperLink, price } =
+    await request.json()
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -13,25 +15,30 @@ export async function POST(request) {
       )
     }
 
-    const { title, videoUrl, hyperLink, price, avatarUrl } =
-      await request.json()
+    if (!id) {
+      return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
+    }
 
-    const trendingProduct = await prisma.trending.create({
+    const trendingProduct = await prisma.trending.update({
+      where: { id },
       data: {
         title,
         videoUrl,
+        avatarUrl,
         hyperLink,
         price,
-        avatarUrl,
       },
     })
 
     return NextResponse.json(
-      { message: 'Trending product has been added.', trendingProduct },
+      { message: 'Trending product has been updated.', trendingProduct },
       { status: 200 }
     )
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ message: error }, { status: 500 })
+    return NextResponse.json(
+      { message: 'Something is wrong, try again' },
+      { status: 500 }
+    )
   }
 }

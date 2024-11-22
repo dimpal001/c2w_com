@@ -5,7 +5,7 @@ import slugify from 'slugify'
 
 const prisma = new PrismaClient()
 
-// Add size
+// Add categories
 export async function POST(request) {
   try {
     if (!isAdmin(request)) {
@@ -15,52 +15,57 @@ export async function POST(request) {
       )
     }
 
-    const { name } = await request.json()
+    const { categoryId, name } = await request.json()
 
     // Generate slug
     const slug = slugify(name, { lower: true })
 
-    const isExist = await prisma.productSize.findUnique({
+    const isExist = await prisma.subCategory.findFirst({
       where: {
         slug,
+        categoryId,
       },
     })
 
     if (isExist) {
       return NextResponse.json(
-        { message: 'Size already exist' },
+        { message: 'Sub category already exist' },
         { status: 409 }
       )
     }
 
-    // Add the new Size to the database
-    const sizes = await prisma.productSize.create({
+    // Add the new sub Category to the database
+    const category = await prisma.subCategory.create({
       data: {
+        categoryId,
         name,
         slug,
       },
     })
 
     return NextResponse.json(
-      sizes,
-      { message: 'Size added successfully' },
+      category,
+      { message: 'Sub ategory added successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding size:', error)
-    return NextResponse.json({ message: 'Error adding size' }, { status: 500 })
+    console.error('Error adding category:', error)
+    return NextResponse.json(
+      { message: 'Error adding category' },
+      { status: 500 }
+    )
   }
 }
 
-// Get all sizes
+// Get sub categories
 export async function GET() {
   try {
-    const sizes = await prisma.productSize.findMany()
-    return NextResponse.json(sizes, { status: 200 })
+    const categories = await prisma.subCategory.findMany()
+    return NextResponse.json(categories, { status: 200 })
   } catch (error) {
-    console.error('Error fetching sizes:', error)
+    console.error('Error fetching categories:', error)
     return NextResponse.json(
-      { message: 'Error fetching sizes' },
+      { message: 'Error fetching categories' },
       { status: 500 }
     )
   }
@@ -76,26 +81,27 @@ export async function PATCH(request) {
       )
     }
 
-    const { id, name } = await request.json()
+    const { categoryId, id, name } = await request.json()
 
     // Generate slug
     const slug = slugify(name, { lower: true })
 
-    const isExist = await prisma.productSize.findUnique({
+    const isExist = await prisma.subCategory.findFirst({
       where: {
         slug,
+        categoryId,
       },
     })
 
     if (isExist) {
       return NextResponse.json(
-        { message: 'Size already exist' },
+        { message: 'Sub Category already exist' },
         { status: 409 }
       )
     }
 
-    // Add the new Size to the database
-    const size = await prisma.productSize.update({
+    // Add the new sub category to the database
+    const size = await prisma.subCategory.update({
       where: {
         id,
       },
@@ -107,16 +113,19 @@ export async function PATCH(request) {
 
     return NextResponse.json(
       size,
-      { message: 'Size updated successfully' },
+      { message: 'Cateogry updated successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding size:', error)
-    return NextResponse.json({ message: 'Error adding size' }, { status: 500 })
+    console.error('Error adding category:', error)
+    return NextResponse.json(
+      { message: 'Error adding category' },
+      { status: 500 }
+    )
   }
 }
 
-// Delete a size
+// Delete a sub category
 export async function DELETE(request) {
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
@@ -128,18 +137,18 @@ export async function DELETE(request) {
       )
     }
 
-    await prisma.productSize.delete({
+    await prisma.subCategory.delete({
       where: { id },
     })
 
     return NextResponse.json(
-      { message: 'Size deleted successfully' },
+      { message: 'Category deleted successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error deleting size:', error)
+    console.error('Error deleting Category:', error)
     return NextResponse.json(
-      { message: 'Error deleting size' },
+      { message: 'Error deleting Category' },
       { status: 500 }
     )
   }

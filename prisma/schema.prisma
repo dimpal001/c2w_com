@@ -120,6 +120,7 @@ model Product {
   userId               String
   estimatedDeliveryDay Int?
   categories           ProductCategory[] @relation("ProductCategories")
+  subcategories        SubCategory[]     @relation("SubcategoryProducts")
   similarProducts      Product[]         @relation("SimilarProducts")
 
   user          User               @relation(fields: [userId], references: [id])
@@ -147,12 +148,22 @@ model ProductImage {
 }
 
 model ProductCategory {
-  id       String    @id @default(uuid())
-  name     String
-  slug     String    @unique
-  products Product[] @relation("ProductCategories")
+  id            String        @id @default(uuid())
+  name          String
+  slug          String        @unique
+  products      Product[]     @relation("ProductCategories")
+  subcategories SubCategory[]
 
   @@unique([name, slug])
+}
+
+model SubCategory {
+  id         String          @id @default(uuid())
+  name       String
+  slug       String
+  categoryId String
+  category   ProductCategory @relation(fields: [categoryId], references: [id])
+  products   Product[]       @relation("SubcategoryProducts")
 }
 
 model ProductInventory {
@@ -161,6 +172,7 @@ model ProductInventory {
   sizeId      String?
   mrp         Int
   price       Int
+  discount    Float?
   stock       Int
   minQuantity Int     @default(1)
 
@@ -415,18 +427,18 @@ model ExclusiveCollection {
 }
 
 model Trending {
-  id                String  @id @default(uuid())
-  videoUrl          String?
-  title             String?
-  price             String?
-  hyperLink         String?
-  categoryHyperLink String?
+  id        String  @id @default(uuid())
+  videoUrl  String?
+  title     String?
+  price     String?
+  hyperLink String?
+  avatarUrl String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model NewAriivals {
+model NewArrivals {
   id                String      @id @default(uuid())
   imageUrl          String?
   hyperLink         String?
@@ -451,8 +463,8 @@ model HyperLink {
   id               String          @id @default(uuid())
   imageUrl         String
   hyperLink        String
-  newAriivalsId    String
-  newAriivals      NewAriivals     @relation(fields: [newAriivalsId], references: [id])
+  newArrivalId     String
+  newAriivals      NewArrivals     @relation(fields: [newArrivalId], references: [id])
   ShopByOccasion   ShopByOccasion? @relation(fields: [shopByOccasionId], references: [id])
   shopByOccasionId String?
 

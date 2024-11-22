@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function DELETE(request) {
+export async function PATCH(request) {
+  const { id, imageUrl, categoryHyperLink, hyperLink } = await request.json()
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -13,24 +14,27 @@ export async function DELETE(request) {
       )
     }
 
-    const { id } = await request.json()
-
     if (!id) {
-      return NextResponse.json({ message: 'ID is required.' }, { status: 400 })
+      return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
     }
 
-    const newArrival = await prisma.newArrivals.delete({
+    const newArrivals = await prisma.newArrivals.update({
       where: { id },
+      data: {
+        imageUrl,
+        categoryHyperLink,
+        hyperLink,
+      },
     })
 
     return NextResponse.json(
-      { message: 'New arrival deleted successfully.', newArrival },
+      { message: 'New arrival has been updated.', newArrivals },
       { status: 200 }
     )
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again.' },
+      { message: 'Something is wrong, try again' },
       { status: 500 }
     )
   }

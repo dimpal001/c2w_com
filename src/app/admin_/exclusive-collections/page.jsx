@@ -11,11 +11,14 @@ import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
 import { Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
+import EditModal from './EditModal'
 
 const Page = () => {
   const [exclusiveCollections, setExclusiveCollections] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showImageCroper, setShowImageCroper] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [selectedExclusiveCollections, setSelectedExclusiveCollections] =
     useState(null)
   const [newExclusiveCollection, setNewExclusiveCollection] = useState({
@@ -67,6 +70,7 @@ const Page = () => {
     }
 
     try {
+      setSaving(true)
       const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
 
       if (imageUrl) {
@@ -91,6 +95,9 @@ const Page = () => {
       setShowForm(false)
     } catch (error) {
       console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -153,7 +160,7 @@ const Page = () => {
             <h3 className='text-lg font-semibold mb-2'>Add New Product</h3>
             <div className='grid grid-cols-2 gap-5'>
               <div className='mb-2'>
-                <label className='block mb-1 font-semibold'>Image URL</label>
+                <label className='block mb-1 font-semibold'>Image</label>
                 <button
                   onClick={() => setShowImageCroper(true)}
                   className='border p-2 rounded flex justify-center w-full'
@@ -208,7 +215,9 @@ const Page = () => {
             )}
             <div className='flex gap-3'>
               <Button
-                label={'Save Collection'}
+                loading={saving}
+                loadingText={'Saving'}
+                label={'Save'}
                 onClick={addExclusiveCollection}
               />
               <Button
@@ -264,14 +273,23 @@ const Page = () => {
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>
-                    <Button
-                      onClick={() => {
-                        setSelectedExclusiveCollections(item)
-                        setShowDeleteModal(true)
-                      }}
-                      label={'Delete'}
-                      variant='error'
-                    />
+                    <div className='flex flex-col gap-2'>
+                      <Button
+                        onClick={() => {
+                          setSelectedExclusiveCollections(item)
+                          setShowEditModal(true)
+                        }}
+                        label={'Edit'}
+                      />
+                      <Button
+                        onClick={() => {
+                          setSelectedExclusiveCollections(item)
+                          setShowDeleteModal(true)
+                        }}
+                        label={'Delete'}
+                        variant='error'
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -290,6 +308,14 @@ const Page = () => {
             onClose={() => setShowImageCroper(false)}
             aspectRatio={9 / 16}
             onCropComplete={handleFile}
+          />
+        )}
+        {showEditModal && (
+          <EditModal
+            isOpen={true}
+            onClose={() => setShowEditModal(false)}
+            selectedECProduct={selectedExclusiveCollections}
+            fetchExclusiveCollections={fetchExclusiveCollections}
           />
         )}
       </div>

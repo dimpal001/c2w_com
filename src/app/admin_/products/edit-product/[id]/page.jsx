@@ -18,6 +18,7 @@ const Page = ({ params }) => {
     title: '',
     customerTypeId: '',
     categories: [],
+    subcategories: [],
     isReturnable: false,
     estimatedDeliveryDay: 0,
     displayPrice: 0,
@@ -74,6 +75,7 @@ const Page = ({ params }) => {
         productId: productDetails.id,
         displayPrice: productDetails.displayPrice,
         returnPolicy: productDetails.returnPolicy,
+        subcategories: productDetails.subcategories,
       })
     }
 

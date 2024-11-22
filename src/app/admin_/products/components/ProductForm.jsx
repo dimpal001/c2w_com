@@ -18,6 +18,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
     mrp: 0,
     price: 0,
     stock: 0,
+    discount: 100,
     minQuantity: 1,
   })
   const router = useRouter()
@@ -30,6 +31,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
   })
   const [sizes, setSizes] = useState([])
   const [allCategories, setAllCategories] = useState([])
+  const [allSubCategories, setAllSubCategories] = useState([])
   const [colors, setColors] = useState([])
   const [customerTypes, setCustomerTypes] = useState([])
   const [showImageCropper, setShowImageCropper] = useState(false)
@@ -55,25 +57,79 @@ const ProductForm = ({ formData, setFormData, type }) => {
       }
     }
     fetchData()
+    fetchAllSubcategories()
   }, [])
 
+  setTimeout(() => {
+    console.log(allCategories)
+  }, 4000)
+
   const uppercaseText = (text) => text.toUpperCase()
+
+  const fetchAllSubcategories = async () => {
+    try {
+      const response = await axios.get('/api/admin/menu/sub-categories')
+      setAllSubCategories(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
 
-    // Normalize the boolean value for isReturnable
     const normalizedValue = name === 'isReturnable' ? value === 'true' : value
 
-    // Function to normalize numbers by removing leading zeros
     const normalizeNumber = (val) => (isNaN(val) ? val : String(Number(val)))
 
-    if (['size', 'mrp', 'price', 'stock', 'minQuantity'].includes(name)) {
+    // Logic to calculate price from MRP and discount
+    const calculatePriceFromDiscount = (mrp, discount) => {
+      if (mrp && discount) {
+        return (mrp * discount) / 100
+      }
+      return mrp // Default return if no discount or MRP is provided
+    }
+
+    const calculateDiscountFromPrice = (mrp, price) => {
+      if (mrp && price) {
+        return ((mrp - price) / mrp) * 100
+      }
+      return 0 // Default return if no price or MRP is provided
+    }
+
+    if (
+      ['size', 'mrp', 'price', 'discount', 'stock', 'minQuantity'].includes(
+        name
+      )
+    ) {
       if (name === 'size') {
         const selectedSize = sizes.find((size) => size.id === value)
         setInventory((prev) => ({ ...prev, size: selectedSize }))
+      } else if (name === 'mrp') {
+        const updatedPrice = calculatePriceFromDiscount(
+          value,
+          inventory.discount
+        )
+        setInventory((prev) => ({
+          ...prev,
+          [name]: normalizeNumber(value),
+          price: updatedPrice,
+        }))
+      } else if (name === 'discount') {
+        const updatedPrice = calculatePriceFromDiscount(inventory.mrp, value)
+        setInventory((prev) => ({
+          ...prev,
+          [name]: [value],
+          price: updatedPrice,
+        }))
+      } else if (name === 'price') {
+        const updatedDiscount = calculateDiscountFromPrice(inventory.mrp, value)
+        setInventory((prev) => ({
+          ...prev,
+          [name]: normalizeNumber(value),
+          discount: updatedDiscount,
+        }))
       } else {
-        // Apply normalization to `mrp`, `price`, or `stock` values
         setInventory((prev) => ({ ...prev, [name]: normalizeNumber(value) }))
       }
     } else if (name === 'color') {
@@ -85,29 +141,32 @@ const ProductForm = ({ formData, setFormData, type }) => {
     console.log(formData)
   }
 
-  // Toggle category selection
   const handleCategoryChange = (category) => {
     setFormData((prevProduct) => {
       const isSelected = prevProduct.categories.some(
         (c) => c.id === category.id
       )
+
       return {
         ...prevProduct,
         categories: isSelected
-          ? prevProduct.categories.filter((c) => c.id !== category.id) // Remove the category if unselected
-          : [...prevProduct.categories, category], // Add the category if selected
+          ? prevProduct.categories.filter((c) => c.id !== category.id)
+          : [...prevProduct.categories, category],
+        subcategories: isSelected
+          ? prevProduct.subcategories.filter(
+              (sub) => sub.categoryId !== category.id
+            )
+          : prevProduct.subcategories,
       }
     })
   }
 
   const addInventory = () => {
-    // Check if size is valid
     if (inventory.size.name === '') {
       enqueueSnackbar('Select a valid size', { variant: 'error' })
       return
     }
 
-    // Check if mrp, price, or stock are negative
     if (inventory.mrp < 0 || inventory.price < 0 || inventory.stock < 0) {
       enqueueSnackbar('MRP, Price, and Stock cannot be negative values.', {
         variant: 'error',
@@ -115,19 +174,16 @@ const ProductForm = ({ formData, setFormData, type }) => {
       return
     }
 
-    // Create a copy of the inventory object with only size.id
     const inventoryWithSizeId = {
       ...inventory,
-      size: inventory.size, // Only store the id of size
+      size: inventory.size,
     }
 
-    // Proceed to update formData with the modified inventory object
     setFormData((prevData) => ({
       ...prevData,
       inventory: [...prevData.inventory, inventoryWithSizeId],
     }))
 
-    // Reset the inventory state after adding
     setInventory({ size: { id: '', name: '' }, mrp: 0, price: 0, stock: 0 })
 
     console.log(formData)
@@ -163,6 +219,8 @@ const ProductForm = ({ formData, setFormData, type }) => {
   }
 
   const handleSubmit = async () => {
+    console.log(formData)
+    if (formData) return null
     try {
       setSaving(true)
       const uploadedImages = await Promise.all(
@@ -240,6 +298,28 @@ const ProductForm = ({ formData, setFormData, type }) => {
     }))
   }
 
+  const handleSubcategoryChange = (subcategory) => {
+    const isSelected = formData.subcategories.some(
+      (sub) => sub.id === subcategory.id
+    )
+
+    if (isSelected) {
+      // Deselect subcategory
+      setFormData((prev) => ({
+        ...prev,
+        subcategories: prev.subcategories.filter(
+          (sub) => sub.id !== subcategory.id
+        ),
+      }))
+    } else {
+      // Select subcategory
+      setFormData((prev) => ({
+        ...prev,
+        subcategories: [...prev.subcategories, subcategory],
+      }))
+    }
+  }
+
   return (
     <div className='p-7 rounded-[4px]'>
       <Section className={'grid grid-cols-4'}>
@@ -251,7 +331,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
           value={formData.title}
           onChange={handleChange}
         />
-        <Select
+        {/* <Select
           label='Select Type'
           name='customerTypeId'
           value={formData.customerTypeId}
@@ -267,7 +347,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
               {uppercaseText(type.name)}
             </option>
           ))}
-        </Select>
+        </Select> */}
 
         <Select
           label='Returnable'
@@ -300,27 +380,65 @@ const ProductForm = ({ formData, setFormData, type }) => {
       <Devider />
 
       <Section>
-        <div className='flex flex-col gap-1'>
-          <label>Categories</label>
-          <div className='flex gap-4 flex-wrap'>
-            {allCategories.map((category) => (
-              <div
-                key={category.id}
-                className='capitalize flex gap-1 items-center text-sm'
-              >
-                <input
-                  type='checkbox'
-                  id={category.id}
-                  value={category.id}
-                  checked={formData.categories.some(
-                    (c) => c.id === category.id
-                  )} // Check if category is selected
-                  onChange={() => handleCategoryChange(category)}
-                />
-                <label htmlFor={category.id}>{category.name}</label>
-              </div>
-            ))}
+        <div className='flex flex-col gap-3'>
+          <div className='flex items-center gap-3'>
+            <label>Categories:</label>
+            <div className='flex gap-4 flex-wrap'>
+              {allCategories?.map((category) => (
+                <div
+                  key={category.id}
+                  className='capitalize flex gap-1 items-center text-sm'
+                >
+                  <input
+                    type='checkbox'
+                    id={category.id}
+                    value={category.id}
+                    checked={formData.categories.some(
+                      (c) => c.id === category.id
+                    )}
+                    onChange={() => handleCategoryChange(category)}
+                  />
+                  <label htmlFor={category.id}>{category.name}</label>
+                </div>
+              ))}
+            </div>
           </div>
+          {formData.categories.map((categoryId) => {
+            const subcategories = allSubCategories.filter(
+              (sub) => sub.categoryId === categoryId.id
+            )
+
+            return (
+              <div key={categoryId} className='flex items-center gap-3'>
+                <label>
+                  Subcategories for{' '}
+                  <span className='capitalize'>
+                    {allCategories.find((c) => c.id === categoryId.id).name}
+                  </span>
+                  :
+                </label>
+                <div className='flex gap-4 flex-wrap'>
+                  {subcategories.map((subcategory) => (
+                    <div
+                      key={subcategory.id}
+                      className='capitalize flex gap-1 items-center text-sm'
+                    >
+                      <input
+                        type='checkbox'
+                        id={subcategory.id}
+                        value={subcategory.id}
+                        checked={formData.subcategories.some(
+                          (sub) => sub.id === subcategory.id
+                        )}
+                        onChange={() => handleSubcategoryChange(subcategory)}
+                      />
+                      <label htmlFor={subcategory.id}>{subcategory.name}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </Section>
 
@@ -382,7 +500,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
           </table>
         )}
       </div>
-      <Section className={'grid grid-cols-3'}>
+      <Section className={'grid grid-cols-4'}>
         <Select
           label='Select size'
           name='size'
@@ -402,6 +520,14 @@ const ProductForm = ({ formData, setFormData, type }) => {
           placeholder='Enter MRP'
           name='mrp'
           value={inventory.mrp}
+          onChange={handleChange}
+        />
+        <Input
+          label='Enter Discount Price'
+          type='number'
+          placeholder='Enter Price'
+          name='discount'
+          value={inventory.discount}
           onChange={handleChange}
         />
         <Input

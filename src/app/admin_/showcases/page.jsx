@@ -11,12 +11,15 @@ import { Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import ImageCroper from '@/app/Components/ImageCroper'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
+import EditModal from './EditModal'
 
 const Page = () => {
   const [showcases, setShowcases] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showImageCroper, setShowImageCroper] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
   const [selectedShowcase, setSelectedShowcase] = useState(null)
+  const [saving, setSaving] = useState(false)
   const [newShowcase, setNewShowcase] = useState({
     title: '',
     imageUrl: '',
@@ -69,6 +72,7 @@ const Page = () => {
       return
     }
     try {
+      setSaving(true)
       const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
 
       if (imageUrl) {
@@ -83,6 +87,9 @@ const Page = () => {
       setShowForm(false)
     } catch (error) {
       console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -144,7 +151,7 @@ const Page = () => {
                 />
               </div>
               <div className='mb-2'>
-                <label className='block mb-1 font-semibold'>Image URL</label>
+                <label className='block mb-1 font-semibold'>Image</label>
                 <button
                   onClick={() => setShowImageCroper(true)}
                   className='border p-2 rounded flex justify-center w-full'
@@ -186,7 +193,12 @@ const Page = () => {
               </div>
             )}
             <div className='flex gap-3'>
-              <Button label={'Save Showcase'} onClick={addShowcase} />
+              <Button
+                loadingText={'Saving'}
+                loading={saving}
+                label={'Save'}
+                onClick={addShowcase}
+              />
               <Button
                 label={'Close'}
                 variant='secondary'
@@ -228,14 +240,23 @@ const Page = () => {
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>
-                    <Button
-                      onClick={() => {
-                        setSelectedShowcase(item)
-                        setShowDeleteModal(true)
-                      }}
-                      label={'Delete'}
-                      variant='error'
-                    />
+                    <div className='flex flex-col gap-2'>
+                      <Button
+                        onClick={() => {
+                          setShowEditModal(true)
+                          setSelectedShowcase(item)
+                        }}
+                        label={'Edit'}
+                      />
+                      <Button
+                        onClick={() => {
+                          setSelectedShowcase(item)
+                          setShowDeleteModal(true)
+                        }}
+                        label={'Delete'}
+                        variant='error'
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -254,6 +275,14 @@ const Page = () => {
             onClose={() => setShowImageCroper(false)}
             aspectRatio={9 / 16}
             onCropComplete={handleFile}
+          />
+        )}
+        {showEditModal && (
+          <EditModal
+            isOpen={true}
+            onClose={() => setShowEditModal(false)}
+            selectedShowcase={selectedShowcase}
+            fetchShowcases={fetchShowcases}
           />
         )}
       </div>

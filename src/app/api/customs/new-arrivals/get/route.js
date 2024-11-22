@@ -5,9 +5,9 @@ const prisma = new PrismaClient()
 
 export async function GET() {
   try {
-    const newAriivals = await prisma.newAriivals.findMany()
+    const newArrivals = await prisma.newArrivals.findMany()
 
-    return NextResponse.json({ newAriivals }, { status: 200 })
+    return NextResponse.json({ newArrivals }, { status: 200 })
   } catch (error) {
     console.log(error)
     return NextResponse.json(

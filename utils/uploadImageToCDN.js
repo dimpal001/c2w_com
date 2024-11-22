@@ -13,8 +13,8 @@ export const uploadImageToCDN = async (image, name) => {
   })
 
   const extension = name.split('.').pop()
-  // const imageName = `image-${Date.now()}.${extension}`
-  const imageName = `https://cdn.thefashionsalad.com/clothes2wear/image-${Date.now()}.${extension}`
+  let imageName = `image-${Date.now()}.${extension}`
+  // const imageName = `https://cdn.thefashionsalad.com/clothes2wear/image-${Date.now()}.${extension}`
 
   const file = new File([image], name, { type: image.type })
   if (!file || !file) return
@@ -30,6 +30,8 @@ export const uploadImageToCDN = async (image, name) => {
   try {
     const data = await s3Client.send(new PutObjectCommand(params))
     console.log('Image uploaded:', data)
+
+    imageName = 'https://cdn.thefashionsalad.com/clothes2wear/' + imageName
 
     // Construct the URL of the uploaded image
     const imageUrl = imageName

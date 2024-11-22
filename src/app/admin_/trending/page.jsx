@@ -6,24 +6,35 @@ import axios from 'axios'
 import Button from '../components/Button'
 import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
-import { Upload } from 'lucide-react'
+import { Upload, X } from 'lucide-react'
 import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
+import EditModal from './EditModal'
+import ImageCroper from '@/app/Components/ImageCroper'
+import Image from 'next/image'
 
 const Page = () => {
   const [trendingProducts, setTrendingProducts] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showImageCroper, setShowImageCroper] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [selectedTrendingProducts, setSelectedTrendingProducts] = useState(null)
   const [newTrendingProduct, setNewTrendingProduct] = useState({
     title: '',
     videoUrl: '',
     price: '',
     hyperLink: '',
-    categoryHyperLink: '',
+    avatarUrl: '',
   })
   const [showForm, setShowForm] = useState(false)
   const fileInputRef = useRef(null)
   const [video, setVideo] = useState(null)
+  const [image, setImage] = useState({
+    blob: null,
+    fileName: '',
+    imageUrl: null,
+  })
   const [fileName, setFileName] = useState(null)
 
   useEffect(() => {
@@ -56,20 +67,22 @@ const Page = () => {
       enqueueSnackbar('Add price', { variant: 'error' })
       return
     }
-    if (newTrendingProduct.categoryHyperLink === '') {
+    if (newTrendingProduct.avatarUrl === '') {
       enqueueSnackbar('Add category hyper a link', { variant: 'error' })
       return
     }
     try {
+      setSaving(true)
       const videoUrl = await uploadImageToCDN(video, fileName)
+      const imageUrl = await uploadImageToCDN(image, image.fileName)
 
-      if (videoUrl) {
+      if (videoUrl && imageUrl) {
         const response = await axios.post('/api/customs/trending/add', {
           title: newTrendingProduct.title,
           videoUrl: videoUrl,
           price: newTrendingProduct.price,
           hyperLink: newTrendingProduct.hyperLink,
-          categoryHyperLink: newTrendingProduct.categoryHyperLink,
+          avatarUrl: imageUrl,
         })
         setTrendingProducts((prev = []) => [
           ...prev,
@@ -81,12 +94,14 @@ const Page = () => {
           videoUrlUrl: '',
           hyperLink: '',
           price: '',
-          categoryHyperLink: '',
+          avatarUrl: '',
         })
       }
       setShowForm(false)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -134,6 +149,15 @@ const Page = () => {
     fileInputRef.current.click()
   }
 
+  const handleFile = (blob, croppedImageUrl, fileName) => {
+    console.log(blob, croppedImageUrl, fileName)
+    setImage({
+      blob: blob,
+      imageUrl: croppedImageUrl,
+      fileName: fileName,
+    })
+  }
+
   return (
     <Layout>
       <div className='p-6 bg-gray-100 min-h-[530px]'>
@@ -168,7 +192,7 @@ const Page = () => {
                 />
               </div>
               <div className='mb-2'>
-                <label className='block mb-1 font-semibold'>Video URL</label>
+                <label className='block mb-1 font-semibold'>Video</label>
                 <input
                   type='file'
                   ref={fileInputRef}
@@ -204,27 +228,60 @@ const Page = () => {
                 />
               </div>
               <div className='mb-2'>
-                <label className='block mb-1 font-semibold'>
-                  Category Hyper Link
-                </label>
-                <input
-                  type='text'
-                  name='categoryHyperLink'
-                  value={newTrendingProduct.categoryHyperLink}
-                  onChange={handleChange}
-                  className='border p-2 rounded w-full'
-                />
+                <label className='block mb-1 font-semibold'>Avatar Image</label>
+                <button
+                  onClick={() => setShowImageCroper(true)}
+                  className='border p-2 rounded flex justify-center w-full'
+                >
+                  <Upload size={19} />
+                </button>
               </div>
             </div>
-            {video && (
-              <video
-                controls
-                src={URL.createObjectURL(video)}
-                className='w-52 mb-3'
-              ></video>
-            )}
+            <div className='flex gap-2'>
+              {video && (
+                <div className='relative'>
+                  <video
+                    controls
+                    src={URL.createObjectURL(video)}
+                    className='w-52 mb-3'
+                  ></video>
+                  <X
+                    size={35}
+                    className='text-red-600 absolute top-3 left-1 cursor-pointer'
+                    onClick={() => setVideo(null)}
+                  />
+                </div>
+              )}
+              {image.imageUrl && (
+                <div className='relative'>
+                  <Image
+                    width={100}
+                    height={100}
+                    src={image.imageUrl}
+                    alt='Image'
+                    className=' pb-4'
+                  />
+                  <X
+                    className='text-red-600 absolute top-3 left-1 cursor-pointer'
+                    onClick={() => {
+                      setImage({
+                        blob: '',
+                        imageUrl: '',
+                        fileName: '',
+                      })
+                    }}
+                    size={35}
+                  />
+                </div>
+              )}
+            </div>
             <div className='flex gap-3'>
-              <Button label={'Save Product'} onClick={addTrendingProduct} />
+              <Button
+                loadingText={'Saving'}
+                loading={saving}
+                label={'Save'}
+                onClick={addTrendingProduct}
+              />
               <Button
                 label={'Close'}
                 variant='secondary'
@@ -272,23 +329,32 @@ const Page = () => {
                   </td>
                   <td className='border px-4 py-2'>
                     <a
-                      href={item.categoryHyperLink}
+                      href={item.avatarUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='text-blue-500 underline'
                     >
-                      {item.categoryHyperLink}
+                      {item.avatarUrl}
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>
-                    <Button
-                      onClick={() => {
-                        setSelectedTrendingProducts(item)
-                        setShowDeleteModal(true)
-                      }}
-                      label={'Delete'}
-                      variant='error'
-                    />
+                    <div className='flex flex-col gap-2'>
+                      <Button
+                        onClick={() => {
+                          setSelectedTrendingProducts(item)
+                          setShowEditModal(true)
+                        }}
+                        label={'Edit'}
+                      />
+                      <Button
+                        onClick={() => {
+                          setSelectedTrendingProducts(item)
+                          setShowDeleteModal(true)
+                        }}
+                        label={'Delete'}
+                        variant='error'
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -299,6 +365,22 @@ const Page = () => {
             isOpen={true}
             onClose={() => setShowDeleteModal(false)}
             onDelete={() => deleteTrendingProduct()}
+          />
+        )}
+        {showEditModal && (
+          <EditModal
+            isOpen={true}
+            onClose={() => setShowEditModal(false)}
+            selectedTrendingProducts={selectedTrendingProducts}
+            fetchTrendingProducts={fetchTrendingProducts}
+          />
+        )}
+        {showImageCroper && (
+          <ImageCroper
+            isOpen={true}
+            onClose={() => setShowImageCroper(false)}
+            aspectRatio={9 / 9}
+            onCropComplete={handleFile}
           />
         )}
       </div>
