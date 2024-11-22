@@ -503,14 +503,14 @@ const ProductForm = ({ formData, setFormData, type }) => {
                         onClick={() => removeInventory(index)}
                         className='text-red-600 cursor-pointer'
                       />
-                      {/* <FilePen
+                      <FilePen
                         onClick={() => {
                           setSelectedInventory(item)
                           setEditInventoryModalOpen(true)
                         }}
                         size={20}
                         className='text-blue-800 cursor-pointer'
-                      /> */}
+                      />
                     </div>
                   </td>
                 </tr>
