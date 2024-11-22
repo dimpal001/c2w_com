@@ -13,13 +13,17 @@ export async function POST(request) {
       )
     }
 
-    const { imageUrl, hyperLink, categoryHyperLink } = await request.json()
+    const { imageUrl, hyperLink, title, price, mrp, description } =
+      await request.json()
 
     const newArrivals = await prisma.newArrivals.create({
       data: {
         imageUrl,
         hyperLink,
-        categoryHyperLink,
+        title,
+        price,
+        mrp,
+        description,
       },
     })
 

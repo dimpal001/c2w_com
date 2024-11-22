@@ -5,7 +5,8 @@ import { NextResponse } from 'next/server'
 const prisma = new PrismaClient()
 
 export async function PATCH(request) {
-  const { id, imageUrl, categoryHyperLink, hyperLink } = await request.json()
+  const { id, imageUrl, hyperLink, title, price, mrp, description } =
+    await request.json()
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -22,7 +23,10 @@ export async function PATCH(request) {
       where: { id },
       data: {
         imageUrl,
-        categoryHyperLink,
+        title,
+        price,
+        mrp,
+        description,
         hyperLink,
       },
     })

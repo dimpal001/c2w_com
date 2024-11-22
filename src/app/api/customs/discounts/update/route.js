@@ -4,8 +4,9 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function POST(request) {
+export async function PATCH(request) {
   const {
+    id,
     code,
     amount,
     type,
@@ -22,6 +23,10 @@ export async function POST(request) {
         { message: 'Unauthorized access!' },
         { status: 401 }
       )
+    }
+
+    if (!id) {
+      return NextResponse.json({ message: 'ID is required!' }, { status: 404 })
     }
 
     let userEmailArray = []
@@ -60,16 +65,10 @@ export async function POST(request) {
       )
     }
 
-    const isExist = await prisma.discount.findUnique({ where: { code } })
-
-    if (isExist) {
-      return NextResponse.json(
-        { message: 'This coupon code already exists!' },
-        { status: 400 }
-      )
-    }
-
-    const newDiscount = await prisma.discount.create({
+    const newDiscount = await prisma.discount.update({
+      where: {
+        id,
+      },
       data: {
         code,
         orders,

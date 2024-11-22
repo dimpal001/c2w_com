@@ -9,6 +9,7 @@ export async function PATCH(request) {
     title,
     categories,
     subcategories,
+    longTailKeyword,
     inventory,
     summary,
     description,
@@ -61,6 +62,7 @@ export async function PATCH(request) {
       data: {
         title,
         estimatedDeliveryDay,
+        longTailKeyword,
         isReturnable,
         description,
         displayPrice: parseFloat(displayPrice),
@@ -72,9 +74,10 @@ export async function PATCH(request) {
         images:
           images.length > 0
             ? {
-                create: images.map(({ imageUrl, color }) => ({
+                create: images.map(({ imageUrl, color, altText }) => ({
                   imageUrl,
                   colorId: color,
+                  altText: altText,
                 })),
               }
             : undefined,

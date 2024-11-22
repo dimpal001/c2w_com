@@ -24,11 +24,10 @@ const page = () => {
   const [productList, setProductList] = useState([])
   const [allCategories, setAllCategories] = useState([])
   const [colors, setColors] = useState([])
-  const [customerTypes, setCustomerTypes] = useState([])
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
   const [color, setColor] = useState('')
-  const [customerTypeId, setCustomerTypeId] = useState('')
+  const [subCategoryId, setSubCategoryId] = useState('')
   const [fetching, setFetching] = useState(false)
   const [currentPage, setCurrentPage] = useState(null)
   const [totalPage, setTotalPages] = useState(null)
@@ -37,6 +36,9 @@ const page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [debouncedQuery, setDebouncedQuery] = useState('')
+  const [debouncedMinPrice, setDebouncedMinPrice] = useState('')
+  const [debouncedMaxPrice, setDebouncedMaxPrice] = useState('')
+  const [filteredSubCategories, setFilteredSubCategories] = useState([])
   const router = useRouter()
 
   useEffect(() => {
@@ -46,15 +48,16 @@ const page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoriesRes, colorsRes, customerTypesRes] = await Promise.all([
-          axios.get('/api/admin/menu?type=sizes'),
+        const [categoriesRes, colorsRes] = await Promise.all([
           axios.get('/api/admin/menu?type=categories'),
           axios.get('/api/admin/menu?type=colors'),
-          axios.get('/api/admin/menu?type=customer-types'),
         ])
-        setAllCategories(categoriesRes.data)
+
+        console.log('Colors Response:', colorsRes.data)
+        console.log('Categories Response:', categoriesRes.data)
+
         setColors(colorsRes.data)
-        setCustomerTypes(customerTypesRes.data)
+        setAllCategories(categoriesRes.data)
       } catch (error) {
         console.error('Error fetching menu data', error)
       }
@@ -63,14 +66,34 @@ const page = () => {
   }, [])
 
   useEffect(() => {
-    const handler = setTimeout(() => {
+    const handler1 = setTimeout(() => {
       setDebouncedQuery(searchQuery)
     }, 500)
 
     return () => {
-      clearTimeout(handler)
+      clearTimeout(handler1)
     }
   }, [searchQuery])
+
+  useEffect(() => {
+    const handler2 = setTimeout(() => {
+      setDebouncedMinPrice(minPrice)
+    }, 500)
+
+    return () => {
+      clearTimeout(handler2)
+    }
+  }, [minPrice])
+
+  useEffect(() => {
+    const handler3 = setTimeout(() => {
+      setDebouncedMaxPrice(maxPrice)
+    }, 500)
+
+    return () => {
+      clearTimeout(handler3)
+    }
+  }, [maxPrice])
 
   const fetchProductList = async (page) => {
     try {
@@ -78,7 +101,7 @@ const page = () => {
       const params = {
         searchQuery,
         categoryId,
-        customerTypeId,
+        subCategoryId,
         minPrice,
         maxPrice,
         color,
@@ -134,7 +157,25 @@ const page = () => {
 
   useEffect(() => {
     fetchProductList()
-  }, [debouncedQuery, categoryId, customerTypeId, minPrice, maxPrice, color])
+  }, [
+    debouncedQuery,
+    categoryId,
+    subCategoryId,
+    debouncedMinPrice,
+    debouncedMaxPrice,
+    color,
+  ])
+
+  useEffect(() => {
+    const selectedCategory = allCategories.find(
+      (category) => category.id === categoryId
+    )
+    if (selectedCategory) {
+      setFilteredSubCategories(selectedCategory.subcategories)
+    } else {
+      setFilteredSubCategories([])
+    }
+  }, [categoryId, allCategories])
 
   return (
     <>
@@ -176,13 +217,14 @@ const page = () => {
 
             <Select
               className={'w-full'}
-              onChange={(e) => setCustomerTypeId(e.target.value)}
-              name='customerType'
+              onChange={(e) => setSubCategoryId(e.target.value)}
+              name='subcategories'
+              disabled={!categoryId}
             >
-              <option value=''>Select Customer Type</option>
-              {customerTypes?.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.name.toUpperCase()}
+              <option value=''>Select Sub Category</option>
+              {filteredSubCategories?.map((subCategory) => (
+                <option key={subCategory.id} value={subCategory.id}>
+                  {subCategory.name.toUpperCase()}
                 </option>
               ))}
             </Select>

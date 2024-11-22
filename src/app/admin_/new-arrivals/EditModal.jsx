@@ -27,7 +27,10 @@ const EditModal = ({
   const [newNewArrival, setNewNewArrival] = useState({
     imageUrl: selectedNewArrival.imageUrl || '',
     hyperLink: selectedNewArrival.hyperLink || '',
-    categoryHyperLink: selectedNewArrival.categoryHyperLink || '',
+    title: selectedNewArrival.title || '',
+    price: selectedNewArrival.price || '',
+    mrp: selectedNewArrival.mrp || '',
+    description: selectedNewArrival.description || '',
   })
   const [showImageCroper, setShowImageCroper] = useState(false)
   const [image, setImage] = useState({
@@ -76,7 +79,10 @@ const EditModal = ({
           id: selectedNewArrival.id,
           imageUrl: imageUrl,
           hyperLink: newNewArrival.hyperLink,
-          categoryHyperLink: newNewArrival.categoryHyperLink,
+          title: newNewArrival.title,
+          description: newNewArrival.description,
+          price: parseInt(newNewArrival.price),
+          mrp: parseInt(newNewArrival.mrp),
         })
         setNewNewArrival({ title: '', imageUrl: '', hyperLink: '' })
         console.log(response)
@@ -101,18 +107,19 @@ const EditModal = ({
           <div
             className={`transition-height ease-in-out overflow-hidden duration-500`}
           >
-            <div className='border p-4 mb-4 bg-white rounded'>
-              <div className='grid grid-cols-3 gap-5'>
-                <div className='mb-2'>
-                  <label className='block mb-1 font-semibold'>Image</label>
-                  <button
-                    onClick={() => setShowImageCroper(true)}
-                    className='border p-2 rounded flex justify-center w-full'
-                  >
-                    <Upload size={19} />
-                  </button>
+            <div className='border p-4 bg-white rounded'>
+              <div className='grid grid-cols-3 gap-4'>
+                <div>
+                  <label className='block mb-1 font-semibold'>Title</label>
+                  <input
+                    type='text'
+                    name='title'
+                    value={newNewArrival.title}
+                    onChange={handleChange}
+                    className='border p-2 rounded w-full'
+                  />
                 </div>
-                <div className='mb-2'>
+                <div>
                   <label className='block mb-1 font-semibold'>Hyper Link</label>
                   <input
                     type='text'
@@ -122,14 +129,45 @@ const EditModal = ({
                     className='border p-2 rounded w-full'
                   />
                 </div>
-                <div className='mb-2'>
+                <div>
                   <label className='block mb-1 font-semibold'>
-                    Category Hyper Link
+                    Description
                   </label>
                   <input
                     type='text'
-                    name='categoryHyperLink'
-                    value={newNewArrival.categoryHyperLink}
+                    name='description'
+                    value={newNewArrival.description}
+                    onChange={handleChange}
+                    className='border p-2 rounded w-full'
+                  />
+                </div>
+                <div>
+                  <label className='block mb-1 font-semibold'>Image</label>
+                  <button
+                    onClick={() => setShowImageCroper(true)}
+                    className='border p-2 rounded flex justify-center w-full'
+                  >
+                    <Upload size={19} />
+                  </button>
+                </div>
+                <div>
+                  <label className='block mb-1 font-semibold'>Price</label>
+                  <input
+                    type='number'
+                    name='price'
+                    value={newNewArrival.price}
+                    onChange={handleChange}
+                    className='border p-2 rounded w-full'
+                  />
+                </div>
+                <div>
+                  <label className='block mb-1 font-semibold'>
+                    Discount Price
+                  </label>
+                  <input
+                    type='number'
+                    name='mrp'
+                    value={newNewArrival.mrp}
                     onChange={handleChange}
                     className='border p-2 rounded w-full'
                   />
@@ -138,11 +176,11 @@ const EditModal = ({
               {image.imageUrl && (
                 <div className='relative'>
                   <Image
-                    width={160}
-                    height={90}
+                    width={130}
+                    height={60}
                     src={image.imageUrl}
                     alt='Image'
-                    className='py-2 pb-4'
+                    className='py-2'
                   />
                   <X
                     className='text-red-600 absolute top-3 left-1 cursor-pointer'

@@ -15,7 +15,11 @@ export async function GET(request) {
       const sizes = await prisma.productSize.findMany()
       return NextResponse.json(sizes, { status: 200 })
     } else if (type === 'categories') {
-      const categories = await prisma.productCategory.findMany()
+      const categories = await prisma.productCategory.findMany({
+        include: {
+          subcategories: true,
+        },
+      })
       return NextResponse.json(categories, { status: 200 })
     } else if (type === 'customer-types') {
       const types = await prisma.customerType.findMany()

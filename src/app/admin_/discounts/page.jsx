@@ -6,21 +6,25 @@ import axios from 'axios'
 import Button from '../components/Button'
 import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
+import { FilePen, Trash2 } from 'lucide-react'
 
 const Page = () => {
   const [discounts, setDiscounts] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedDiscount, setSelectedDiscount] = useState(null)
+  const [isEditMode, setEditMode] = useState(false)
   const [newDiscount, setNewDiscount] = useState({
-    code: '',
-    description: '',
-    amount: 0,
-    minPrice: null,
-    type: '',
-    isSpecial: 'no',
-    userEmail: '',
+    code: selectedDiscount?.code || '',
+    description: selectedDiscount?.description || '',
+    amount: selectedDiscount?.amount || 0,
+    orders: selectedDiscount?.orders || null,
+    minPrice: selectedDiscount?.minPrice || null,
+    type: selectedDiscount?.type || '',
+    isSpecial: (selectedDiscount?.isSpecial && 'yes') || 'no',
+    userEmails: selectedDiscount?.userEmails?.join(', ') || '',
   })
   const [showForm, setShowForm] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     fetchDiscounts()
@@ -65,7 +69,7 @@ const Page = () => {
       enqueueSnackbar('Enter percentage between 1 to 100', { variant: 'error' })
       return
     }
-    if (newDiscount.isSpecial === 'yes' && !newDiscount.userEmail) {
+    if (newDiscount.isSpecial === 'yes' && !newDiscount.userEmails) {
       enqueueSnackbar('Enter user email for special discount', {
         variant: 'error',
       })
@@ -73,14 +77,16 @@ const Page = () => {
     }
 
     try {
+      setSaving(true)
       const response = await axios.post('/api/customs/discounts/add', {
         code: newDiscount.code,
         type: newDiscount.type,
+        orders: parseInt(newDiscount.orders),
         amount: parseFloat(newDiscount.amount),
         description: newDiscount.description,
         minPrice: parseFloat(newDiscount.minPrice),
         isSpecial: newDiscount.isSpecial === 'yes' ? true : false,
-        userEmail: newDiscount.userEmail || null,
+        userEmails: newDiscount.userEmails || null,
       })
       setDiscounts((prev) => [...prev, response.data.discount])
       setNewDiscount({
@@ -90,13 +96,82 @@ const Page = () => {
         type: '',
         minPrice: null,
         isSpecial: 'no',
-        userEmail: '',
+        userEmails: '',
       })
       setShowForm(false)
       enqueueSnackbar('Discount added successfully', { variant: 'success' })
     } catch (error) {
       console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const updateDiscount = async () => {
+    // Basic validation for the fields
+    if (newDiscount.code === '') {
+      enqueueSnackbar('Enter Coupon Code', { variant: 'error' })
+      return
+    }
+    if (newDiscount.code.length > 15) {
+      enqueueSnackbar('Coupon Code is too long', { variant: 'error' })
+      return
+    }
+    if (newDiscount.type === '') {
+      enqueueSnackbar('Select Discount Type', { variant: 'error' })
+      return
+    }
+    if (newDiscount.amount <= 0 || newDiscount.amount > 30000) {
+      enqueueSnackbar('Enter valid Amount', { variant: 'error' })
+      return
+    }
+    if (newDiscount.description === '') {
+      enqueueSnackbar('Enter a description', { variant: 'error' })
+      return
+    }
+    if (newDiscount.type === 'PERCENTAGE' && newDiscount.amount > 100) {
+      enqueueSnackbar('Enter percentage between 1 to 100', { variant: 'error' })
+      return
+    }
+    if (newDiscount.isSpecial === 'yes' && !newDiscount.userEmails) {
+      enqueueSnackbar('Enter user email for special discount', {
+        variant: 'error',
+      })
+      return
+    }
+
+    try {
+      setSaving(true)
+      await axios.patch('/api/customs/discounts/update', {
+        id: selectedDiscount.id,
+        code: newDiscount.code,
+        type: newDiscount.type,
+        orders: parseInt(newDiscount.orders),
+        amount: parseFloat(newDiscount.amount),
+        description: newDiscount.description,
+        minPrice: parseFloat(newDiscount.minPrice),
+        isSpecial: newDiscount.isSpecial === 'yes' ? true : false,
+        userEmails: newDiscount.userEmails || null,
+      })
+      fetchDiscounts()
+      setNewDiscount({
+        code: '',
+        description: '',
+        amount: 0,
+        type: '',
+        minPrice: null,
+        isSpecial: 'no',
+        userEmails: '',
+      })
+      setShowForm(false)
+      enqueueSnackbar('Discount added successfully', { variant: 'success' })
+      setEditMode(false)
+    } catch (error) {
+      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -129,9 +204,42 @@ const Page = () => {
         <div className='flex items-center justify-between mb-5'>
           <h2 className='text-xl font-semibold text-blue-800'>Discounts</h2>
           <div className='flex items-center gap-2'>
+            {isEditMode && showForm && (
+              <Button
+                variant='secondary'
+                label={'Cancel Edit'}
+                onClick={() => {
+                  setNewDiscount({
+                    code: '',
+                    description: '',
+                    amount: '',
+                    orders: '',
+                    minPrice: '',
+                    type: '',
+                    isSpecial: 'no',
+                    userEmails: '',
+                  })
+                  setShowForm(false)
+                  setEditMode(false)
+                }}
+              />
+            )}
             <Button
               label={'Add a Discount'}
-              onClick={() => setShowForm(!showForm)}
+              onClick={() => {
+                setNewDiscount({
+                  code: '',
+                  description: '',
+                  amount: '',
+                  orders: '',
+                  minPrice: '',
+                  type: '',
+                  isSpecial: 'no',
+                  userEmails: '',
+                })
+                setEditMode(false)
+                setShowForm(true)
+              }}
             />
           </div>
         </div>
@@ -143,7 +251,7 @@ const Page = () => {
         >
           <div className='border p-4 mb-4 rounded shadow-md bg-blue-50'>
             <h3 className='text-lg font-semibold mb-2'>Add New Discount</h3>
-            <div className='grid grid-cols-3 gap-5 w-full'>
+            <div className='grid grid-cols-4 gap-x-5 gap-y-3 w-full'>
               <div className='mb-2'>
                 <label className='block mb-1 font-semibold'>Coupon Code</label>
                 <input
@@ -181,8 +289,6 @@ const Page = () => {
                   min={0}
                 />
               </div>
-            </div>
-            <div className='grid grid-cols-3 gap-5 w-full'>
               <div className='mb-2'>
                 <label className='block mb-1 font-semibold'>Description</label>
                 <input
@@ -217,9 +323,22 @@ const Page = () => {
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                 >
-                  <option value='no'>No</option>
-                  <option value='yes'>Yes</option>
+                  <option value={'no'}>No</option>
+                  <option value={'yes'}>Yes</option>
                 </select>
+              </div>
+              <div className='mb-2'>
+                <label className='block mb-1 font-semibold'>
+                  No. of Orders
+                </label>
+                <input
+                  type='number'
+                  name='orders'
+                  value={newDiscount.orders}
+                  onChange={handleChange}
+                  className='border p-2 rounded w-full'
+                  min={0}
+                />
               </div>
             </div>
 
@@ -230,8 +349,8 @@ const Page = () => {
                 </label>
                 <input
                   type='email'
-                  name='userEmail'
-                  value={newDiscount.userEmail}
+                  name='userEmails'
+                  value={newDiscount.userEmails}
                   onChange={handleChange}
                   placeholder='user@example.com'
                   className='border p-2 rounded w-full'
@@ -240,7 +359,12 @@ const Page = () => {
             )}
 
             <div className='flex gap-3'>
-              <Button label={'Save Discount'} onClick={addDiscount} />
+              <Button
+                loadingText={'Saving'}
+                loading={saving}
+                label={'Save Discount'}
+                onClick={isEditMode ? updateDiscount : addDiscount}
+              />
               <Button
                 label={'Close'}
                 variant='secondary'
@@ -253,7 +377,6 @@ const Page = () => {
         <table className='min-w-full border-collapse border border-gray-300'>
           <thead className='bg-blue-800 text-white'>
             <tr>
-              <th className='border px-4 py-2 text-left'>SL</th>
               <th className='border px-4 py-2 text-left'>Coupon Code</th>
               <th className='border px-4 py-2 text-left'>Description</th>
               <th className='border px-4 py-2 text-left'>Discount Type</th>
@@ -261,13 +384,13 @@ const Page = () => {
               <th className='border px-4 py-2 text-left'>Min. Price</th>
               <th className='border px-4 py-2 text-left'>Special / Normal</th>
               <th className='border px-4 py-2 text-left'>User</th>
+              <th className='border px-4 py-2 text-left'>Required Orders</th>
               <th className='border px-4 py-2 text-left'>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {discounts.map((discount, index) => (
+            {discounts.map((discount) => (
               <tr key={discount.id}>
-                <td className='border px-4 py-2'>{index + 1}</td>
                 <td className='border px-4 py-2'>{discount.code}</td>
                 <td className='border px-4 py-2'>{discount.description}</td>
                 <td className='border px-4 py-2'>{discount.type}</td>
@@ -278,7 +401,9 @@ const Page = () => {
                     : discount.amount}
                   {discount.type === 'PERCENTAGE' ? '%' : ''}
                 </td>
-                <td className='border px-4 py-2'>{discount.minPrice}</td>
+                <td className='border px-4 py-2'>
+                  ₹{discount.minPrice.toFixed(2)}
+                </td>
                 <td className='border px-4 py-2'>
                   {discount.isSpecial ? 'Special' : 'Normal'}
                 </td>
@@ -287,17 +412,45 @@ const Page = () => {
                     !discount.isSpecial && 'bg-gray-300'
                   } px-4 py-2`}
                 >
-                  {discount.userEmail}
+                  {discount.userEmails &&
+                    discount.userEmails.map((email, index) => (
+                      <span key={index}>
+                        {email}
+                        {index < discount.userEmails.length - 1 && ', '}
+                      </span>
+                    ))}
                 </td>
+                <td className='border px-4 py-2'>{discount.orders}</td>
                 <td className='border px-4 py-2'>
-                  <Button
-                    label={'Delete'}
-                    variant='error'
-                    onClick={() => {
-                      setSelectedDiscount(discount)
-                      setShowDeleteModal(true)
-                    }}
-                  />
+                  <div className='flex gap-3 justify-center items-center'>
+                    <Trash2
+                      className='text-red-600 cursor-pointer'
+                      onClick={() => {
+                        setSelectedDiscount(discount)
+                        setShowDeleteModal(true)
+                      }}
+                      size={22}
+                    />
+                    <FilePen
+                      onClick={() => {
+                        setSelectedDiscount(discount)
+                        setNewDiscount({
+                          code: discount.code,
+                          description: discount.description,
+                          amount: discount.amount,
+                          orders: discount.orders,
+                          minPrice: discount.minPrice,
+                          type: discount.type,
+                          isSpecial: discount.isSpecial === true ? 'yes' : 'no',
+                          userEmails: discount.userEmails?.join(', ') || '',
+                        })
+                        setShowForm(true)
+                        setEditMode(true)
+                      }}
+                      className='text-blue-800 cursor-pointer'
+                      size={22}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}

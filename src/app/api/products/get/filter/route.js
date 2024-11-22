@@ -7,7 +7,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const searchQuery = searchParams.get('searchQuery')
   const categoryId = searchParams.get('categoryId')
-  const customerTypeId = searchParams.get('customerTypeId')
+  const subCategoryId = searchParams.get('subCategoryId')
   const minPrice = searchParams.get('minPrice')
   const maxPrice = searchParams.get('maxPrice')
   const color = searchParams.get('color')
@@ -33,8 +33,12 @@ export async function GET(request) {
       }
     }
 
-    if (customerTypeId) {
-      where.customerTypeId = customerTypeId
+    if (subCategoryId) {
+      where.subcategories = {
+        some: {
+          id: subCategoryId,
+        },
+      }
     }
 
     if (color) {
@@ -48,14 +52,14 @@ export async function GET(request) {
     const inventoryWhere = {}
 
     if (minPrice) {
-      inventoryWhere.price = {
+      where.displayPrice = {
         gte: parseInt(minPrice),
       }
     }
 
     if (maxPrice) {
-      inventoryWhere.price = {
-        ...inventoryWhere.price,
+      where.displayPrice = {
+        ...where.displayPrice,
         lte: parseInt(maxPrice),
       }
     }

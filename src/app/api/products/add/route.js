@@ -27,6 +27,7 @@ export async function POST(request) {
     title,
     categories,
     subcategories,
+    longTailKeyword,
     inventory,
     summary,
     description,
@@ -64,6 +65,7 @@ export async function POST(request) {
         slug,
         styleId,
         thumbnailUrl,
+        longTailKeyword,
         estimatedDeliveryDay: parseInt(estimatedDeliveryDay),
         isActive: false,
         isReturnable,
@@ -77,9 +79,10 @@ export async function POST(request) {
         images:
           images.length > 0
             ? {
-                create: images.map(({ imageUrl, color }) => ({
+                create: images.map(({ imageUrl, color, altText }) => ({
                   imageUrl,
                   colorId: color,
+                  altText: altText,
                 })),
               }
             : undefined,

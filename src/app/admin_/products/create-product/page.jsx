@@ -11,6 +11,7 @@ const Page = ({ productId }) => {
   const [formData, setFormData] = useState({
     title: '',
     customerTypeId: '',
+    longTailKeyword: '',
     categories: [],
     subcategories: [],
     isReturnable: false,

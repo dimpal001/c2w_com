@@ -21,9 +21,12 @@ const Page = () => {
   const [saving, setSaving] = useState(false)
   const [selectedNewArrival, setSelectedNewArrivals] = useState(null)
   const [newNewArrival, setNewNewArrival] = useState({
+    title: '',
     imageUrl: '',
     hyperLink: '',
-    categoryHyperLink: '',
+    description: '',
+    price: 0,
+    mrp: 0,
   })
   const [image, setImage] = useState({
     blob: null,
@@ -67,7 +70,7 @@ const Page = () => {
       enqueueSnackbar('Add hyper a link', { variant: 'error' })
       return
     }
-    if (newNewArrival.categoryHyperLink === '') {
+    if (newNewArrival.description === '') {
       enqueueSnackbar('Add hyper a category hyper link', { variant: 'error' })
       return
     }
@@ -80,13 +83,19 @@ const Page = () => {
         const response = await axios.post('/api/customs/new-arrivals/add', {
           imageUrl: imageUrl,
           hyperLink: newNewArrival.hyperLink,
-          categoryHyperLink: newNewArrival.categoryHyperLink,
+          description: newNewArrival.description,
+          title: newNewArrival.title,
+          price: parseInt(newNewArrival.price),
+          mrp: parseInt(newNewArrival.mrp),
         })
         setNewArrivals((prev) => [...prev, response.data.newArrivals])
         setNewNewArrival({
           imageUrl: '',
           hyperLink: '',
-          categoryHyperLink: '',
+          description: '',
+          title: '',
+          price: '',
+          mrp: '',
         })
       }
       setImage(null)
@@ -147,17 +156,18 @@ const Page = () => {
         >
           <div className='border p-4 mb-4 rounded'>
             <h3 className='text-lg font-semibold mb-2'>Add New Product</h3>
-            <div className='grid grid-cols-2 gap-5'>
-              <div className='mb-2'>
-                <label className='block mb-1 font-semibold'>Image</label>
-                <button
-                  onClick={() => setShowImageCroper(true)}
-                  className='border p-2 rounded flex justify-center w-full'
-                >
-                  <Upload size={19} />
-                </button>
+            <div className='grid grid-cols-3 gap-4 mb-3'>
+              <div>
+                <label className='block mb-1 font-semibold'>Title</label>
+                <input
+                  type='text'
+                  name='title'
+                  value={newNewArrival.title}
+                  onChange={handleChange}
+                  className='border p-2 rounded w-full'
+                />
               </div>
-              <div className='mb-2'>
+              <div>
                 <label className='block mb-1 font-semibold'>Hyper Link</label>
                 <input
                   type='text'
@@ -167,14 +177,43 @@ const Page = () => {
                   className='border p-2 rounded w-full'
                 />
               </div>
-              <div className='mb-2'>
-                <label className='block mb-1 font-semibold'>
-                  Category Hyper Link
-                </label>
+              <div>
+                <label className='block mb-1 font-semibold'>Description</label>
                 <input
                   type='text'
-                  name='categoryHyperLink'
-                  value={newNewArrival.categoryHyperLink}
+                  name='description'
+                  value={newNewArrival.description}
+                  onChange={handleChange}
+                  className='border p-2 rounded w-full'
+                />
+              </div>
+              <div>
+                <label className='block mb-1 font-semibold'>Image</label>
+                <button
+                  onClick={() => setShowImageCroper(true)}
+                  className='border p-2 rounded flex justify-center w-full'
+                >
+                  <Upload size={19} />
+                </button>
+              </div>
+              <div>
+                <label className='block mb-1 font-semibold'>Price</label>
+                <input
+                  type='number'
+                  name='price'
+                  value={newNewArrival.price}
+                  onChange={handleChange}
+                  className='border p-2 rounded w-full'
+                />
+              </div>
+              <div>
+                <label className='block mb-1 font-semibold'>
+                  Discount Price
+                </label>
+                <input
+                  type='number'
+                  name='mrp'
+                  value={newNewArrival.mrp}
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                 />
@@ -221,11 +260,12 @@ const Page = () => {
         <table className='min-w-full border-collapse border border-gray-300'>
           <thead className='bg-blue-800 text-white'>
             <tr>
+              <th className='border px-4 py-2 text-left'>Title</th>
               <th className='border px-4 py-2 text-left'>Image</th>
+              <th className='border px-4 py-2 text-left'>Description</th>
+              <th className='border px-4 py-2 text-left'>Price</th>
+              <th className='border px-4 py-2 text-left'>Discount Price</th>
               <th className='border px-4 py-2 text-left'>Hyper Link</th>
-              <th className='border px-4 py-2 text-left'>
-                Category Hyper Link
-              </th>
               <th className='border px-4 py-2 text-center'>Action</th>
             </tr>
           </thead>
@@ -234,6 +274,7 @@ const Page = () => {
               newArrivals.length > 0 &&
               newArrivals.map((item, index) => (
                 <tr key={index} className='border-b'>
+                  <td className='border px-4 py-2'>{item.title}</td>
                   <td className='border px-4 py-2'>
                     <img
                       src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
@@ -241,24 +282,17 @@ const Page = () => {
                       className='w-9 h-16 object-cover rounded'
                     />
                   </td>
+                  <td className='border px-4 py-2'>{item.description}</td>
+                  <td className='border px-4 py-2'>{item.price}</td>
+                  <td className='border px-4 py-2'>{item.mrp}</td>
                   <td className='border px-4 py-2'>
                     <a
-                      href={item.hyperLink}
                       target='_blank'
                       rel='noopener noreferrer'
+                      href={item.hyperLink}
                       className='text-blue-500 underline'
                     >
                       {item.hyperLink}
-                    </a>
-                  </td>
-                  <td className='border px-4 py-2'>
-                    <a
-                      href={item.hyperLink}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-blue-500 underline'
-                    >
-                      {item.categoryHyperLink}
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>

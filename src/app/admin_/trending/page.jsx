@@ -12,6 +12,7 @@ import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import EditModal from './EditModal'
 import ImageCroper from '@/app/Components/ImageCroper'
 import Image from 'next/image'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const Page = () => {
   const [trendingProducts, setTrendingProducts] = useState([])
@@ -67,14 +68,10 @@ const Page = () => {
       enqueueSnackbar('Add price', { variant: 'error' })
       return
     }
-    if (newTrendingProduct.avatarUrl === '') {
-      enqueueSnackbar('Add category hyper a link', { variant: 'error' })
-      return
-    }
     try {
       setSaving(true)
       const videoUrl = await uploadImageToCDN(video, fileName)
-      const imageUrl = await uploadImageToCDN(image, image.fileName)
+      const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
 
       if (videoUrl && imageUrl) {
         const response = await axios.post('/api/customs/trending/add', {
@@ -296,11 +293,9 @@ const Page = () => {
             <tr>
               <th className='border px-4 py-2 text-left'>Title</th>
               <th className='border px-4 py-2 text-left'>Video</th>
+              <th className='border px-4 py-2 text-left'>Avtar</th>
               <th className='border px-4 py-2 text-left'>Price</th>
               <th className='border px-4 py-2 text-left'>Hyper Link</th>
-              <th className='border px-4 py-2 text-left'>
-                Category Hyper Link
-              </th>
               <th className='border px-4 py-2 text-center'>Action</th>
             </tr>
           </thead>
@@ -316,6 +311,14 @@ const Page = () => {
                       className='w-52'
                     ></video>
                   </td>
+                  <td className='border px-4 py-2'>
+                    <Image
+                      src={cdnPath + item?.avatarUrl}
+                      width={50}
+                      height={50}
+                      alt='Image'
+                    />
+                  </td>
                   <td className='border px-4 py-2'>{item.price}</td>
                   <td className='border px-4 py-2'>
                     <a
@@ -325,16 +328,6 @@ const Page = () => {
                       className='text-blue-500 underline'
                     >
                       {item.hyperLink}
-                    </a>
-                  </td>
-                  <td className='border px-4 py-2'>
-                    <a
-                      href={item.avatarUrl}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-blue-500 underline'
-                    >
-                      {item.avatarUrl}
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>

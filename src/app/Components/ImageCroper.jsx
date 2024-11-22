@@ -4,7 +4,14 @@ import ReactCrop, { centerCrop, makeAspectCrop } from 'react-image-crop'
 import { canvasPreview } from './canvasPreview'
 import { useDebounceEffect } from './useDebounceEffect'
 import 'react-image-crop/dist/ReactCrop.css'
-import { Modal, ModalBody, ModalCloseButton } from './CustomModal'
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalFooter,
+  ModalHeader,
+} from './CustomModal'
+import { CloudUpload, RefreshCw } from 'lucide-react'
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
@@ -27,6 +34,7 @@ export default function ImageCroper({
   onClose,
   onCropComplete,
   aspectRatio,
+  altText,
 }) {
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef(null)
@@ -37,6 +45,9 @@ export default function ImageCroper({
   const rotate = 0
   const aspect = aspectRatio ? aspectRatio : 4 / 5
   const [fileName, setFileName] = useState(null)
+  const [imageAltText, setImageAltText] = useState(altText || '')
+
+  const fileInputRef = useRef(null)
 
   function onSelectFile(e) {
     if (e.target.files && e.target.files.length > 0) {
@@ -92,7 +103,8 @@ export default function ImageCroper({
     })
 
     const croppedImageUrl = URL.createObjectURL(blob)
-    onCropComplete(blob, croppedImageUrl, fileName)
+    console.log(croppedImageUrl)
+    onCropComplete(blob, croppedImageUrl, fileName, imageAltText)
     onClose()
   }
 
@@ -118,62 +130,103 @@ export default function ImageCroper({
     [completedCrop, scale, rotate]
   )
 
+  const handleButtonClick = () => {
+    fileInputRef.current.click()
+  }
+
   return (
     <Modal isOpen={isOpen} size={'2xl'}>
       <ModalCloseButton onClick={onClose} />
+      <ModalHeader>
+        Upload File
+        <div className='Crop-Controls text-sm flex gap-2'>
+          <input
+            ref={fileInputRef}
+            className='px-2 py-[4px] hidden border-blue-800 border border-dotted'
+            type='file'
+            accept='image/*'
+            onChange={onSelectFile}
+          />
+        </div>
+      </ModalHeader>
       <ModalBody>
-        <div className='App'>
-          <div className='Crop-Controls'>
-            <input
-              className='p-2 border-[2px] mb-5 border-dotted'
-              type='file'
-              accept='image/*'
-              onChange={onSelectFile}
-            />
-            {fileName && (
-              <button
-                onClick={onDownloadCropClick}
-                className='rounded-sm p-2 px-4 bg-blue-600 text-white ml-4'
+        {!fileName ? (
+          <div>
+            <div
+              onClick={handleButtonClick}
+              className='flex cursor-pointer items-center flex-col justify-center h-[200px] border-2 border-dashed rounded-xl border-neutral-400 w-full'
+            >
+              <CloudUpload size={80} className='text-blue-800 animate-bounce' />
+              <p className='text-neutral-400'>No file choosen, yet!</p>
+            </div>
+          </div>
+        ) : (
+          <div className='App h-[400px] overflow-scroll'>
+            {!!imgSrc && (
+              <ReactCrop
+                crop={crop}
+                onChange={(_, percentCrop) => setCrop(percentCrop)}
+                onComplete={(c) => setCompletedCrop(c)}
+                aspect={aspect}
+                minHeight={100}
               >
-                Upload
-              </button>
+                <img
+                  ref={imgRef}
+                  alt='Crop me'
+                  src={imgSrc}
+                  style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+                  onLoad={onImageLoad}
+                />
+              </ReactCrop>
+            )}
+            {!!completedCrop && (
+              <>
+                <div>
+                  <canvas
+                    ref={previewCanvasRef}
+                    style={{
+                      border: '1px solid black',
+                      objectFit: 'contain',
+                      width: completedCrop.width,
+                      height: completedCrop.height,
+                    }}
+                  />
+                </div>
+                <div></div>
+              </>
             )}
           </div>
-          {!!imgSrc && (
-            <ReactCrop
-              crop={crop}
-              onChange={(_, percentCrop) => setCrop(percentCrop)}
-              onComplete={(c) => setCompletedCrop(c)}
-              aspect={aspect}
-              minHeight={100}
-            >
-              <img
-                ref={imgRef}
-                alt='Crop me'
-                src={imgSrc}
-                style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-                onLoad={onImageLoad}
-              />
-            </ReactCrop>
-          )}
-          {!!completedCrop && (
-            <>
-              <div>
-                <canvas
-                  ref={previewCanvasRef}
-                  style={{
-                    border: '1px solid black',
-                    objectFit: 'contain',
-                    width: completedCrop.width,
-                    height: completedCrop.height,
-                  }}
-                />
-              </div>
-              <div></div>
-            </>
-          )}
-        </div>
+        )}
       </ModalBody>
+      <ModalFooter>
+        {fileName && (
+          <div className='flex items-center'>
+            <RefreshCw
+              onClick={handleButtonClick}
+              strokeWidth={3}
+              size={25}
+              className='text-blue-800 cursor-pointer'
+            />
+          </div>
+        )}
+        {fileName && (
+          <input
+            className='px-2 py-[4px] border border-neutral-400'
+            type='text'
+            placeholder='Image alt text'
+            value={imageAltText}
+            onChange={(e) => setImageAltText(e.target.value)}
+          />
+        )}
+        {fileName && (
+          <button
+            onClick={onDownloadCropClick}
+            className='rounded-sm p-2 px-4 bg-blue-600 text-white'
+          >
+            Upload
+          </button>
+        )}
+      </ModalFooter>
     </Modal>
   )
 }

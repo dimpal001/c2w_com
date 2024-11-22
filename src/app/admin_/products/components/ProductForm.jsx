@@ -4,13 +4,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../components/Button'
 import axios from 'axios'
-import { Upload, X } from 'lucide-react'
+import { FilePen, Upload, X } from 'lucide-react'
 import ImageCroper from '@/app/Components/ImageCroper'
 import { enqueueSnackbar } from 'notistack'
 import { uploadImageToCDN } from '../../../../../utils/uploadImageToCDN'
 import AddDiscount from '../create-product/AddDiscount'
 import SimilarProruct from './SimilarProruct'
 import { useRouter } from 'next/navigation'
+import EditInventoryModal from './EditInventoryModal'
 
 const ProductForm = ({ formData, setFormData, type }) => {
   const [inventory, setInventory] = useState({
@@ -21,12 +22,15 @@ const ProductForm = ({ formData, setFormData, type }) => {
     discount: 100,
     minQuantity: 1,
   })
+  const [selectedInventory, setSelectedInventory] = useState(null)
+  const [editInventoryModalOpen, setEditInventoryModalOpen] = useState(false)
   const router = useRouter()
   const [images, setImages] = useState([])
   const [currentImage, setCurrentImage] = useState({
     blob: null,
     fileName: '',
     imageUrl: null,
+    altText: '',
     color: '',
   })
   const [sizes, setSizes] = useState([])
@@ -82,19 +86,18 @@ const ProductForm = ({ formData, setFormData, type }) => {
 
     const normalizeNumber = (val) => (isNaN(val) ? val : String(Number(val)))
 
-    // Logic to calculate price from MRP and discount
     const calculatePriceFromDiscount = (mrp, discount) => {
       if (mrp && discount) {
         return (mrp * discount) / 100
       }
-      return mrp // Default return if no discount or MRP is provided
+      return mrp
     }
 
     const calculateDiscountFromPrice = (mrp, price) => {
       if (mrp && price) {
         return ((mrp - price) / mrp) * 100
       }
-      return 0 // Default return if no price or MRP is provided
+      return 0
     }
 
     if (
@@ -198,7 +201,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
     }))
   }
 
-  const handleFileChange = (blob, croppedImageUrl, name) => {
+  const handleFileChange = (blob, croppedImageUrl, name, imageAltText) => {
     if (croppedImageUrl) {
       setImages((prev) => [
         ...prev,
@@ -207,10 +210,18 @@ const ProductForm = ({ formData, setFormData, type }) => {
           imageUrl: croppedImageUrl,
           color: currentImage.color,
           fileName: name,
+          altText: imageAltText,
         },
       ])
+      console.log(imageAltText)
       console.log(currentImage)
-      setCurrentImage({ blob: null, imageUrl: '', color: '', fileName: '' })
+      setCurrentImage({
+        blob: null,
+        imageUrl: '',
+        color: '',
+        fileName: '',
+        altText: '',
+      })
     }
   }
 
@@ -226,7 +237,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
           const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
-          return { color: image.color, imageUrl }
+          return { color: image.color, imageUrl, altText: image.altText }
         })
       )
 
@@ -251,7 +262,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
           const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
-          return { color: image.color, imageUrl }
+          return { color: image.color, imageUrl, altText: image.altText }
         })
       )
 
@@ -413,7 +424,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
                 <label>
                   Subcategories for{' '}
                   <span className='capitalize'>
-                    {allCategories.find((c) => c.id === categoryId.id).name}
+                    {allCategories.find((c) => c.id === categoryId.id)?.name}
                   </span>
                   :
                 </label>
@@ -487,12 +498,20 @@ const ProductForm = ({ formData, setFormData, type }) => {
                     {item.minQuantity}
                   </td>
                   <td className={`p-2 border border-gray-300 text-center`}>
-                    <p
-                      onClick={() => removeInventory(index)}
-                      className='text-red-500 cursor-pointer font-semibold'
-                    >
-                      X
-                    </p>
+                    <div className='flex justify-center items-center gap-3'>
+                      <X
+                        onClick={() => removeInventory(index)}
+                        className='text-red-600 cursor-pointer'
+                      />
+                      {/* <FilePen
+                        onClick={() => {
+                          setSelectedInventory(item)
+                          setEditInventoryModalOpen(true)
+                        }}
+                        size={20}
+                        className='text-blue-800 cursor-pointer'
+                      /> */}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -596,6 +615,11 @@ const ProductForm = ({ formData, setFormData, type }) => {
                           }}
                         ></div>
                       )}
+                      {img.altText && (
+                        <p className='text-xs text-center py-1'>
+                          <span className='font-bold'>Alt:</span> {img.altText}
+                        </p>
+                      )}
                       <div className='absolute top-5 right-5'>
                         {/* Remove Button */}
                         <Button
@@ -632,6 +656,11 @@ const ProductForm = ({ formData, setFormData, type }) => {
                             )?.code,
                           }}
                         ></div>
+                      )}
+                      {img.altText && (
+                        <p className='text-xs text-center py-1'>
+                          <span className='font-bold'>Alt:</span> {img.altText}
+                        </p>
                       )}
                       <div className='absolute top-5 right-5'>
                         {/* Remove Button */}
@@ -748,6 +777,19 @@ const ProductForm = ({ formData, setFormData, type }) => {
 
       <Devider />
 
+      <Section>
+        <TextArea
+          label='Enter Long Tail Keyword'
+          placeholder='Enter here ...'
+          rows={3}
+          name='longTailKeyword'
+          value={formData.longTailKeyword}
+          onChange={handleChange}
+        />
+      </Section>
+
+      <Devider />
+
       <div>
         <SimilarProruct
           formData={formData}
@@ -808,6 +850,17 @@ const ProductForm = ({ formData, setFormData, type }) => {
           onCropComplete={handleFileChange}
         />
       )}
+
+      {editInventoryModalOpen && (
+        <EditInventoryModal
+          isOpen={true}
+          onClose={() => setEditInventoryModalOpen(false)}
+          item={selectedInventory}
+          formData={formData}
+          setFormData={setFormData}
+          sizes={sizes}
+        />
+      )}
     </div>
   )
 }
@@ -848,14 +901,14 @@ const TextArea = ({
   const adjustHeight = () => {
     const textArea = textAreaRef.current
     if (textArea) {
-      textArea.style.height = 'auto' // Reset height to calculate new height properly
-      textArea.style.height = `${textArea.scrollHeight}px` // Set height based on content
+      textArea.style.height = 'auto'
+      textArea.style.height = `${textArea.scrollHeight}px`
     }
   }
 
   useEffect(() => {
-    adjustHeight() // Adjust height on initial render
-  }, [value]) // Also re-adjust if the value changes
+    adjustHeight()
+  }, [value])
 
   return (
     <div className='flex w-full flex-col gap-1'>
@@ -864,8 +917,8 @@ const TextArea = ({
         ref={textAreaRef}
         onKeyDown={onKeyDown}
         onChange={(e) => {
-          onChange(e) // Call the provided onChange handler
-          adjustHeight() // Adjust height on user input
+          onChange(e)
+          adjustHeight()
         }}
         name={name}
         value={value}
@@ -873,7 +926,7 @@ const TextArea = ({
         rows={rows}
         id={label}
         className='px-2 py-[6px] w-full border focus:outline-none focus:border-blue-800 border-slate-500 rounded-sm resize-none'
-        style={{ overflow: 'hidden' }} // Prevent scrollbars
+        style={{ overflow: 'hidden' }}
       ></textarea>
     </div>
   )

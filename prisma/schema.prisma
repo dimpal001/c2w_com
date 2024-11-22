@@ -109,6 +109,7 @@ model Product {
   isReturnable         Boolean           @default(false)
   isActive             Boolean           @default(false)
   returnPolicy         String?           @db.Text
+  longTailKeyword      String?
   description          String?           @db.Text
   summary              String?           @db.Text
   createdAt            DateTime          @default(now())
@@ -142,6 +143,7 @@ model ProductImage {
   productId String
   imageUrl  String
   colorId   String?
+  altText   String?
 
   color   ProductColor? @relation(fields: [colorId], references: [id], onDelete: SetNull)
   product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
@@ -209,9 +211,10 @@ model Discount {
   code        String       @unique
   description String?
   isSpecial   Boolean      @default(false)
-  userEmail   String?
+  userEmails  Json         @default("[]")
   amount      Float
   minPrice    Float?
+  orders      Int?
   maxPrice    Float?
   type        DiscountType
   createdAt   DateTime     @default(now())
@@ -439,11 +442,13 @@ model Trending {
 }
 
 model NewArrivals {
-  id                String      @id @default(uuid())
-  imageUrl          String?
-  hyperLink         String?
-  categoryHyperLink String?
-  HyperLink         HyperLink[]
+  id          String  @id @default(uuid())
+  title       String?
+  imageUrl    String?
+  description String? @db.Text
+  hyperLink   String?
+  price       Float?
+  mrp         Float?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -464,10 +469,14 @@ model HyperLink {
   imageUrl         String
   hyperLink        String
   newArrivalId     String
-  newAriivals      NewArrivals     @relation(fields: [newArrivalId], references: [id])
   ShopByOccasion   ShopByOccasion? @relation(fields: [shopByOccasionId], references: [id])
   shopByOccasionId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Announcements {
+  id   String  @id @default(uuid())
+  text String?
 }
