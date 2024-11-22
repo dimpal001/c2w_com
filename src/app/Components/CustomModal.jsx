@@ -73,7 +73,7 @@ export const ModalContent = ({ children }) => {
 // T CSS
 export const ModalHeader = ({ children }) => {
   return (
-    <div className='text-2xl border-b pb-3 font-normal text-first text-primary mb-4'>
+    <div className='text-2xl text-blue-800 border-b pb-3 font-normal text-first text-primary mb-4'>
       {children}
     </div>
   )
