@@ -8,13 +8,13 @@ import {
   ModalHeader,
 } from '@/app/Components/CustomModal'
 import React, { useState } from 'react'
-import Button from '../components/Button'
+import Button from '../../../components/Button'
 import Image from 'next/image'
 import { X } from 'lucide-react'
 import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
-import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
-import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
+import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
+import { uploadImageToCDN } from '../../../../../../utils/uploadImageToCDN'
 
 const ButtonsModal = ({ isOpen, onClose, item, refresh, editMode }) => {
   const [newHeroSlide, setNewHeroSlide] = useState({
@@ -103,7 +103,7 @@ const ButtonsModal = ({ isOpen, onClose, item, refresh, editMode }) => {
       <ModalContent>
         <ModalHeader>
           {' '}
-          {editMode ? 'Edit Selected Product' : 'Add Product Week'}
+          {editMode ? 'Edit Button' : 'Add Button'}
           <ModalCloseButton onClick={onClose} />
         </ModalHeader>
         <ModalBody>
@@ -121,7 +121,7 @@ const ButtonsModal = ({ isOpen, onClose, item, refresh, editMode }) => {
                   />
                 </div>
                 <div className='mb-2'>
-                  <label className='block mb-1 font-semibold'>name</label>
+                  <label className='block mb-1 font-semibold'>Name</label>
                   <input
                     type='text'
                     name='name'

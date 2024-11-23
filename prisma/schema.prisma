@@ -502,3 +502,23 @@ model Button {
   iconUrl String
   link    String?
 }
+
+model SearchHint {
+  id   String @id @default(uuid())
+  text String
+}
+
+model TrendingLink {
+  id   String @id @default(uuid())
+  link String
+}
+
+model ArrivalsLink {
+  id   String @id @default(uuid())
+  link String
+}
+
+model CollectionLink {
+  id   String @id @default(uuid())
+  link String
+}
