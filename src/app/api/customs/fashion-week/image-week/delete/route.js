@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function POST(request) {
+export async function DELETE(request) {
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -13,30 +13,24 @@ export async function POST(request) {
       )
     }
 
-    const { imageUrl, hyperLink, categoryHyperLink, price, mrp } =
-      await request.json()
+    const { id } = await request.json()
 
-    const exclusiveCollections = await prisma.exclusiveCollection.create({
-      data: {
-        imageUrl,
-        hyperLink,
-        categoryHyperLink,
-        price,
-        mrp,
-      },
+    if (!id) {
+      return NextResponse.json({ message: 'ID is required.' }, { status: 400 })
+    }
+
+    const showcase = await prisma.showcases.delete({
+      where: { id },
     })
 
     return NextResponse.json(
-      {
-        message: 'New exclusive collection product has been added.',
-        exclusiveCollections,
-      },
+      { message: 'Showcase deleted successfully.', showcase },
       { status: 200 }
     )
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again' },
+      { message: 'An error occurred while deleting the showcase.' },
       { status: 500 }
     )
   }

@@ -4,9 +4,7 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function PATCH(request) {
-  const { id, imageUrl, categoryHyperLink, hyperLink, price, mrp } =
-    await request.json()
+export async function POST(request) {
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -15,26 +13,18 @@ export async function PATCH(request) {
       )
     }
 
-    if (!id) {
-      return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
-    }
+    const { title, imageUrl, hyperLink } = await request.json()
 
-    const exclusiveCollection = await prisma.exclusiveCollection.update({
-      where: { id },
+    const productWeek = await prisma.productWeek.create({
       data: {
+        title,
         imageUrl,
-        categoryHyperLink,
         hyperLink,
-        price,
-        mrp,
       },
     })
 
     return NextResponse.json(
-      {
-        message: 'Exclusive collection has been updated.',
-        exclusiveCollection,
-      },
+      { message: 'Product Week has been added.', productWeek },
       { status: 200 }
     )
   } catch (error) {

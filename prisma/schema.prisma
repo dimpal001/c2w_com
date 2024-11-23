@@ -424,6 +424,8 @@ model ExclusiveCollection {
   imageUrl          String?
   hyperLink         String?
   categoryHyperLink String?
+  mrp               Float?
+  price             Float?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -479,4 +481,24 @@ model HyperLink {
 model Announcements {
   id   String  @id @default(uuid())
   text String?
+}
+
+model ProductWeek {
+  id        String  @id @default(uuid())
+  title     String?
+  hyperLink String?
+  imageUrl  String?
+}
+
+model ImageWeek {
+  id        String  @id @default(uuid())
+  hyperLink String?
+  imageUrl  String?
+}
+
+model Button {
+  id      String  @id @default(uuid())
+  name    String
+  iconUrl String
+  link    String?
 }

@@ -12,24 +12,21 @@ import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
 import React, { useState } from 'react'
 
-const AddEditColors = ({ isOpen, onClose, item, refresh, isEdit }) => {
-  const [name, setName] = useState(item?.name || '')
-  const [colorCode, setColorCode] = useState(item?.code || '#000000')
+const AddEditAnnouncement = ({ isOpen, onClose, item, refresh, isEdit }) => {
+  const [text, setText] = useState(item?.text || '')
   const [submitting, setSubmitting] = useState(false)
 
   const handleSubmit = async () => {
     try {
       setSubmitting(true)
       if (isEdit) {
-        await axios.patch(`/api/admin/menu/colors`, {
+        await axios.patch(`/api/admin/menu/announcements`, {
           id: item.id,
-          name: name,
-          code: colorCode,
+          text: text,
         })
       } else {
-        await axios.post(`/api/admin/menu/colors`, {
-          name: name,
-          code: colorCode,
+        await axios.post(`/api/admin/menu/announcements`, {
+          text: text,
         })
       }
 
@@ -45,24 +42,17 @@ const AddEditColors = ({ isOpen, onClose, item, refresh, isEdit }) => {
     <Modal size={'md'} isOpen={isOpen}>
       <ModalContent>
         <ModalHeader>
-          {isEdit ? 'Edit' : 'Add'} Size <ModalCloseButton onClick={onClose} />
+          {isEdit ? 'Edit' : 'Add'} Announcement{' '}
+          <ModalCloseButton onClick={onClose} />
         </ModalHeader>
         <ModalBody>
-          <div className='flex gap-2 items-center'>
-            <input
-              type='text'
-              placeholder={`Example S, M, XL`}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className='border border-gray-300 p-2 rounded-sm w-full'
-            />
-            <input
-              type='color'
-              value={colorCode}
-              onChange={(e) => setColorCode(e.target.value)}
-              className='border border-gray-300 h-9 rounded-sm'
-            />
-          </div>
+          <input
+            type='text'
+            placeholder={`50% off on first order`}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className='border border-gray-300 p-2 rounded-sm w-full mb-2'
+          />
         </ModalBody>
         <ModalFooter>
           <Button variant='secondary' onClick={onClose} label={'Close'} />
@@ -77,4 +67,4 @@ const AddEditColors = ({ isOpen, onClose, item, refresh, isEdit }) => {
   )
 }
 
-export default AddEditColors
+export default AddEditAnnouncement

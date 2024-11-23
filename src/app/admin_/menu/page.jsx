@@ -2,9 +2,10 @@
 
 import React, { useEffect } from 'react'
 import Layout from '../components/Layout'
-import SizeMenu from './components/sizes/SizeMenu'
 import CategoryMenu from './components/categories/CategoryMenu'
 import ColorsMenu from './components/colors/ColorsMenu'
+import SizeMenu from './components/sizes/SizeMenu'
+import AnnouncementBar from './components/announcements/Announcement'
 
 const Page = () => {
   useEffect(() => {
@@ -19,6 +20,7 @@ const Page = () => {
           <SizeMenu />
           <CategoryMenu />
           <ColorsMenu />
+          <AnnouncementBar />
         </div>
       </div>
     </Layout>

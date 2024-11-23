@@ -4,10 +4,12 @@ import {
   BadgePlus,
   CircleFadingPlus,
   CirclePercent,
+  Component,
   Gift,
   Home,
   ImagePlay,
   PartyPopper,
+  Shirt,
   ShoppingBasket,
   SquareMenu,
   Star,
@@ -61,6 +63,16 @@ const Sidebar = ({ isExpanded }) => {
       label: 'Shop By Season',
       icon: SunSnow,
       path: '/admin_/shop-by-season',
+    },
+    {
+      label: 'Fashion Week',
+      icon: Shirt,
+      path: '/admin_/fashion-week',
+    },
+    {
+      label: 'Design Configuration',
+      icon: Component,
+      path: '/admin_/designs',
     },
   ]
 

@@ -5,8 +5,7 @@ import { NextResponse } from 'next/server'
 const prisma = new PrismaClient()
 
 export async function PATCH(request) {
-  const { id, imageUrl, categoryHyperLink, hyperLink, price, mrp } =
-    await request.json()
+  const { id, title, imageUrl, hyperLink } = await request.json()
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -19,22 +18,17 @@ export async function PATCH(request) {
       return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
     }
 
-    const exclusiveCollection = await prisma.exclusiveCollection.update({
+    const showcase = await prisma.showcases.update({
       where: { id },
       data: {
-        imageUrl,
-        categoryHyperLink,
+        title,
         hyperLink,
-        price,
-        mrp,
+        imageUrl,
       },
     })
 
     return NextResponse.json(
-      {
-        message: 'Exclusive collection has been updated.',
-        exclusiveCollection,
-      },
+      { message: 'Showcase has been updated.', showcase },
       { status: 200 }
     )
   } catch (error) {

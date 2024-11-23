@@ -4,9 +4,7 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-export async function PATCH(request) {
-  const { id, imageUrl, categoryHyperLink, hyperLink, price, mrp } =
-    await request.json()
+export async function DELETE(request) {
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
@@ -15,26 +13,18 @@ export async function PATCH(request) {
       )
     }
 
+    const { id } = await request.json()
+
     if (!id) {
-      return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
+      return NextResponse.json({ message: 'ID is required.' }, { status: 400 })
     }
 
-    const exclusiveCollection = await prisma.exclusiveCollection.update({
+    const productWeek = await prisma.productWeek.delete({
       where: { id },
-      data: {
-        imageUrl,
-        categoryHyperLink,
-        hyperLink,
-        price,
-        mrp,
-      },
     })
 
     return NextResponse.json(
-      {
-        message: 'Exclusive collection has been updated.',
-        exclusiveCollection,
-      },
+      { message: 'Product Week deleted successfully.', productWeek },
       { status: 200 }
     )
   } catch (error) {

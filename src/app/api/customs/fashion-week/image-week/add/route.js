@@ -13,31 +13,22 @@ export async function POST(request) {
       )
     }
 
-    const { imageUrl, hyperLink, categoryHyperLink, price, mrp } =
-      await request.json()
+    const { title, imageUrl, hyperLink } = await request.json()
 
-    const exclusiveCollections = await prisma.exclusiveCollection.create({
+    const showcase = await prisma.showcases.create({
       data: {
+        title,
         imageUrl,
         hyperLink,
-        categoryHyperLink,
-        price,
-        mrp,
       },
     })
 
     return NextResponse.json(
-      {
-        message: 'New exclusive collection product has been added.',
-        exclusiveCollections,
-      },
+      { message: 'Showcase has been added.', showcase },
       { status: 200 }
     )
   } catch (error) {
     console.log(error)
-    return NextResponse.json(
-      { message: 'Something is wrong, try again' },
-      { status: 500 }
-    )
+    return NextResponse.json({ message: error }, { status: 500 })
   }
 }

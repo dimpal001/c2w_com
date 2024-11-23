@@ -68,11 +68,10 @@ const EditModal = ({ isOpen, onClose, selectedHeroSlide, fetchHeroSlides }) => {
       if (imageUrl) {
         const response = await axios.patch('/api/customs/hero-sliders/update', {
           id: selectedHeroSlide.id,
-          title: newHeroSlide.title,
           imageUrl: imageUrl,
           hyperLink: newHeroSlide.hyperLink,
         })
-        setNewHeroSlide({ title: '', imageUrl: '', hyperLink: '' })
+        setNewHeroSlide({ imageUrl: '', hyperLink: '' })
         console.log(response)
         fetchHeroSlides()
         onClose()

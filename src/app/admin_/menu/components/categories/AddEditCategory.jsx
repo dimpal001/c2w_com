@@ -56,7 +56,7 @@ const AddEditCategory = ({ isOpen, onClose, item, refresh, isEdit }) => {
           />
         </ModalBody>
         <ModalFooter>
-          <Button variant='secondary' label={'Close'} />
+          <Button variant='secondary' onClick={onClose} label={'Close'} />
           <Button
             loading={submitting}
             label={isEdit ? 'Edit' : 'Add'}

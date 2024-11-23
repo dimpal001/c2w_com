@@ -18,31 +18,24 @@ import axios from 'axios'
 import { cdnPath } from '@/app/Components/cdnPath'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 
-const EditModal = ({
-  isOpen,
-  onClose,
-  selectedECProduct,
-  fetchExclusiveCollections,
-}) => {
-  const [newECProduct, setNewECProduct] = useState({
-    imageUrl: selectedECProduct.imageUrl || '',
-    hyperLink: selectedECProduct.hyperLink || '',
-    categoryHyperLink: selectedECProduct.categoryHyperLink || '',
-    mrp: selectedECProduct.mrp || '',
-    price: selectedECProduct.price || '',
+const AddEditProductWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
+  const [newHeroSlide, setNewHeroSlide] = useState({
+    title: item?.title || '',
+    imageUrl: item?.imageUrl || '',
+    hyperLink: item?.hyperLink || '',
   })
   const [showImageCroper, setShowImageCroper] = useState(false)
   const [image, setImage] = useState({
     blob: null,
     fileName: '',
-    imageUrl: cdnPath + selectedECProduct.imageUrl || null,
+    imageUrl: (item && cdnPath + item?.imageUrl) || null,
   })
 
   const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setNewECProduct((prev) => ({ ...prev, [name]: value }))
+    setNewHeroSlide((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
@@ -55,7 +48,11 @@ const EditModal = ({
   }
 
   const updateShowcase = async () => {
-    if (newECProduct.hyperLink === '') {
+    if (newHeroSlide.title === '') {
+      enqueueSnackbar('Enter Title', { variant: 'error' })
+      return
+    }
+    if (newHeroSlide.hyperLink === '') {
       enqueueSnackbar('Add hyper a link', { variant: 'error' })
       return
     }
@@ -63,27 +60,38 @@ const EditModal = ({
       setSubmitting(true)
       let imageUrl
       if (image.fileName !== '') {
-        await deleteImageFromCDN(selectedECProduct.imageUrl)
+        await deleteImageFromCDN(item.imageUrl)
         imageUrl = await uploadImageToCDN(image.blob, image.fileName)
       } else {
-        imageUrl = selectedECProduct.imageUrl
+        imageUrl = item.imageUrl
       }
 
       if (imageUrl) {
-        const response = await axios.patch(
-          '/api/customs/exclusive-collections/update',
-          {
-            id: selectedECProduct.id,
-            imageUrl: imageUrl,
-            hyperLink: newECProduct.hyperLink,
-            categoryHyperLink: newECProduct.categoryHyperLink,
-            mrp: parseFloat(newECProduct.mrp),
-            price: parseFloat(newECProduct.price),
-          }
-        )
-        setNewECProduct({ title: '', imageUrl: '', hyperLink: '' })
-        console.log(response)
-        fetchExclusiveCollections()
+        let response
+        if (editMode) {
+          response = await axios.patch(
+            '/api/customs/fashion-week/product-week/update',
+            {
+              id: item?.id,
+              title: newHeroSlide.title,
+              imageUrl: imageUrl,
+              hyperLink: newHeroSlide.hyperLink,
+            }
+          )
+        } else {
+          response = await axios.post(
+            '/api/customs/fashion-week/product-week/add',
+            {
+              title: newHeroSlide.title,
+              imageUrl: imageUrl,
+              hyperLink: newHeroSlide.hyperLink,
+            }
+          )
+        }
+
+        setNewHeroSlide({ title: '', imageUrl: '', hyperLink: '' })
+        enqueueSnackbar(response.data.message, { variant: 'success' })
+        refresh()
         onClose()
       }
     } catch (error) {
@@ -97,7 +105,7 @@ const EditModal = ({
       <ModalContent>
         <ModalHeader>
           {' '}
-          Edit Selected Product
+          {editMode ? 'Edit Selected Product' : 'Add Product Week'}
           <ModalCloseButton onClick={onClose} />
         </ModalHeader>
         <ModalBody>
@@ -105,9 +113,9 @@ const EditModal = ({
             className={`transition-height ease-in-out overflow-hidden duration-500`}
           >
             <div className='border p-4 mb-4 bg-white rounded'>
-              <div className='grid grid-cols-3 gap-3'>
+              <div className='grid grid-cols-3 gap-5'>
                 <div className='mb-2'>
-                  <label className='block font-semibold'>Image</label>
+                  <label className='block mb-1 font-semibold'>Image</label>
                   <button
                     onClick={() => setShowImageCroper(true)}
                     className='border p-2 rounded flex justify-center w-full'
@@ -116,43 +124,21 @@ const EditModal = ({
                   </button>
                 </div>
                 <div className='mb-2'>
-                  <label className='block font-semibold'>Hyper Link</label>
+                  <label className='block mb-1 font-semibold'>Title</label>
+                  <input
+                    type='text'
+                    name='title'
+                    value={newHeroSlide.title}
+                    onChange={handleChange}
+                    className='border p-2 rounded w-full'
+                  />
+                </div>
+                <div className='mb-2'>
+                  <label className='block mb-1 font-semibold'>Hyper Link</label>
                   <input
                     type='text'
                     name='hyperLink'
-                    value={newECProduct.hyperLink}
-                    onChange={handleChange}
-                    className='border p-2 rounded w-full'
-                  />
-                </div>
-                <div className='mb-2'>
-                  <label className='block font-semibold'>
-                    Category Hyper Link
-                  </label>
-                  <input
-                    type='text'
-                    name='categoryHyperLink'
-                    value={newECProduct.categoryHyperLink}
-                    onChange={handleChange}
-                    className='border p-2 rounded w-full'
-                  />
-                </div>
-                <div className='mb-2'>
-                  <label className='block font-semibold'>Product Price</label>
-                  <input
-                    type='text'
-                    name='mrp'
-                    value={newECProduct.mrp}
-                    onChange={handleChange}
-                    className='border p-2 rounded w-full'
-                  />
-                </div>
-                <div className='mb-2'>
-                  <label className='block font-semibold'>Discount Price</label>
-                  <input
-                    type='text'
-                    name='price'
-                    value={newECProduct.price}
+                    value={newHeroSlide.hyperLink}
                     onChange={handleChange}
                     className='border p-2 rounded w-full'
                   />
@@ -161,8 +147,8 @@ const EditModal = ({
               {image.imageUrl && (
                 <div className='relative'>
                   <Image
-                    width={110}
-                    height={0}
+                    width={180}
+                    height={170}
                     src={image.imageUrl}
                     alt='Image'
                     className='py-2 pb-4 border'
@@ -184,7 +170,7 @@ const EditModal = ({
                 <ImageCroper
                   isOpen={true}
                   onClose={() => setShowImageCroper(false)}
-                  aspectRatio={9 / 16}
+                  aspectRatio={10 / 10}
                   onCropComplete={handleFile}
                 />
               )}
@@ -196,7 +182,7 @@ const EditModal = ({
           <Button
             loading={submitting}
             loadingText={'Saving'}
-            label={'Update'}
+            label={'Update Slider'}
             onClick={updateShowcase}
           />
         </ModalFooter>
@@ -205,4 +191,4 @@ const EditModal = ({
   )
 }
 
-export default EditModal
+export default AddEditProductWeek
