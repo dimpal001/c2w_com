@@ -187,6 +187,10 @@ const page = () => {
             </h2>
             <div className='flex items-center gap-2'>
               <Button
+                onClick={() => router.push('/admin_/products/reviews')}
+                label={'Reviews'}
+              />
+              <Button
                 onClick={() => router.push('/admin_/products/create-product')}
                 label={'Add Product'}
               />

@@ -29,7 +29,7 @@ export async function POST(request) {
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again!' },
+      { message: 'Something went wrong, try again!' },
       { status: 500 }
     )
   } finally {
@@ -62,7 +62,7 @@ export async function DELETE(request) {
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again!' },
+      { message: 'Something went wrong, try again!' },
       { status: 500 }
     )
   } finally {

@@ -6,13 +6,14 @@ import {
   CirclePercent,
   Component,
   Gift,
+  Globe,
   Home,
   ImagePlay,
   PartyPopper,
+  ScrollText,
   Shirt,
   ShoppingBasket,
   SquareMenu,
-  Star,
   SunSnow,
   TrendingUp,
   Truck,
@@ -33,11 +34,11 @@ const Sidebar = ({ isExpanded }) => {
       icon: ShoppingBasket,
       path: '/admin_/products/product-list',
     },
-    {
-      label: 'Product Reviews',
-      icon: Star,
-      path: '/admin_/products/reviews',
-    },
+    // {
+    //   label: 'Product Reviews',
+    //   icon: Star,
+    //   path: '/admin_/products/reviews',
+    // },
     {
       label: 'Discounts',
       icon: CirclePercent,
@@ -74,17 +75,27 @@ const Sidebar = ({ isExpanded }) => {
       icon: Component,
       path: '/admin_/designs',
     },
+    {
+      label: 'Manage Blogs',
+      icon: ScrollText,
+      path: '/admin_/manage-blogs',
+    },
+    {
+      label: 'Social Links',
+      icon: Globe,
+      path: '/admin_/social-links',
+    },
   ]
 
   return (
     <div
       className={`${
         isExpanded ? 'w-[250px]' : 'w-[80px]'
-      } p-[20px] bg-blue-800 rounded-sm transition-all duration-300 overflow-hidden shadow-md`}
+      } p-[20px] bg-blue-800 rounded-sm transition-all overflow-scroll duration-300 shadow-md`}
     >
       <nav>
         {menuItems.map((item, index) => (
-          <div key={index}>
+          <div key={index} className='overflow-scroll'>
             <Link href={item.path || '#'} passHref>
               <div
                 className={`flex items-center px-[10px] py-[8px] cursor-pointer font-semibold rounded-[4px] ${

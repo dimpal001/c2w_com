@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
 
-// Add announcement
+// Add
 export async function POST(request) {
   try {
     if (!isAdmin(request)) {
@@ -14,22 +14,23 @@ export async function POST(request) {
       )
     }
 
-    const { text } = await request.json()
+    const { title, imageUrl, hyperLink } = await request.json()
 
-    // Add the new announcement to the database
-    const announcement = await prisma.announcements.create({
+    const productWeek = await prisma.productWeek.create({
       data: {
-        text,
+        title,
+        imageUrl,
+        hyperLink,
       },
     })
 
     return NextResponse.json(
-      announcement,
-      { message: 'Announcement added successfully' },
+      productWeek,
+      { message: 'Product Week added successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding announcement:', error)
+    console.error('Error adding productWeek:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -37,23 +38,23 @@ export async function POST(request) {
   }
 }
 
-// Get announcements
+// Get
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
 
   const id = searchParams.get('id')
   try {
     if (id) {
-      const announcement = await prisma.announcements.findUnique({
+      const productWeek = await prisma.productWeek.findUnique({
         where: { id },
       })
-      return NextResponse.json(announcement, { status: 200 })
+      return NextResponse.json(productWeek, { status: 200 })
     }
 
-    const announcements = await prisma.announcements.findMany()
-    return NextResponse.json(announcements, { status: 200 })
+    const productWeek = await prisma.productWeek.findMany()
+    return NextResponse.json(productWeek, { status: 200 })
   } catch (error) {
-    console.error('Error fetching announcements:', error)
+    console.error('Error fetching Product Week:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -71,25 +72,26 @@ export async function PATCH(request) {
       )
     }
 
-    const { id, text } = await request.json()
+    const { id, title, imageUrl, hyperLink } = await request.json()
 
-    // Update announcement
-    const size = await prisma.announcements.update({
+    const productWeek = await prisma.productWeek.update({
       where: {
         id,
       },
       data: {
-        text,
+        title,
+        imageUrl,
+        hyperLink,
       },
     })
 
     return NextResponse.json(
-      size,
-      { message: 'Announcement updated successfully' },
+      productWeek,
+      { message: 'Product Week updated successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding announcement:', error)
+    console.error('Error adding Product Week:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -97,7 +99,7 @@ export async function PATCH(request) {
   }
 }
 
-// Delete an announcement
+// Delete
 export async function DELETE(request) {
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
@@ -109,16 +111,16 @@ export async function DELETE(request) {
       )
     }
 
-    await prisma.announcements.delete({
+    await prisma.productWeek.delete({
       where: { id },
     })
 
     return NextResponse.json(
-      { message: 'Announcement deleted successfully' },
+      { message: 'Product week deleted successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error deleting Announcement:', error)
+    console.error('Error deleting Product week:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

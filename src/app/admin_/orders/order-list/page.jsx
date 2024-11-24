@@ -176,7 +176,7 @@ const page = () => {
                           <span
                             onClick={() =>
                               router.push(
-                                `/admin_/orders/single-order/${order.id}`
+                                `/admin_/orders/single-order/${order.orderId}`
                               )
                             }
                             className='hover:text-blue-800 hover:underline cursor-pointer'

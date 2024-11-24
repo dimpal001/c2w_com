@@ -18,9 +18,8 @@ import axios from 'axios'
 import { cdnPath } from '@/app/Components/cdnPath'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 
-const AddEditProductWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
+const AddEditImageWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
   const [newHeroSlide, setNewHeroSlide] = useState({
-    title: item?.title || '',
     imageUrl: item?.imageUrl || '',
     hyperLink: item?.hyperLink || '',
   })
@@ -73,29 +72,22 @@ const AddEditProductWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
       if (imageUrl) {
         let response
         if (editMode) {
-          response = await axios.patch(
-            '/api/customs/fashion-week/product-week',
-            {
-              id: item?.id,
-              title: newHeroSlide.title,
-              imageUrl: imageUrl,
-              hyperLink: newHeroSlide.hyperLink,
-            }
-          )
+          response = await axios.patch('/api/customs/fashion-week/image-week', {
+            id: item?.id,
+            imageUrl: imageUrl,
+            hyperLink: newHeroSlide.hyperLink,
+          })
         } else {
-          response = await axios.post(
-            '/api/customs/fashion-week/product-week',
-            {
-              title: newHeroSlide.title,
-              imageUrl: imageUrl,
-              hyperLink: newHeroSlide.hyperLink,
-            }
-          )
+          response = await axios.post('/api/customs/fashion-week/image-week', {
+            title: newHeroSlide.title,
+            imageUrl: imageUrl,
+            hyperLink: newHeroSlide.hyperLink,
+          })
         }
 
         onClose()
         refresh()
-        setNewHeroSlide({ title: '', imageUrl: '', hyperLink: '' })
+        setNewHeroSlide({ imageUrl: '', hyperLink: '' })
         setImage({ blob: null, fileName: '', imageUrl: null })
         enqueueSnackbar(response.data.message, { variant: 'success' })
       }
@@ -128,16 +120,6 @@ const AddEditProductWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
                   >
                     <Upload size={19} />
                   </button>
-                </div>
-                <div className='mb-2'>
-                  <label className='block mb-1 font-semibold'>Title</label>
-                  <input
-                    type='text'
-                    name='title'
-                    value={newHeroSlide.title}
-                    onChange={handleChange}
-                    className='border p-2 rounded w-full'
-                  />
                 </div>
                 <div className='mb-2'>
                   <label className='block mb-1 font-semibold'>Hyper Link</label>
@@ -196,4 +178,4 @@ const AddEditProductWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
   )
 }
 
-export default AddEditProductWeek
+export default AddEditImageWeek

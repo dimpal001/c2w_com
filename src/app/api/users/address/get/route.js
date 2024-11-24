@@ -48,7 +48,10 @@ export async function GET(request) {
     }
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ message: 'Something is wrong' }, { status: 500 })
+    return NextResponse.json(
+      { message: 'Something went wrong' },
+      { status: 500 }
+    )
   } finally {
     await prisma.$disconnect()
   }

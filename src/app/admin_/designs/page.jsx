@@ -25,7 +25,7 @@ const Page = () => {
           <ButtonData />
           <SearchHintData />
           <TrendingLinkData />
-          <ArrivalsLinkData />
+          <ArrivalsLinkData />y
         </div>
       </div>
     </Layout>

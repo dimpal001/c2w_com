@@ -14,22 +14,25 @@ export async function POST(request) {
       )
     }
 
-    const { text } = await request.json()
+    const { title, imageUrl, description, hyperLink } = await request.json()
 
     // Add the new announcement to the database
-    const announcement = await prisma.announcements.create({
+    const blogs = await prisma.blogs.create({
       data: {
-        text,
+        title,
+        imageUrl,
+        description,
+        hyperLink,
       },
     })
 
     return NextResponse.json(
-      announcement,
-      { message: 'Announcement added successfully' },
+      blogs,
+      { message: 'Blogs added successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding announcement:', error)
+    console.error('Error adding blogs:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -44,16 +47,16 @@ export async function GET(request) {
   const id = searchParams.get('id')
   try {
     if (id) {
-      const announcement = await prisma.announcements.findUnique({
+      const blog = await prisma.blogs.findUnique({
         where: { id },
       })
-      return NextResponse.json(announcement, { status: 200 })
+      return NextResponse.json(blog, { status: 200 })
     }
 
-    const announcements = await prisma.announcements.findMany()
-    return NextResponse.json(announcements, { status: 200 })
+    const blogs = await prisma.blogs.findMany()
+    return NextResponse.json(blogs, { status: 200 })
   } catch (error) {
-    console.error('Error fetching announcements:', error)
+    console.error('Error fetching blogs:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -71,25 +74,28 @@ export async function PATCH(request) {
       )
     }
 
-    const { id, text } = await request.json()
+    const { id, title, description, imageUrl, hyperLink } = await request.json()
 
     // Update announcement
-    const size = await prisma.announcements.update({
+    const blog = await prisma.blogs.update({
       where: {
         id,
       },
       data: {
-        text,
+        title,
+        description,
+        imageUrl,
+        hyperLink,
       },
     })
 
     return NextResponse.json(
-      size,
-      { message: 'Announcement updated successfully' },
+      blog,
+      { message: 'Blog updated successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding announcement:', error)
+    console.error('Error adding blog:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -109,16 +115,16 @@ export async function DELETE(request) {
       )
     }
 
-    await prisma.announcements.delete({
+    await prisma.blogs.delete({
       where: { id },
     })
 
     return NextResponse.json(
-      { message: 'Announcement deleted successfully' },
+      { message: 'Blog deleted successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error deleting Announcement:', error)
+    console.error('Error deleting Blog:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

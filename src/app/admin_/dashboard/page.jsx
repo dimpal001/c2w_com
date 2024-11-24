@@ -27,7 +27,7 @@ const page = () => {
       setStatus(response.data.status)
     } catch (error) {
       console.log(error)
-      enqueueSnackbar('Something is wrong, try again', { variant: 'error' })
+      enqueueSnackbar('Something went wrong, try again', { variant: 'error' })
     }
   }
 
@@ -39,7 +39,7 @@ const page = () => {
       setRecentOrders(response.data)
     } catch (error) {
       console.log(error)
-      enqueueSnackbar('Something is wrong, try again', { variant: 'error' })
+      enqueueSnackbar('Something went wrong, try again', { variant: 'error' })
     }
   }
 

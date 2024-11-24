@@ -8,25 +8,21 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
 import ImageCroper from '@/app/Components/ImageCroper'
 import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
-import { Upload, X } from 'lucide-react'
+import { FilePen, Trash2, Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import EditModal from './EditModal'
 
 const Page = () => {
-  const [newArrivals, setNewArrivals] = useState([])
+  const [items, setItems] = useState([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showImageCroper, setShowImageCroper] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [selectedNewArrival, setSelectedNewArrivals] = useState(null)
-  const [newNewArrival, setNewNewArrival] = useState({
-    title: '',
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [newItem, setNewItem] = useState({
     imageUrl: '',
     hyperLink: '',
-    description: '',
-    price: 0,
-    mrp: 0,
   })
   const [image, setImage] = useState({
     blob: null,
@@ -36,17 +32,13 @@ const Page = () => {
   const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
-    fetchNewArrivals()
+    fetchitems()
   }, [])
 
-  useEffect(() => {
-    document.title = 'New Arrivals | Clothes2Wear'
-  }, [])
-
-  const fetchNewArrivals = async () => {
+  const fetchitems = async () => {
     try {
-      const response = await axios.get('/api/customs/new-arrivals/get')
-      setNewArrivals(response.data.newArrivals)
+      const response = await axios.get('/api/customs/social-links')
+      setItems(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -61,17 +53,13 @@ const Page = () => {
     })
   }
 
-  const addNewArrival = async () => {
+  const addExclusiveCollection = async () => {
     if (image.fileName === '') {
       enqueueSnackbar('Add an image', { variant: 'error' })
       return
     }
-    if (newNewArrival.hyperLink === '') {
+    if (newItem.hyperLink === '') {
       enqueueSnackbar('Add hyper a link', { variant: 'error' })
-      return
-    }
-    if (newNewArrival.description === '') {
-      enqueueSnackbar('Add hyper a category hyper link', { variant: 'error' })
       return
     }
 
@@ -80,26 +68,22 @@ const Page = () => {
       const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
 
       if (imageUrl) {
-        const response = await axios.post('/api/customs/new-arrivals/add', {
+        const response = await axios.post('/api/customs/social-links', {
           imageUrl: imageUrl,
-          hyperLink: newNewArrival.hyperLink,
-          description: newNewArrival.description,
-          title: newNewArrival.title,
-          price: parseInt(newNewArrival.price),
-          mrp: parseInt(newNewArrival.mrp),
+          hyperLink: newItem.hyperLink,
         })
-        setNewArrivals((prev) => [...prev, response.data.newArrivals])
-        setNewNewArrival({
+        setItems((prev) => [...prev, response.data])
+        setNewItem({
           imageUrl: '',
           hyperLink: '',
-          description: '',
-          title: '',
-          price: '',
-          mrp: '',
         })
       }
-      setImage(null)
       setShowForm(false)
+      setImage({
+        blob: null,
+        imageUrl: null,
+        fileName: '',
+      })
     } catch (error) {
       console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
@@ -108,24 +92,24 @@ const Page = () => {
     }
   }
 
-  const deleteNewArrival = async () => {
+  useEffect(() => {
+    document.title = 'Exclusive Collections | Clothes2Wear'
+  }, [])
+
+  const deleteExclusiveCollection = async () => {
     try {
-      const response = await axios.delete('/api/customs/new-arrivals/delete', {
-        data: { id: selectedNewArrival.id },
+      const response = await axios.delete('/api/customs/social-links', {
+        params: { id: selectedItem.id },
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(
-          selectedNewArrival.imageUrl
-        )
+        const deleteImage = await deleteImageFromCDN(selectedItem.imageUrl)
         console.log(deleteImage)
       }
 
-      setNewArrivals((prev) =>
-        prev.filter((item) => item.id !== selectedNewArrival.id)
-      )
+      setItems((prev) => prev.filter((item) => item.id !== selectedItem.id))
       setShowDeleteModal(false)
-      setSelectedNewArrivals(null)
+      setSelectedItem(null)
     } catch (error) {
       console.log(error)
     }
@@ -133,17 +117,17 @@ const Page = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setNewNewArrival((prev = []) => ({ ...prev, [name]: value }))
+    setNewItem((prev = []) => ({ ...prev, [name]: value }))
   }
 
   return (
     <Layout>
       <div className='p-6 bg-gray-100 min-h-[530px]'>
         <div className='flex items-center justify-between mb-5'>
-          <h2 className='text-xl font-semibold text-blue-800'>New Arrivals</h2>
+          <h2 className='text-xl font-semibold text-blue-800'>Social Links</h2>
           <div className='flex items-center gap-2'>
             <Button
-              label={'Add a product'}
+              label={'Add Social Link'}
               onClick={() => setShowForm(!showForm)}
             />
           </div>
@@ -155,71 +139,28 @@ const Page = () => {
           }`}
         >
           <div className='border p-4 mb-4 rounded'>
-            <h3 className='text-lg font-semibold mb-2'>Add New Product</h3>
-            <div className='grid grid-cols-3 gap-4 mb-3'>
+            <div className='grid grid-cols-3 gap-3'>
               <div>
-                <label className='block mb-1 font-semibold'>Title</label>
-                <input
-                  type='text'
-                  name='title'
-                  value={newNewArrival.title}
-                  onChange={handleChange}
-                  className='border p-2 rounded w-full'
-                />
-              </div>
-              <div>
-                <label className='block mb-1 font-semibold'>Hyper Link</label>
-                <input
-                  type='text'
-                  name='hyperLink'
-                  value={newNewArrival.hyperLink}
-                  onChange={handleChange}
-                  className='border p-2 rounded w-full'
-                />
-              </div>
-              <div>
-                <label className='block mb-1 font-semibold'>Description</label>
-                <input
-                  type='text'
-                  name='description'
-                  value={newNewArrival.description}
-                  onChange={handleChange}
-                  className='border p-2 rounded w-full'
-                />
-              </div>
-              <div>
-                <label className='block mb-1 font-semibold'>Image</label>
+                <label className='block font-semibold'>Image</label>
                 <button
                   onClick={() => setShowImageCroper(true)}
-                  className='border p-2 rounded flex justify-center w-full'
+                  className='border bg-white p-2 rounded flex justify-center w-full'
                 >
                   <Upload size={19} />
                 </button>
               </div>
               <div>
-                <label className='block mb-1 font-semibold'>Price</label>
+                <label className='block font-semibold'>Hyper Link</label>
                 <input
-                  type='number'
-                  name='price'
-                  value={newNewArrival.price}
-                  onChange={handleChange}
-                  className='border p-2 rounded w-full'
-                />
-              </div>
-              <div>
-                <label className='block mb-1 font-semibold'>
-                  Discount Price
-                </label>
-                <input
-                  type='number'
-                  name='mrp'
-                  value={newNewArrival.mrp}
+                  type='text'
+                  name='hyperLink'
+                  value={newItem.hyperLink}
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                 />
               </div>
             </div>
-            {image && image.imageUrl && (
+            {image.imageUrl && (
               <div className='relative'>
                 <Image
                   width={160}
@@ -241,12 +182,12 @@ const Page = () => {
                 />
               </div>
             )}
-            <div className='flex gap-3'>
+            <div className='flex mt-3 gap-3'>
               <Button
-                loadingText={'Saving'}
                 loading={saving}
+                loadingText={'Saving'}
                 label={'Save'}
-                onClick={addNewArrival}
+                onClick={addExclusiveCollection}
               />
               <Button
                 label={'Close'}
@@ -260,36 +201,28 @@ const Page = () => {
         <table className='min-w-full border-collapse border border-gray-300'>
           <thead className='bg-blue-800 text-white'>
             <tr>
-              <th className='border px-4 py-2 text-left'>Title</th>
               <th className='border px-4 py-2 text-left'>Image</th>
-              <th className='border px-4 py-2 text-left'>Description</th>
-              <th className='border px-4 py-2 text-left'>Price</th>
-              <th className='border px-4 py-2 text-left'>Discount Price</th>
               <th className='border px-4 py-2 text-left'>Hyper Link</th>
               <th className='border px-4 py-2 text-center'>Action</th>
             </tr>
           </thead>
           <tbody>
-            {newArrivals &&
-              newArrivals.length > 0 &&
-              newArrivals.map((item, index) => (
+            {items &&
+              items.length > 0 &&
+              items.map((item, index) => (
                 <tr key={index} className='border-b'>
-                  <td className='border px-4 py-2'>{item.title}</td>
                   <td className='border px-4 py-2'>
                     <img
                       src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
                       alt={item.title}
-                      className='w-9 h-16 object-cover rounded'
+                      className='w-[140px]  border object-cover rounded'
                     />
                   </td>
-                  <td className='border px-4 py-2'>{item.description}</td>
-                  <td className='border px-4 py-2'>{item.price}</td>
-                  <td className='border px-4 py-2'>{item.mrp}</td>
                   <td className='border px-4 py-2'>
                     <a
+                      href={item.hyperLink}
                       target='_blank'
                       rel='noopener noreferrer'
-                      href={item.hyperLink}
                       className='text-blue-500 underline'
                     >
                       {item.hyperLink}
@@ -297,21 +230,23 @@ const Page = () => {
                   </td>
                   <td className='border px-2 text-center py-2'>
                     <div className='flex flex-col gap-2'>
-                      <Button
-                        onClick={() => {
-                          setSelectedNewArrivals(item)
-                          setShowEditModal(true)
-                        }}
-                        label={'Edit'}
-                      />
-                      <Button
-                        onClick={() => {
-                          setSelectedNewArrivals(item)
-                          setShowDeleteModal(true)
-                        }}
-                        label={'Delete'}
-                        variant='error'
-                      />
+                      <div className='flex justify-center gap-2'>
+                        <FilePen
+                          className='text-blue-800 cursor-pointer'
+                          onClick={() => {
+                            setSelectedItem(item)
+                            setShowEditModal(true)
+                          }}
+                        />
+
+                        <Trash2
+                          className='text-red-600 cursor-pointer'
+                          onClick={() => {
+                            setSelectedItem(item)
+                            setShowDeleteModal(true)
+                          }}
+                        />
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -322,14 +257,14 @@ const Page = () => {
           <DeleteModal
             isOpen={true}
             onClose={() => setShowDeleteModal(false)}
-            onDelete={() => deleteNewArrival()}
+            onDelete={() => deleteExclusiveCollection()}
           />
         )}
         {showImageCroper && (
           <ImageCroper
             isOpen={true}
             onClose={() => setShowImageCroper(false)}
-            aspectRatio={9 / 16}
+            aspectRatio={16 / 9}
             onCropComplete={handleFile}
           />
         )}
@@ -337,8 +272,8 @@ const Page = () => {
           <EditModal
             isOpen={true}
             onClose={() => setShowEditModal(false)}
-            fetchNewArrivals={fetchNewArrivals}
-            selectedNewArrival={selectedNewArrival}
+            selectedECProduct={selectedItem}
+            refresh={fetchitems}
           />
         )}
       </div>

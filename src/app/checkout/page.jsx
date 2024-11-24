@@ -90,7 +90,9 @@ const PaymentPage = () => {
       }
     } catch (error) {
       if (error) {
-        enqueueSnackbar(error?.response?.data?.message || 'Something is wrong')
+        enqueueSnackbar(
+          error?.response?.data?.message || 'Something went wrong'
+        )
       }
     } finally {
       setLoading(false)

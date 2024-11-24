@@ -8,12 +8,14 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { use } from 'react'
+import DeleteOrderModal from '../DeleteOrder'
 
 const page = ({ params }) => {
   const { id } = use(params)
   const router = useRouter()
 
   const [orderDetails, setOrderDetails] = useState(null)
+  const [showDeleteModal, setDeleteModal] = useState(false)
 
   const fetchSingleOrder = async () => {
     try {
@@ -36,12 +38,19 @@ const page = ({ params }) => {
   return (
     <Layout>
       <div className='p-6 bg-gray-100 min-h-screen'>
-        <h2 className='text-xl font-semibold mb-4 text-blue-800'>
-          Order Details{' '}
-          {orderDetails && (
-            <span className='italic'>(#{orderDetails?.orderId})</span>
-          )}
-        </h2>
+        <div className='flex justify-between gap-3 items-center'>
+          <h2 className='text-xl font-semibold mb-4 text-blue-800'>
+            Order Details{' '}
+            {orderDetails && (
+              <span className='italic'>(#{orderDetails?.orderId})</span>
+            )}
+          </h2>
+          <Button
+            label={'Delete Order'}
+            onClick={() => setDeleteModal(true)}
+            variant='error'
+          />
+        </div>
         <div>
           <p className='text-xl'>Order Info</p>
           <div className='grid grid-cols-2 gap-x-14 gap-y-7 py-5'>
@@ -131,6 +140,12 @@ const page = ({ params }) => {
                   />
                 </div>
               ))}
+              {showDeleteModal && (
+                <DeleteOrderModal
+                  isOpen={true}
+                  onClose={() => setDeleteModal(false)}
+                />
+              )}
             </div>
           </div>
         </div>

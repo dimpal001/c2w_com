@@ -82,7 +82,7 @@ export async function GET(request) {
   } catch (error) {
     console.error('Error fetching categories:', error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again!' },
+      { message: 'Something went wrong, try again!' },
       { status: 500 }
     )
   }

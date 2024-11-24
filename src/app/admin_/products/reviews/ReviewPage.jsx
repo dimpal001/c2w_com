@@ -15,6 +15,7 @@ import {
 import DeleteModal from '@/app/Components/DeleteModal'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Loading from '../../components/Loading'
+import { enqueueSnackbar } from 'notistack'
 
 const ReviewPage = () => {
   const searchParams = useSearchParams()
@@ -37,7 +38,9 @@ const ReviewPage = () => {
     try {
       setFetching(true)
       if (!styleId.trim()) {
-        alert('Please enter a valid Product Style ID.')
+        enqueueSnackbar('Please enter a valid Product Style ID.', {
+          variant: 'error',
+        })
         return
       }
       const response = await axios.get(

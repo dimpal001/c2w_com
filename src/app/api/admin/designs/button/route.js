@@ -41,7 +41,7 @@ export async function GET() {
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again' },
+      { message: 'Something went wrong, try again' },
       { status: 500 }
     )
   }
@@ -77,7 +77,7 @@ export async function PATCH(request) {
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Something is wrong, try again' },
+      { message: 'Something went wrong, try again' },
       { status: 500 }
     )
   }

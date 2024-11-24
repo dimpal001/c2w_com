@@ -14,22 +14,23 @@ export async function POST(request) {
       )
     }
 
-    const { text } = await request.json()
+    const { imageUrl, hyperLink } = await request.json()
 
     // Add the new announcement to the database
-    const announcement = await prisma.announcements.create({
+    const socialLinks = await prisma.socialLinks.create({
       data: {
-        text,
+        imageUrl,
+        hyperLink,
       },
     })
 
     return NextResponse.json(
-      announcement,
-      { message: 'Announcement added successfully' },
+      socialLinks,
+      { message: 'Social Links added successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding announcement:', error)
+    console.error('Error adding Social Links:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -44,16 +45,16 @@ export async function GET(request) {
   const id = searchParams.get('id')
   try {
     if (id) {
-      const announcement = await prisma.announcements.findUnique({
+      const socialLink = await prisma.socialLinks.findUnique({
         where: { id },
       })
-      return NextResponse.json(announcement, { status: 200 })
+      return NextResponse.json(socialLink, { status: 200 })
     }
 
-    const announcements = await prisma.announcements.findMany()
-    return NextResponse.json(announcements, { status: 200 })
+    const socialLinks = await prisma.socialLinks.findMany()
+    return NextResponse.json(socialLinks, { status: 200 })
   } catch (error) {
-    console.error('Error fetching announcements:', error)
+    console.error('Error fetching social links:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -71,25 +72,26 @@ export async function PATCH(request) {
       )
     }
 
-    const { id, text } = await request.json()
+    const { id, imageUrl, hyperLink } = await request.json()
 
     // Update announcement
-    const size = await prisma.announcements.update({
+    const socialLink = await prisma.socialLinks.update({
       where: {
         id,
       },
       data: {
-        text,
+        imageUrl,
+        hyperLink,
       },
     })
 
     return NextResponse.json(
-      size,
-      { message: 'Announcement updated successfully' },
+      socialLink,
+      { message: 'Social Link updated successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error adding announcement:', error)
+    console.error('Error adding social link:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -109,16 +111,16 @@ export async function DELETE(request) {
       )
     }
 
-    await prisma.announcements.delete({
+    await prisma.socialLinks.delete({
       where: { id },
     })
 
     return NextResponse.json(
-      { message: 'Announcement deleted successfully' },
+      { message: 'Social link deleted successfully' },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error deleting Announcement:', error)
+    console.error('Error deleting Social link:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
