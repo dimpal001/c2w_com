@@ -6,6 +6,7 @@ import CategoryMenu from './components/categories/CategoryMenu'
 import ColorsMenu from './components/colors/ColorsMenu'
 import SizeMenu from './components/sizes/SizeMenu'
 import AnnouncementBar from './components/announcements/Announcement'
+import LogosMenu from './components/logos/LogosMenu'
 
 const Page = () => {
   useEffect(() => {
@@ -21,6 +22,7 @@ const Page = () => {
           <CategoryMenu />
           <ColorsMenu />
           <AnnouncementBar />
+          <LogosMenu />
         </div>
       </div>
     </Layout>
