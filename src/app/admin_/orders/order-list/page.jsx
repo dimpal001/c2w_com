@@ -14,7 +14,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/dropdown'
-import { CircleCheck, Ellipsis } from 'lucide-react'
+import { CircleCheck, Ellipsis, FilePen, FileText } from 'lucide-react'
 import UpdateOrderModal from './UpdateOrderModal'
 
 const page = () => {
@@ -133,6 +133,7 @@ const page = () => {
                 <option value='PENDING'>PENDING</option>
                 <option value='APPROVED'>APPROVED</option>
                 <option value='SHIPPED'>SHIPPED</option>
+                <option value='INTRANSIT'>INTRANSIT</option>
                 <option value='DELIVERED'>DELIVERED</option>
                 <option value='CANCELLED'>CANCELLED</option>
               </Select>
@@ -204,6 +205,7 @@ const page = () => {
                             ${order.status === 'DELIVERED' && 'text-green-600'} 
                             ${order.status === 'APPROVED' && 'text-green-600'} 
                             ${order.status === 'SHIPPED' && 'text-blue-600'} 
+                            ${order.status === 'INTRANSIT' && 'text-blue-600'} 
                             
                             `}
                         >
@@ -242,7 +244,7 @@ const page = () => {
                                 <Ellipsis className='cursor-pointer' />
                               </DropdownTrigger>
                               <DropdownMenu
-                                className='bg-white border p-3 rounded-md shadow-xl'
+                                className='p-3'
                                 aria-label='Static Actions'
                               >
                                 <DropdownItem
@@ -250,9 +252,12 @@ const page = () => {
                                     setSelectedOrder(order)
                                     setShowUpdateModal(true)
                                   }}
-                                  className='py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                  className='py-2 px-4 hover:bg-gray-300 rounded-sm'
                                 >
-                                  Update
+                                  <div className='flex items-center gap-2'>
+                                    <FilePen size={15} />
+                                    <p>Update</p>
+                                  </div>
                                 </DropdownItem>
                                 <DropdownItem
                                   onClick={() =>
@@ -260,9 +265,12 @@ const page = () => {
                                       `/admin_/orders/single-order/${order.orderId}`
                                     )
                                   }
-                                  className='text-yellow-600 py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                  className='text-yellow-600 py-2 px-4 hover:bg-gray-300 rounded-sm'
                                 >
-                                  Details
+                                  <div className='flex items-center gap-2'>
+                                    <FileText size={15} />
+                                    <p>Details</p>
+                                  </div>
                                 </DropdownItem>
                               </DropdownMenu>
                             </Dropdown>

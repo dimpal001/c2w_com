@@ -15,8 +15,17 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/dropdown'
-import { Ellipsis } from 'lucide-react'
+import {
+  AlertCircle,
+  CheckCircle,
+  Ellipsis,
+  FilePen,
+  FileText,
+  Star,
+  Trash2,
+} from 'lucide-react'
 import DeleteModal from '@/app/Components/DeleteModal'
+import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
 
 const page = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -148,9 +157,23 @@ const page = () => {
 
   const handleProductDelete = async () => {
     try {
-      console.log(selectedProduct)
+      await Promise.all(
+        selectedProduct.images.map(async (image) => {
+          // console.log(image.imageUrl)
+          await deleteImageFromCDN(image.imageUrl)
+        })
+      )
+      const response = await axios.delete(`/api/products/delete`, {
+        data: { id: selectedProduct.id },
+      })
+
+      setProductList((prev) =>
+        prev.filter((item) => item.id != selectedProduct.id)
+      )
       setDeleteModalOpen(false)
+      enqueueSnackbar(response.data.message, { variant: 'success' })
     } catch (error) {
+      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     }
   }
@@ -360,7 +383,7 @@ const page = () => {
                                 <Ellipsis className='cursor-pointer' />
                               </DropdownTrigger>
                               <DropdownMenu
-                                className='bg-white border p-3 rounded-md shadow-xl'
+                                className='p-3 rounded-md'
                                 aria-label='Static Actions'
                               >
                                 <DropdownItem
@@ -369,9 +392,12 @@ const page = () => {
                                       `/admin_/products/edit-product/${product.id}`
                                     )
                                   }
-                                  className='py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                  className='py-2 flex items-center gap-2 px-4 hover:bg-gray-300 rounded-sm'
                                 >
-                                  Edit
+                                  <div className='flex items-center gap-2'>
+                                    <FilePen size={15} />
+                                    <p>Edit</p>
+                                  </div>
                                 </DropdownItem>
                                 <DropdownItem
                                   onClick={() =>
@@ -379,11 +405,14 @@ const page = () => {
                                       `/admin_/products/reviews?productId=${product.styleId}`
                                     )
                                   }
-                                  className='py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                  className='py-2 px-4 hover:bg-gray-300 rounded-sm'
                                 >
-                                  All Reviews
+                                  <div className='flex items-center gap-2'>
+                                    <Star size={15} />
+                                    <p>All Reviews</p>
+                                  </div>
                                 </DropdownItem>
-                                <DropdownItem className='py-1 px-4 hover:bg-gray-300 rounded-sm'>
+                                <DropdownItem className='py-2 px-4 hover:bg-gray-300 rounded-sm'>
                                   {product.isActive ? (
                                     <p
                                       onClick={() =>
@@ -392,7 +421,9 @@ const page = () => {
                                           false
                                         )
                                       }
+                                      className='flex items-center gap-2'
                                     >
+                                      <AlertCircle size={15} />
                                       Deactive
                                     </p>
                                   ) : (
@@ -403,7 +434,9 @@ const page = () => {
                                           true
                                         )
                                       }
+                                      className='flex items-center gap-2'
                                     >
+                                      <CheckCircle size={15} />
                                       Active
                                     </p>
                                   )}
@@ -414,18 +447,24 @@ const page = () => {
                                       `/admin_/products/single-product/${product.id}`
                                     )
                                   }
-                                  className='text-yellow-600 py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                  className='text-yellow-600 py-2 px-4 hover:bg-gray-300 rounded-sm'
                                 >
-                                  Details
+                                  <div className='flex items-center gap-2'>
+                                    <FileText size={15} />
+                                    <p>Details</p>
+                                  </div>
                                 </DropdownItem>
                                 <DropdownItem
                                   onClick={() => {
                                     setSelectedProduct(product)
                                     setDeleteModalOpen(true)
                                   }}
-                                  className='text-red-600 py-1 px-4 hover:bg-red-600 hover:text-white rounded-sm'
+                                  className='text-red-600 py-2 px-4 hover:bg-red-600 hover:text-white rounded-sm'
                                 >
-                                  Delete
+                                  <div className='flex items-center gap-2'>
+                                    <Trash2 size={15} />
+                                    <p>Delete</p>
+                                  </div>
                                 </DropdownItem>
                               </DropdownMenu>
                             </Dropdown>

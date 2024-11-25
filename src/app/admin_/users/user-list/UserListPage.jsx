@@ -14,7 +14,15 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/dropdown'
-import { Ellipsis } from 'lucide-react'
+import {
+  Ban,
+  BellPlus,
+  Ellipsis,
+  Info,
+  Lock,
+  ShieldCheck,
+  Trash2,
+} from 'lucide-react'
 import BanUserModal from './BanUserModal'
 import DeleteModal from '@/app/Components/DeleteModal'
 import SendNotificationModal from './SendNotificationModal'
@@ -200,7 +208,7 @@ const page = () => {
                               <Ellipsis className='cursor-pointer' />
                             </DropdownTrigger>
                             <DropdownMenu
-                              className='bg-white border p-3 rounded-md shadow-xl'
+                              className='bg-white p-3'
                               aria-label='Static Actions'
                             >
                               <DropdownItem
@@ -208,20 +216,26 @@ const page = () => {
                                   setSelectedUser(user)
                                   setNotificationModalOpen(true)
                                 }}
-                                className='py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                className='py-2 px-4 hover:bg-gray-300 rounded-sm'
                               >
-                                Send Notification
+                                <div className='flex items-center gap-2'>
+                                  <BellPlus size={15} />
+                                  <p>Send Notification</p>
+                                </div>
                               </DropdownItem>
                               <DropdownItem
                                 onClick={() => {
                                   setSelectedUser(user)
                                   setBanModalOpen(true)
                                 }}
-                                className='py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                className='py-2 px-4 hover:bg-gray-300 rounded-sm'
                               >
-                                Ban
+                                <div className='flex items-center gap-2'>
+                                  <Ban size={15} />
+                                  <p>Ban</p>
+                                </div>
                               </DropdownItem>
-                              <DropdownItem className='py-1 px-4 hover:bg-gray-300 rounded-sm'>
+                              <DropdownItem className='py-2 px-4 hover:bg-gray-300 rounded-sm'>
                                 {user.status === 'ACTIVE' ? (
                                   <p
                                     onClick={() =>
@@ -231,8 +245,10 @@ const page = () => {
                                       )
                                     }
                                     label={'Deactive'}
+                                    className='flex items-center gap-2'
                                   >
-                                    Deactive
+                                    <Lock size={15} />
+                                    <p>Deactive</p>
                                   </p>
                                 ) : (
                                   <p
@@ -240,8 +256,10 @@ const page = () => {
                                       handleChangeUserStatus(user.id, 'ACTIVE')
                                     }
                                     label={'Active'}
+                                    className='flex items-center gap-2'
                                   >
-                                    Active
+                                    <ShieldCheck size={15} />
+                                    <p>Active</p>
                                   </p>
                                 )}
                               </DropdownItem>
@@ -251,18 +269,24 @@ const page = () => {
                                     `/admin_/users/single-user/${user.id}`
                                   )
                                 }
-                                className='text-yellow-600 py-1 px-4 hover:bg-gray-300 rounded-sm'
+                                className='text-yellow-500 py-2 px-4 hover:bg-gray-300 rounded-sm'
                               >
-                                Details
+                                <div className='flex items-center gap-2'>
+                                  <Info size={15} />
+                                  <p>Details</p>
+                                </div>
                               </DropdownItem>
                               <DropdownItem
                                 onClick={() => {
                                   setSelectedUser(user)
                                   setDeleteModalOpen(true)
                                 }}
-                                className='text-red-600 py-1 px-4 hover:bg-red-600 hover:text-white rounded-sm'
+                                className='text-red-600 py-2 px-4 hover:bg-red-600 hover:text-white rounded-sm'
                               >
-                                Delete
+                                <div className='flex items-center gap-2'>
+                                  <Trash2 size={15} />
+                                  <p>Delete</p>
+                                </div>
                               </DropdownItem>
                             </DropdownMenu>
                           </Dropdown>

@@ -99,6 +99,7 @@ export async function GET(request) {
             mrp: true,
           },
         },
+        images: true,
       },
     })
 
@@ -112,6 +113,7 @@ export async function GET(request) {
         isActive: product.isActive,
         displayPrice: product.displayPrice,
         thumbnailUrl: product.thumbnailUrl,
+        images: product.images,
       })),
       currentPage: page,
       totalPages,

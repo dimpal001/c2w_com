@@ -29,6 +29,7 @@ export async function GET(request) {
       const user = await prisma.user.findUnique({
         where: { id },
         select: {
+          id: true,
           firstName: true,
           lastName: true,
           email: true,
@@ -78,6 +79,7 @@ export async function GET(request) {
       const user = await prisma.user.findUnique({
         where: { id },
         select: {
+          id: true,
           firstName: true,
           lastName: true,
           email: true,
@@ -126,6 +128,7 @@ export async function GET(request) {
       const user = await prisma.user.findUnique({
         where: { id },
         select: {
+          id: true,
           firstName: true,
           lastName: true,
           email: true,
@@ -164,9 +167,58 @@ export async function GET(request) {
       )
     }
 
+    if (data === 'orders') {
+      const skip = (page - 1) * itemsPerPage
+
+      const totalItems = await prisma.cartItem.count({
+        where: { userId: id },
+      })
+
+      const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+      // Fetch paginated cart items
+      const user = await prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          orders: {
+            orderBy: { createdAt: 'desc' },
+            skip,
+            take: itemsPerPage,
+            select: {
+              id: true,
+              orderId: true,
+              totalPrice: true,
+              status: true,
+              createdAt: true,
+              trackingId: true,
+            },
+          },
+        },
+      })
+
+      if (!user) {
+        return NextResponse.json({ message: 'User not found' }, { status: 404 })
+      }
+
+      return NextResponse.json(
+        {
+          user,
+          currentPage: page,
+          totalPages,
+          totalItems,
+        },
+        { status: 200 }
+      )
+    }
+
     const user = await prisma.user.findUnique({
       where: { id },
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         email: true,
@@ -201,10 +253,20 @@ export async function GET(request) {
             },
           },
         },
+
         orders: {
           orderBy: { createdAt: 'desc' },
           take: 5,
+          select: {
+            id: true,
+            orderId: true,
+            totalPrice: true,
+            status: true,
+            createdAt: true,
+            trackingId: true,
+          },
         },
+
         reviews: {
           orderBy: { createdAt: 'desc' },
           take: 5,

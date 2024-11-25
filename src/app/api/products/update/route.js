@@ -32,6 +32,7 @@ export async function PATCH(request) {
       include: {
         inventory: true,
         categories: true,
+        images: true,
       },
     })
 
@@ -56,51 +57,62 @@ export async function PATCH(request) {
       })
     )
 
+    console.log(images)
+
     // Start a transaction to update product details
-    await prisma.product.update({
-      where: { id: productId },
-      data: {
-        title,
-        estimatedDeliveryDay,
-        longTailKeyword,
-        isReturnable,
-        description,
-        displayPrice: parseFloat(displayPrice),
-        summary,
-        customerTypeId,
-        userId,
-        returnPolicy,
-        tags,
-        images:
-          images.length > 0
-            ? {
-                create: images.map(({ imageUrl, color, altText }) => ({
-                  imageUrl,
-                  colorId: color,
-                  altText: altText,
-                })),
-              }
-            : undefined,
-        categories: {
-          connect: categories.map((category) => ({ id: category.id })),
-        },
-        subcategories: {
-          connect: subcategories.map((subcategory) => ({ id: subcategory.id })),
-        },
-        discounts: {
-          connect: discounts.map((discount) => ({ id: discount.id })),
-        },
-        inventory: {
-          deleteMany: { productId },
-          createMany: {
-            data: newInventory,
+    await prisma.$transaction([
+      // Delete old images if new images are provided
+      prisma.productImage.deleteMany({
+        where: { productId },
+      }),
+      // Update the product with new data
+      prisma.product.update({
+        where: { id: productId },
+        data: {
+          title,
+          estimatedDeliveryDay,
+          longTailKeyword,
+          isReturnable,
+          description,
+          displayPrice: parseFloat(displayPrice),
+          summary,
+          customerTypeId,
+          userId,
+          returnPolicy,
+          tags,
+          images:
+            images && images.length > 0
+              ? {
+                  create: images.map(({ imageUrl, color, altText }) => ({
+                    imageUrl,
+                    colorId: color,
+                    altText: altText,
+                  })),
+                }
+              : undefined,
+          categories: {
+            connect: categories.map((category) => ({ id: category.id })),
+          },
+          subcategories: {
+            connect: subcategories.map((subcategory) => ({
+              id: subcategory.id,
+            })),
+          },
+          discounts: {
+            connect: discounts.map((discount) => ({ id: discount.id })),
+          },
+          inventory: {
+            deleteMany: { productId },
+            createMany: {
+              data: newInventory,
+            },
+          },
+          similarProducts: {
+            connect: similarProducts.map((product) => ({ id: product.id })),
           },
         },
-        similarProducts: {
-          connect: similarProducts.map((product) => ({ id: product.id })),
-        },
-      },
-    })
+      }),
+    ])
 
     return NextResponse.json(
       { message: 'Product updated successfully!' },

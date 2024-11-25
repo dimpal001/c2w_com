@@ -84,7 +84,9 @@ const page = () => {
                 <IndianRupee size={32} />
                 <div>
                   <p className='text-sm'>Revenue</p>
-                  <p className='text-xl font-bold'>{status?.totalRevenue}</p>
+                  <p className='text-xl font-bold'>
+                    {status?.totalRevenue.toFixed(2)}
+                  </p>
                 </div>
               </div>
               <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>

@@ -68,6 +68,7 @@ const UpdateOrderModal = ({ isOpen, onClose, order, onCompleted }) => {
                 <option value='PENDING'>Pending</option>
                 <option value='APPROVED'>Approved</option>
                 <option value='SHIPPED'>Shipped</option>
+                <option value='INTRANSIT'>Intransit</option>
                 <option value='DELIVERED'>Delivered</option>
                 <option value='CANCELLED'>Cancelled</option>
               </select>

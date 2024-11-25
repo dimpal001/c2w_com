@@ -180,7 +180,12 @@ const UserDetailsPage = ({ params }) => {
               <div className='text-gray-500 mt-4'>No orders found.</div>
             )}
             {userDetails?.orders?.length > 0 && (
-              <div className='flex justify-end'>
+              <div
+                onClick={() =>
+                  router.push(`/admin_/users/single-user/orders/${id}`)
+                }
+                className='flex justify-end'
+              >
                 <span className='flex gap-2 hover:gap-3 hover:text-blue-800 transition-all duration-300 cursor-pointer items-center justify-end p-2'>
                   <p>View all</p>
                   <MoveRight />

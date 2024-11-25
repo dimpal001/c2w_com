@@ -15,6 +15,10 @@ export async function DELETE(request) {
   }
 
   try {
+    // await prisma.productImage.deleteMany({
+    //   where: { productId: id },
+    // })
+
     // Delete the product by its ID
     const deletedProduct = await prisma.product.delete({
       where: { id },
@@ -25,6 +29,7 @@ export async function DELETE(request) {
       { status: 200 }
     )
   } catch (error) {
+    console.log(error)
     if (error.code === 'P2025') {
       // Prisma error code for not found
       return NextResponse.json(

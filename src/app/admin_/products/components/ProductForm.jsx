@@ -4,14 +4,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Button from '../../components/Button'
 import axios from 'axios'
-import { FilePen, Upload, X } from 'lucide-react'
+import { Upload, X } from 'lucide-react'
 import ImageCroper from '@/app/Components/ImageCroper'
 import { enqueueSnackbar } from 'notistack'
 import { uploadImageToCDN } from '../../../../../utils/uploadImageToCDN'
 import AddDiscount from '../create-product/AddDiscount'
 import SimilarProruct from './SimilarProruct'
 import { useRouter } from 'next/navigation'
-import EditInventoryModal from './EditInventoryModal'
+import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
 
 const ProductForm = ({ formData, setFormData, type }) => {
   const [inventory, setInventory] = useState({
@@ -19,11 +19,9 @@ const ProductForm = ({ formData, setFormData, type }) => {
     mrp: 0,
     price: 0,
     stock: 0,
-    discount: 100,
+    discount: 10,
     minQuantity: 1,
   })
-  const [selectedInventory, setSelectedInventory] = useState(null)
-  const [editInventoryModalOpen, setEditInventoryModalOpen] = useState(false)
   const router = useRouter()
   const [images, setImages] = useState([])
   const [currentImage, setCurrentImage] = useState({
@@ -34,6 +32,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
     color: '',
   })
   const [sizes, setSizes] = useState([])
+  const [imagesToDelete, setImagesToDelete] = useState([])
   const [allCategories, setAllCategories] = useState([])
   const [allSubCategories, setAllSubCategories] = useState([])
   const [colors, setColors] = useState([])
@@ -86,16 +85,10 @@ const ProductForm = ({ formData, setFormData, type }) => {
 
     const normalizeNumber = (val) => (isNaN(val) ? val : String(Number(val)))
 
-    const calculatePriceFromDiscount = (mrp, discount) => {
-      if (mrp && discount) {
-        return (mrp * discount) / 100
-      }
-      return mrp
-    }
-
-    const calculateDiscountFromPrice = (mrp, price) => {
-      if (mrp && price) {
-        return ((mrp - price) / mrp) * 100
+    const calculateDiscountFromPrice = (discount, price) => {
+      if (discount && price) {
+        const discountPrice = (price / 100) * discount
+        return parseFloat(price) + parseFloat(discountPrice)
       }
       return 0
     }
@@ -108,34 +101,25 @@ const ProductForm = ({ formData, setFormData, type }) => {
       if (name === 'size') {
         const selectedSize = sizes.find((size) => size.id === value)
         setInventory((prev) => ({ ...prev, size: selectedSize }))
-      } else if (name === 'mrp') {
-        const updatedPrice = calculatePriceFromDiscount(
-          value,
-          inventory.discount
-        )
-        setInventory((prev) => ({
-          ...prev,
-          [name]: normalizeNumber(value),
-          price: updatedPrice,
-        }))
       } else if (name === 'discount') {
-        const updatedPrice = calculatePriceFromDiscount(inventory.mrp, value)
+        const updatedPrice = calculateDiscountFromPrice(value, inventory.price)
         setInventory((prev) => ({
           ...prev,
           [name]: [value],
-          price: updatedPrice,
+          mrp: updatedPrice,
         }))
       } else if (name === 'price') {
-        const updatedDiscount = calculateDiscountFromPrice(inventory.mrp, value)
+        const updatedMrp = calculateDiscountFromPrice(inventory.discount, value)
         setInventory((prev) => ({
           ...prev,
           [name]: normalizeNumber(value),
-          discount: updatedDiscount,
+          mrp: updatedMrp,
         }))
       } else {
         setInventory((prev) => ({ ...prev, [name]: normalizeNumber(value) }))
       }
     } else if (name === 'color') {
+      console.log(value)
       setCurrentImage((prev) => ({ ...prev, color: value }))
     } else {
       setFormData((prev) => ({ ...prev, [name]: normalizedValue }))
@@ -229,6 +213,15 @@ const ProductForm = ({ formData, setFormData, type }) => {
     setImages((prev) => prev.filter((_, index) => index !== indexToRemove))
   }
 
+  const removeFormDataCard = (indexToRemove, image) => {
+    console.log(image)
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      images: prevFormData.images.filter((_, index) => index !== indexToRemove),
+    }))
+    setImagesToDelete((prev) => [...prev, image.imageUrl])
+  }
+
   const handleSubmit = async () => {
     console.log(formData)
     if (formData) return null
@@ -257,8 +250,17 @@ const ProductForm = ({ formData, setFormData, type }) => {
 
   const handlEditSubmit = async () => {
     console.log(formData)
+    console.log(imagesToDelete)
+    await Promise.all(
+      imagesToDelete.map(async (image) => {
+        await deleteImageFromCDN(image)
+      })
+    )
+    // if (formData) return null
     try {
       setSaving(true)
+
+      // Upload new images
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
           const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
@@ -266,9 +268,21 @@ const ProductForm = ({ formData, setFormData, type }) => {
         })
       )
 
+      console.log(formData.images)
+
+      const existingImages = (formData.images || []).map((image) => ({
+        ...image,
+        color: image.colorId,
+      }))
+
+      console.log(existingImages)
+      console.log(uploadedImages)
+
+      const allImages = [...existingImages, ...uploadedImages]
+
       const submissionData = {
         ...formData,
-        images: uploadedImages,
+        images: allImages,
       }
 
       const response = await axios.patch('/api/products/update', submissionData)
@@ -342,23 +356,6 @@ const ProductForm = ({ formData, setFormData, type }) => {
           value={formData.title}
           onChange={handleChange}
         />
-        {/* <Select
-          label='Select Type'
-          name='customerTypeId'
-          value={formData.customerTypeId}
-          onChange={handleChange}
-        >
-          <option value=''>Select a customer type</option>
-          {customerTypes.map((type) => (
-            <option
-              key={type.id}
-              value={type.id}
-              defaultValue={formData.customerTypeId === type.id}
-            >
-              {uppercaseText(type.name)}
-            </option>
-          ))}
-        </Select> */}
 
         <Select
           label='Returnable'
@@ -503,14 +500,6 @@ const ProductForm = ({ formData, setFormData, type }) => {
                         onClick={() => removeInventory(index)}
                         className='text-red-600 cursor-pointer'
                       />
-                      <FilePen
-                        onClick={() => {
-                          setSelectedInventory(item)
-                          setEditInventoryModalOpen(true)
-                        }}
-                        size={20}
-                        className='text-blue-800 cursor-pointer'
-                      />
                     </div>
                   </td>
                 </tr>
@@ -537,16 +526,9 @@ const ProductForm = ({ formData, setFormData, type }) => {
           label='Enter MRP'
           type='number'
           placeholder='Enter MRP'
+          disabled={true}
           name='mrp'
           value={inventory.mrp}
-          onChange={handleChange}
-        />
-        <Input
-          label='Enter Discount Price'
-          type='number'
-          placeholder='Enter Price'
-          name='discount'
-          value={inventory.discount}
           onChange={handleChange}
         />
         <Input
@@ -555,6 +537,14 @@ const ProductForm = ({ formData, setFormData, type }) => {
           placeholder='Enter Price'
           name='price'
           value={inventory.price}
+          onChange={handleChange}
+        />
+        <Input
+          label='Enter Discount Price'
+          type='number'
+          placeholder='Enter Price'
+          name='discount'
+          value={inventory.discount}
           onChange={handleChange}
         />
         <Input
@@ -625,7 +615,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
                         <Button
                           label='Remove'
                           variant='error'
-                          onClick={() => removeCard(index)}
+                          onClick={() => removeFormDataCard(index, img)}
                         />
                       </div>
                     </div>
@@ -803,34 +793,6 @@ const ProductForm = ({ formData, setFormData, type }) => {
       <Devider />
 
       <AddDiscount formData={formData} setFormData={setFormData} />
-      {/* <div>
-        <div className='mt-3'>
-          {formData.discounts?.length > 0 && (
-            <div>
-              <ul className=' bg-green-600 text-white rounded-md'>
-                {formData.discounts.map((id, index) => {
-                  const discount = discounts.find(
-                    (discount) => discount.id === id
-                  )
-                  return discount ? (
-                    <li
-                      key={id}
-                      className={`grid grid-cols-5 py-2 px-3 ${
-                        index % 2 === 0 ? 'bg-green-800' : 'bg-green-600'
-                      }`}
-                    >
-                      <span className='uppercase'>{discount.code}</span>
-                      <span>{discount.description}</span>
-                      <span>{discount.type}</span>
-                      <span>{discount.amount}</span>
-                    </li>
-                  ) : null
-                })}
-              </ul>
-            </div>
-          )}
-        </div>
-      </div> */}
 
       <Devider />
 
@@ -850,17 +812,6 @@ const ProductForm = ({ formData, setFormData, type }) => {
           onCropComplete={handleFileChange}
         />
       )}
-
-      {editInventoryModalOpen && (
-        <EditInventoryModal
-          isOpen={true}
-          onClose={() => setEditInventoryModalOpen(false)}
-          item={selectedInventory}
-          formData={formData}
-          setFormData={setFormData}
-          sizes={sizes}
-        />
-      )}
     </div>
   )
 }
@@ -868,12 +819,22 @@ const ProductForm = ({ formData, setFormData, type }) => {
 export default ProductForm
 
 // eslint-disable-next-line react/prop-types
-const Input = ({ label, type, onChange, value, name, placeholder, width }) => {
+const Input = ({
+  label,
+  type,
+  onChange,
+  value,
+  name,
+  placeholder,
+  width,
+  disabled,
+}) => {
   return (
     <div className={`flex flex-col gap-1 ${width && width}`}>
       <label htmlFor={label}>{label}</label>
       <input
         id={label}
+        disabled={disabled}
         name={name}
         type={type ? type : 'text'}
         onChange={onChange}
