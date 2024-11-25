@@ -40,16 +40,26 @@ const AddEditOccasionModal = ({
           occasionName: newItem.occasionName,
           categoryHyperLinks: newItem.categoryHyperLinks,
         })
+
+        setNewItem({
+          occasionName: null,
+          categoryHyperLinks: null,
+        })
       } else {
         response = await axios.post('/api/customs/shop-by-occasion/occasion', {
           occasionName: newItem.occasionName,
           categoryHyperLinks: newItem.categoryHyperLinks,
         })
+
+        setNewItem({
+          occasionName: null,
+          categoryHyperLinks: null,
+        })
       }
 
       setNewItem({
-        occasionName: '',
-        categoryHyperLinks: '',
+        occasionName: null,
+        categoryHyperLinks: null,
       })
 
       enqueueSnackbar(response.data.message, { variant: 'success' })
