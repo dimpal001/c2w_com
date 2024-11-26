@@ -224,7 +224,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
 
   const handleSubmit = async () => {
     console.log(formData)
-    if (formData) return null
+    // if (formData) return null
     try {
       setSaving(true)
       const uploadedImages = await Promise.all(

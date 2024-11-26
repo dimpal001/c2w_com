@@ -69,6 +69,56 @@ export async function GET() {
   }
 }
 
+// Update
+export async function PATCH(request) {
+  try {
+    if (!isAdmin(request)) {
+      return NextResponse.json(
+        { message: 'Unauthorized access!' },
+        { status: 401 }
+      )
+    }
+
+    const { id, name } = await request.json()
+
+    // Generate slug
+    const slug = slugify(name, { lower: true })
+
+    const isExist = await prisma.customerType.findUnique({
+      where: {
+        slug,
+      },
+    })
+
+    if (isExist) {
+      return NextResponse.json(
+        { message: 'Size already exist' },
+        { status: 409 }
+      )
+    }
+
+    // Add the new Size to the database
+    const size = await prisma.customerType.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        slug,
+      },
+    })
+
+    return NextResponse.json(
+      size,
+      { message: 'Size updated successfully' },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.error('Error adding size:', error)
+    return NextResponse.json({ message: 'Error adding size' }, { status: 500 })
+  }
+}
+
 // Delete a customer type
 export async function DELETE(request) {
   const { searchParams } = new URL(request.url)

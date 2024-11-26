@@ -7,6 +7,7 @@ import ColorsMenu from './components/colors/ColorsMenu'
 import SizeMenu from './components/sizes/SizeMenu'
 import AnnouncementBar from './components/announcements/Announcement'
 import LogosMenu from './components/logos/LogosMenu'
+import CustomerTypeMenu from './components/customer-types/CustomerTypeMenu'
 
 const Page = () => {
   useEffect(() => {
@@ -19,8 +20,9 @@ const Page = () => {
         <h2 className='text-xl font-semibold mb-6 text-blue-800'>Menus</h2>
         <div>
           <SizeMenu />
-          <CategoryMenu />
           <ColorsMenu />
+          <CustomerTypeMenu />
+          <CategoryMenu />
           <AnnouncementBar />
           <LogosMenu />
         </div>

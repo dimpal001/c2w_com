@@ -153,7 +153,7 @@ export async function DELETE(request) {
       )
     }
 
-    console.log(id)
+    await prisma.subCategory.deleteMany({ where: { categoryId: id } })
 
     await prisma.productCategory.delete({
       where: { id },
