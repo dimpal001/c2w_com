@@ -388,65 +388,82 @@ const ProductForm = ({ formData, setFormData, type }) => {
       <Devider />
 
       <Section>
-        <div className='flex flex-col gap-3'>
-          <div className='flex items-center gap-3'>
-            <label>Categories:</label>
-            <div className='flex gap-4 flex-wrap'>
-              {allCategories?.map((category) => (
-                <div
-                  key={category.id}
-                  className='capitalize flex gap-1 items-center text-sm'
-                >
-                  <input
-                    type='checkbox'
-                    id={category.id}
-                    value={category.id}
-                    checked={formData.categories.some(
-                      (c) => c.id === category.id
-                    )}
-                    onChange={() => handleCategoryChange(category)}
-                  />
-                  <label htmlFor={category.id}>{category.name}</label>
-                </div>
-              ))}
-            </div>
-          </div>
-          {formData.categories.map((categoryId) => {
-            const subcategories = allSubCategories.filter(
-              (sub) => sub.categoryId === categoryId.id
-            )
-
-            return (
-              <div key={categoryId} className='flex items-center gap-3'>
-                <label>
-                  Subcategories for{' '}
-                  <span className='capitalize'>
-                    {allCategories.find((c) => c.id === categoryId.id)?.name}
-                  </span>
-                  :
-                </label>
-                <div className='flex gap-4 flex-wrap'>
-                  {subcategories.map((subcategory) => (
-                    <div
-                      key={subcategory.id}
-                      className='capitalize flex gap-1 items-center text-sm'
-                    >
-                      <input
-                        type='checkbox'
-                        id={subcategory.id}
-                        value={subcategory.id}
-                        checked={formData.subcategories.some(
-                          (sub) => sub.id === subcategory.id
-                        )}
-                        onChange={() => handleSubcategoryChange(subcategory)}
-                      />
-                      <label htmlFor={subcategory.id}>{subcategory.name}</label>
-                    </div>
-                  ))}
-                </div>
+        <div className='flex items-center gap-5'>
+          <Select
+            label='Select Customer Type'
+            name='customerTypeId'
+            value={formData.customerTypeId}
+            onChange={handleChange}
+          >
+            <option value=''>Select Customer Type</option>
+            {customerTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {uppercaseText(type.name)}
+              </option>
+            ))}
+          </Select>
+          <div>
+            <div className='flex items-center gap-3'>
+              <label>Categories:</label>
+              <div className='flex gap-4 flex-wrap'>
+                {allCategories?.map((category) => (
+                  <div
+                    key={category.id}
+                    className='capitalize flex gap-1 items-center text-sm'
+                  >
+                    <input
+                      type='checkbox'
+                      id={category.id}
+                      value={category.id}
+                      checked={formData.categories.some(
+                        (c) => c.id === category.id
+                      )}
+                      onChange={() => handleCategoryChange(category)}
+                    />
+                    <label htmlFor={category.id}>{category.name}</label>
+                  </div>
+                ))}
               </div>
-            )
-          })}
+            </div>
+            {formData?.categories.map((categoryId) => {
+              const subcategories = allSubCategories.filter(
+                (sub) => sub.categoryId === categoryId.id
+              )
+
+              return (
+                <div key={categoryId} className='flex items-center gap-3'>
+                  <label>
+                    Subcategories for{' '}
+                    <span className='capitalize'>
+                      {allCategories.find((c) => c.id === categoryId.id)?.name}
+                    </span>
+                    :
+                  </label>
+                  <div className='flex gap-4 flex-wrap'>
+                    {subcategories.map((subcategory) => (
+                      <div
+                        key={subcategory.id}
+                        className='capitalize flex gap-1 items-center text-sm'
+                      >
+                        <input
+                          type='checkbox'
+                          id={subcategory.id}
+                          value={subcategory.id}
+                          checked={formData.subcategories.some(
+                            (sub) => sub.id === subcategory.id
+                          )}
+                          onChange={() => handleSubcategoryChange(subcategory)}
+                        />
+                        <label htmlFor={subcategory.id}>
+                          {subcategory.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </Section>
 
@@ -528,7 +545,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
           placeholder='Enter MRP'
           disabled={true}
           name='mrp'
-          value={inventory.mrp}
+          value={inventory.mrp.toFixed(2)}
           onChange={handleChange}
         />
         <Input

@@ -65,7 +65,7 @@ const page = () => {
   }
 
   return (
-    <div className='bg-blue-800 min-h-screen flex flex-col'>
+    <div className='min-h-screen flex flex-col'>
       <Layout>
         {/* Dashboard Main Section */}
         <div className='flex flex-1 p-6'>

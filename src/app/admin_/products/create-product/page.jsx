@@ -34,10 +34,15 @@ const Page = ({ productId }) => {
   }, [])
 
   useEffect(() => {
-    // Ensure this runs on the client side
     const storedUser = localStorage.getItem('user')
     if (storedUser) {
-      setUser(JSON.parse(storedUser))
+      const parsedUser = JSON.parse(storedUser)
+      setUser(parsedUser)
+
+      setFormData((prevData) => ({
+        ...prevData,
+        userId: parsedUser.id,
+      }))
     }
   }, [])
 
