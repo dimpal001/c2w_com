@@ -7,16 +7,25 @@ import Button from './Button'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
+import Loading from './Loading'
+import authCheck from '@/utils/authCheck'
 
 // eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   const [isExpanded, setIsExpanded] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(null)
   const [isClient, setIsClient] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await authCheck(router)
+      setIsAuthenticated(isAuth)
+    }
+    checkAuth()
+
     setIsClient(true)
-  }, [])
+  }, [router])
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded)
@@ -39,6 +48,10 @@ const Layout = ({ children }) => {
     } catch (error) {
       console.error('Logout error:', error)
     }
+  }
+
+  if (isAuthenticated === null || !isAuthenticated) {
+    return <Loading />
   }
 
   return (
