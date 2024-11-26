@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { use } from 'react'
 import DeleteOrderModal from '../DeleteOrder'
+import { enqueueSnackbar } from 'notistack'
 
 const page = ({ params }) => {
   const { id } = use(params)
@@ -34,6 +35,25 @@ const page = ({ params }) => {
   useEffect(() => {
     document.title = 'Order Details | Clothes2Wear'
   }, [])
+
+  const handleOrderDelete = async () => {
+    try {
+      const response = await axios.delete('/api/orders/delete', {
+        data: { id: orderDetails.id },
+      })
+
+      enqueueSnackbar(response.data.message, {
+        variant: 'success',
+        autoHideDuration: 5000,
+      })
+      setDeleteModal(false)
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: 'error',
+        autoHideDuration: 6000,
+      })
+    }
+  }
 
   return (
     <Layout>
@@ -144,6 +164,7 @@ const page = ({ params }) => {
                 <DeleteOrderModal
                   isOpen={true}
                   onClose={() => setDeleteModal(false)}
+                  onDelete={handleOrderDelete}
                 />
               )}
             </div>

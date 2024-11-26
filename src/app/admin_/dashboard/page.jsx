@@ -44,13 +44,20 @@ const page = () => {
   }
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuthAndFetchData = async () => {
       const isAuth = await authCheck(router)
       setIsAuthenticated(isAuth)
+
+      if (isAuth) {
+        try {
+          await Promise.all([fetchOverallStatus(), fetchRecentOrders()])
+        } catch (error) {
+          console.error('Error while fetching dashboard data:', error)
+        }
+      }
     }
-    checkAuth()
-    fetchOverallStatus()
-    fetchRecentOrders()
+
+    checkAuthAndFetchData()
   }, [router])
 
   if (isAuthenticated === null || !isAuthenticated) {

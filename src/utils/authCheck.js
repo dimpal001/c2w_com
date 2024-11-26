@@ -18,7 +18,10 @@ const authCheck = async (router) => {
     }
   } catch (error) {
     console.log(error)
-    enqueueSnackbar('Access denied. Redirecting...')
+    enqueueSnackbar('Access denied. Redirecting...', {
+      variant: 'error',
+      autoHideDuration: 3000,
+    })
     router.push('/')
     return false
   }

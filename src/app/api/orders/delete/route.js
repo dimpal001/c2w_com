@@ -19,10 +19,18 @@ export async function DELETE(request) {
       order.status === 'SHIPPED' ||
       order.status === 'APPROVED'
     ) {
-      return NextResponse.json({
-        message: `The order cannot be deleted as its current status is '${order.status}'.`,
-      })
+      return NextResponse.json(
+        {
+          message: `The order cannot be deleted as its current status is '${order.status}'.`,
+        },
+        { status: 400 }
+      )
     }
+
+    return NextResponse.json(
+      { message: 'Order has been deleted!' },
+      { status: 500 }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(
