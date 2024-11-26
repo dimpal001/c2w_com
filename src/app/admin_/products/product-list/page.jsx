@@ -26,6 +26,7 @@ import {
 } from 'lucide-react'
 import DeleteModal from '@/app/Components/DeleteModal'
 import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
+import ErrorComponent from '../../components/ErrorComponent'
 
 const page = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -50,6 +51,8 @@ const page = () => {
   const [filteredSubCategories, setFilteredSubCategories] = useState([])
   const router = useRouter()
 
+  const [error, setError] = useState(null)
+
   useEffect(() => {
     document.title = 'Product List | Clothes2Wear'
   }, [])
@@ -69,6 +72,7 @@ const page = () => {
         setAllCategories(categoriesRes.data)
       } catch (error) {
         console.error('Error fetching menu data', error)
+        setError(error.message || 'An unexpected error occured!')
       }
     }
     fetchData()
@@ -122,6 +126,7 @@ const page = () => {
       setTotalPages(parseInt(response.data.totalPages))
     } catch (error) {
       console.log(error)
+      setError(error.message || 'An unexpected error occured!')
     } finally {
       setFetching(false)
     }
@@ -199,6 +204,14 @@ const page = () => {
       setFilteredSubCategories([])
     }
   }, [categoryId, allCategories])
+
+  if (error) {
+    return (
+      <Layout>
+        <ErrorComponent message={error} retry={fetchProductList} />
+      </Layout>
+    )
+  }
 
   return (
     <>

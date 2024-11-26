@@ -9,6 +9,10 @@ export async function GET() {
 
     return NextResponse.json({ trendingProducts }, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ message: error }, { status: 500 })
+    console.log(error)
+    return NextResponse.json(
+      { message: 'Something went wrong, try again!' },
+      { status: 500 }
+    )
   }
 }

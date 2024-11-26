@@ -73,17 +73,25 @@ const page = () => {
           <div className='flex-1'>
             {/* Top Stats Cards */}
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'>
-              <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
+              <div
+                onClick={() => router.push('/admin_/orders/order-list')}
+                className='bg-blue-50 group cursor-pointer p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'
+              >
                 <ShoppingCart size={32} />
                 <div>
-                  <p className='text-sm'>Total Orders</p>
+                  <p className='text-sm group-hover:underline'>Total Orders</p>
                   <p className='text-xl font-bold'>{status?.totalOrders}</p>
                 </div>
               </div>
-              <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
+              <div
+                onClick={() => router.push('/admin_/products/product-list')}
+                className='bg-blue-50 p-6 group cursor-pointer rounded-xl shadow-md text-blue-800 flex items-center space-x-4'
+              >
                 <Package size={32} />
                 <div>
-                  <p className='text-sm'>Total Products</p>
+                  <p className='text-sm group-hover:underline'>
+                    Total Products
+                  </p>
                   <p className='text-xl font-bold'>{status?.totalProducts}</p>
                 </div>
               </div>
@@ -96,10 +104,15 @@ const page = () => {
                   </p>
                 </div>
               </div>
-              <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
+              <div
+                onClick={() => router.push('/admin_/users/user-list')}
+                className='bg-blue-50 p-6 group cursor-pointer rounded-xl shadow-md text-blue-800 flex items-center space-x-4'
+              >
                 <Users size={32} />
                 <div>
-                  <p className='text-sm'>Total Customers</p>
+                  <p className='text-sm group-hover:underline'>
+                    Total Customers
+                  </p>
                   <p className='text-xl font-bold'>{status?.totalCustomers}</p>
                 </div>
               </div>

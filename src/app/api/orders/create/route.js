@@ -71,10 +71,28 @@ export async function POST(request) {
       },
     })
 
+    // Reduce stock for each ordered product
+    for (const item of orderItems) {
+      const product = await prisma.productInventory.findUnique({
+        where: { productId: item.productId },
+      })
+
+      if (!product || product.stock < item.quantity) {
+        throw new Error(`Insufficient stock for product ID: ${item.productId}`)
+      }
+
+      await prisma.productInventory.update({
+        where: { productId: item.productId },
+        data: {
+          stock: product.stock - item.quantity,
+        },
+      })
+    }
+
     const order = await razorpay.orders.create({
       amount: parseFloat(totalPrice) * 100,
       currency: 'INR',
-      receipt: 'receipt_ ' + Math.random().toString(36).substring(7),
+      receipt: 'receipt_' + Math.random().toString(36).substring(7),
     })
 
     return NextResponse.json(

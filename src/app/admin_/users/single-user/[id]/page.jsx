@@ -10,6 +10,7 @@ import {
   Star,
   FilePen,
   MoveRight,
+  SearchCheck,
 } from 'lucide-react'
 import Layout from '@/app/admin_/components/Layout'
 import axios from 'axios'
@@ -372,6 +373,63 @@ const UserDetailsPage = ({ params }) => {
                 <div
                   onClick={() =>
                     router.push(`/admin_/users/single-user/reviews/${id}`)
+                  }
+                  className='flex justify-end'
+                >
+                  <span className='flex gap-2 hover:gap-3 hover:text-blue-800 transition-all duration-300 cursor-pointer items-center justify-end p-2'>
+                    <p>View all</p>
+                    <MoveRight />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className='text-gray-500 mt-4'>No reviews found.</div>
+            )}
+          </div>
+
+          {/* Product reviews */}
+          <div className='bg-white p-6 border rounded-md shadow-md'>
+            <h2 className='text-lg font-semibold flex items-center text-blue-500'>
+              <SearchCheck size={20} className='mr-2' /> Search Queries
+            </h2>
+            {userDetails?.searchQueries?.length > 0 ? (
+              <div>
+                <div className='overflow-x-auto mt-4'>
+                  <table className='min-w-full table-auto'>
+                    <thead>
+                      <tr className='border-b'>
+                        <th className='text-left p-2'>Query</th>
+                        <th className='text-left p-2'>Searched On</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {userDetails?.searchQueries?.map((item, index) => (
+                        <tr key={index} className='border-b'>
+                          <td className='p-2'>{item?.query}</td>
+                          <td className='p-2'>
+                            {new Date(item?.createdAt).toDateString()}
+                          </td>
+                          {/* <td className='p-2'>
+                            <Button
+                              onClick={() =>
+                                router.push(
+                                  `/admin_/products/single-product/${item?.product.id}`
+                                )
+                              }
+                              label={'Details'}
+                              variant='warning'
+                            />
+                          </td> */}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div
+                  onClick={() =>
+                    router.push(
+                      `/admin_/users/single-user/search-queries/${id}`
+                    )
                   }
                   className='flex justify-end'
                 >

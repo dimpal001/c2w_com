@@ -33,7 +33,10 @@ export async function DELETE(request) {
       // Prisma error code for not found
       return NextResponse.json({ message: 'User not found.' }, { status: 404 })
     }
-    return NextResponse.json({ message: error.message }, { status: 500 })
+    return NextResponse.json(
+      { message: 'Something went wrong, try again!' },
+      { status: 500 }
+    )
   } finally {
     await prisma.$disconnect()
   }

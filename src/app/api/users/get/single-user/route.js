@@ -215,6 +215,43 @@ export async function GET(request) {
       )
     }
 
+    if (data === 'search-query') {
+      const totalItems = await prisma.searchQuery.count({
+        where: { userId: id },
+      })
+
+      // Fetch paginated cart items
+      const user = await prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          searchQueries: {
+            orderBy: { createdAt: 'desc' },
+            select: {
+              id: true,
+              query: true,
+              createdAt: true,
+            },
+          },
+        },
+      })
+
+      if (!user) {
+        return NextResponse.json({ message: 'User not found' }, { status: 404 })
+      }
+
+      return NextResponse.json(
+        {
+          user,
+          totalItems,
+        },
+        { status: 200 }
+      )
+    }
+
     const user = await prisma.user.findUnique({
       where: { id },
       select: {
@@ -283,6 +320,8 @@ export async function GET(request) {
             },
           },
         },
+
+        searchQueries: true,
       },
     })
 

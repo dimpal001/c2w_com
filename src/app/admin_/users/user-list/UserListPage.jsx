@@ -26,6 +26,8 @@ import {
 import BanUserModal from './BanUserModal'
 import DeleteModal from '@/app/Components/DeleteModal'
 import SendNotificationModal from './SendNotificationModal'
+import Layout from '../../components/Layout'
+import ErrorComponent from '../../components/ErrorComponent'
 
 const page = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,6 +41,7 @@ const page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [notificationModalOpen, setNotificationModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
+  const [error, setError] = useState(null)
 
   const router = useRouter()
 
@@ -56,6 +59,7 @@ const page = () => {
       setTotalPages(parseInt(response.data.totalPages))
     } catch (error) {
       console.log(error)
+      setError(error.message || 'An unexpected errir occured!')
     } finally {
       setFetching(false)
     }
@@ -98,6 +102,14 @@ const page = () => {
   const handleDeleteUser = async () => {
     handleChangeUserStatus(selectedUser.id, 'BANNED')
     setDeleteModalOpen(false)
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <ErrorComponent message={error} retry={fetchUserList} />
+      </Layout>
+    )
   }
 
   return (
