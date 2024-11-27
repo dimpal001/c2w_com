@@ -308,7 +308,7 @@ const Page = () => {
                   <td className='border px-4 py-2'>
                     <video
                       src={`https://cdn.thefashionsalad.com/clothes2wear/${item.videoUrl}`}
-                      className='w-52'
+                      className='w-24'
                     ></video>
                   </td>
                   <td className='border px-4 py-2'>
@@ -331,7 +331,7 @@ const Page = () => {
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>
-                    <div className='flex items-center justify-between gap-2'>
+                    <div className='flex items-center gap-2'>
                       <FilePen
                         onClick={() => {
                           setSelectedTrendingProducts(item)
