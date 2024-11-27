@@ -8,7 +8,7 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
 import Loading from '../components/Loading'
 import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
-import { Upload, X } from 'lucide-react'
+import { FilePen, Trash2, Upload, X } from 'lucide-react'
 import ImageCroper from '@/app/Components/ImageCroper'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
@@ -229,21 +229,20 @@ const Page = () => {
                       </a>
                     </td>
                     <td className='border px-2 text-center py-2'>
-                      <div className='flex flex-col gap-2'>
-                        <Button
+                      <div className='flex items-center justify-between gap-2'>
+                        <FilePen
                           onClick={() => {
-                            setSelectedSlider(item)
                             setShowEditModal(true)
+                            setSelectedSlider(item)
                           }}
-                          label={'Edit'}
+                          className='text-blue-800 cursor-pointer'
                         />
-                        <Button
+                        <Trash2
                           onClick={() => {
                             setSelectedSlider(item)
                             setShowDeleteModal(true)
                           }}
-                          label={'Delete'}
-                          variant='error'
+                          className='text-red-500 cursor-pointer'
                         />
                       </div>
                     </td>

@@ -8,7 +8,7 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
 import ImageCroper from '@/app/Components/ImageCroper'
 import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
-import { Upload, X } from 'lucide-react'
+import { FilePen, Trash2, Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import EditModal from './EditModal'
@@ -316,21 +316,20 @@ const Page = () => {
                     </a>
                   </td>
                   <td className='border px-2 text-center py-2'>
-                    <div className='flex flex-col gap-2'>
-                      <Button
+                    <div className='flex flex-col justify-between items-center gap-2'>
+                      <FilePen
                         onClick={() => {
-                          setSelectedExclusiveCollections(item)
                           setShowEditModal(true)
+                          setSelectedExclusiveCollections(item)
                         }}
-                        label={'Edit'}
+                        className='text-blue-800 cursor-pointer'
                       />
-                      <Button
+                      <Trash2
                         onClick={() => {
                           setSelectedExclusiveCollections(item)
                           setShowDeleteModal(true)
                         }}
-                        label={'Delete'}
-                        variant='error'
+                        className='text-red-500 cursor-pointer'
                       />
                     </div>
                   </td>

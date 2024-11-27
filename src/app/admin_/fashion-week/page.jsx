@@ -8,6 +8,7 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import AddEditProductWeek from './AddEditProductWeek'
 import AddEditImageWeek from './AddEditImageWeek'
+import { FilePen, Trash2 } from 'lucide-react'
 
 const Page = () => {
   const [products, setProducts] = useState([])
@@ -157,22 +158,21 @@ const Page = () => {
                         </a>
                       </td>
                       <td className='border px-2 text-center py-2'>
-                        <div className='flex flex-col gap-2'>
-                          <Button
+                        <div className='flex flex-col justify-between items-center gap-4'>
+                          <FilePen
                             onClick={() => {
                               setSelectedItem(item)
                               setShowProductWeekModal(true)
                               setEditMode(true)
                             }}
-                            label={'Edit'}
+                            className='text-blue-800 cursor-pointer'
                           />
-                          <Button
+                          <Trash2
                             onClick={() => {
                               setSelectedItem(item)
                               setShowDeleteModal(true)
                             }}
-                            label={'Delete'}
-                            variant='error'
+                            className='text-red-500 cursor-pointer'
                           />
                         </div>
                       </td>
@@ -213,22 +213,21 @@ const Page = () => {
                         </a>
                       </td>
                       <td className='border px-2 text-center py-2'>
-                        <div className='flex flex-col gap-2'>
-                          <Button
+                        <div className='flex flex-col justify-between items-center gap-4'>
+                          <FilePen
                             onClick={() => {
                               setSelectedItem(item)
                               setShowImageWeekModal(true)
                               setEditMode(true)
                             }}
-                            label={'Edit'}
+                            className='text-blue-800 cursor-pointer'
                           />
-                          <Button
+                          <Trash2
                             onClick={() => {
                               setSelectedItem(item)
                               setShowDeleteImageWeekModal(true)
                             }}
-                            label={'Delete'}
-                            variant='error'
+                            className='text-red-500 cursor-pointer'
                           />
                         </div>
                       </td>
