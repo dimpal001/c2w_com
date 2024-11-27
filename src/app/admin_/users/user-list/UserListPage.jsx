@@ -231,7 +231,7 @@ const page = () => {
                               <Ellipsis className='cursor-pointer' />
                             </DropdownTrigger>
                             <DropdownMenu
-                              className='bg-white p-3'
+                              className='p-3 rounded-md'
                               aria-label='Static Actions'
                             >
                               <DropdownItem
