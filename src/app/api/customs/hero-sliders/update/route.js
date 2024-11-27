@@ -9,7 +9,7 @@ export async function PATCH(request) {
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
-        { message: 'Unauthorised access!' },
+        { message: 'Unauthorized access!' },
         { status: 401 }
       )
     }

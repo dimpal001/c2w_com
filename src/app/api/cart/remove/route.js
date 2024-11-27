@@ -17,7 +17,7 @@ export async function DELETE(request) {
   try {
     if (!isAuth(request)) {
       return NextResponse.json(
-        { message: 'Unauthorised access!' },
+        { message: 'Unauthorized access!' },
         { status: 401 }
       )
     }

@@ -93,7 +93,12 @@ const ProductForm = ({ formData, setFormData, type }) => {
       return 0
     }
 
-    if (
+    if (name === 'customerTypeId') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }))
+    } else if (
       ['size', 'mrp', 'price', 'discount', 'stock', 'minQuantity'].includes(
         name
       )
@@ -223,7 +228,61 @@ const ProductForm = ({ formData, setFormData, type }) => {
   }
 
   const handleSubmit = async () => {
-    console.log(formData)
+    if (formData.title === '') {
+      enqueueSnackbar('Add the title', { variant: 'error' })
+      return
+    }
+    if (formData.estimatedDeliveryDay === 0) {
+      enqueueSnackbar('Add a valid estimated delivery days', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.displayPrice === 0) {
+      enqueueSnackbar('Add a valid display price', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.customerTypeId === '') {
+      enqueueSnackbar('Select a customer type', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.categories.length === 0) {
+      enqueueSnackbar('Select a category', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.inventory.length === 0) {
+      enqueueSnackbar('Add an inventory', {
+        variant: 'error',
+      })
+      return
+    }
+    if (images.length === 0) {
+      enqueueSnackbar('Add an image', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.summary === '') {
+      enqueueSnackbar('Enter summary', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.description === '') {
+      enqueueSnackbar('Enter description', {
+        variant: 'error',
+      })
+      return
+    }
+
+    // console.log(formData)
+    // enqueueSnackbar('Submitted')
     // if (formData) return null
     try {
       setSaving(true)
@@ -251,6 +310,59 @@ const ProductForm = ({ formData, setFormData, type }) => {
   const handlEditSubmit = async () => {
     console.log(formData)
     console.log(imagesToDelete)
+    if (formData.title === '') {
+      enqueueSnackbar('Add the title', { variant: 'error' })
+      return
+    }
+    if (formData.estimatedDeliveryDay === 0) {
+      enqueueSnackbar('Add a valid estimated delivery days', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.displayPrice === 0) {
+      enqueueSnackbar('Add a valid display price', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.customerTypeId === '') {
+      enqueueSnackbar('Select a customer type', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.categories.length === 0) {
+      enqueueSnackbar('Select a category', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.inventory.length === 0) {
+      enqueueSnackbar('Add an inventory', {
+        variant: 'error',
+      })
+      return
+    }
+    if (images.length === 0) {
+      enqueueSnackbar('Add an image', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.summary === '') {
+      enqueueSnackbar('Enter summary', {
+        variant: 'error',
+      })
+      return
+    }
+    if (formData.description === '') {
+      enqueueSnackbar('Enter description', {
+        variant: 'error',
+      })
+      return
+    }
+
     await Promise.all(
       imagesToDelete.map(async (image) => {
         await deleteImageFromCDN(image)
@@ -392,6 +504,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
           <Select
             label='Select Customer Type'
             name='customerTypeId'
+            defaultValue={formData.customerTypeId}
             value={formData.customerTypeId}
             onChange={handleChange}
           >
@@ -911,11 +1024,12 @@ const TextArea = ({
 }
 
 // eslint-disable-next-line react/prop-types
-const Select = ({ label, onChange, name, children }) => {
+const Select = ({ label, onChange, name, children, defaultValue }) => {
   return (
     <div className='flex flex-col gap-1'>
       <label htmlFor={label}>{label}</label>
       <select
+        defaultValue={defaultValue}
         className='px-3 py-[7px] border bg-white focus:outline-none focus:border-blue-800 border-slate-500 rounded-sm '
         name={name}
         id={label}

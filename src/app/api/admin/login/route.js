@@ -29,7 +29,7 @@ export async function POST(request) {
 
     if (user && user.role !== 'ADMIN') {
       return NextResponse.json(
-        { message: 'Unauthorised access!' },
+        { message: 'Unauthorized access!' },
         { status: 401 }
       )
     }

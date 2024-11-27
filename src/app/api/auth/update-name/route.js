@@ -13,7 +13,7 @@ export async function POST(request) {
 
   if (!token) {
     return NextResponse.json(
-      { message: 'Unauthorised access!.' },
+      { message: 'Unauthorized access!.' },
       { status: 401 }
     )
   }

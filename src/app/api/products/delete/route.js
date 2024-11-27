@@ -9,23 +9,23 @@ export async function DELETE(request) {
 
   if (!isAdmin(request)) {
     return NextResponse.json(
-      { message: 'Unauthorised access!' },
+      { message: 'Unauthorized access!' },
       { status: 401 }
     )
   }
 
   try {
-    // await prisma.productImage.deleteMany({
-    //   where: { productId: id },
-    // })
+    await prisma.productImage.deleteMany({
+      where: { productId: id },
+    })
 
     // Delete the product by its ID
-    const deletedProduct = await prisma.product.delete({
+    await prisma.product.delete({
       where: { id },
     })
 
     return NextResponse.json(
-      { message: 'Product has been deleted.', product: deletedProduct },
+      { message: 'Product has been deleted.' },
       { status: 200 }
     )
   } catch (error) {

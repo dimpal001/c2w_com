@@ -9,7 +9,7 @@ export async function DELETE(request) {
 
   if (!isAdmin(request)) {
     return NextResponse.json(
-      { message: 'Unauthorised access!' },
+      { message: 'Unauthorized access!' },
       { status: 401 }
     )
   }

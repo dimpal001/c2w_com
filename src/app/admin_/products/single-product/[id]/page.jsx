@@ -10,13 +10,27 @@ import Image from 'next/image'
 import Button from '@/app/admin_/components/Button'
 import { useRouter } from 'next/navigation'
 import { Heart, ShoppingBasket, ShoppingCart } from 'lucide-react'
+import DeleteModal from '@/app/Components/DeleteModal'
+import { enqueueSnackbar } from 'notistack'
+import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
 
 const ProductDetailsPage = ({ params }) => {
   const { id } = use(params)
 
   const [productDetails, setProductDetails] = useState(null)
+  const [customerTypes, setCustomerTypes] = useState([])
   const [loading, setLoading] = useState(true)
   const [copiedText, setCopiedText] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+  const fetchCustomerTypes = async () => {
+    try {
+      const response = await axios.get('/api/admin/menu/?type=customer-types')
+      setCustomerTypes(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const router = useRouter()
 
@@ -38,15 +52,62 @@ const ProductDetailsPage = ({ params }) => {
         setLoading(false)
       }
     }
+    fetchCustomerTypes()
     fetchProductDetails()
   }, [id])
+
+  const handleProductDelete = async () => {
+    try {
+      await Promise.all(
+        productDetails.images.map(async (image) => {
+          // console.log(image.imageUrl)
+          await deleteImageFromCDN(image.imageUrl)
+        })
+      )
+      const response = await axios.delete(`/api/products/delete`, {
+        data: { id: productDetails.id },
+      })
+
+      setShowDeleteModal(false)
+      enqueueSnackbar(response.data.message, { variant: 'success' })
+      router.push('/admin_/products/product-list')
+    } catch (error) {
+      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    }
+  }
 
   return (
     <Layout>
       <div className='p-6 bg-gray-100 min-h-screen'>
-        <h2 className='text-xl font-semibold mb-3 text-blue-800'>
-          Product Details
-        </h2>
+        <div className='flex items-center justify-between mb-5'>
+          <h2 className='text-xl font-semibold text-blue-800'>
+            Product Details
+          </h2>
+          <div className='flex items-center gap-2'>
+            <Button
+              onClick={() =>
+                router.push(
+                  `/admin_/products/edit-product/${productDetails.id}`
+                )
+              }
+              label={'Edit Product'}
+            />
+            <Button
+              onClick={() =>
+                router.push(
+                  `/admin_/products/reviews?productId=${productDetails?.styleId}`
+                )
+              }
+              label={'Reviews'}
+            />
+            <Button
+              onClick={() => setShowDeleteModal(true)}
+              label={'Delete Product'}
+              variant='error'
+            />
+          </div>
+        </div>
 
         {loading ? (
           <Loading />
@@ -54,28 +115,6 @@ const ProductDetailsPage = ({ params }) => {
           <div className='bg-white p-6 rounded-lg shadow-md'>
             {productDetails ? (
               <>
-                <div className='flex gap-2 py-4'>
-                  <Button
-                    onClick={() =>
-                      router.push(
-                        `/admin_/products/edit-product/${productDetails.id}`
-                      )
-                    }
-                    label={'Edit Product'}
-                  />
-                  <Button
-                    onClick={() =>
-                      router.push(
-                        `/admin_/products/reviews?productId=${productDetails?.styleId}`
-                      )
-                    }
-                    label={'Reviews'}
-                  />
-                  <Button label={'Delete Product'} variant='error' />
-                </div>
-
-                <div className='bg-neutral-200 my-2 h-[1px] w-full' />
-
                 {/* General Info  */}
                 <div className='mb-3'>
                   <div className='py-3 flex flex-col gap-4'>
@@ -85,7 +124,7 @@ const ProductDetailsPage = ({ params }) => {
                     <table className='w-full'>
                       <thead>
                         <tr className='p-2 bg-blue-800 border border-blue-800 text-white'>
-                          <th className='p-2 text-left border-r border-white'>
+                          <th className='p-2 w-[40%] text-left border-r border-white'>
                             Title
                           </th>
                           <th className='p-2 text-center border-r w-[27%] border-white'>
@@ -96,6 +135,9 @@ const ProductDetailsPage = ({ params }) => {
                           </th>
                           <th className='p-2 text-center border-r w-[27%] border-white'>
                             Display Price
+                          </th>
+                          <th className='p-2 text-center border-r w-[27%] border-white'>
+                            Customer Type
                           </th>
                         </tr>
                       </thead>
@@ -132,6 +174,13 @@ const ProductDetailsPage = ({ params }) => {
                           </td>
                           <td className='p-3 border text-center'>
                             {productDetails.displayPrice.toFixed(2)}
+                          </td>
+                          <td className='p-3 border capitalize text-center'>
+                            {customerTypes.length > 0 &&
+                              customerTypes.find(
+                                (item) =>
+                                  item.id === productDetails?.customerTypeId
+                              )?.name}
                           </td>
                         </tr>
                       </tbody>
@@ -546,6 +595,13 @@ const ProductDetailsPage = ({ params }) => {
               <p className='text-gray-700'>Product details not available.</p>
             )}
           </div>
+        )}
+        {showDeleteModal && (
+          <DeleteModal
+            isOpen={true}
+            onClose={() => setShowDeleteModal(false)}
+            onDelete={handleProductDelete}
+          />
         )}
       </div>
     </Layout>
