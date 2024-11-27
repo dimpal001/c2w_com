@@ -35,6 +35,10 @@ const ThisMonthOverview = () => {
     fetchData()
   }, [selectedMonth, selectedYear])
 
+  useEffect(() => {
+    document.title = 'Sales Overview | Clothes2Wear'
+  }, [])
+
   const handleMonthChange = (e) => setSelectedMonth(Number(e.target.value))
   const handleYearChange = (e) => setSelectedYear(Number(e.target.value))
 

@@ -37,6 +37,7 @@ const page = ({ params }) => {
   }, [])
 
   const handleOrderDelete = async () => {
+    setDeleteModal(false)
     try {
       const response = await axios.delete('/api/orders/delete', {
         data: { id: orderDetails.id },
@@ -46,7 +47,7 @@ const page = ({ params }) => {
         variant: 'success',
         autoHideDuration: 5000,
       })
-      setDeleteModal(false)
+      router.push('/admin_/orders/order-list')
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, {
         variant: 'error',

@@ -50,6 +50,10 @@ const ThisMonthOverview = () => {
   }, [selectedMonth, selectedYear])
 
   useEffect(() => {
+    document.title = 'Customer Reviews | Clothes2Wear'
+  }, [])
+
+  useEffect(() => {
     if (data?.reviews) {
       filterReviews()
     }

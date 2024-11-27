@@ -17,6 +17,7 @@ export async function DELETE(request) {
       order.status === 'PENDING' ||
       order.status === 'INCOMPLETE' ||
       order.status === 'SHIPPED' ||
+      order.status === 'INTRANSIT' ||
       order.status === 'APPROVED'
     ) {
       return NextResponse.json(
@@ -27,9 +28,11 @@ export async function DELETE(request) {
       )
     }
 
+    await prisma.orderDetails.delete({ where: { id } })
+
     return NextResponse.json(
       { message: 'Order has been deleted!' },
-      { status: 500 }
+      { status: 200 }
     )
   } catch (error) {
     console.log(error)
