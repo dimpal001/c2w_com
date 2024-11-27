@@ -229,7 +229,7 @@ const Page = () => {
                       </a>
                     </td>
                     <td className='border px-2 text-center py-2'>
-                      <div className='flex items-center justify-between gap-2'>
+                      <div className='flex items-center gap-2'>
                         <FilePen
                           onClick={() => {
                             setShowEditModal(true)
