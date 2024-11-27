@@ -20,7 +20,7 @@ export async function PATCH(request) {
 
   if (!isAuth(request)) {
     return NextResponse.json(
-      { message: 'Unauthorized access!' },
+      { message: 'Unauthorised access!' },
       { status: 401 }
     )
   }

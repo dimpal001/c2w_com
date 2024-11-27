@@ -25,7 +25,7 @@ export async function GET(request) {
     if (id) {
       if (!isAuth(request)) {
         return NextResponse.json(
-          { message: 'Unauthorized access!' },
+          { message: 'Unauthorised access!' },
           { status: 401 }
         )
       }
@@ -67,7 +67,7 @@ export async function GET(request) {
 
     if (!isAdmin(request)) {
       return NextResponse.json(
-        { message: 'Unauthorized access!' },
+        { message: 'Unauthorised access!' },
         { status: 401 }
       )
     }

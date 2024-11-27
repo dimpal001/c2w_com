@@ -12,7 +12,7 @@ export async function GET(request) {
 
   if (!isAdmin(request)) {
     return NextResponse.json(
-      { message: 'Unauthorized access!' },
+      { message: 'Unauthorised access!' },
       { status: 401 }
     )
   }

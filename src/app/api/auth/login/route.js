@@ -38,7 +38,7 @@ export async function POST(request) {
     if (user && user.role !== 'BUYER') {
       return NextResponse.json(
         {
-          message: 'Unauthorized access',
+          message: 'Unauthorised access',
         },
         { status: 401 }
       )

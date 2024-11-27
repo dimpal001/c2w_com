@@ -19,7 +19,7 @@ export async function POST(request) {
   try {
     if (!isAdmin(request)) {
       return NextResponse.json(
-        { message: 'Unauthorized access!' },
+        { message: 'Unauthorised access!' },
         { status: 401 }
       )
     }
