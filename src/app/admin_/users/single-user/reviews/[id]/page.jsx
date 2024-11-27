@@ -11,6 +11,8 @@ import { use } from 'react'
 import ViewReviewModal from './ViewReviewModal'
 import { Star } from 'lucide-react'
 import Loading from '@/app/admin_/components/Loading'
+import { enqueueSnackbar } from 'notistack'
+import DeleteModal from '@/app/Components/DeleteModal'
 
 const page = ({ params }) => {
   const { id } = use(params)
@@ -20,6 +22,7 @@ const page = ({ params }) => {
   const [userData, setUserData] = useState(null)
   const [selectedReview, setSelectedReview] = useState(null)
   const [reviewModalOpen, setReviewModalOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const router = useRouter()
@@ -58,6 +61,20 @@ const page = ({ params }) => {
     const newPage = currentPage + 1
     setCurrentPage(newPage)
     fetchData(newPage)
+  }
+
+  const handleReviewDelete = async () => {
+    try {
+      setDeleteModalOpen(false)
+      const response = await axios.delete(
+        `/api/products/get/product-review?id=${selectedReview.id}`
+      )
+      setSelectedReview(null)
+      enqueueSnackbar(response.data.message, { variant: 'success' })
+      fetchData()
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    }
   }
 
   useEffect(() => {
@@ -131,7 +148,16 @@ const page = ({ params }) => {
                           </div>
                         </td>
                         <td className='border px-4 py-2'>
-                          {item?.product.title}
+                          <span
+                            className='hover:text-blue-800 hover:underline cursor-pointer'
+                            onClick={() =>
+                              router.push(
+                                `/admin_/products/single-product/${item.product.id}`
+                              )
+                            }
+                          >
+                            {item?.product.title}
+                          </span>
                         </td>
                         <td className='border px-4 py-2'>
                           <div className='flex gap-1'>
@@ -171,13 +197,12 @@ const page = ({ params }) => {
                         <td className='border px-2 text-center py-2'>
                           <div className='flex justify-center'>
                             <Button
-                              onClick={() =>
-                                router.push(
-                                  `/admin_/products/single-product/${item.product.id}`
-                                )
-                              }
-                              label={'Product Details'}
-                              variant='warning'
+                              onClick={() => {
+                                setSelectedReview(item)
+                                setDeleteModalOpen(true)
+                              }}
+                              label={'Delete'}
+                              variant='error'
                             />
                           </div>
                         </td>
@@ -196,6 +221,13 @@ const page = ({ params }) => {
                   isOpen={true}
                   onClose={() => setReviewModalOpen(false)}
                   review={selectedReview}
+                />
+              )}
+              {deleteModalOpen && (
+                <DeleteModal
+                  isOpen={true}
+                  onClose={() => setDeleteModalOpen(false)}
+                  onDelete={handleReviewDelete}
                 />
               )}
             </div>

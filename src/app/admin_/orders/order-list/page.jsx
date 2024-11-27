@@ -14,7 +14,16 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/dropdown'
-import { CircleCheck, Ellipsis, FilePen, FileText } from 'lucide-react'
+import {
+  Ban,
+  CircleCheck,
+  CircleDashed,
+  Ellipsis,
+  FilePen,
+  FileText,
+  PackageCheck,
+  Truck,
+} from 'lucide-react'
 import UpdateOrderModal from './UpdateOrderModal'
 
 const page = () => {
@@ -212,9 +221,28 @@ const page = () => {
                           <p className='flex items-center gap-1'>
                             {order.status}
                             {order.status === 'DELIVERED' && (
+                              <PackageCheck
+                                size={20}
+                                className='text-green-600'
+                              />
+                            )}
+                            {(order.status === 'INTRANSIT' ||
+                              order.status === 'SHIPPED') && (
+                              <Truck size={20} className='text-blue-800' />
+                            )}
+                            {order.status === 'CANCELLED' && (
+                              <Ban size={20} className='text-red-600' />
+                            )}
+                            {order.status === 'APPROVED' && (
                               <CircleCheck
                                 size={20}
                                 className='text-green-600'
+                              />
+                            )}
+                            {order.status === 'PENDING' && (
+                              <CircleDashed
+                                size={20}
+                                className='text-yellow-600'
                               />
                             )}
                           </p>

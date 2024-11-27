@@ -96,7 +96,7 @@ const Page = () => {
     document.title = 'Exclusive Collections | Clothes2Wear'
   }, [])
 
-  const deleteExclusiveCollection = async () => {
+  const deleteSocialLink = async () => {
     try {
       const response = await axios.delete('/api/customs/social-links', {
         params: { id: selectedItem.id },
@@ -257,7 +257,7 @@ const Page = () => {
           <DeleteModal
             isOpen={true}
             onClose={() => setShowDeleteModal(false)}
-            onDelete={() => deleteExclusiveCollection()}
+            onDelete={() => deleteSocialLink()}
           />
         )}
         {showImageCroper && (

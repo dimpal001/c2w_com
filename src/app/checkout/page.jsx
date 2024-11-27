@@ -6,7 +6,6 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
-
 const orderItems = [
   {
     productId: '15eb4732-3c11-498a-a8fc-befc29ca1f00',
@@ -111,45 +110,6 @@ const PaymentPage = () => {
     }
   }, [])
 
-  // const handlePayment = async () => {
-  //   setLoading(true)
-
-  //   // Call API to create order and get order details
-  //   const response = await fetch('/api/orders/create', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       amount: 1000,
-  //     }),
-  //   })
-
-  //   const data = await response.json()
-
-  //   if (data.orderId) {
-  //     const options = {
-  //       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
-  //       amount: data.amount,
-  //       currency: 'INR',
-  //       order_id: data.orderId,
-  //       name: 'Clothes2wear',
-  //       description: 'Shopping',
-  //       image: 'https://www.thefashionsalad.com/favicon.ico',
-  //       handler: function (response) {
-  //         alert('Payment Successful: ' + response.razorpay_payment_id)
-  //         console.log(response)
-  //       },
-  //     }
-
-  //     // Open Razorpay payment modal
-  //     const razorpay = new window.Razorpay(options)
-  //     razorpay.open()
-  //   }
-
-  //   setLoading(false)
-  // }
-
   return (
     <div>
       <h1>Payment Page</h1>
@@ -157,6 +117,7 @@ const PaymentPage = () => {
       <button onClick={handleCheckout} disabled={loading}>
         {loading ? 'Processing...' : 'Pay Now'}
       </button>
+      <div></div>
     </div>
   )
 }

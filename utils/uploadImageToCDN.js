@@ -7,14 +7,13 @@ export const uploadImageToCDN = async (image, name) => {
     forcePathStyle: false,
     region: 'blr1',
     credentials: {
-      accessKeyId: 'DO00TK892YLJBW7MV82Y',
-      secretAccessKey: '9a1ueUXe6X+ngKZoZEyvnfjQw5PI7t3bzbquBCWc2bY',
+      accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
     },
   })
 
   const extension = name.split('.').pop()
   let imageName = `image-${Date.now()}.${extension}`
-  // const imageName = `https://cdn.thefashionsalad.com/clothes2wear/image-${Date.now()}.${extension}`
 
   const file = new File([image], name, { type: image.type })
   if (!file || !file) return

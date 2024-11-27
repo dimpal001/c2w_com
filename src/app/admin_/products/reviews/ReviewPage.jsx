@@ -26,7 +26,7 @@ const ReviewPage = () => {
   const [notFound, setNotFound] = useState(false)
   const [fetching, setFetching] = useState(false)
   const [productData, setProductData] = useState(null)
-  const [selectedReivew, setSelectedReview] = useState(null)
+  const [selectedReview, setSelectedReview] = useState(null)
 
   const router = useRouter()
 
@@ -62,7 +62,30 @@ const ReviewPage = () => {
   }
 
   const handleReviewDelete = async () => {
-    console.log(selectedReivew)
+    try {
+      setDeleteModalOpen(false)
+      const response = await axios.delete(
+        `/api/products/get/product-review?id=${selectedReview.id}`
+      )
+
+      if (response.status === 200) {
+        setProductData((prevData) => {
+          if (Array.isArray(prevData?.productReview)) {
+            return {
+              ...prevData,
+              productReview: prevData.productReview.filter(
+                (data) => data.id !== selectedReview.id
+              ),
+            }
+          }
+          return prevData
+        })
+        setSelectedReview(null)
+        enqueueSnackbar(response.data.message, { variant: 'success' })
+      }
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    }
   }
 
   useEffect(() => {
@@ -95,7 +118,7 @@ const ReviewPage = () => {
               <Loading />
             ) : (
               <div>
-                {productData && productData.productReview.length > 0 ? (
+                {productData && productData.productReview?.length > 0 ? (
                   <div>
                     <table className='w-full'>
                       <thead>
@@ -217,10 +240,10 @@ const ReviewPage = () => {
                       <ReviewModal
                         isOpen={true}
                         onClose={() => setReviewModalOpen(false)}
-                        rating={selectedReivew.rating}
-                        review={selectedReivew.review}
-                        createdAt={selectedReivew.createdAt}
-                        userName={selectedReivew.user.firstName}
+                        rating={selectedReview.rating}
+                        review={selectedReview.review}
+                        createdAt={selectedReview.createdAt}
+                        userName={selectedReview.user.firstName}
                         title={productData.title}
                         thumbnailUrl={productData.thumbnailUrl}
                         profileUrl={productData?.user?.profileUrl}

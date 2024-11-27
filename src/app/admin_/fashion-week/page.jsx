@@ -53,7 +53,7 @@ const Page = () => {
     document.title = 'Fashion Week | Clothes2Wear'
   }, [])
 
-  const deleteShowcase = async () => {
+  const deleteFashionWeek = async () => {
     try {
       const response = await axios.delete(
         '/api/customs/fashion-week/product-week',
@@ -242,7 +242,7 @@ const Page = () => {
           <DeleteModal
             isOpen={true}
             onClose={() => setShowDeleteModal(false)}
-            onDelete={() => deleteShowcase()}
+            onDelete={() => deleteFashionWeek()}
           />
         )}
         {showDeleteImageWeekModal && (

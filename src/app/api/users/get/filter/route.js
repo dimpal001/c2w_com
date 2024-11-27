@@ -12,7 +12,7 @@ export async function GET(request) {
 
   if (!isAdmin(request)) {
     return NextResponse.json(
-      { message: 'Unauthorized access!' },
+      { message: 'Unauthorised access!' },
       { status: 401 }
     )
   }
@@ -25,8 +25,30 @@ export async function GET(request) {
     const where = {}
 
     if (searchQuery) {
-      where.firstName = {
-        contains: searchQuery,
+      const searchTerms = searchQuery.split(' ').filter(Boolean) // Split query into words
+
+      if (searchTerms.length > 1) {
+        // Handle multi-word search (e.g., "dimpal das")
+        where.OR = [
+          {
+            AND: [
+              { firstName: { contains: searchTerms[0] } },
+              { lastName: { contains: searchTerms[1] } },
+            ],
+          },
+          {
+            AND: [
+              { firstName: { contains: searchTerms[1] } },
+              { lastName: { contains: searchTerms[0] } },
+            ],
+          },
+        ]
+      } else {
+        // Handle single-word search
+        where.OR = [
+          { firstName: { contains: searchQuery } },
+          { lastName: { contains: searchQuery } },
+        ]
       }
     }
 

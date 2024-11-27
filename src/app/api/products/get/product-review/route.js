@@ -1,3 +1,4 @@
+import { isAdmin } from '@/app/api/middleware/adminAuth'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
@@ -30,6 +31,32 @@ export async function GET(request) {
     console.error('Error querying products:', error)
     return NextResponse.json(
       { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(request) {
+  const { searchParams } = new URL(request.url)
+  const id = searchParams.get('id')
+  try {
+    if (!isAdmin(request)) {
+      return NextResponse.json(
+        { message: 'Unauthorised access' },
+        { status: 401 }
+      )
+    }
+    if (!id) {
+      return NextResponse.json({ message: 'ID is required' }, { status: 400 })
+    }
+
+    await prisma.productReview.delete({ where: { id } })
+
+    return NextResponse.json({ message: 'Review deleted' }, { status: 200 })
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json(
+      { message: 'Something went wrong, try again!' },
       { status: 500 }
     )
   }

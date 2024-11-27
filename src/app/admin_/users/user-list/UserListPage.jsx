@@ -42,14 +42,25 @@ const page = () => {
   const [notificationModalOpen, setNotificationModalOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
   const [error, setError] = useState(null)
+  const [debouncedQuery, setDebouncedQuery] = useState('')
 
   const router = useRouter()
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery)
+    }, 500)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [searchQuery])
 
   const fetchUserList = async (page) => {
     try {
       setFetching(true)
       const params = {
-        searchQuery,
+        searchQuery: debouncedQuery,
         userRole,
         page: page || 1,
       }
@@ -92,7 +103,7 @@ const page = () => {
 
   useEffect(() => {
     fetchUserList()
-  }, [searchQuery, userRole])
+  }, [debouncedQuery, userRole])
 
   const handleBanUser = async () => {
     handleChangeUserStatus(selectedUser.id, 'BANNED')

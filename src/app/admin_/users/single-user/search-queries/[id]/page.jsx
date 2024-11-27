@@ -1,6 +1,5 @@
 'use client'
 
-import Button from '@/app/admin_/components/Button'
 import ErrorComponent from '@/app/admin_/components/ErrorComponent'
 import Layout from '@/app/admin_/components/Layout'
 import Loading from '@/app/admin_/components/Loading'
@@ -14,7 +13,7 @@ const page = ({ params }) => {
   const [totalItems, setTotalItems] = useState(null)
   const [userData, setUserData] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null) // Error State
+  const [error, setError] = useState(null)
 
   const [searchText, setSearchText] = useState('')
   const [filteredQueries, setFilteredQueries] = useState([])
@@ -32,7 +31,7 @@ const page = ({ params }) => {
     }
     try {
       setLoading(true)
-      setError(null) // Clear previous error
+      setError(null)
       const response = await axios.get(`/api/users/get/single-user`, { params })
       if (!response.data.user) throw new Error('User not found')
 
@@ -128,7 +127,6 @@ const page = ({ params }) => {
                   <th className='border px-4 py-2 text-left'>SL</th>
                   <th className='border px-4 py-2 text-left'>Query</th>
                   <th className='border px-4 py-2 text-left'>Searched On</th>
-                  <th className='border px-4 py-2 text-center'>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -141,19 +139,6 @@ const page = ({ params }) => {
                       <td className='border px-4 py-2'>{item?.query}</td>
                       <td className='border px-4 py-2'>
                         {new Date(item?.createdAt).toDateString()}
-                      </td>
-                      <td className='border px-2 text-center py-2'>
-                        <div className='flex justify-center'>
-                          <Button
-                            onClick={() =>
-                              router.push(
-                                `/admin_/orders/single-order/${item.orderId}`
-                              )
-                            }
-                            label={'Details'}
-                            variant='warning'
-                          />
-                        </div>
                       </td>
                     </tr>
                   ))}
