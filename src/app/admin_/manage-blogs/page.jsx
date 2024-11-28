@@ -107,7 +107,7 @@ const Page = () => {
   }
 
   useEffect(() => {
-    document.title = 'Exclusive Collections | Clothes2Wear'
+    document.title = 'Manage Blogs | Clothes2Wear'
   }, [])
 
   const deleteBlog = async () => {

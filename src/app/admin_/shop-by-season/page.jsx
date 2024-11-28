@@ -45,7 +45,7 @@ const Page = () => {
   }
 
   useEffect(() => {
-    document.title = 'products | Clothes2Wear'
+    document.title = 'Shop by Season | Clothes2Wear'
   }, [])
 
   const addSeason = async () => {

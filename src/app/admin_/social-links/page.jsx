@@ -93,7 +93,7 @@ const Page = () => {
   }
 
   useEffect(() => {
-    document.title = 'Exclusive Collections | Clothes2Wear'
+    document.title = 'Social Links | Clothes2Wear'
   }, [])
 
   const deleteSocialLink = async () => {

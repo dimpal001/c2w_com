@@ -95,13 +95,17 @@ const Sidebar = ({ isExpanded }) => {
 
   return (
     <div
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
       className={`${
         isExpanded ? 'w-[250px]' : 'w-[80px]'
       } p-[20px] bg-blue-800 rounded-sm transition-all overflow-scroll duration-300 shadow-md`}
     >
       <nav>
         {menuItems.map((item, index) => (
-          <div key={index} className='overflow-scroll'>
+          <div key={index} className='overflow-scroll scrollbar-hidden'>
             <Link href={item.path || '#'} passHref>
               <div
                 className={`flex items-center px-[10px] py-[8px] cursor-pointer font-semibold rounded-[4px] ${

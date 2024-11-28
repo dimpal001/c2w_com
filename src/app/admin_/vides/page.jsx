@@ -95,7 +95,7 @@ const Page = () => {
   }
 
   useEffect(() => {
-    document.title = 'Trending Products | Clothes2Wear'
+    document.title = 'Manage Vides | Clothes2Wear'
   }, [])
 
   const deleteVide = async () => {
