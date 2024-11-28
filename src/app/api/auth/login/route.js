@@ -38,13 +38,12 @@ export async function POST(request) {
     if (user && user.role !== 'BUYER') {
       return NextResponse.json(
         {
-          message: 'Unauthorised access',
+          message: 'Unauthorized access',
         },
         { status: 401 }
       )
     }
 
-    // Verify the password using bcrypt
     const isPasswordValid = await compare(password, user.password)
 
     if (!isPasswordValid) {
@@ -64,8 +63,6 @@ export async function POST(request) {
           expiresAt: new Date(Date.now() + 10 * 60 * 1000),
         },
       })
-
-      // await sendOtp(user.email, otp.code)
 
       const token = jwt.sign(
         { userId: user.id, otp: otp.id },
@@ -92,7 +89,37 @@ export async function POST(request) {
       return response
     }
 
-    // Return success response
+    const existingSession = await prisma.session.findFirst({
+      where: { userId: user.id },
+    })
+
+    if (existingSession) {
+      return NextResponse.json(
+        {
+          message:
+            'You are already logged in. Please log out from the other device first.',
+        },
+        { status: 403 }
+      )
+    }
+
+    await prisma.session.deleteMany({ where: { userId: user.id } })
+
+    const newToken = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '14d' }
+    )
+
+    await prisma.session.create({
+      data: {
+        userId: user.id,
+        token: newToken,
+      },
+    })
+
+    await prisma.user.update({ where: { email }, data: { isLoggedIn: true } })
+
     const response = NextResponse.json({
       message: 'Login successful',
       user: {
@@ -102,22 +129,16 @@ export async function POST(request) {
       },
     })
 
-    const token = jwt.sign(
-      { userId: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '14d' }
-    )
-
-    response.cookies.set('token', token, {
+    response.cookies.set('token', newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60 * 24, // 1 day
     })
 
     return response
   } catch (error) {
-    console.error('Error during admin login:', error)
+    console.error('Error during login:', error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

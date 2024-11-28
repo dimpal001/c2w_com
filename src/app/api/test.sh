@@ -79,19 +79,13 @@
 #   "mobileNumber": "9876543210"
 # }'
 
-# curl -X PATCH "http://localhost:3000/api/users/address/update" \
+# curl -X POST "http://localhost:3000/api/vides" \
 # -H "Content-Type: application/json" \
 # -d '{
-#   "userId": "5c8e5487-1199-4137-a620-75b8ffe838f5",
-#   "addressId": "148ca5c2-19ae-477b-bfd1-fd3fd27080be",
-#   "addressLine1": "456 New Street",
-#   "addressLine2": "Apt 10A",
-#   "isDefault": true,
-#   "city": "NewCity",
-#   "state": "NewState",
-#   "zipCode": "654321",
-#   "country": "NewCountry",
-#   "mobileNumber": "1234567890"
+#   "title": "Vide title",
+#   "description": "Small description",
+#   "videoUrl": "https://vide.com",
+#   "productId": "15eb4732-3c11-498a-a8fc-befc29ca1f00",
 # }'
 
 # curl -X DELETE "http://localhost:3000/api/user/address" \
@@ -216,5 +210,22 @@
 
 # Search Query ----------------------------------------------------------------------------------------------- 
 
-curl -X GET "http://localhost:3000/api/search?query=wedding&id=6eeb6f1d-2508-4cc6-b64c-8a881363168c" \
--H "Content-Type: application/json"
+# curl -X GET "http://localhost:3000/api/search?query=wedding&id=6eeb6f1d-2508-4cc6-b64c-8a881363168c" \
+# -H "Content-Type: application/json"
+
+
+
+# Vides ---------------------------------------------------------------------------------------------------------- 
+
+# curl -X POST "http://localhost:3000/api/vides" \
+# -H "Content-Type: application/json" \
+# -d '{
+#   "title": "Vide title",
+#   "description": "Small description",
+#   "videoUrl": "https://vide.com",
+#   "productId": "15eb4732-3c11-498a-a8fc-befc29ca1f00",
+#   "price": 5000
+# }'
+
+# curl -X GET "http://localhost:3000/api/vides" \
+# -H "Content-Type: application/json"

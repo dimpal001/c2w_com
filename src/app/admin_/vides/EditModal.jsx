@@ -9,38 +9,23 @@ import {
 } from '@/app/Components/CustomModal'
 import React, { useRef, useState } from 'react'
 import Button from '../components/Button'
-import { Upload, X } from 'lucide-react'
+import { Upload } from 'lucide-react'
 import { enqueueSnackbar } from 'notistack'
 import { uploadImageToCDN } from '../../../../utils/uploadImageToCDN'
 import axios from 'axios'
 import { cdnPath } from '@/app/Components/cdnPath'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
-import Image from 'next/image'
-import ImageCroper from '@/app/Components/ImageCroper'
 
-const EditModal = ({
-  isOpen,
-  onClose,
-  selectedTrendingProducts,
-  fetchTrendingProducts,
-}) => {
-  const [newTrendingProduct, setNewTrendingProduct] = useState({
-    hyperLink: selectedTrendingProducts.hyperLink || '',
-    title: selectedTrendingProducts.title || '',
-    videoUrl: cdnPath + selectedTrendingProducts.videoUrl || '',
-    price: selectedTrendingProducts.price || '',
-    avatarUrl: selectedTrendingProducts.avatarUrl || '',
+const EditModal = ({ isOpen, onClose, item, refresh }) => {
+  const [newItem, setNewItem] = useState({
+    hyperLink: item.hyperLink || '',
+    title: item.title || '',
+    videoUrl: cdnPath + item.videoUrl || '',
+    price: item.price || '',
+    description: item.description || '',
   })
   const [video, setVideo] = useState(null)
-  const [showImageCroper, setShowImageCroper] = useState(false)
   const [fileName, setFileName] = useState(null)
-  const [image, setImage] = useState({
-    blob: null,
-    fileName: '',
-    imageUrl: cdnPath + selectedTrendingProducts.avatarUrl || null,
-  })
-
-  console.log(selectedTrendingProducts)
 
   const fileInputRef = useRef(null)
 
@@ -48,46 +33,38 @@ const EditModal = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setNewTrendingProduct((prev) => ({ ...prev, [name]: value }))
+    setNewItem((prev) => ({ ...prev, [name]: value }))
   }
 
   const updateShowcase = async () => {
-    if (newTrendingProduct.title === '') {
+    if (newItem.title === '') {
       enqueueSnackbar('Enter Title', { variant: 'error' })
       return
     }
-    if (newTrendingProduct.hyperLink === '') {
+    if (newItem.hyperLink === '') {
       enqueueSnackbar('Add hyper a link', { variant: 'error' })
       return
     }
     try {
       setSubmitting(true)
       let videoUrl
-      let avatarUrl
       if (fileName !== null) {
-        await deleteImageFromCDN(selectedTrendingProducts.videoUrl)
+        await deleteImageFromCDN(item.videoUrl)
         videoUrl = await uploadImageToCDN(video, fileName)
       } else {
-        videoUrl = selectedTrendingProducts.videoUrl
-      }
-
-      if (image.fileName !== null) {
-        await deleteImageFromCDN(selectedTrendingProducts.avatarUrl)
-        avatarUrl = await uploadImageToCDN(image.blob, image.fileName)
-      } else {
-        avatarUrl = selectedTrendingProducts.avatarUrl
+        videoUrl = item.videoUrl
       }
 
       if (videoUrl) {
-        const response = await axios.patch('/api/customs/trending/update', {
-          id: selectedTrendingProducts.id,
-          title: newTrendingProduct.title,
+        const response = await axios.patch('/api/vides', {
+          id: item.id,
+          title: newItem.title,
           videoUrl: videoUrl,
-          price: newTrendingProduct.price,
-          hyperLink: newTrendingProduct.hyperLink,
-          avatarUrl: avatarUrl,
+          price: newItem.price,
+          hyperLink: newItem.hyperLink,
+          description: newItem.description,
         })
-        setNewTrendingProduct({
+        setNewItem({
           title: '',
           videoUrl: '',
           hyperLink: '',
@@ -95,7 +72,7 @@ const EditModal = ({
           avatarUrl: '',
         })
         console.log(response)
-        fetchTrendingProducts()
+        refresh()
         onClose()
       }
     } catch (error) {
@@ -117,15 +94,6 @@ const EditModal = ({
     fileInputRef.current.click()
   }
 
-  const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
-    setImage({
-      blob: blob,
-      imageUrl: croppedImageUrl,
-      fileName: fileName,
-    })
-  }
-
   return (
     <Modal size={'4xl'} isOpen={isOpen}>
       <ModalContent>
@@ -145,7 +113,7 @@ const EditModal = ({
                   <input
                     type='text'
                     name='title'
-                    value={newTrendingProduct.title}
+                    value={newItem.title}
                     onChange={handleChange}
                     className='border p-2 rounded w-full'
                   />
@@ -155,7 +123,7 @@ const EditModal = ({
                   <input
                     type='text'
                     name='price'
-                    value={newTrendingProduct.price}
+                    value={newItem.price}
                     onChange={handleChange}
                     className='border p-2 rounded w-full'
                   />
@@ -166,7 +134,7 @@ const EditModal = ({
                   <input
                     type='text'
                     name='hyperLink'
-                    value={newTrendingProduct.hyperLink}
+                    value={newItem.hyperLink}
                     onChange={handleChange}
                     className='border p-2 rounded w-full'
                   />
@@ -187,57 +155,13 @@ const EditModal = ({
                     <Upload size={19} />
                   </button>
                 </div>
-                <div className='mb-2'>
-                  <label className='block mb-1 font-semibold'>
-                    Avatar Image
-                  </label>
-                  <input
-                    type='file'
-                    ref={fileInputRef}
-                    accept='image/*'
-                    onChange={handleFileChange}
-                    className='hidden'
-                  />
-                  <button
-                    onClick={() => setShowImageCroper(true)}
-                    className='border p-2 rounded flex justify-center w-full'
-                  >
-                    <Upload size={19} />
-                  </button>
-                </div>
               </div>
               <div className='flex gap-2'>
                 <video
                   controls
-                  src={
-                    video
-                      ? URL.createObjectURL(video)
-                      : newTrendingProduct.videoUrl
-                  }
+                  src={video ? URL.createObjectURL(video) : newItem.videoUrl}
                   className='w-52 mb-3'
                 ></video>
-                {image.imageUrl && (
-                  <div className='relative'>
-                    <Image
-                      width={90}
-                      height={90}
-                      src={image.imageUrl}
-                      alt='Image'
-                      className='py-2 pb-4'
-                    />
-                    <X
-                      className='text-red-600 absolute top-3 left-1 cursor-pointer'
-                      onClick={() => {
-                        setImage({
-                          blob: '',
-                          imageUrl: '',
-                          fileName: '',
-                        })
-                      }}
-                      size={35}
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -252,14 +176,6 @@ const EditModal = ({
           />
         </ModalFooter>
       </ModalContent>
-      {showImageCroper && (
-        <ImageCroper
-          isOpen={true}
-          onClose={() => setShowImageCroper(false)}
-          onCropComplete={handleFile}
-          aspectRatio={4 / 4}
-        />
-      )}
     </Modal>
   )
 }

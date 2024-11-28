@@ -10,6 +10,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
 import { useRouter } from 'next/navigation'
+import Button from '@/app/admin_/components/Button'
 
 export default function SigninPage() {
   const [email, setEmail] = useState('')
@@ -19,6 +20,8 @@ export default function SigninPage() {
   const [errors, setErrors] = useState({ email: '', password: '' })
   const [loginError, setLoginError] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
+  const [showLogoutButton, setShowLogoutButton] = useState(false)
+  const [loggingOut, setLoggingOut] = useState(false)
 
   const router = useRouter()
 
@@ -46,6 +49,7 @@ export default function SigninPage() {
   const handleSignIn = async () => {
     setLoginError(null)
     try {
+      setShowLogoutButton(true)
       setSubmitting(true)
       if (validateFields()) {
         const response = await axios.post('/api/auth/login', {
@@ -57,11 +61,18 @@ export default function SigninPage() {
       }
       router.push('/')
     } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: 'error',
+        autoHideDuration: 4000,
+      })
       if (error.response.status === 301) {
         setLoginError(error?.response?.data?.message)
         enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
         localStorage.setItem('email', email)
         router.push('/auth/otp')
+      }
+      if (error.response.status === 403) {
+        setShowLogoutButton(true)
       }
       setLoginError(error?.response?.data?.message)
     } finally {
@@ -76,6 +87,21 @@ export default function SigninPage() {
   useEffect(() => {
     document.title = 'Sign In | Clothes2Wear'
   }, [])
+
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true)
+      const response = await axios.post(`/api/auth/logout?email=${email}`)
+      enqueueSnackbar(response.data.message, { variant: 'success' })
+    } catch (error) {
+      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setShowLogoutButton(false)
+      setLoggingOut(false)
+      setLoginError(null)
+    }
+  }
 
   return (
     <div className='min-h-screen flex items-center max-sm:p-4 justify-center bg-[#faf6f3]'>
@@ -216,6 +242,16 @@ export default function SigninPage() {
               <CircleAlert className='text-red-600' size={16} />
               {loginError}
             </div>
+            {showLogoutButton && (
+              <div className='mt-2'>
+                <Button
+                  loading={loggingOut}
+                  onClick={handleLogout}
+                  label={'Logout from all devices'}
+                  variant='error'
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

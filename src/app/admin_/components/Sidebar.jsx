@@ -5,6 +5,7 @@ import {
   CircleFadingPlus,
   CirclePercent,
   Component,
+  FileVideo2,
   Gift,
   Globe,
   Home,
@@ -84,6 +85,11 @@ const Sidebar = ({ isExpanded }) => {
       label: 'Social Links',
       icon: Globe,
       path: '/admin_/social-links',
+    },
+    {
+      label: 'Vides',
+      icon: FileVideo2,
+      path: '/admin_/vides',
     },
   ]
 

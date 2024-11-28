@@ -154,7 +154,7 @@ const EditModal = ({ isOpen, onClose, selectedHeroSlide, fetchHeroSlides }) => {
           <Button
             loading={submitting}
             loadingText={'Saving'}
-            label={'Update Slider'}
+            label={'Update'}
             onClick={updateShowcase}
           />
         </ModalFooter>

@@ -17,6 +17,7 @@ model User {
   mobileNumber   String?
   whatsAppNumber String?
   isVerified     Boolean         @default(false)
+  isLoggedIn     Boolean         @default(false)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   status         UserStatus      @default(ACTIVE)
@@ -32,6 +33,17 @@ model User {
   supportTicket  SupportTicket[]
   products       Product[]
   searchQueries  SearchQuery[]
+
+  Session Session[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model SearchQuery {
@@ -542,4 +554,17 @@ model Logos {
   logoUrl  String
   altText  String?
   isActive Boolean @default(false)
+}
+
+model Vides {
+  id          String @id @default(uuid())
+  videoUrl    String
+  title       String
+  description String
+  hyperLink   String
+  price       Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productId String?
 }
