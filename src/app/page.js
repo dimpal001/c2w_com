@@ -1,10 +1,9 @@
 import React from 'react'
-import MainPage from './HomePageComponents/MainPage'
 
 const HomePage = () => {
   return (
     <div>
-      <MainPage />
+      <p>Home page</p>
     </div>
   )
 }
