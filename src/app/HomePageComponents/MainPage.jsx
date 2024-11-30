@@ -9,6 +9,7 @@ import ShowcaseSection from './ShowcaseSection'
 import HeroSliderSection from './HeroSliderSection'
 import TrendingNowSection from './TrendingNowSection'
 import NewArrivalsSection from './NewArrivalsSection'
+import Loading from '../Components/Loading'
 
 const MainPage = ({ showcases, heroSliders, trendingProducts }) => {
   const [show, setShow] = useState(false)
@@ -23,16 +24,18 @@ const MainPage = ({ showcases, heroSliders, trendingProducts }) => {
 
   return (
     <div>
-      {show && (
+      {show && <TopSlider />}
+      <Header />
+      {show ? (
         <div>
-          <TopSlider />
-          <Header />
           <CategoryBar />
           <ShowcaseSection showcases={showcases} />
           <HeroSliderSection heroSliders={heroSliders} />
           <TrendingNowSection products={trendingProducts} />
           <NewArrivalsSection />
         </div>
+      ) : (
+        <Loading />
       )}
     </div>
   )
