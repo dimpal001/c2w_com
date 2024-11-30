@@ -1,7 +1,5 @@
-'use client'
-
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Header from '../Components/Header'
 import TopSlider from './TopSlider'
 import CategoryBar from '../Components/CategoryBar'
@@ -9,34 +7,17 @@ import ShowcaseSection from './ShowcaseSection'
 import HeroSliderSection from './HeroSliderSection'
 import TrendingNowSection from './TrendingNowSection'
 import NewArrivalsSection from './NewArrivalsSection'
-import Loading from '../Components/Loading'
 
 const MainPage = ({ showcases, heroSliders, trendingProducts }) => {
-  const [show, setShow] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(true)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
     <div>
-      {show && <TopSlider />}
+      {/* <TopSlider />
       <Header />
-      {show ? (
-        <div>
-          <CategoryBar />
-          <ShowcaseSection showcases={showcases} />
-          <HeroSliderSection heroSliders={heroSliders} />
-          <TrendingNowSection products={trendingProducts} />
-          <NewArrivalsSection />
-        </div>
-      ) : (
-        <Loading />
-      )}
+      <CategoryBar /> */}
+      <ShowcaseSection showcases={showcases} />
+      <HeroSliderSection heroSliders={heroSliders} />
+      <TrendingNowSection products={trendingProducts} />
+      <NewArrivalsSection />
     </div>
   )
 }
