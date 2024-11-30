@@ -3,6 +3,7 @@
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Skeleton from '../Components/Skeleton'
 
 const ShowcaseSection = () => {
   const [showcases, setShowcases] = useState([])
@@ -30,6 +31,11 @@ const ShowcaseSection = () => {
       {showcases.length > 0 &&
         showcases.map((showcase, index) => (
           <ShowcaseCard key={index} showcase={showcase} />
+        ))}
+
+      {showcases.length === 0 &&
+        Array.from({ length: 5 }, (_, index) => (
+          <Skeleton key={index} className={'w-[200px] h-[270px]'} />
         ))}
     </div>
   )

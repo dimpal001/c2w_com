@@ -3,6 +3,7 @@
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Skeleton from '../Components/Skeleton'
 
 const HeroSliderSection = () => {
   const [heroSliders, setHeroSliders] = useState([])
@@ -28,6 +29,10 @@ const HeroSliderSection = () => {
           .map((slider, index) => (
             <HeroSliderCard key={index} slider={slider} />
           ))}
+
+      {heroSliders.length === 0 && (
+        <Skeleton className={'w-full lg:h-[582px]'} />
+      )}
     </div>
   )
 }

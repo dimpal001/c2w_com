@@ -2,8 +2,9 @@
 'use client'
 
 import axios from 'axios'
-import { MoveRight } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import Skeleton from '../Components/Skeleton'
+import RightArrowIcon from './RightArrowIcon'
 
 const TrendingNowSection = () => {
   const [products, setProducts] = useState([])
@@ -33,7 +34,7 @@ const TrendingNowSection = () => {
           </p>
         </div>
         <div>
-          <MoveRight size={60} className='lg:mr-32' />
+          <RightArrowIcon className={'lg:w-20 lg:mr-14'} />
         </div>
       </div>
 
@@ -49,6 +50,10 @@ const TrendingNowSection = () => {
             .map((product, index) => (
               <TrendingNowCard key={index} product={product} />
             ))}
+        {products.length === 0 &&
+          Array.from({ length: 5 }, (_, index) => (
+            <Skeleton key={index} className={'lg:w-[240px] lg:h-[443px]'} />
+          ))}
       </div>
     </div>
   )
