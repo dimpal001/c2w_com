@@ -19,7 +19,7 @@ const CategoryBar = () => {
     handleFetchCategories()
   }, [])
   return (
-    <div className='uppercase flex max-sm:flex-wrap tracking-wider cursor-pointer text-sm font-semibold text-pink-600 p-3 gap-12 shadow-md border-t border-pink-200 shadow-pink-200 justify-center'>
+    <div className='uppercase max-sm:hidden flex max-sm:flex-wrap tracking-wider cursor-pointer text-sm font-semibold text-pink-600 p-3 gap-12 shadow-md border-t border-pink-200 shadow-pink-200 justify-center'>
       {categories.length > 0 &&
         categories.map((item, index) => <div key={index}>{item.name}</div>)}
     </div>

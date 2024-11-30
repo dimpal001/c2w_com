@@ -31,7 +31,7 @@ const HeroSliderSection = () => {
           ))}
 
       {heroSliders.length === 0 && (
-        <Skeleton className={'w-full lg:h-[582px]'} />
+        <Skeleton className={'w-full lg:h-[582px] max-sm:h-[225px]'} />
       )}
     </div>
   )
@@ -39,10 +39,10 @@ const HeroSliderSection = () => {
 
 const HeroSliderCard = ({ slider }) => {
   return (
-    <div className='w-full lg:h-[582px]'>
+    <div className='w-full lg:h-[582px] max-sm:h-[225px]'>
       <img
         src={slider.imageUrl}
-        className='w-full lg:h-[582px] object-cover'
+        className='w-full lg:h-[582px] max-sm:h-[225px] object-cover'
         alt=''
       />
     </div>
