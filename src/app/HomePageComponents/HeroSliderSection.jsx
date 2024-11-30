@@ -1,26 +1,8 @@
 /* eslint-disable react/prop-types */
-'use client'
-
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Skeleton from '../Components/Skeleton'
 
-const HeroSliderSection = () => {
-  const [heroSliders, setHeroSliders] = useState([])
-
-  useEffect(() => {
-    fetchHeroSliders()
-  }, [])
-
-  const fetchHeroSliders = async () => {
-    try {
-      const response = await axios.get('/api/customs/hero-sliders/get')
-      setHeroSliders(response.data.heroSliders)
-      console.log(heroSliders)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+const HeroSliderSection = ({ heroSliders }) => {
   return (
     <div className='w-full flex items-center gap-6 lg:h-[582px] '>
       {heroSliders.length > 0 &&

@@ -1,26 +1,24 @@
 /* eslint-disable react/prop-types */
-'use client'
 
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Skeleton from '../Components/Skeleton'
 
-const ShowcaseSection = () => {
-  const [showcases, setShowcases] = useState([])
+const ShowcaseSection = ({ showcases }) => {
+  // const [showcases, setShowcases] = useState([])
 
-  useEffect(() => {
-    fetchShowcases()
-  }, [])
+  // useEffect(() => {
+  //   fetchShowcases()
+  // }, [])
 
-  const fetchShowcases = async () => {
-    try {
-      const response = await axios.get('/api/customs/showcases/get')
-      setShowcases(response.data.showcases)
-      console.log(showcases)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const fetchShowcases = async () => {
+  //   try {
+  //     const response = await axios.get('/api/customs/showcases/get')
+  //     setShowcases(response.data.showcases)
+  //     console.log(showcases)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <div className='w-auto flex overflow-auto scrollbar-hide items-center gap-6 px-14 max-sm:px-5 max-sm:gap-3 lg:h-[320px] max-sm:h-[192px]'>
