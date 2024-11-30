@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 'use client'
 
 import localFont from 'next/font/local'
 import './globals.css'
 import React from 'react'
-import { Roboto } from 'next/font/google'
+import { Roboto, Inter, Unbounded } from 'next/font/google'
 import { SnackbarProvider } from 'notistack'
 
+// Local fonts
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
@@ -17,24 +19,36 @@ const geistMono = localFont({
   weight: '100 900',
 })
 
+// Google Fonts
 const roboto = Roboto({
   subsets: ['latin'],
   variable: '--font-roboto',
   weight: '300',
 })
 
-// eslint-disable-next-line react/prop-types
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  weight: '400',
+})
+
+const unbounded = Unbounded({
+  subsets: ['latin'],
+  variable: '--font-unbounded',
+  weight: '400',
+})
+
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${unbounded.variable} ${inter.variable} antialiased`}
       >
         <SnackbarProvider
           anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
           autoHideDuration={2000}
         />
-        <div>{children}</div>
+        <div className='font-inter'>{children}</div> {/* Applies Inter font */}
       </body>
     </html>
   )

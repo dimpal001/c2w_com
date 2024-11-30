@@ -70,7 +70,7 @@ const TrendingNowCard = ({ product }) => {
               {product?.title}
             </p>
             <p className='text-center font-bold max-sm:text-[12px] leading-6'>
-              {product?.price}
+              ₹{product?.price}/-
             </p>
           </div>
         </div>

@@ -4,16 +4,33 @@ import MainPage from './HomePageComponents/MainPage'
 
 const HomePage = async () => {
   try {
-    const [showcasesRes, heroSlidersRes, trendingProductsRes] =
-      await Promise.all([
-        axios.get('https://www.thebmim.com/api/customs/showcases/get'),
-        axios.get('https://www.thebmim.com/api/customs/hero-sliders/get'),
-        axios.get('https://www.thebmim.com/api/customs/trending/get'),
-      ])
+    const [
+      showcasesRes,
+      heroSlidersRes,
+      trendingProductsRes,
+      newArrivalsRes,
+      occasionProductsRes,
+      exclusiveCollectionRes,
+    ] = await Promise.all([
+      axios.get('https://www.thebmim.com/api/customs/showcases/get'),
+      axios.get('https://www.thebmim.com/api/customs/hero-sliders/get'),
+      axios.get('https://www.thebmim.com/api/customs/trending/get'),
+      axios.get('https://www.thebmim.com/api/customs/new-arrivals/get'),
+      axios.get(
+        'https://www.thebmim.com/api/customs/shop-by-occasion/occasion'
+      ),
+      axios.get(
+        'https://www.thebmim.com/api/customs/exclusive-collections/get'
+      ),
+    ])
 
     const showcases = showcasesRes.data.showcases || []
     const heroSliders = heroSlidersRes.data.heroSliders || []
     const trendingProducts = trendingProductsRes.data.trendingProducts || []
+    const newArrivalsProducts = newArrivalsRes.data.newArrivals || []
+    const occasionProducts = occasionProductsRes.data || []
+    const exclusiveCollections =
+      exclusiveCollectionRes.data.exclusiveCollections || []
 
     return (
       <div>
@@ -21,6 +38,9 @@ const HomePage = async () => {
           showcases={showcases}
           heroSliders={heroSliders}
           trendingProducts={trendingProducts}
+          newArrivalsProducts={newArrivalsProducts}
+          occasionProducts={occasionProducts}
+          exclusiveCollections={exclusiveCollections}
         />
       </div>
     )

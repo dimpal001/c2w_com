@@ -32,3 +32,15 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+.inter {
+  font-family: var(--font-inter);
+}
+
+.unbounded {
+  font-family: var(--font-unbounded);
+}
+
+body {
+  font-family: var(--font-inter);
+}

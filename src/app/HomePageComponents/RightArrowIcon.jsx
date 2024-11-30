@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 
-const RightArrowIcon = ({ className }) => {
+const RightArrowIcon = ({ className, fill }) => {
   return (
     <svg
       className={className}
@@ -9,7 +9,7 @@ const RightArrowIcon = ({ className }) => {
       version='1.1'
       xmlns='http://www.w3.org/2000/svg'
       // xmlns:xlink='http://www.w3.org/1999/xlink'
-      fill='#000000'
+      fill={fill ? fill : '#000000'}
     >
       <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
       <g
@@ -31,7 +31,7 @@ const RightArrowIcon = ({ className }) => {
           <g
             id='ui-gambling-website-lined-icnos-casinoshunter'
             transform='translate(-1511.000000, -158.000000)'
-            fill='#1C1C1F'
+            fill={fill ? fill : '#1C1C1F'}
             fillRule='nonzero'
           >
             {' '}
