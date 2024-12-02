@@ -14,6 +14,10 @@ const ShowcaseSection = ({ showcases }) => {
         showcases.map((showcase, index) => (
           <ShowcaseCard key={index} showcase={showcase} />
         ))}
+      {showcases.length > 0 &&
+        showcases.map((showcase, index) => (
+          <ShowcaseCard key={index} showcase={showcase} />
+        ))}
 
       {!showcases &&
         Array.from({ length: 5 }, (_, index) => (

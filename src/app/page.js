@@ -14,6 +14,8 @@ const HomePage = async () => {
       productWeekRes,
       randomProductsRes,
       seasonsRes,
+      socialLinksRes,
+      blogsRes,
     ] = await Promise.all([
       axios.get('https://www.thebmim.com/api/customs/showcases/get'),
       axios.get('https://www.thebmim.com/api/customs/hero-sliders/get'),
@@ -32,6 +34,8 @@ const HomePage = async () => {
         'https://www.thebmim.com/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1'
       ),
       axios.get('https://www.thebmim.com/api/customs/shop-by-season/get'),
+      axios.get('https://www.thebmim.com/api/customs/social-links'),
+      axios.get('https://www.thebmim.com/api/customs/blogs'),
     ])
 
     const showcases = showcasesRes.data.showcases || []
@@ -44,6 +48,8 @@ const HomePage = async () => {
     const productWeekProducts = productWeekRes.data || []
     const randomProducts = randomProductsRes.data.products || []
     const seasons = seasonsRes.data || []
+    const socialLinks = socialLinksRes.data || []
+    const blogs = blogsRes.data || []
     return (
       <div>
         <MainPage
@@ -56,6 +62,8 @@ const HomePage = async () => {
           productWeekProducts={productWeekProducts}
           randomProducts={randomProducts}
           seasons={seasons}
+          socialLinks={socialLinks}
+          blogs={blogs}
         />
       </div>
     )

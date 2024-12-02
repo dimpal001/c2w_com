@@ -11,6 +11,11 @@ import ShopByOccasion from './ShopByOccasion'
 import ExclusiveCollectionsSection from './ExclusiveCollectionsSection'
 import ShopBySeasonSection from './ShopBySeasonSection'
 import FashionWeekSection from './FashionWeekSection'
+import SocialLinkSection from './SocialLinkSection'
+import BlogSection from './BlogSection'
+import BestSellerSection from './BestSellerSection'
+import AnimationSection from './AnimationSection'
+import Footer from '../Components/Footer'
 
 const MainPage = ({
   showcases,
@@ -22,6 +27,8 @@ const MainPage = ({
   productWeekProducts,
   randomProducts,
   seasons,
+  socialLinks,
+  blogs,
 }) => {
   return (
     <div>
@@ -39,6 +46,11 @@ const MainPage = ({
       />
       <ShopBySeasonSection seasons={seasons} />
       <FashionWeekSection products={productWeekProducts} />
+      <SocialLinkSection socialLinks={socialLinks} />
+      <BlogSection blogs={blogs} />
+      <BestSellerSection />
+      <AnimationSection />
+      <Footer />
     </div>
   )
 }
