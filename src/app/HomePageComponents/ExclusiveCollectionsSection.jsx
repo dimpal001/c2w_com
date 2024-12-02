@@ -1,30 +1,12 @@
 'use client'
 
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
-import axios from 'axios'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 
-const ExclusiveCollectionsSection = ({ products }) => {
-  const [randomProducts, setRandomProducts] = useState([])
-
-  useEffect(() => {
-    fetchProducts()
-  }, [])
-
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get(
-        '/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1'
-      )
-      setRandomProducts(response.data.products)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
+const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
   return (
     <div className='container mx-auto py-10 max-sm:py-3 max-sm:p-0'>
       {/* label  */}
@@ -55,7 +37,12 @@ const ExclusiveCollectionsSection = ({ products }) => {
           </p>
         </div>
         <div className='lg:w-[50%] max-sm:mt-10'>
-          <Slider showArrows={false} slideInterval={7000} autoSlide={false}>
+          <Slider
+            showIndicators={false}
+            // showArrows={false}
+            slideInterval={7000}
+            autoSlide={false}
+          >
             {randomProducts.length > 0 &&
               randomProducts.map((item, index) => (
                 <SlideItem key={index}>

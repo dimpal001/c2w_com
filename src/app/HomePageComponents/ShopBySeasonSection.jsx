@@ -1,23 +1,11 @@
 'use client'
 
 /* eslint-disable react/prop-types */
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
 
-const ShopBySeasonSection = () => {
-  const [seasons, setSeasons] = useState([])
-
-  useEffect(() => {
-    fetchSeasons()
-  }, [])
-
-  const fetchSeasons = async () => {
-    const response = await axios.get('/api/customs/shop-by-season/get')
-    setSeasons(response.data)
-  }
-
+const ShopBySeasonSection = ({ seasons }) => {
   return (
     <div className='mb-10'>
       {seasons.length > 0 &&
@@ -25,7 +13,7 @@ const ShopBySeasonSection = () => {
           <SeasonCard key={index} season={season} />
         ))}
 
-      {seasons.length === 0 && <Skeleton className={'w-full h-[400px]'} />}
+      {!seasons && <Skeleton className={'w-full h-[400px]'} />}
     </div>
   )
 }

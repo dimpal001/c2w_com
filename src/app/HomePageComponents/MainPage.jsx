@@ -20,6 +20,8 @@ const MainPage = ({
   occasionProducts,
   exclusiveCollections,
   productWeekProducts,
+  randomProducts,
+  seasons,
 }) => {
   return (
     <div>
@@ -31,8 +33,11 @@ const MainPage = ({
       <TrendingNowSection products={trendingProducts} />
       <NewArrivalsSection products={newArrivalsProducts} />
       <ShopByOccasion occasions={occasionProducts} />
-      <ExclusiveCollectionsSection products={exclusiveCollections} />
-      <ShopBySeasonSection />
+      <ExclusiveCollectionsSection
+        products={exclusiveCollections}
+        randomProducts={randomProducts}
+      />
+      <ShopBySeasonSection seasons={seasons} />
       <FashionWeekSection products={productWeekProducts} />
     </div>
   )

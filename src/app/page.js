@@ -12,6 +12,8 @@ const HomePage = async () => {
       occasionProductsRes,
       exclusiveCollectionRes,
       productWeekRes,
+      randomProductsRes,
+      seasonsRes,
     ] = await Promise.all([
       axios.get('https://www.thebmim.com/api/customs/showcases/get'),
       axios.get('https://www.thebmim.com/api/customs/hero-sliders/get'),
@@ -26,6 +28,10 @@ const HomePage = async () => {
       axios.get(
         'https://www.thebmim.com/api/customs/fashion-week/product-week'
       ),
+      axios.get(
+        'https://www.thebmim.com/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1'
+      ),
+      axios.get('https://www.thebmim.com/api/customs/shop-by-season/get'),
     ])
 
     const showcases = showcasesRes.data.showcases || []
@@ -36,6 +42,8 @@ const HomePage = async () => {
     const exclusiveCollections =
       exclusiveCollectionRes.data.exclusiveCollections || []
     const productWeekProducts = productWeekRes.data || []
+    const randomProducts = randomProductsRes.data.products || []
+    const seasons = seasonsRes.data || []
     return (
       <div>
         <MainPage
@@ -46,6 +54,8 @@ const HomePage = async () => {
           occasionProducts={occasionProducts}
           exclusiveCollections={exclusiveCollections}
           productWeekProducts={productWeekProducts}
+          randomProducts={randomProducts}
+          seasons={seasons}
         />
       </div>
     )

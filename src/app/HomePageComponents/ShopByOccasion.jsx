@@ -36,7 +36,7 @@ const ShopByOccasion = ({ occasions }) => {
           ))}
         </Slider>
         <Slider
-          slideInterval={6500}
+          slideInterval={8000}
           slideDirection={'slideRight'}
           showIndicators={false}
           showArrows={false}
