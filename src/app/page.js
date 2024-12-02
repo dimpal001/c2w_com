@@ -13,18 +13,18 @@ const HomePage = async () => {
       exclusiveCollectionRes,
       productWeekRes,
     ] = await Promise.all([
-      axios.get('http://192.168.1.21:3000/api/customs/showcases/get'),
-      axios.get('http://192.168.1.21:3000/api/customs/hero-sliders/get'),
-      axios.get('http://192.168.1.21:3000/api/customs/trending/get'),
-      axios.get('http://192.168.1.21:3000/api/customs/new-arrivals/get'),
+      axios.get('https://www.thebmim.com/api/customs/showcases/get'),
+      axios.get('https://www.thebmim.com/api/customs/hero-sliders/get'),
+      axios.get('https://www.thebmim.com/api/customs/trending/get'),
+      axios.get('https://www.thebmim.com/api/customs/new-arrivals/get'),
       axios.get(
-        'http://192.168.1.21:3000/api/customs/shop-by-occasion/occasion'
+        'https://www.thebmim.com/api/customs/shop-by-occasion/occasion'
       ),
       axios.get(
-        'http://192.168.1.21:3000/api/customs/exclusive-collections/get'
+        'https://www.thebmim.com/api/customs/exclusive-collections/get'
       ),
       axios.get(
-        'http://192.168.1.21:3000/api/customs/fashion-week/product-week'
+        'https://www.thebmim.com/api/customs/fashion-week/product-week'
       ),
     ])
 
