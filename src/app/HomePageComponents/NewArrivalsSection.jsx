@@ -2,6 +2,7 @@
 import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
+import Skeleton from '../Components/Skeleton'
 
 const NewArrivalsSection = ({ products }) => {
   return (
@@ -21,6 +22,7 @@ const NewArrivalsSection = ({ products }) => {
           Hurry Up!!! New Winter Clothes Arrived
         </p>
       </div>
+
       <div className='lg:h-[390px] pt-4'>
         <div className='bg-zinc-200 scrollbar-hide max-sm:p-4 max-sm:overflow-auto max-sm:gap-5 flex items-center justify-evenly w-full h-full rounded-xl'>
           {products.length > 0 &&
@@ -31,6 +33,10 @@ const NewArrivalsSection = ({ products }) => {
               ))}
         </div>
       </div>
+
+      {!products && (
+        <Skeleton className={'w-full h-[390px] max-sm:h-[270px]'} />
+      )}
     </div>
   )
 }

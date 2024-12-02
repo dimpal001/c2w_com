@@ -12,7 +12,7 @@ const HeroSliderSection = ({ heroSliders }) => {
             <HeroSliderCard key={index} slider={slider} />
           ))}
 
-      {heroSliders.length === 0 && (
+      {!heroSliders && (
         <Skeleton className={'w-full lg:h-[582px] max-sm:h-[225px]'} />
       )}
     </div>

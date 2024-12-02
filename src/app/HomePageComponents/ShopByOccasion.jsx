@@ -3,6 +3,8 @@ import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import 'animate.css'
+import { SlideItem, Slider } from './Slider'
+import Skeleton from '../Components/Skeleton'
 
 const ShopByOccasion = ({ occasions }) => {
   return (
@@ -26,10 +28,28 @@ const ShopByOccasion = ({ occasions }) => {
       </div>
 
       <div className='w-full shadow-md shadow-zinc-500'>
-        {occasions.map((occasion, index) => (
-          <Occasion key={index} occasion={occasion} index={index} />
-        ))}
+        <Slider slideInterval={6000} showIndicators={false} showArrows={false}>
+          {occasions.map((occasion, index) => (
+            <SlideItem key={index}>
+              <Occasion occasion={occasion} index={index} />
+            </SlideItem>
+          ))}
+        </Slider>
+        <Slider
+          slideInterval={6500}
+          slideDirection={'slideRight'}
+          showIndicators={false}
+          showArrows={false}
+        >
+          {occasions.map((occasion, index) => (
+            <SlideItem key={index}>
+              <Occasion occasion={occasion} index={index} />
+            </SlideItem>
+          ))}
+        </Slider>
       </div>
+
+      {!occasions && <Skeleton className={'w-full h-[350px]'} />}
     </div>
   )
 }
@@ -37,9 +57,9 @@ const ShopByOccasion = ({ occasions }) => {
 const Occasion = ({ occasion, index }) => {
   return (
     <div
-      className={`w-full max-sm:flex-wrap animate__animated animate__faster ${
-        index % 2 === 0 ? 'animate__slideInLeft' : 'animate__slideInRight'
-      } flex ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+      className={`w-full max-sm:flex-wrap flex ${
+        index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+      }`}
     >
       {occasion.products.map((item, index) => (
         <Card key={index} product={item} />
@@ -58,7 +78,7 @@ const Occasion = ({ occasion, index }) => {
 
 const Card = ({ product }) => {
   return (
-    <div className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'>
+    <div className='lg:w-[232px] animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'>
       <img
         src={product.imageUrl}
         className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] object-cover'

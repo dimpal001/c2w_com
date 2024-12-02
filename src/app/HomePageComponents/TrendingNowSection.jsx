@@ -33,12 +33,13 @@ const TrendingNowSection = ({ products }) => {
             .map((product, index) => (
               <TrendingNowCard key={index} product={product} />
             ))}
-        {products.length === 0 &&
+
+        {!products &&
           Array.from({ length: 5 }, (_, index) => (
             <Skeleton
               key={index}
               className={
-                'lg:w-[240px] max-sm:w-[110px] max-sm:min-w-[110px] lg:h-[443px] max-sm:h-[202px]'
+                'lg:w-[240px] rounded-xl max-sm:w-[110px] max-sm:min-w-[110px] lg:h-[443px] max-sm:h-[202px]'
               }
             />
           ))}

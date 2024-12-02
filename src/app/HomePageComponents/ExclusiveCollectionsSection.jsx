@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import axios from 'axios'
 import { SlideItem, Slider } from './Slider'
+import Skeleton from '../Components/Skeleton'
 
 const ExclusiveCollectionsSection = ({ products }) => {
   const [randomProducts, setRandomProducts] = useState([])
@@ -73,7 +74,17 @@ const ExclusiveCollectionsSection = ({ products }) => {
             .map((product, index) => (
               <ProductCard2 key={index} product={product} />
             ))}
+
+        {!products &&
+          Array.from({ length: 5 }, (_, index) => (
+            <Skeleton
+              key={index}
+              className={'lg:w-[202px] rounded-2xl lg:h-[322px]'}
+            />
+          ))}
       </div>
+
+      {!products && <Skeleton className={'w-full h-[400px]'} />}
     </div>
   )
 }

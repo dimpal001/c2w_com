@@ -15,12 +15,12 @@ const ShowcaseSection = ({ showcases }) => {
           <ShowcaseCard key={index} showcase={showcase} />
         ))}
 
-      {showcases.length === 0 &&
+      {!showcases &&
         Array.from({ length: 5 }, (_, index) => (
           <Skeleton
             key={index}
             className={
-              'lg:w-[200px] max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] max-sm:h-[146px] lg:h-[270px]'
+              'lg:w-[200px] rounded-xl max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] max-sm:h-[146px] lg:h-[270px]'
             }
           />
         ))}

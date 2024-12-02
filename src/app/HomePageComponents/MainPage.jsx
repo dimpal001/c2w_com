@@ -10,6 +10,7 @@ import NewArrivalsSection from './NewArrivalsSection'
 import ShopByOccasion from './ShopByOccasion'
 import ExclusiveCollectionsSection from './ExclusiveCollectionsSection'
 import ShopBySeasonSection from './ShopBySeasonSection'
+import FashionWeekSection from './FashionWeekSection'
 
 const MainPage = ({
   showcases,
@@ -18,6 +19,7 @@ const MainPage = ({
   newArrivalsProducts,
   occasionProducts,
   exclusiveCollections,
+  productWeekProducts,
 }) => {
   return (
     <div>
@@ -31,6 +33,7 @@ const MainPage = ({
       <ShopByOccasion occasions={occasionProducts} />
       <ExclusiveCollectionsSection products={exclusiveCollections} />
       <ShopBySeasonSection />
+      <FashionWeekSection products={productWeekProducts} />
     </div>
   )
 }
