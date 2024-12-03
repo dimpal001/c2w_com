@@ -14,7 +14,6 @@ import FashionWeekSection from './FashionWeekSection'
 import SocialLinkSection from './SocialLinkSection'
 import BlogSection from './BlogSection'
 import BestSellerSection from './BestSellerSection'
-import AnimationSection from './AnimationSection'
 import Footer from '../Components/Footer'
 
 const MainPage = ({
@@ -49,7 +48,6 @@ const MainPage = ({
       <SocialLinkSection socialLinks={socialLinks} />
       <BlogSection blogs={blogs} />
       <BestSellerSection />
-      <AnimationSection />
       <Footer />
     </div>
   )
