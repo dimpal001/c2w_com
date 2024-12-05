@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const page = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/users/orders`)
+    const response = await axios.get(`https://www.thebmim.com/api/users/orders`)
     console.log(response.data)
     const orders = response.data
     console.log(orders)

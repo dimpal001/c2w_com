@@ -16,9 +16,14 @@ const CategoryPage = ({ slug }) => {
 
   const [isEmptyProduct, setIsEmptyProduct] = useState(false)
 
-  const searchParams = new URLSearchParams(window.location.search)
-  const searchQuery = searchParams.get('search') || ''
-  console.log(searchQuery)
+  let searchQuery
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search)
+      searchQuery = searchParams.get('search') || ''
+    }
+  }, [])
 
   const [products, setProducts] = useState([])
 
