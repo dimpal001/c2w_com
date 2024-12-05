@@ -33,7 +33,7 @@ const SideDrawer = () => {
             className='flex items-center space-x-3'
           >
             <span className='w-12 h-12 uppercase rounded-full bg-slate-800 flex items-center justify-center'>
-              {user?.fullName.slice(0, 2)}
+              {user?.fullName?.slice(0, 2)}
             </span>
 
             <div>
