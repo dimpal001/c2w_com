@@ -121,6 +121,7 @@ model Product {
   styleId              String            @unique // Server generated
   isReturnable         Boolean           @default(false)
   isActive             Boolean           @default(false)
+  isCODAvailable       Boolean           @default(true)
   returnPolicy         String?           @db.Text
   longTailKeyword      String?
   description          String?           @db.Text

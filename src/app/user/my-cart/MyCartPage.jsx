@@ -112,23 +112,23 @@ export default function MyCartPage() {
         </div>
         <button
           onClick={() => router.push('/')}
-          className='text-lg text-blue-600 flex items-center gap-2'
+          className='text-lg text-blue-600 flex items-center gap-2 hover:gap-4 transition-all duration-300'
         >
           <ArrowLeftCircle size={22} />
           Continue Shopping
         </button>
       </div>
 
-      <div className='flex gap-6 items-start'>
+      <div className='flex gap-6 max-sm:gap-3 max-sm:flex-col items-start'>
         {products.length === 0 ? (
-          <div className='flex justify-center max-sm:h-[450px] items-center flex-col'>
+          <div className='flex w-full justify-center max-sm:h-[450px] items-center flex-col'>
             <div className='opacity-50'>
               <EmptyCartImage />
             </div>
             <p className='text-gray-600 mt-4 text-xl'>Your cart is empty</p>
           </div>
         ) : (
-          <div className='grid grid-cols-1 lg:w-[65%] gap-6'>
+          <div className='grid grid-cols-1 lg:w-[65%] max-sm:w-full gap-6 max-sm:gap-3'>
             {products.map((item, index) => (
               <Item
                 item={item}
@@ -153,21 +153,25 @@ export default function MyCartPage() {
           </div>
         )}
 
-        <div className='w-[35%] bg-gradient-to-b from-pink-200 to-zinc-50 p-16 gap-5 rounded-lg flex flex-col justify-between items-center'>
-          <div>
-            <p className='text-2xl font-bold'>Proceed to Checkout</p>
+        {products.length > 0 && (
+          <div className='lg:w-[35%] max-sm:w-full bg-gradient-to-b from-pink-200 to-zinc-50 p-16 max-sm:p-10 gap-5 rounded-lg flex flex-col justify-between items-center'>
+            <div>
+              <p className='text-2xl font-bold'>Proceed to Checkout</p>
+            </div>
+            <div className='flex justify-between items-center w-full'>
+              <p className='text-lg font-semibold text-gray-800'>
+                Total Amount:
+              </p>
+              <p className='text-xl font-bold text-gray-900'>₹{totalAmount}</p>
+            </div>
+            <button
+              onClick={() => handleCheckout()}
+              className='bg-pink-500 text-white py-3 px-6 rounded-lg w-full hover:bg-pink-600 transition duration-300'
+            >
+              Checkout
+            </button>
           </div>
-          <div className='flex justify-between items-center w-full'>
-            <p className='text-lg font-semibold text-gray-800'>Total Amount:</p>
-            <p className='text-xl font-bold text-gray-900'>₹{totalAmount}</p>
-          </div>
-          <button
-            onClick={() => handleCheckout()}
-            className='bg-pink-500 text-white py-3 px-6 rounded-lg w-full hover:bg-pink-600 transition duration-300'
-          >
-            Checkout
-          </button>
-        </div>
+        )}
       </div>
     </div>
   )

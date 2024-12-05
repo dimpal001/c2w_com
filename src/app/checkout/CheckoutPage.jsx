@@ -203,7 +203,7 @@ const CheckoutPage = ({ orderData }) => {
             </div>
             <button
               onClick={() => router.push('/')}
-              className='text-lg text-blue-600 flex items-center gap-2'
+              className='text-lg text-blue-600 max-sm:hidden flex items-center gap-2'
             >
               <ArrowLeftCircle size={22} />
               Continue Shopping

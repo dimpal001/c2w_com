@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Heart, Trash } from 'lucide-react'
+import { ArrowLeftCircle, Heart, Trash } from 'lucide-react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useUserContext } from '@/app/context/UserContext'
@@ -41,12 +41,16 @@ export default function FavouritePage() {
     <div className='container mx-auto p-6'>
       <div className='flex justify-between items-center mb-8'>
         <div className='flex items-center gap-4'>
-          <Heart className='w-8 h-8 text-red-600' />
+          <Heart className='w-8 h-8 text-pink-600' />
           <h1 className='text-3xl max-sm:text-2xl font-semibold'>
             My Favourites
           </h1>
         </div>
-        <button className='text-lg max-sm:hidden text-blue-600 hover:text-blue-500'>
+        <button
+          onClick={() => router.push('/')}
+          className='text-lg text-blue-600 hover:gap-4 transition-all duration-300 flex items-center gap-2'
+        >
+          <ArrowLeftCircle size={22} />
           Continue Shopping
         </button>
       </div>

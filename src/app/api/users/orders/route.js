@@ -8,6 +8,8 @@ const prisma = new PrismaClient()
 
 export async function GET(request) {
   const token = request.cookies.get('token')
+  const { searchParams } = new URL(request.url)
+  const id = searchParams.get('id')
 
   const decoded = jwt.verify(token.value, process.env.JWT_SECRET)
 
@@ -19,13 +21,37 @@ export async function GET(request) {
       )
     }
 
+    if (id) {
+      const order = await prisma.orderDetails.findUnique({
+        where: { id: id },
+        include: {
+          address: true,
+          discount: true,
+          user: true,
+          orderItems: {
+            select: {
+              price: true,
+              quantity: true,
+              product: true,
+            },
+          },
+        },
+      })
+
+      return NextResponse.json(order, { status: 200 })
+    }
+
     const orders = await prisma.orderDetails.findMany({
       where: { userId: decoded.userId },
       include: {
         address: true,
         discount: true,
         user: true,
-        orderItems: true,
+        orderItems: {
+          select: {
+            product: true,
+          },
+        },
       },
     })
 

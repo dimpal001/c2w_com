@@ -3,10 +3,26 @@
 
 import { ArrowLeftCircle, ShoppingBag } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SingleOrder from './SingleOrder'
+import axios from 'axios'
 
-const OrdersPage = ({ orders }) => {
+const OrdersPage = () => {
+  const [orders, setOrders] = useState([])
+
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get('/api/users/orders')
+      setOrders(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchOrders()
+  }, [])
+
   const router = useRouter()
   return (
     <div className='container mx-auto p-6 lg:max-w-5xl'>
@@ -17,16 +33,17 @@ const OrdersPage = ({ orders }) => {
         </div>
         <button
           onClick={() => router.push('/')}
-          className='text-lg text-blue-600 flex items-center gap-2'
+          className='text-lg text-blue-600 max-sm:hidden hover:gap-4 transition-all duration-300 flex items-center gap-2'
         >
           <ArrowLeftCircle size={22} />
           Continue Shopping
         </button>
       </div>
-      <div>
-        {orders?.map((order, index) => (
-          <SingleOrder key={index} order={order} />
-        ))}
+      <div className='flex flex-col gap-5'>
+        {orders?.length > 0 &&
+          orders?.map((order, index) => (
+            <SingleOrder key={index} order={order} />
+          ))}
       </div>
     </div>
   )

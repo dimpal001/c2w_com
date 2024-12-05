@@ -20,7 +20,7 @@ const CouponCode = ({
           value={couponCode}
           onChange={(e) => setCouponCode(e.target.value)}
           placeholder='Enter coupon code'
-          className='w-full p-2 border uppercase rounded-lg'
+          className='w-full p-2 border placeholder:text-sm placeholder:capitalize uppercase rounded-lg'
         />
         <button
           onClick={applyCoupon}
