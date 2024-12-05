@@ -48,7 +48,7 @@ export async function POST(request) {
       where: { id: orderId },
     })
 
-    if (!order || paymentDetails.amount / 100 !== order.totalPrice) {
+    if (!order || paymentDetails.amount / 100 !== order.finalPrice) {
       // Razorpay amount is in paise
       return NextResponse.json(
         { message: 'Payment amount does not match the order amount.' },
@@ -75,6 +75,8 @@ export async function POST(request) {
         upi: paymentDetails.vpa,
       },
     })
+
+    await prisma.cartItem.deleteMany({ where: { userId: updatedOrder.userId } })
 
     return NextResponse.json(
       {

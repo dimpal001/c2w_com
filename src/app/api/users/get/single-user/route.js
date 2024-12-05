@@ -39,12 +39,27 @@ export async function GET(request) {
             skip,
             take: itemsPerPage,
             select: {
+              id: true,
               quantity: true,
               product: {
                 select: {
                   id: true,
                   title: true,
+                  slug: true,
                   thumbnailUrl: true,
+                  displayPrice: true,
+                  inventory: {
+                    select: {
+                      id: true,
+                      productId: true,
+                      mrp: true,
+                      price: true,
+                      size: true,
+                      stock: true,
+                      minQuantity: true,
+                    },
+                  },
+                  discounts: true,
                 },
               },
             },
@@ -93,7 +108,9 @@ export async function GET(request) {
                 select: {
                   id: true,
                   title: true,
+                  slug: true,
                   thumbnailUrl: true,
+                  displayPrice: true,
                 },
               },
             },

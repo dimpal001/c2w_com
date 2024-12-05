@@ -7,15 +7,15 @@ import React, { useState } from 'react'
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
   return (
-    <div className='flex'>
+    <div className='flex max-sm:flex-col'>
       {/* Image Section  */}
-      <div className='flex gap-4 lg:w-[55%]'>
+      <div className='flex max-sm:flex-col-reverse gap-4 max-sm:gap-2 lg:w-[55%]'>
         <div
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
           }}
-          className='flex flex-col gap-3 max-h-[600px] overflow-scroll'
+          className='flex max-sm:flex-row flex-col gap-3 max-sm:gap-2 lg:max-h-[600px] scrollbar-hide overflow-scroll'
         >
           {product?.images?.length > 0 &&
             product?.images?.map((image, index) => (
@@ -32,7 +32,7 @@ const DisplayPorductSection = ({ product }) => {
       </div>
       {/* Data Section  */}
       <div className='py-5 lg:w-[47%] flex-col flex gap-3 justify-start'>
-        <h1 className='font-bold text-2xl '>{product?.title}</h1>
+        <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
         <p className='text-sm text-neutral-600'>{product?.summary}</p>
         <p className='text-base'>Style No. CW254578</p>
         <div>
@@ -73,7 +73,7 @@ const DisplayPorductSection = ({ product }) => {
               ))}
           </div>
         </div>
-        <div className='py-3 w-[90%] flex justify-between gap-4'>
+        <div className='py-3 w-[90%] max-sm:fixed max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
           <button className='rounded-lg py-2 w-full font-semibold uppercase bg-pink-200'>
             add to cart
           </button>
@@ -95,7 +95,7 @@ const ProductImage = ({ image, onClick }) => {
       <img
         src={image.imageUrl}
         alt={image.altText}
-        className='w-[130px] h-[160px] rounded-lg'
+        className='w-[130px] h-[160px] max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
       />
     </div>
   )
@@ -118,7 +118,7 @@ const ThumbnailImage = ({ image }) => {
     <img
       src={image}
       alt={image.altText}
-      className='lg:w-[500px] rounded-lg lg:h-[600px]'
+      className='lg:w-[500px] object-fill rounded-lg lg:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
     />
   )
 }

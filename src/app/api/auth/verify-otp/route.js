@@ -41,6 +41,8 @@ export async function POST(request) {
     return NextResponse.json({ message: 'Invalid OTP' }, { status: 400 })
   }
 
+  await prisma.user.update({ where: { id }, data: { isLoggedIn: true } })
+
   try {
     const response = NextResponse.json(
       {
@@ -48,7 +50,7 @@ export async function POST(request) {
         user: {
           id: user.id,
           email: user.email,
-          name: user.name,
+          name: user.firstName + ' ' + user.lastName,
         },
       },
       { status: 200 }

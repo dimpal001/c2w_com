@@ -10,6 +10,7 @@ import { enqueueSnackbar } from 'notistack'
 import Loading from '@/app/admin_/components/Loading'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import LogoImg from '../../../assets/img.webp'
 
 export default function ForgpasswordasswordPage() {
   const [password, setPassword] = useState('')
@@ -78,7 +79,15 @@ export default function ForgpasswordasswordPage() {
         {/* Form Section */}
         <div className={`flex-1 p-10`}>
           <div className='text-center md:text-left'>
-            <h1 className='text-2xl font-bold mb-4'>Logo</h1>
+            <h1 className='text-2xl font-bold mb-4 hidden'>Logo</h1>
+            <div className='flex justify-center mb-3'>
+              <Image
+                layout='intrinsic'
+                className='lg:w-52 max-sm:w-52'
+                src={LogoImg}
+                alt='Logo'
+              />
+            </div>
             <h2 className='text-lg text-gray-500 mb-2'>Welcome back !!!</h2>
             <h1 className='text-4xl font-extrabold text-black mb-8'>
               Create a new password
@@ -142,7 +151,7 @@ export default function ForgpasswordasswordPage() {
         </div>
 
         {/* Illustration Section */}
-        <div className=' md:block flex-1 max-sm:p-10 max-sm:px-28 bg-[#FDF3E9] flex justify-center items-center'>
+        <div className='max-sm:hidden md:block flex-1 max-sm:p-10 max-sm:px-28 bg-[#FDF3E9] flex justify-center items-center'>
           <div className='relative flex justify-center items-center w-full h-full'>
             <Image
               src={LoginCartImage}

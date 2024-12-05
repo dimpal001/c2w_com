@@ -5,7 +5,7 @@ const SimilarProducts = ({ products }) => {
   return (
     <div>
       <p className='text-2xl font-semibold py-4'>Similar Products</p>
-      <div className='flex gap-6 flex-wrap'>
+      <div className='flex gap-6 max-sm:gap-4 flex-wrap max-sm:grid grid-cols-2'>
         {products?.length > 0 &&
           products.map((product, index) => (
             <ProductCard key={index} product={product} />
@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
     <img
       src={product.thumbnailUrl}
       alt=''
-      className='w-[160px] h-[200px] rounded-lg'
+      className='w-[160px] max-sm:w-full h-[200px] rounded-lg'
     />
   )
 }

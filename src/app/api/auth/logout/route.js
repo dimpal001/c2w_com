@@ -4,20 +4,10 @@ import { NextResponse } from 'next/server'
 const prisma = new PrismaClient()
 
 export async function POST(request) {
-  const token = await request.cookies.get('token')
-
   const { searchParams } = new URL(request.url)
   const email = searchParams.get('email')
 
   try {
-    await prisma.session.findUnique({
-      where: { token: token.value },
-    })
-
-    await prisma.session.delete({
-      where: { token: token.value },
-    })
-
     await prisma.user.update({
       where: { email },
       data: { isLoggedIn: false },

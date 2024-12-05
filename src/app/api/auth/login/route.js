@@ -89,34 +89,11 @@ export async function POST(request) {
       return response
     }
 
-    const existingSession = await prisma.session.findFirst({
-      where: { userId: user.id },
-    })
-
-    if (existingSession) {
-      return NextResponse.json(
-        {
-          message:
-            'You are already logged in. Please log out from the other device first.',
-        },
-        { status: 403 }
-      )
-    }
-
-    await prisma.session.deleteMany({ where: { userId: user.id } })
-
     const newToken = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '14d' }
     )
-
-    await prisma.session.create({
-      data: {
-        userId: user.id,
-        token: newToken,
-      },
-    })
 
     await prisma.user.update({ where: { email }, data: { isLoggedIn: true } })
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Heart } from 'lucide-react'
 
 const Footer = () => {
   return (
@@ -112,9 +111,6 @@ const Footer = () => {
           <p className='text-xs text-center max-sm:pt-5'>
             2024 Clothes2Wear <br className='max-sm:hidden' /> All Rights
             Reserved.
-          </p>
-          <p className='flex items-center justify-center font-bold'>
-            Made with <Heart className='text-red-500 mx-1 w-4 h-4' />
           </p>
           <div className='flex items-center justify-center mt-4 space-x-4'>
             <img

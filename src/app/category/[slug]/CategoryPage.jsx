@@ -2,81 +2,25 @@
 
 /* eslint-disable react/prop-types */
 import CategoryBar from '@/app/Components/CategoryBar'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import ProductCard1 from '@/app/Components/ProductCard1'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import axios from 'axios'
-
-const products = [
-  {
-    image: 'https://picsum.photos/254/457',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/254/747',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/254/857',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/254/241',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/257/457',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/687/457',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/254/357',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/957/457',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/847/857',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/857/657',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/758/457',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-  {
-    image: 'https://picsum.photos/758/757',
-    title: 'Cool Product',
-    price: '45999/-',
-  },
-]
+import { Frown } from 'lucide-react'
 
 const CategoryPage = ({ slug }) => {
-  console.log(slug)
-
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [sortDrawerOpen, setSortDrawerOpen] = useState(false)
+
+  const [isEmptyProduct, setIsEmptyProduct] = useState(false)
+
+  const searchParams = new URLSearchParams(window.location.search)
+  const searchQuery = searchParams.get('search') || ''
+  console.log(searchQuery)
+
+  const [products, setProducts] = useState([])
 
   const toggleFilterDrawer = () => {
     setFilterDrawerOpen((prevState) => !prevState)
@@ -86,24 +30,37 @@ const CategoryPage = ({ slug }) => {
     setSortDrawerOpen((prevState) => !prevState)
   }
 
+  useEffect(() => {
+    fetchFilterData()
+  }, [searchQuery])
+
   const fetchFilterData = async () => {
     const storedColors =
       JSON.parse(localStorage.getItem('selectedColors')) || []
     const storedSizes = JSON.parse(localStorage.getItem('selectedSizes')) || []
-    const storedMinPrice = localStorage.getItem('selectedMinPrice') || ''
-    const storedMaxPrice = localStorage.getItem('selectedMaxPrice') || ''
+    const storedMinPrice = localStorage.getItem('selectedMinPrice') || 100
+    const storedMaxPrice = localStorage.getItem('selectedMaxPrice') || 40000
 
     try {
+      setIsEmptyProduct(false)
       const params = {
+        searchQuery: searchQuery,
         colors:
           storedColors.length > 0 ? JSON.stringify(storedColors) : undefined,
         sizes: storedSizes.length > 0 ? JSON.stringify(storedSizes) : undefined,
         minPrice: storedMinPrice,
         maxPrice: storedMaxPrice,
+        categorySlug: slug ? slug : null,
       }
 
-      const { data } = await axios.get('/api/search', { params })
-      console.log(data) // Handle the response
+      const response = await axios.get('/api/search', { params })
+      console.log(response.data)
+
+      setProducts(response.data.products)
+      if (response.data.products.length === 0) {
+        console.log(response.data.products)
+        setIsEmptyProduct(true)
+      }
     } catch (error) {
       console.log('Error:', error.message)
     }
@@ -144,7 +101,10 @@ const CategoryPage = ({ slug }) => {
               size={600}
             >
               <div className='w-full'>
-                <Sidebar onHandleFilter={() => fetchFilterData()} />
+                <Sidebar
+                  onHandleFilter={fetchFilterData}
+                  toggleFilterDrawer={toggleFilterDrawer}
+                />
               </div>
             </Drawer>
 
@@ -202,6 +162,18 @@ const CategoryPage = ({ slug }) => {
             <ProductCard1 key={index} product={item} />
           ))}
         </div>
+        {isEmptyProduct && (
+          <div className='flex items-center justify-center flex-col h-[450px] w-full'>
+            <Frown className='text-zinc-300' size={120} />
+            <p className='text-2xl font-bold text-zinc-300'>
+              No Products found!
+            </p>
+            <p className='text-zinc-300 text-center'>
+              Your search did not match any products.
+              <br /> Please try again
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

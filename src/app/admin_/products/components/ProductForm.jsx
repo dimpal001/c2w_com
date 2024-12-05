@@ -344,7 +344,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
       })
       return
     }
-    if (images.length === 0) {
+    if (images.length === 0 && formData.images.length === 0) {
       enqueueSnackbar('Add an image', {
         variant: 'error',
       })

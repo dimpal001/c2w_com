@@ -4,14 +4,63 @@ const prisma = new PrismaClient()
 
 export async function GET(req) {
   const url = new URL(req.url)
+  const slug = url.searchParams.get('categorySlug')
   const colorsParam = JSON.parse(url.searchParams.get('colors') || '[]')
   const sizesParam = JSON.parse(url.searchParams.get('sizes') || '[]')
   const minPrice = parseFloat(url.searchParams.get('minPrice')) || 0
   const maxPrice = parseFloat(url.searchParams.get('maxPrice')) || 0
+  const page = parseInt(url.searchParams.get('page')) || 1
+  const pageSize = parseInt(url.searchParams.get('pageSize')) || 16
+  const searchQuery = url.searchParams.get('searchQuery') || ''
 
   try {
     const whereConditions = {
       AND: [],
+    }
+
+    if (searchQuery) {
+      whereConditions.AND.push({
+        OR: [
+          {
+            title: {
+              contains: searchQuery,
+            },
+          },
+          {
+            categories: {
+              some: {
+                OR: [
+                  {
+                    slug: {
+                      contains: searchQuery,
+                    },
+                  },
+                  {
+                    name: {
+                      contains: searchQuery,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          {
+            tags: {
+              array_contains: searchQuery,
+            },
+          },
+        ],
+      })
+    }
+
+    if (slug) {
+      whereConditions.AND.push({
+        categories: {
+          some: {
+            slug: slug,
+          },
+        },
+      })
     }
 
     if (minPrice || maxPrice) {
@@ -51,8 +100,17 @@ export async function GET(req) {
       })
     }
 
+    const totalProducts = await prisma.product.count({
+      where: whereConditions.AND.length > 0 ? whereConditions : undefined,
+    })
+
+    const totalPages = Math.ceil(totalProducts / pageSize)
+    const skip = (page - 1) * pageSize
+
     const products = await prisma.product.findMany({
       where: whereConditions.AND.length > 0 ? whereConditions : undefined,
+      skip,
+      take: pageSize,
       include: {
         images: {
           include: {
@@ -72,14 +130,20 @@ export async function GET(req) {
       },
     })
 
-    console.log(products.length)
-
-    return new Response(JSON.stringify(products), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    return new Response(
+      JSON.stringify({
+        totalProducts,
+        currentPage: page,
+        totalPages,
+        products,
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   } catch (error) {
     console.error(error)
     return new Response('Error occurred while fetching products.', {

@@ -38,7 +38,7 @@ export async function GET(request) {
         )
       }
 
-      return NextResponse.json({ address: userAddress }, { status: 200 })
+      return NextResponse.json(userAddress, { status: 200 })
     } else {
       const userAddresses = await prisma.userAddress.findMany({
         where: { userId },

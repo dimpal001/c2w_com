@@ -1,29 +1,35 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 const ProductCard1 = ({ product }) => {
+  const router = useRouter()
+
   return (
-    <div className='w-60 max-sm:w-full bg-neutral-200 p-2 shadow-sm hover:bg-pink-50 cursor-pointer hover:shadow-pink-300 rounded-lg overflow-hidden hover:shadow-lg transition-shadow'>
+    <div
+      onClick={() => router.push(`/product/${product?.slug}`)}
+      className='w-60 max-sm:w-[182px] bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'
+    >
       {/* Product Image */}
-      <div className='h-60 max-sm:h-44 bg-stone-400 rounded-lg'>
+      <div className='h-60 max-sm:h-52 max-sm:w-full bg-stone-200 rounded-lg'>
         <img
-          src={product.image}
+          src={product.thumbnailUrl}
           alt={product.title}
-          className='w-full h-full rounded-lg object-cover'
+          className='w-full h-full max-sm:w-full rounded-lg object-cover'
         />
       </div>
 
       {/* Product Details */}
-      <div className='p-4 relative'>
+      <div className='p-4 max-sm:p-2 relative'>
         {/* Title */}
-        <h2 className='text-sm font-semibold text-gray-800 truncate'>
+        <h2 className='text-sm font-semibold text-gray-800 max-sm:font-normal text-wrap'>
           {product.title}
         </h2>
 
         {/* Price */}
         <p className='text-lg font-bold text-slate-950 mt-2'>
-          ₹{product.price}
+          ₹{product.displayPrice}
         </p>
 
         {/* Arrow Icon */}

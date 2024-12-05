@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import axios from 'axios'
 
-const Sidebar = ({ onHandleFilter }) => {
+const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   const [sizes, setSizes] = useState([])
   const [colors, setColors] = useState([])
   const [minPrice, setMinPrice] = useState(100)
-  const [maxPrice, setMaxPrice] = useState(900)
+  const [maxPrice, setMaxPrice] = useState(40000)
   const minGap = 1000
   const maxRange = 40000
 
@@ -109,8 +109,8 @@ const Sidebar = ({ onHandleFilter }) => {
     localStorage.setItem('selectedSizes', JSON.stringify(selectedSizes))
     localStorage.setItem('selectedMinPrice', selectedMinPrice)
     localStorage.setItem('selectedMaxPrice', selectedMaxPrice)
-
     onHandleFilter()
+    toggleFilterDrawer()
   }
 
   return (
