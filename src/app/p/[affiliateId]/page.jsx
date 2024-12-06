@@ -20,7 +20,7 @@ export const metadata = {
       },
     ],
     url: '',
-    type: 'product',
+    type: 'website',
     site_name: 'Clothes2Wear',
     locale: 'en_US',
   },

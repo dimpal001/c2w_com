@@ -8,8 +8,9 @@ import { api } from '@/app/Components/api'
 export const metadata = {
   title: 'Product Page | Clothes2Wear',
   openGraph: {
-    title: 'Buy Product at Clothes2Wear',
-    description: 'Get the best deals on products at Clothes2Wear. Shop now!',
+    title: 'Product Page | Clothes2Wear',
+    description:
+      'Check out our latest product at Clothes2Wear. Best deals available!',
     images: [
       {
         url: '',
@@ -19,7 +20,7 @@ export const metadata = {
       },
     ],
     url: '',
-    type: 'product',
+    type: 'website',
     site_name: 'Clothes2Wear',
     locale: 'en_US',
   },
