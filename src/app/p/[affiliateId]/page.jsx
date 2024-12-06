@@ -10,7 +10,7 @@ export const metadata = {
 }
 
 const Page = async ({ params }) => {
-  const affiliateId = params.affiliateId
+  const affiliateId = await params.affiliateId
 
   const response = await axios.get(
     `${api}/api/product/affiliateId?affiliateId=${affiliateId}`
