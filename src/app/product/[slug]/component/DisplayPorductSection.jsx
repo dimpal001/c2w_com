@@ -1,7 +1,14 @@
 'use client'
 
+import { api } from '@/app/Components/api'
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from '@nextui-org/dropdown'
 /* eslint-disable react/prop-types */
-import { ArrowRight, Forward, Heart } from 'lucide-react'
+import { ArrowRight, Forward, Heart, Link } from 'lucide-react'
 import React, { useState } from 'react'
 
 const DisplayPorductSection = ({ product }) => {
@@ -60,7 +67,25 @@ const DisplayPorductSection = ({ product }) => {
               className='text-pink-500 fill-pink-500 cursor-pointer'
               size={27}
             />
-            <Forward className='text-pink-500 cursor-pointer' size={27} />
+            <Dropdown>
+              <DropdownTrigger>
+                <Forward className='text-pink-500 cursor-pointer' size={27} />
+              </DropdownTrigger>
+              <DropdownMenu className='p-3' aria-label='Static Actions'>
+                <DropdownItem>
+                  <div
+                    onClick={() => {
+                      const linkToCopy = `${api}/p/${product?.affiliateId}`
+                      navigator.clipboard.writeText(linkToCopy)
+                    }}
+                    className='flex items-center gap-2'
+                  >
+                    <Link size={15} />
+                    <p>Copy Link</p>
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
         <div className='h-[1px] w-[60%] my-5 bg-neutral-300'></div>
