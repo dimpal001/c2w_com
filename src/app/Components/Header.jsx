@@ -94,14 +94,16 @@ const Header = ({ sticky = true }) => {
         {/* Right Section */}
         <div className='flex items-center justify-end gap-2 max-sm:hidden'>
           <div
-            onClick={() => router.push('/user/my-favourite')}
+            onClick={() =>
+              router.push(user ? '/user/my-favourite' : '/auth/signin')
+            }
             className='flex items-center gap-2 cursor-pointer text-sm bg-transparent hover:bg-neutral-100 p-2 px-5 rounded-full'
           >
             <Heart size={20} className='fill-black text-black' />
             Favourite
           </div>
           <div
-            onClick={() => router.push('/user/my-cart')}
+            onClick={() => router.push(user ? '/user/my-cart' : '/auth/signin')}
             className='flex items-center gap-2 cursor-pointer text-sm bg-transparent hover:bg-neutral-100 p-2 px-5 rounded-full'
           >
             <ShoppingCart size={20} className='fill-black text-black' />

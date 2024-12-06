@@ -99,7 +99,10 @@ const SingleOrder = ({ order }) => {
             >
               Invoice
             </button>
-            <button className='bg-black text-white px-10 py-1 text-sm font-semibold rounded-[5px]'>
+            <button
+              onClick={() => router.push(`/user/my-orders/${order.orderId}`)}
+              className='bg-black text-white px-10 py-1 text-sm font-semibold rounded-[5px]'
+            >
               Track Order
             </button>
           </div>

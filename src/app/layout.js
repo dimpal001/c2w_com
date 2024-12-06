@@ -7,6 +7,7 @@ import React from 'react'
 import { Roboto, Inter, Unbounded } from 'next/font/google'
 import { SnackbarProvider } from 'notistack'
 import { UserProvider } from './context/UserContext'
+import { CategoryProvider } from './context/CategoryContext'
 
 // Local fonts
 const geistSans = localFont({
@@ -45,14 +46,16 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${unbounded.variable} ${inter.variable} antialiased`}
       >
-        <UserProvider>
-          <SnackbarProvider
-            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-            autoHideDuration={2000}
-          />
-          <div className='font-inter'>{children}</div>{' '}
-          {/* Applies Inter font */}
-        </UserProvider>
+        <CategoryProvider>
+          <UserProvider>
+            <SnackbarProvider
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              autoHideDuration={2000}
+            />
+            <div className='font-inter'>{children}</div>{' '}
+            {/* Applies Inter font */}
+          </UserProvider>
+        </CategoryProvider>
       </body>
     </html>
   )

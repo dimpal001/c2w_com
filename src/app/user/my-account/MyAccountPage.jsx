@@ -72,10 +72,12 @@ export default function MyAccountPage() {
                   <Mail className='w-5 h-5 max-sm:w-4 max-sm:h-4' />{' '}
                   {userDetails?.email}
                 </p>
-                <p className='flex items-center gap-2 text-gray-700 mt-2'>
-                  <Phone className='w-5 h-5 max-sm:w-4 max-sm:h-4' /> +91
-                  {userDetails?.mobileNumber}
-                </p>
+                {userDetails?.mobileNumber && (
+                  <p className='flex items-center gap-2 text-gray-700 mt-2'>
+                    <Phone className='w-5 h-5 max-sm:w-4 max-sm:h-4' /> +91
+                    {userDetails?.mobileNumber}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -100,11 +102,23 @@ export default function MyAccountPage() {
         {/* Menu Section */}
         <div className='bg-neutral-100 rounded-lg shadow-md w-full max-w-5xl p-6 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
           {[
-            { title: 'Orders', icon: Package, to: '/user/my-orders' },
-            { title: 'Cart', icon: ShoppingCart, to: '/user/my-cart' },
+            {
+              title: 'Orders',
+              icon: Package,
+              onClick: () => router.push('/user/my-orders'),
+            },
+            {
+              title: 'Cart',
+              icon: ShoppingCart,
+              onClick: () => router.push('/user/my-cart'),
+            },
             { title: 'Track Order', icon: Truck },
             { title: 'Profile', icon: User },
-            { title: 'Settings', icon: Settings, to: '/user/settings' },
+            {
+              title: 'Settings',
+              icon: Settings,
+              onClick: () => router.push('/user/settings'),
+            },
             {
               title: 'Logout',
               icon: LogOut,
