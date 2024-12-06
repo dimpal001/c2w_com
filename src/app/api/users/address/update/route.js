@@ -7,10 +7,11 @@ const prisma = new PrismaClient()
 export async function PATCH(request) {
   const {
     userId,
+    fullName,
     addressId,
     addressLine1,
     addressLine2,
-    isDefault,
+    isDefault = true,
     city,
     state,
     zipCode,
@@ -26,7 +27,8 @@ export async function PATCH(request) {
   }
 
   if (
-    !addressId ||
+    !fullName ||
+    !userId ||
     !addressLine1 ||
     !city ||
     !state ||
@@ -36,50 +38,56 @@ export async function PATCH(request) {
   ) {
     return NextResponse.json(
       {
-        error:
-          'All required fields (addressId, addressLine1, city, state, zipCode, country, mobileNumber) must be provided',
+        message:
+          'All required fields (userId, addressLine1, city, state, zipCode, country, mobileNumber) must be provided',
       },
       { status: 400 }
     )
   }
 
   try {
-    if (addressLine1.length > 200) {
+    if (addressLine1.fullName > 50) {
+      return NextResponse.json(
+        { message: 'Name is too long.' },
+        { status: 400 }
+      )
+    }
+    if (addressLine1.length > 100) {
       return NextResponse.json(
         { message: 'Address Line 1 is too long.' },
         { status: 400 }
       )
     }
 
-    if (addressLine2 && addressLine2.length > 200) {
+    if (addressLine2 && addressLine2.length > 100) {
       return NextResponse.json(
         { message: 'Address Line 2 is too long.' },
         { status: 400 }
       )
     }
 
-    if (city.length > 25) {
+    if (city.length > 50) {
       return NextResponse.json(
         { message: 'City name is too long.' },
         { status: 400 }
       )
     }
 
-    if (state.length > 25) {
+    if (state.length > 50) {
       return NextResponse.json(
         { message: 'State name is too long.' },
         { status: 400 }
       )
     }
 
-    if (!/^\d+$/.test(mobileNumber) || zipCode.length !== 6) {
+    if (zipCode.length > 6) {
       return NextResponse.json(
-        { message: 'Invalid zip code.' },
+        { message: 'Zip code is too long.' },
         { status: 400 }
       )
     }
 
-    if (country.length > 15) {
+    if (country.length > 20) {
       return NextResponse.json(
         { message: 'Country name is too long.' },
         { status: 400 }
@@ -108,9 +116,10 @@ export async function PATCH(request) {
       })
     }
 
-    const updatedAddress = await prisma.userAddress.update({
+    await prisma.userAddress.update({
       where: { id: addressId },
       data: {
+        fullName,
         addressLine1,
         addressLine2,
         isDefault,
@@ -122,7 +131,10 @@ export async function PATCH(request) {
       },
     })
 
-    return NextResponse.json(updatedAddress, { status: 200 })
+    return NextResponse.json(
+      { message: 'Address has been updated.' },
+      { status: 200 }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(

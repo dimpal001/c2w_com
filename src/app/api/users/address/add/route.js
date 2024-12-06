@@ -7,9 +7,10 @@ const prisma = new PrismaClient()
 export async function POST(request) {
   const {
     userId,
+    fullName,
     addressLine1,
     addressLine2,
-    isDefault,
+    isDefault = true,
     city,
     state,
     zipCode,
@@ -25,6 +26,7 @@ export async function POST(request) {
   }
 
   if (
+    !fullName ||
     !userId ||
     !addressLine1 ||
     !city ||
@@ -43,28 +45,34 @@ export async function POST(request) {
   }
 
   try {
-    if (addressLine1.length > 200) {
+    if (addressLine1.fullName > 50) {
+      return NextResponse.json(
+        { message: 'Name is too long.' },
+        { status: 400 }
+      )
+    }
+    if (addressLine1.length > 100) {
       return NextResponse.json(
         { message: 'Address Line 1 is too long.' },
         { status: 400 }
       )
     }
 
-    if (addressLine2 && addressLine2.length > 200) {
+    if (addressLine2 && addressLine2.length > 100) {
       return NextResponse.json(
         { message: 'Address Line 2 is too long.' },
         { status: 400 }
       )
     }
 
-    if (city.length > 25) {
+    if (city.length > 50) {
       return NextResponse.json(
         { message: 'City name is too long.' },
         { status: 400 }
       )
     }
 
-    if (state.length > 25) {
+    if (state.length > 50) {
       return NextResponse.json(
         { message: 'State name is too long.' },
         { status: 400 }
@@ -78,7 +86,7 @@ export async function POST(request) {
       )
     }
 
-    if (country.length > 15) {
+    if (country.length > 20) {
       return NextResponse.json(
         { message: 'Country name is too long.' },
         { status: 400 }
@@ -99,7 +107,6 @@ export async function POST(request) {
       )
     }
 
-    // If the address is marked as default, ensure that only one address can be default
     if (isDefault) {
       await prisma.userAddress.updateMany({
         where: { userId, isDefault: true },
@@ -110,6 +117,7 @@ export async function POST(request) {
     const newAddress = await prisma.userAddress.create({
       data: {
         userId,
+        fullName,
         addressLine1,
         addressLine2,
         isDefault,
@@ -121,7 +129,11 @@ export async function POST(request) {
       },
     })
 
-    return NextResponse.json(newAddress, { status: 201 })
+    return NextResponse.json(
+      newAddress,
+      { message: 'Address has been added.' },
+      { status: 200 }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(

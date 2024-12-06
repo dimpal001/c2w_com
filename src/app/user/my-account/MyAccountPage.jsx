@@ -11,15 +11,18 @@ import {
   Settings,
   Gift,
   ArrowRight,
+  LogOut,
 } from 'lucide-react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Skeleton from '@/app/Components/Skeleton'
 import AddressSection from './AddressSection'
+import LogoutModal from '@/app/Components/LogoutModal'
 
 export default function MyAccountPage() {
   const [userDetails, setUserDetails] = useState(null)
   const [fetching, setFetching] = useState(true)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const router = useRouter()
 
@@ -45,7 +48,7 @@ export default function MyAccountPage() {
   }
 
   return (
-    <div className='flex flex-col items-center p-6 min-h-screen'>
+    <div className='flex flex-col max-w-5xl mx-auto items-center p-6 min-h-screen'>
       {/* Header Section */}
       <div className=' w-full container mx-auto p-6 max-sm:p-3 py-10'>
         <div className='flex flex-col md:flex-row justify-between'>
@@ -93,21 +96,28 @@ export default function MyAccountPage() {
         <div className='h-[1px] w-[50%] bg-neutral-400'></div>
       </div>
 
-      <div className='flex max-sm:flex-col items-start container lg:p-6 mx-auto gap-5'>
+      <div className='flex flex-col items-start container lg:p-6 mx-auto gap-5'>
         {/* Menu Section */}
-        <div className='bg-neutral-100 lg:w-[50%] rounded-lg shadow-md w-full max-w-4xl p-6 mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4'>
+        <div className='bg-neutral-100 rounded-lg shadow-md w-full max-w-5xl p-6 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
           {[
             { title: 'Orders', icon: Package, to: '/user/my-orders' },
             { title: 'Cart', icon: ShoppingCart, to: '/user/my-cart' },
             { title: 'Track Order', icon: Truck },
             { title: 'Profile', icon: User },
             { title: 'Settings', icon: Settings, to: '/user/settings' },
-            { title: 'Offers', icon: Gift },
+            {
+              title: 'Logout',
+              icon: LogOut,
+              color: 'text-red-600',
+              onClick: () => setShowLogoutModal(true),
+            },
           ].map((item, index) => (
             <div
-              onClick={() => router.push(item.to)}
+              onClick={item.onClick}
               key={index}
-              className='flex cursor-pointer justify-between items-center bg-white rounded-lg p-4 shadow-sm hover:bg-black hover:text-white transition'
+              className={`flex cursor-pointer ${
+                item.color && item.color
+              } justify-between items-center bg-white rounded-lg p-4 shadow-sm hover:bg-black hover:text-white transition`}
             >
               <div className='flex items-center gap-4'>
                 <item.icon className='w-6 h-6' />
@@ -120,6 +130,12 @@ export default function MyAccountPage() {
 
         {/* Address Section */}
         <AddressSection userDetails={userDetails} />
+        {showLogoutModal && (
+          <LogoutModal
+            isOpen={true}
+            onClose={() => setShowLogoutModal(false)}
+          />
+        )}
       </div>
     </div>
   )

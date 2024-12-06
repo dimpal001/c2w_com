@@ -10,12 +10,15 @@ import 'react-modern-drawer/dist/index.css'
 import SideDrawer from './SideDrawer'
 import LogoImg from '../../assets/img.webp'
 import { useRouter } from 'next/navigation'
+import { useUserContext } from '../context/UserContext'
 
 const Header = ({ sticky = true }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
 
   const [query, setQuery] = useState('')
+
+  const { user } = useUserContext()
 
   const router = useRouter()
 
@@ -105,7 +108,9 @@ const Header = ({ sticky = true }) => {
             Cart
           </div>
           <div
-            onClick={() => router.push('/user/my-account')}
+            onClick={() =>
+              router.push(user ? '/user/my-account' : '/auth/signin')
+            }
             className='flex items-center gap-2 group cursor-pointer text-sm bg-black text-white hover:text-black hover:bg-neutral-100 p-2 px-5 rounded-full'
           >
             <User
