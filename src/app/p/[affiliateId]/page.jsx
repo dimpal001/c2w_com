@@ -13,7 +13,7 @@ const Page = async ({ params }) => {
   const affiliateId = params.affiliateId
 
   const response = await axios.get(
-    `${api}/api/product/affiliateId?affilateId=${affiliateId}`
+    `${api}/api/product/affiliateId?affiliateId=${affiliateId}`
   )
 
   const product = response.data
