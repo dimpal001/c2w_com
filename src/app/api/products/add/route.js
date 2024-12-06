@@ -22,6 +22,34 @@ async function generateUniqueStyleId() {
   return styleId
 }
 
+async function generateUniqueAffiliateId() {
+  let uniqueId = generateRandomId()
+
+  let existingProduct = await prisma.product.findUnique({
+    where: { affiliateId: uniqueId },
+  })
+
+  while (existingProduct) {
+    uniqueId = generateRandomId()
+    existingProduct = await prisma.product.findUnique({
+      where: { affiliateId: uniqueId },
+    })
+  }
+
+  return uniqueId
+}
+
+function generateRandomId() {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let id = ''
+  for (let i = 0; i < 5; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length)
+    id += characters[randomIndex]
+  }
+  return id
+}
+
 export async function POST(request) {
   const {
     title,
@@ -56,6 +84,7 @@ export async function POST(request) {
     })
 
     const styleId = await generateUniqueStyleId()
+    const affiliateId = await generateUniqueAffiliateId()
 
     const thumbnailUrl = images.length > 0 ? images[0].imageUrl : ''
 
@@ -63,6 +92,7 @@ export async function POST(request) {
       data: {
         title,
         slug,
+        affiliateId,
         styleId,
         thumbnailUrl,
         longTailKeyword,

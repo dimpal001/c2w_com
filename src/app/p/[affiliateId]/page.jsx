@@ -10,9 +10,11 @@ export const metadata = {
 }
 
 const Page = async ({ params }) => {
-  const slug = params.slug
+  const affiliateId = params.affiliateId
 
-  const response = await axios.get(`${api}/api/product?slug=${slug}`)
+  const response = await axios.get(
+    `${api}/api/product/affiliateId?affilateId=${affiliateId}`
+  )
 
   const product = response.data
   console.log(product)

@@ -20,7 +20,12 @@ export async function GET(request) {
 
     const id = decoded.userId
 
-    const user = await prisma.user.findUnique({ where: { id } })
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        addresses: true,
+      },
+    })
 
     if (!user || !user.isLoggedIn) {
       const expiredResponse = NextResponse.json(

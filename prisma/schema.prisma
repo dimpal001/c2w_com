@@ -118,6 +118,7 @@ model Product {
   id                   String            @id @default(uuid()) // Server generated
   title                String
   slug                 String            @unique // Server generated
+  affiliateId          String            @unique
   styleId              String            @unique // Server generated
   isReturnable         Boolean           @default(false)
   isActive             Boolean           @default(false)

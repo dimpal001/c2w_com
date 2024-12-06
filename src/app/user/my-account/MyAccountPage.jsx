@@ -10,12 +10,12 @@ import {
   Truck,
   Settings,
   Gift,
-  Edit,
   ArrowRight,
 } from 'lucide-react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Skeleton from '@/app/Components/Skeleton'
+import AddressSection from './AddressSection'
 
 export default function MyAccountPage() {
   const [userDetails, setUserDetails] = useState(null)
@@ -93,7 +93,7 @@ export default function MyAccountPage() {
         <div className='h-[1px] w-[50%] bg-neutral-400'></div>
       </div>
 
-      <div className='flex max-sm:flex-col container lg:p-6 mx-auto gap-5'>
+      <div className='flex max-sm:flex-col items-start container lg:p-6 mx-auto gap-5'>
         {/* Menu Section */}
         <div className='bg-neutral-100 lg:w-[50%] rounded-lg shadow-md w-full max-w-4xl p-6 mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4'>
           {[
@@ -119,21 +119,7 @@ export default function MyAccountPage() {
         </div>
 
         {/* Address Section */}
-        <div className='bg-neutral-100 lg:w-[50%] rounded-lg shadow-md w-full max-w-4xl p-6 mt-6'>
-          <div className='flex justify-between items-center'>
-            <div>
-              <h2 className='text-lg font-bold mb-2'>Address</h2>
-              <p className='text-gray-600'>
-                QTR No 82/A West Maligaon, Guwahati 781011. Near Railway HS
-                School. Boripara Pandu. Aminagao Christian Basti Goalpara
-                Rangia.
-              </p>
-            </div>
-            <button className='flex items-center gap-2 text-blue-500 hover:underline'>
-              <Edit className='w-5 h-5' /> Edit
-            </button>
-          </div>
-        </div>
+        <AddressSection userDetails={userDetails} />
       </div>
     </div>
   )
