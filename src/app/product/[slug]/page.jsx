@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: product.title,
       description:
-        product.description || 'Discover the latest trends with Clothes2Wear.',
+        product.summary || 'Discover the latest trends with Clothes2Wear.',
       images: [
         {
           url: product.ogImage || '/default-image.jpg',

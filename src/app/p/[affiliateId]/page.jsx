@@ -9,18 +9,16 @@ import { api } from '@/app/Components/api'
 export async function generateMetadata({ params }) {
   const affiliateId = params.affiliateId
 
-  // Fetch product data for the given affiliateId
   const response = await axios.get(
     `${api}/api/product/affiliateId?affiliateId=${affiliateId}`
   )
   const product = response.data
 
-  // Return metadata based on the fetched product details
   return {
     title: `${product.title} | Clothes2Wear`,
     openGraph: {
-      title: `Buy ${product.name} Now | Clothes2Wear`,
-      description: `Get the best deals on ${product.name} at Clothes2Wear. Shop now!`,
+      title: `Buy ${product.title} Now | Clothes2Wear`,
+      description: `Get the best deals on ${product.title} at Clothes2Wear. Shop now!`,
       images: [
         {
           url: product.ogImage || '/default-og-image.jpg',
