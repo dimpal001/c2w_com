@@ -34,7 +34,7 @@ const page = async ({ params }) => {
   const allData = response.data
 
   metadata.openGraph.description = allData.products[0].summary
-  metadata.openGraph.images[0].url = cdnPath + allData.products[0]?.thumbnailUrl
+  metadata.openGraph.images[0].url = cdnPath + allData.products[0]?.ogImage
   // metadata.openGraph.images[1].url = cdnPath + allData.products[1]?.thumbnailUrl
   // metadata.openGraph.images[2].url = cdnPath + allData.products[2]?.thumbnailUrl
   // metadata.openGraph.images[3].url = cdnPath + allData.products[3]?.thumbnailUrl

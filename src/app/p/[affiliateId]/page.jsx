@@ -4,7 +4,6 @@ import ProductPage from './ProductPage'
 import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
-import { cdnPath } from '@/app/Components/cdnPath'
 
 export const metadata = {
   title: 'Product Page | Clothes2Wear',
@@ -35,12 +34,11 @@ const Page = async ({ params }) => {
   )
 
   const product = response.data
-  console.log(product)
 
   // Dynamically updating Open Graph fields with product data
   metadata.openGraph.title = product.title
   metadata.openGraph.description = `Get the best deals on ${product.name} at Clothes2Wear. Shop now!`
-  metadata.openGraph.images[0].url = cdnPath + product.thumbnailUrl
+  metadata.openGraph.images[0].url = product.ogImage
   metadata.openGraph.url = `${api}/product/${affiliateId}`
 
   return (

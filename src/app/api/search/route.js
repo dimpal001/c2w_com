@@ -1,3 +1,4 @@
+import { cdnPath } from '@/app/Components/cdnPath'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -130,12 +131,20 @@ export async function GET(req) {
       },
     })
 
+    // Modify each product to include additional fields
+    const modifiedProducts = products.map((product) => {
+      return {
+        ...product,
+        ogImage: cdnPath + product.thumbnailUrl,
+      }
+    })
+
     return new Response(
       JSON.stringify({
         totalProducts,
         currentPage: page,
         totalPages,
-        products,
+        products: modifiedProducts,
       }),
       {
         status: 200,
