@@ -22,7 +22,7 @@ const DisplayPorductSection = ({ product }) => {
   )
 
   const handleBuyNowClick = () => {
-    const selectedSizeId = selectedInventory.size.id
+    const selectedSizeId = selectedInventory?.size?.id
     const totalPrice = selectedInventory?.price * selectedQuantity
 
     console.log('Buy Now clicked:', {

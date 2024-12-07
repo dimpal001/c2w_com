@@ -5,6 +5,7 @@ import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const ShopBySeasonSection = ({ seasons }) => {
   return (
@@ -35,9 +36,9 @@ const SeasonCard = ({ season }) => {
           <p className='text-xl max-sm:text-sm max-sm:tracking-[12px] lg:tracking-[20px] pb-3 max-sm:pb-1 uppercase font-bold text-center unbounded'>
             shop by
           </p>
-          <p className='text-5xl max-sm:text-4xl uppercase tracking-[10px] font-extrabold text-center unbounded'>
+          <h2 className='text-5xl max-sm:text-4xl uppercase tracking-[10px] font-extrabold text-center unbounded'>
             season
-          </p>
+          </h2>
         </div>
         <div className='sm:hidden'>
           <Slider
@@ -70,14 +71,18 @@ const SeasonCard = ({ season }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <div className='lg:w-[226px] animate__animated animate__flip lg:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'>
+    <Link
+      href={product.hyperLink}
+      target='_blank'
+      className='cursor-pointer lg:w-[226px] animate__animated animate__flip lg:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'
+    >
       <img
         className='lg:w-[226px] lg:h-[323px] max-sm:w-[240px] max-sm:h-[380px] object-cover'
         src={cdnPath + product?.imageUrl}
         alt=''
         loading='lazy'
       />
-    </div>
+    </Link>
   )
 }
 

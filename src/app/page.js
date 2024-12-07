@@ -2,6 +2,69 @@ import React from 'react'
 import axios from 'axios'
 import MainPage from './HomePageComponents/MainPage'
 
+const schemaData = {
+  '@context': 'https://schema.org/',
+  '@type': 'WebSite',
+  name: 'Clothes2Wear',
+  url: 'https://www.clothes2wear.com',
+  description:
+    'Clothes2Wear offers the latest trends in fashion, with the best deals on clothing, shoes, and accessories.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://www.clothes2wear.com/search',
+    'query-input': 'required name=search_term_string',
+  },
+  logo: 'https://www.clothes2wear.com/logo.png',
+  sameAs: [
+    'https://www.facebook.com/clothes2wear',
+    'https://twitter.com/clothes2wear',
+    'https://www.instagram.com/clothes2wear',
+    'https://www.linkedin.com/company/clothes2wear',
+  ],
+}
+
+export const metadata = {
+  title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+  description:
+    'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+  keywords:
+    'clothing, fashion, online shopping, shoes, accessories, latest trends',
+  robots: 'index, follow',
+  author: 'Clothes2Wear',
+  language: 'en',
+  viewport: 'width=device-width, initial-scale=1',
+  structuredData: schemaData,
+
+  openGraph: {
+    title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+    description:
+      'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+    url: 'https://www.clothes2wear.com',
+    type: 'website',
+    site_name: 'Clothes2Wear',
+    locale: 'en_US',
+    images: [
+      {
+        url: 'https://www.clothes2wear.com/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Clothes2Wear Fashion Collection',
+      },
+    ],
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+    description:
+      'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+    image: 'https://www.clothes2wear.com/twitter-card-image.jpg',
+    creator: '@clothes2wear',
+  },
+
+  canonical: 'https://www.clothes2wear.com',
+}
+
 const HomePage = async () => {
   try {
     const [

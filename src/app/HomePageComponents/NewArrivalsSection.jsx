@@ -4,6 +4,7 @@ import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const NewArrivalsSection = ({ products }) => {
   return (
@@ -11,9 +12,9 @@ const NewArrivalsSection = ({ products }) => {
       <div>
         <div className='flex items-center'>
           <div className='lg:w-[80%] max-sm:w-[75%] border border-black px-4'>
-            <p className='lg:tracking-[5px] max-sm:tracking-[5px] max-sm:text-[21px] text-black lg:text-[45px] font-bold max-sm:font-extrabold'>
+            <h2 className='lg:tracking-[5px] max-sm:tracking-[5px] max-sm:text-[21px] text-black lg:text-[45px] font-bold max-sm:font-extrabold'>
               NEW ARRIVALS
-            </p>
+            </h2>
           </div>
           <div className='lg:w-[20%] max-sm:w-[25%] max-sm:ps-3 flex justify-center'>
             <RightArrowIcon className={'lg:w-20 max-sm:w-10'} />
@@ -63,18 +64,22 @@ const ProductCard = ({ product }) => {
           </strike>
         </p>
 
-        <p className='text-2xl max-sm:text-base hidden max-sm:block group-hover:block tracking-wider font-bold text-center'>
+        <p className='text-xl max-sm:text-base hidden max-sm:block group-hover:block tracking-wider font-bold text-center'>
           ₹{product?.price}
         </p>
 
-        <button className='relative w-full max-sm:text-xs hidden max-sm:block group-hover:block text-sm py-1 font-semibold rounded-e-full bg-black text-white'>
-          Buy now
-          <ArrowRight className='absolute text-white inset-0 self-center place-self-end mr-3' />
-        </button>
-        <button className='relative mt-2 hidden max-sm:block max-sm:text-xs group-hover:block w-full text-sm py-1 font-semibold rounded-s-full bg-black text-white'>
-          Add to cart
-          <ArrowRight className='absolute text-white inset-0 self-center place-self-end mr-3' />
-        </button>
+        <Link href={product.hyperLink} target='_blank'>
+          <button className='relative w-full text-xs hidden max-sm:block group-hover:block py-1 font-semibold rounded-e-full bg-black text-white'>
+            Buy now
+            <ArrowRight className='absolute text-white inset-0 self-center place-self-end mr-3' />
+          </button>
+        </Link>
+        <Link href={product.hyperLink} target='_blank'>
+          <button className='relative mt-2 hidden max-sm:block text-xs group-hover:block w-full py-1 font-semibold rounded-s-full bg-black text-white'>
+            Add to cart
+            <ArrowRight className='absolute text-white inset-0 self-center place-self-end mr-3' />
+          </button>
+        </Link>
       </div>
     </div>
   )

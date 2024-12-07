@@ -5,6 +5,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const FashionWeekSection = () => {
   const [products, setProducts] = useState([])
@@ -104,7 +105,12 @@ const ProductWeekSection = ({ products }) => {
     <div className='grid grid-cols-4 gap-3 max-sm:grid-cols-2 max-sm:p-3'>
       {products?.length > 0 &&
         products?.slice(0, 4).map((product, index) => (
-          <div key={index} className='flex gap-3 font-semibold'>
+          <Link
+            target='_blank'
+            href={product.hyperLink}
+            key={index}
+            className='flex group cursor-pointer gap-3 font-semibold'
+          >
             <img
               src={cdnPath + product?.imageUrl}
               className='lg:w-20 lg:h-20 max-sm:w-full'
@@ -112,8 +118,10 @@ const ProductWeekSection = ({ products }) => {
               height={100}
               alt=''
             />
-            <p className='text-sm max-sm:hidden'>{product?.title}</p>
-          </div>
+            <p className='text-sm max-sm:hidden group-hover:underline'>
+              {product?.title}
+            </p>
+          </Link>
         ))}
     </div>
   )

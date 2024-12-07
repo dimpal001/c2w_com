@@ -159,6 +159,7 @@ model ProductImage {
   productId String
   imageUrl  String
   colorId   String?
+  caption   String?
   altText   String?
 
   color   ProductColor? @relation(fields: [colorId], references: [id], onDelete: SetNull)

@@ -2,6 +2,7 @@
 import { ArrowRight } from 'lucide-react'
 import React from 'react'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const SocialLinkSection = ({ socialLinks }) => {
   return (
@@ -15,12 +16,14 @@ const SocialLinkSection = ({ socialLinks }) => {
         <div className='grid grid-cols-4 max-sm:grid-cols-2 max-sm:p-3 gap-3'>
           {socialLinks?.length > 0 &&
             socialLinks?.map((image, index) => (
-              <img
-                className='rounded-xl'
-                key={index}
-                src={cdnPath + image.imageUrl}
-                alt=''
-              />
+              <Link key={index} href={image.hyperLink} target='_blank'>
+                <img
+                  className='rounded-xl cursor-pointer'
+                  key={index}
+                  src={cdnPath + image.imageUrl}
+                  alt=''
+                />
+              </Link>
             ))}
         </div>
       </div>

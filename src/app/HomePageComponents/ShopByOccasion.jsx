@@ -6,6 +6,7 @@ import 'animate.css'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const ShopByOccasion = ({ occasions }) => {
   return (
@@ -13,9 +14,9 @@ const ShopByOccasion = ({ occasions }) => {
       {/* Heading  */}
       <div className='lg:w-[50%] max-sm:w-full flex lg:justify-center bg-black relative p-4'>
         <div className='lg:pr-10'>
-          <p className='font-extrabold max-sm:text-2xl text-5xl tracking-wide text-white'>
+          <h2 className='font-extrabold max-sm:text-2xl text-5xl tracking-wide text-white'>
             Shop by Occasion
-          </p>
+          </h2>
           <p className='py-1 max-sm:text-xs text-pink-600'>
             When You & I then why fear Oh! New Occasion is Near
           </p>
@@ -79,13 +80,17 @@ const Occasion = ({ occasion, index }) => {
 
 const Card = ({ product }) => {
   return (
-    <div className='lg:w-[232px] animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'>
+    <Link
+      target='_blank'
+      href={product.hyperLink}
+      className='lg:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'
+    >
       <img
         src={cdnPath + product.imageUrl}
         className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] object-cover'
         alt=''
       />
-    </div>
+    </Link>
   )
 }
 

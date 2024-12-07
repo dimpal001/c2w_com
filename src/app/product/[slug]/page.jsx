@@ -8,46 +8,124 @@ import { api } from '@/app/Components/api'
 export async function generateMetadata({ params }) {
   const slug = params.slug
 
-  // Fetch the product data
-  const response = await axios.get(`${api}/api/product?slug=${slug}`)
-  const product = response.data
+  try {
+    // Fetch the product data
+    const response = await axios.get(`${api}/api/product?slug=${slug}`)
+    const product = response.data
 
-  // Return dynamic metadata
-  return {
-    title: `${product.title} | Clothes2Wear`,
-    openGraph: {
-      title: product.title,
+    const keywords = product.tags
+      ? product.tags.join(', ')
+      : 'fashion, clothes, shopping, clothes2wear, men clothes, women clothes'
+
+    const schemaData = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.title,
       description:
         product.summary || 'Discover the latest trends with Clothes2Wear.',
-      images: [
-        {
-          url: product.ogImage || '/default-image.jpg',
-          width: 1600,
-          height: 1000,
-          alt: product.title || 'Product Image',
-        },
-      ],
-      url: `${api}/product/${slug}`,
-      type: 'website',
-      site_name: 'Clothes2Wear',
-      locale: 'en_US',
-    },
+      image: product.ogImage || '/default-image.jpg',
+      brand: {
+        '@type': 'Brand',
+        name: 'Clothes2Wear',
+      },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'INR',
+        price: product.price || '0.00',
+        availability: 'https://schema.org',
+        url: `${api}/product/${slug}`,
+      },
+    }
+
+    // Return dynamic metadata
+    return {
+      title: `${product.title} | Clothes2Wear`,
+      description: product.summary,
+      keywords,
+      openGraph: {
+        title: product.title,
+        description:
+          product.summary || 'Discover the latest trends with Clothes2Wear.',
+        images: [
+          {
+            url: product.ogImage || '/default-image.jpg',
+            width: 1600,
+            height: 1000,
+            alt: product.title || 'Product Image',
+          },
+        ],
+        url: `${api}/product/${slug}`,
+        type: 'website',
+        site_name: 'Clothes2Wear',
+        locale: 'en_US',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: product.title,
+        description:
+          product.summary || 'Discover the latest trends with Clothes2Wear.',
+        image: product.ogImage || '/default-image.jpg',
+      },
+      structuredData: schemaData,
+    }
+  } catch (error) {
+    console.error('Error fetching product data:', error)
+    // Fallback metadata
+    return {
+      title: 'Product | Clothes2Wear',
+      keywords: 'men clothes, women clothes',
+      openGraph: {
+        title: 'Product | Clothes2Wear',
+        description: 'Discover the latest trends with Clothes2Wear.',
+        images: [
+          {
+            url: '/default-image.jpg',
+            width: 1600,
+            height: 1000,
+            alt: 'Product Image',
+          },
+        ],
+        url: `${api}/product/${slug}`,
+        type: 'website',
+        site_name: 'Clothes2Wear',
+        locale: 'en_US',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Product | Clothes2Wear',
+        description: 'Discover the latest trends with Clothes2Wear.',
+        image: '/default-image.jpg',
+      },
+    }
   }
 }
 
 const Page = async ({ params }) => {
   const slug = params.slug
 
-  // Fetch the product data
-  const response = await axios.get(`${api}/api/product?slug=${slug}`)
-  const product = response.data
+  try {
+    // Fetch the product data
+    const response = await axios.get(`${api}/api/product?slug=${slug}`)
+    const product = response.data
 
-  return (
-    <div>
-      <Header />
-      <ProductPage product={product} />
-    </div>
-  )
+    return (
+      <div>
+        <Header />
+        <ProductPage product={product} />
+      </div>
+    )
+  } catch (error) {
+    console.error('Error fetching product data:', error)
+    return (
+      <div>
+        <div className='w-screen h-screen flex justify-center flex-col items-center gap-3'>
+          <p>
+            Failed to load data. <strong>Please try again later</strong>.
+          </p>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Page

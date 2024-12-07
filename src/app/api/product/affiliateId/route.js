@@ -12,7 +12,16 @@ export async function GET(request) {
     let product = await prisma.product.findUnique({
       where: { affiliateId },
       include: {
-        inventory: true,
+        inventory: {
+          select: {
+            id: true,
+            mrp: true,
+            price: true,
+            stock: true,
+            minQuantity: true,
+            size: true,
+          },
+        },
         productReview: true,
         images: true,
         similarProducts: true,

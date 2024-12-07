@@ -6,6 +6,7 @@ import RightArrowIcon from './RightArrowIcon'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
   return (
@@ -13,9 +14,9 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
       {/* label  */}
       <div className='flex justify-between lg:px-8 items-center max-sm:p-4'>
         <div className='max-sm:w-[80%]'>
-          <p className='lg:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
+          <h2 className='lg:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
             Exclusive Collections
-          </p>
+          </h2>
           <p className='lg:pt-3 max-sm:font-[500] max-sm:text-neutral-600 max-sm:leading-[21px] text-xl max-sm:text-[14px] text-neutral-700'>
             Discover the Most Exclusive Collection of This Season @Clothes2Wear
           </p>
@@ -79,7 +80,11 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
 
 const ProductCard1 = ({ product }) => {
   return (
-    <div className='lg:w-[535px] lg:h-[342px] max-sm:h-[330px] rounded-2xl relative'>
+    <Link
+      target='_blank'
+      href={`/product/${product.slug}`}
+      className='lg:w-[535px] lg:h-[342px] max-sm:h-[330px] rounded-2xl relative'
+    >
       <div className='flex justify-between max-sm:grid grid-cols-3 max-sm:h-[300px] max-sm:gap-1 lg:h-[270px] gap-3'>
         {product?.images.length > 0 &&
           product?.images
@@ -102,13 +107,17 @@ const ProductCard1 = ({ product }) => {
           ₹{product.displayPrice}/-
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
 
 const ProductCard2 = ({ product }) => {
   return (
-    <div className='lg:w-[202px] rounded-2xl lg:h-[322px] relative'>
+    <Link
+      target='_blank'
+      href={product.hyperLink}
+      className='lg:w-[202px] cursor-pointer rounded-2xl lg:h-[322px] relative'
+    >
       <img
         src={cdnPath + product.imageUrl}
         className='lg:w-[202px] lg:h-[322px] rounded-2xl'
@@ -121,7 +130,7 @@ const ProductCard2 = ({ product }) => {
           <p className='font-bold text-xl text-end'>₹{product?.price}/-</p>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

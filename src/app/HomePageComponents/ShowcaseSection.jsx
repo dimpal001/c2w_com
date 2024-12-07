@@ -3,6 +3,7 @@
 import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const ShowcaseSection = ({ showcases }) => {
   return (
@@ -33,9 +34,14 @@ const ShowcaseSection = ({ showcases }) => {
   )
 }
 
-const ShowcaseCard = ({ showcase }) => {
+const ShowcaseCard = ({ showcase, onClick }) => {
   return (
-    <div className='lg:w-[200px] max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] relative rounded-xl max-sm:h-[146px] lg:h-[270px]'>
+    <Link
+      target='_blank'
+      href={showcase.hyperLink}
+      onClick={onClick}
+      className='lg:w-[200px] cursor-pointer max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] relative rounded-xl max-sm:h-[146px] lg:h-[270px]'
+    >
       <img
         src={cdnPath + showcase.imageUrl}
         className='lg:w-[200px] max-sm:w-[100px] rounded-xl max-sm:h-[146px] lg:h-[270px] object-cover'
@@ -45,7 +51,7 @@ const ShowcaseCard = ({ showcase }) => {
       <p className='absolute max-sm:text-xs text-lg inset-0 flex justify-start items-end max-sm:py-1 max-sm:px-2 py-3 px-5 z-20 font-bold text-white'>
         {showcase.title}
       </p>
-    </div>
+    </Link>
   )
 }
 

@@ -5,6 +5,7 @@ const TopSlider = () => {
   return (
     <div className='bg-black p-2 text-white max-sm:py-3 flex justify-center items-center gap-5'>
       <TruckIcon className='' />
+      <h1 className='hidden'>Clothes2Wear</h1>
       <p className='text-sm max-sm:text-xs'>
         Special 25% Discount on First Order. Use - CW52481
       </p>

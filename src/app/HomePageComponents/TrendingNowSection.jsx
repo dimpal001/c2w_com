@@ -3,6 +3,7 @@ import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import RightArrowIcon from './RightArrowIcon'
 import { cdnPath } from '../Components/cdnPath'
+import Link from 'next/link'
 
 const TrendingNowSection = ({ products }) => {
   return (
@@ -10,9 +11,9 @@ const TrendingNowSection = ({ products }) => {
       {/* label  */}
       <div className='flex justify-between lg:px-8 items-center max-sm:p-4'>
         <div className='max-sm:w-[80%]'>
-          <p className='lg:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
+          <h2 className='lg:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
             What&apos;s Trending Now
-          </p>
+          </h2>
           <p className='lg:pt-3 max-sm:font-[500] max-sm:text-neutral-600 max-sm:leading-[21px] text-xl max-sm:text-[14px] text-neutral-700'>
             Discover the most trending products in Clothes2Wear
           </p>
@@ -51,7 +52,11 @@ const TrendingNowSection = ({ products }) => {
 
 const TrendingNowCard = ({ product }) => {
   return (
-    <div className='lg:w-[240px] max-sm:w-[110px] max-sm:min-w-[110px] lg:h-[443px] max-sm:h-[202px] rounded-xl max-sm:rounded-md'>
+    <Link
+      target='_blank'
+      href={product.hyperLink}
+      className='lg:w-[240px] cursor-pointer max-sm:w-[110px] max-sm:min-w-[110px] lg:h-[443px] max-sm:h-[202px] rounded-xl max-sm:rounded-md'
+    >
       <div className='lg:w-[240px] max-sm:w-[110px] max-sm:min-w-[110px] relative rounded-xl max-sm:rounded-md lg:h-[443px] max-sm:h-[202px]'>
         <video
           loop
@@ -77,7 +82,7 @@ const TrendingNowCard = ({ product }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

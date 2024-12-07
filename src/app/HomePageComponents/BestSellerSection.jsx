@@ -5,9 +5,9 @@ const BestSellerSection = () => {
     <div className='py-12 p-1'>
       <div className='border-3 max-sm:flex max-sm:flex-col max-sm:gap-5 border-dashed border-zinc-700 p-7 max-sm:p-4 flex lg:gap-7'>
         <div className='lg:w-[50%]'>
-          <p className='font-semibold text-xl'>
+          <h3 className='font-semibold text-xl'>
             Clothes2Wear&apos;s Bestseller Ethnic Wear Online in India
-          </p>
+          </h3>
           <p className='text-xs'>
             India officially the Republic of India is a country in South Asia.
             India is a country with diverse cultures. The incredible part of
@@ -50,17 +50,17 @@ const BestSellerSection = () => {
         <div className='lg:w-[50%]'>
           <div>
             <div className='flex justify-between'>
-              <p className='text-3xl font-semibold'>
+              <h3 className='text-3xl font-semibold'>
                 Bestsellers in India List
-              </p>
+              </h3>
               <p className='text-3xl font-semibold'>Price</p>
             </div>
             {Array.from({ length: 12 }, (_, index) => (
               <div key={index} className='flex justify-between py-[4px]'>
-                <p>
+                <h4>
                   Black Saree With Kashmiri Thread Work And Unstitched Blouse
                   Piece
-                </p>
+                </h4>
                 <p>₹49,000</p>
               </div>
             ))}
