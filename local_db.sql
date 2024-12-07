@@ -602,6 +602,7 @@ CREATE TABLE `Product` (
   `longTailKeyword` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `affiliateId` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `isCODAvailable` tinyint(1) NOT NULL DEFAULT '1',
+  `ogImage` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Product_slug_key` (`slug`),
   UNIQUE KEY `Product_styleId_key` (`styleId`),
@@ -619,7 +620,7 @@ CREATE TABLE `Product` (
 
 LOCK TABLES `Product` WRITE;
 /*!40000 ALTER TABLE `Product` DISABLE KEYS */;
-INSERT INTO `Product` VALUES ('5209edd3-6536-4bf5-8dba-0234d5090f80','dimpu-lehenga-saree-exclusive-golden-blouse-2024-11-26',0,'2024-11-26 08:00:44.652','2024-12-07 04:48:58.583','image-1732608042793.jpg',1,'Hii my name is aniket pradhan and this is my prodcct','Hii my name is aniket pradhan and this is my prodcct','51f32f75-706d-4b43-9280-acec35b1d8f7','a3ff6c2e-aecd-49c3-81f0-4cb7d1a4ae9e',15,'C2W725754','Dimpu Lehenga Saree Exclusive Golden Blouse','Hii my name is aniket pradhan and this is my prodcct',0,999,'[]','Hii my name is aniket pradhan and this is my prodcct','wfMXg',1),('58b349f3-d7ad-4acc-a869-398a98317cab','afreen-jeans-top-suit-exclusive-black-collection-2024-11-26',1,'2024-11-26 08:26:04.965','2024-12-07 04:48:58.583','image-1732609564394.webp',1,'Hii guys this aniket pradhan ','Hi my name is aniket pradhan thanks for watching this video i love you','51f32f75-706d-4b43-9280-acec35b1d8f7','a3ff6c2e-aecd-49c3-81f0-4cb7d1a4ae9e',10,'C2W219625','Afreen Jeans top suit Exclusive Black Collection','hi guys this aniket radhan',0,1000,'[\"thank you for\", \"hii\"]','hi guys this aniket radhan','r6Q30',1);
+INSERT INTO `Product` VALUES ('5209edd3-6536-4bf5-8dba-0234d5090f80','dimpu-lehenga-saree-exclusive-golden-blouse-2024-11-26',0,'2024-11-26 08:00:44.652','2024-12-07 06:15:25.463','image-1732608042793.jpg',1,'Hii my name is aniket pradhan and this is my prodcct','Hii my name is aniket pradhan and this is my prodcct','51f32f75-706d-4b43-9280-acec35b1d8f7','a3ff6c2e-aecd-49c3-81f0-4cb7d1a4ae9e',15,'C2W725754','Dimpu Lehenga Saree Exclusive Golden Blouse','Hii my name is aniket pradhan and this is my prodcct',0,999,'[]','Hii my name is aniket pradhan and this is my prodcct','wfMXg',1,'https://cdn.thefashionsalad.com/clothes2wear/image-1732608042793.jpg'),('58b349f3-d7ad-4acc-a869-398a98317cab','afreen-jeans-top-suit-exclusive-black-collection-2024-11-26',1,'2024-11-26 08:26:04.965','2024-12-07 06:15:25.463','image-1732609564394.webp',1,'Hii guys this aniket pradhan ','Hi my name is aniket pradhan thanks for watching this video i love you','51f32f75-706d-4b43-9280-acec35b1d8f7','a3ff6c2e-aecd-49c3-81f0-4cb7d1a4ae9e',10,'C2W219625','Afreen Jeans top suit Exclusive Black Collection','hi guys this aniket radhan',0,1000,'[\"thank you for\", \"hii\"]','hi guys this aniket radhan','r6Q30',1,'https://cdn.thefashionsalad.com/clothes2wear/image-1732609564394.webp');
 /*!40000 ALTER TABLE `Product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1466,4 +1467,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-07 10:32:24
+-- Dump completed on 2024-12-07 11:46:44

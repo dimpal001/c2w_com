@@ -1,4 +1,3 @@
-import { cdnPath } from '@/app/Components/cdnPath'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
@@ -71,10 +70,6 @@ export async function GET(request) {
           { status: 404 }
         )
       }
-    }
-
-    if (product) {
-      product.ogImage = cdnPath + product.thumbnailUrl
     }
 
     return NextResponse.json(product)

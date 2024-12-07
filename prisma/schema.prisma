@@ -130,6 +130,7 @@ model Product {
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
   thumbnailUrl         String // Server generated
+  ogImage              String? // Server generated
   views                Int               @default(0)
   displayPrice         Float             @default(0)
   customerTypeId       String?
