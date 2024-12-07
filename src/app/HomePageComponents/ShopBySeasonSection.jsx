@@ -4,6 +4,7 @@
 import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
+import { cdnPath } from '../Components/cdnPath'
 
 const ShopBySeasonSection = ({ seasons }) => {
   return (
@@ -26,7 +27,7 @@ const SeasonCard = ({ season }) => {
         className='w-screen max-sm:w-full object-cover lg:h-[583px] max-sm:h-[500px] '
         autoPlay
         muted
-        src={season?.videoUrl}
+        src={cdnPath + season?.videoUrl}
       ></video>
       <div className='w-ful z-10 opacity-40 absolute h-full inset-0 bg-black'></div>
       <div className='w-ful gap-10 flex flex-col justify-center items-center text-white z-20 absolute h-full inset-0 bg-transparent'>
@@ -72,7 +73,7 @@ const ProductCard = ({ product }) => {
     <div className='lg:w-[226px] animate__animated animate__flip lg:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'>
       <img
         className='lg:w-[226px] lg:h-[323px] max-sm:w-[240px] max-sm:h-[380px] object-cover'
-        src={product?.imageUrl}
+        src={cdnPath + product?.imageUrl}
         alt=''
         loading='lazy'
       />

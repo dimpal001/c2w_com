@@ -2,6 +2,7 @@
 import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
+import { cdnPath } from '../Components/cdnPath'
 
 const HeroSliderSection = ({ heroSliders }) => {
   return (
@@ -25,7 +26,7 @@ const HeroSliderCard = ({ slider }) => {
   return (
     <div className='w-screen lg:h-[582px] max-sm:h-[225px]'>
       <img
-        src={slider.imageUrl}
+        src={cdnPath + slider.imageUrl}
         className='w-full lg:h-[582px] max-sm:h-[225px] object-cover'
         alt=''
         loading='lazy'

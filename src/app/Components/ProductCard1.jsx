@@ -2,6 +2,7 @@
 import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { cdnPath } from './cdnPath'
 
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
@@ -14,7 +15,7 @@ const ProductCard1 = ({ product }) => {
       {/* Product Image */}
       <div className='h-60 max-sm:h-52 max-sm:w-full bg-stone-200 rounded-lg'>
         <img
-          src={product.thumbnailUrl}
+          src={cdnPath + product.thumbnailUrl}
           alt={product.title}
           className='w-full h-full max-sm:w-full rounded-lg object-cover'
         />

@@ -3,6 +3,7 @@ import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import Skeleton from '../Components/Skeleton'
+import { cdnPath } from '../Components/cdnPath'
 
 const NewArrivalsSection = ({ products }) => {
   return (
@@ -46,7 +47,7 @@ const ProductCard = ({ product }) => {
     <div className='flex max-sm:min-w-[320px] items-center cursor-pointer relative group rounded-xl max-sm:h-[270px] lg:h-[300px]'>
       <img
         className='lg:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in lg:h-[300px] lg:min-w-[225px] lg:max-w-[225px] rounded-xl'
-        src={product.imageUrl}
+        src={cdnPath + product.imageUrl}
         alt='image'
       />
       <div className='w-2 p-3 max-sm:w-[170px] h-[90%] lg:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>

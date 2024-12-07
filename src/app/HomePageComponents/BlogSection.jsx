@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
+import { cdnPath } from '../Components/cdnPath'
 
 const BlogSection = ({ blogs }) => {
   return (
@@ -9,7 +10,7 @@ const BlogSection = ({ blogs }) => {
         {blogs.length > 0 &&
           blogs.slice(0, 2).map((blog, index) => (
             <div key={index} className='lg:w-[50%]'>
-              <img src={blog.imageUrl} className='w-full' alt='' />
+              <img src={cdnPath + blog.imageUrl} className='w-full' alt='' />
               <p className='text-4xl max-sm:text-xl font-bold'>{blog.title}</p>
               <p className='text-xl max-sm:text-sm lg:pe-3 text-neutral-400'>
                 {blog.description}

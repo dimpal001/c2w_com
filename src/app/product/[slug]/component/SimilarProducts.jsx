@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { cdnPath } from '@/app/Components/cdnPath'
 import React from 'react'
 
 const SimilarProducts = ({ products }) => {
@@ -18,7 +19,7 @@ const SimilarProducts = ({ products }) => {
 const ProductCard = ({ product }) => {
   return (
     <img
-      src={product.thumbnailUrl}
+      src={cdnPath + product.thumbnailUrl}
       alt=''
       className='w-[160px] max-sm:w-full h-[200px] rounded-lg'
     />

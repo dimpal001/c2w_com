@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Skeleton from '../Components/Skeleton'
+import { cdnPath } from '../Components/cdnPath'
 
 const ShowcaseSection = ({ showcases }) => {
   return (
@@ -36,7 +37,7 @@ const ShowcaseCard = ({ showcase }) => {
   return (
     <div className='lg:w-[200px] max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] relative rounded-xl max-sm:h-[146px] lg:h-[270px]'>
       <img
-        src={showcase.imageUrl}
+        src={cdnPath + showcase.imageUrl}
         className='lg:w-[200px] max-sm:w-[100px] rounded-xl max-sm:h-[146px] lg:h-[270px] object-cover'
         alt=''
       />

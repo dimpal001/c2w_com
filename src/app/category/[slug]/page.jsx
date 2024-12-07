@@ -3,6 +3,7 @@ import CategoryPage from './CategoryPage'
 import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 export const metadata = {
   title: 'Category | Clothes2Wear',
@@ -30,13 +31,13 @@ const page = async ({ params }) => {
 
   const response = await axios.get(`${api}/api/search?categorySlug=${slug}`)
 
-  const data = response.data
+  const allData = response.data
 
-  metadata.openGraph.description = data.products[0].summary
-  metadata.openGraph.images[0].url = data.products[0].thumbnailUrl
-  metadata.openGraph.images[1].url = data.products[1].thumbnailUrl
-  metadata.openGraph.images[2].url = data.products[2].thumbnailUrl
-  metadata.openGraph.images[3].url = data.products[3].thumbnailUrl
+  metadata.openGraph.description = allData.products[0].summary
+  metadata.openGraph.images[0].url = cdnPath + allData.products[0]?.thumbnailUrl
+  // metadata.openGraph.images[1].url = cdnPath + allData.products[1]?.thumbnailUrl
+  // metadata.openGraph.images[2].url = cdnPath + allData.products[2]?.thumbnailUrl
+  // metadata.openGraph.images[3].url = cdnPath + allData.products[3]?.thumbnailUrl
   metadata.openGraph.url = `${api}/category/${slug}`
 
   return (

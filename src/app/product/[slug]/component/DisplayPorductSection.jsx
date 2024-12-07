@@ -1,6 +1,7 @@
 'use client'
 
 import { api } from '@/app/Components/api'
+import { cdnPath } from '@/app/Components/cdnPath'
 import {
   Dropdown,
   DropdownItem,
@@ -118,7 +119,7 @@ const ProductImage = ({ image, onClick }) => {
   return (
     <div onClick={onClick} className='cursor-pointer'>
       <img
-        src={image.imageUrl}
+        src={cdnPath + image.imageUrl}
         alt={image.altText}
         className='w-[130px] h-[160px] max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
       />
@@ -130,7 +131,7 @@ const SimilarProductImage = ({ image }) => {
   return (
     <div>
       <img
-        src={image.imageUrl}
+        src={cdnPath + image.imageUrl}
         alt={image.altText}
         className='w-[80px] h-[100px] rounded-lg'
       />
@@ -141,7 +142,7 @@ const SimilarProductImage = ({ image }) => {
 const ThumbnailImage = ({ image }) => {
   return (
     <img
-      src={image}
+      src={cdnPath + image}
       alt={image.altText}
       className='lg:w-[500px] object-fill rounded-lg lg:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
     />

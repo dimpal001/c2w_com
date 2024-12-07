@@ -30,7 +30,7 @@ export const uploadImageToCDN = async (image, name) => {
     const data = await s3Client.send(new PutObjectCommand(params))
     console.log('Image uploaded:', data)
 
-    imageName = 'https://cdn.thefashionsalad.com/clothes2wear/' + imageName
+    // imageName = 'https://cdn.thefashionsalad.com/clothes2wear/' + imageName
 
     // Construct the URL of the uploaded image
     const imageUrl = imageName

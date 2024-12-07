@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import 'animate.css'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
+import { cdnPath } from '../Components/cdnPath'
 
 const ShopByOccasion = ({ occasions }) => {
   return (
@@ -80,7 +81,7 @@ const Card = ({ product }) => {
   return (
     <div className='lg:w-[232px] animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'>
       <img
-        src={product.imageUrl}
+        src={cdnPath + product.imageUrl}
         className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] object-cover'
         alt=''
       />

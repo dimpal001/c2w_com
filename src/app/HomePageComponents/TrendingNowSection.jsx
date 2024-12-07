@@ -2,6 +2,7 @@
 import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import RightArrowIcon from './RightArrowIcon'
+import { cdnPath } from '../Components/cdnPath'
 
 const TrendingNowSection = ({ products }) => {
   return (
@@ -57,13 +58,13 @@ const TrendingNowCard = ({ product }) => {
           className='rounded-xl max-sm:rounded-md object-cover lg:w-[240px] max-sm:w-[110px] max-sm:min-w-[110px] lg:h-[443px] max-sm:h-[202px]'
           autoPlay
           muted
-          src={product.videoUrl}
+          src={cdnPath + product.videoUrl}
         ></video>
         <div className='absolute rounded-xl max-sm:rounded-md bottom-0 left-0 right-0 h-[150px] z-10 bg-gradient-to-t from-black to-transparent from-[1%]'></div>
         <div className='absolute text-lg inset-0 flex justify-start items-end py-3 max-sm:py-2 px-5 max-sm:px-2 z-20 text-white'>
           <div className='flex justify-center items-center flex-col gap-2 max-sm:gap-[2px]'>
             <img
-              src={product.avatarUrl}
+              src={cdnPath + product.avatarUrl}
               className='lg:w-[50px] lg:h-[50px] max-sm:w-[30px] max-sm:h-[30px] rounded-full'
               alt=''
             />

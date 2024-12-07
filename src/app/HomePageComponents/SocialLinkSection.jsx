@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { ArrowRight } from 'lucide-react'
 import React from 'react'
+import { cdnPath } from '../Components/cdnPath'
 
 const SocialLinkSection = ({ socialLinks }) => {
   return (
@@ -17,7 +18,7 @@ const SocialLinkSection = ({ socialLinks }) => {
               <img
                 className='rounded-xl'
                 key={index}
-                src={image.imageUrl}
+                src={cdnPath + image.imageUrl}
                 alt=''
               />
             ))}

@@ -5,6 +5,7 @@ import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
+import { cdnPath } from '../Components/cdnPath'
 
 const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
   return (
@@ -85,7 +86,7 @@ const ProductCard1 = ({ product }) => {
             .slice(0, 3)
             .map((image, index) => (
               <img
-                src={image.imageUrl}
+                src={cdnPath + image.imageUrl}
                 key={index}
                 className='lg:w-[168px] max-sm:h-[85%] object-cover lg:h-[270px]]'
                 alt=''
@@ -109,7 +110,7 @@ const ProductCard2 = ({ product }) => {
   return (
     <div className='lg:w-[202px] rounded-2xl lg:h-[322px] relative'>
       <img
-        src={product.imageUrl}
+        src={cdnPath + product.imageUrl}
         className='lg:w-[202px] lg:h-[322px] rounded-2xl'
         alt=''
       />

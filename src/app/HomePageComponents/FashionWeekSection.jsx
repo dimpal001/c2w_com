@@ -4,6 +4,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from '../Components/Skeleton'
+import { cdnPath } from '../Components/cdnPath'
 
 const FashionWeekSection = () => {
   const [products, setProducts] = useState([])
@@ -40,7 +41,7 @@ const ImageWeekSection = ({ products }) => {
       {/* First part  */}
       <div className='flex'>
         <img
-          src={products[0]?.imageUrl}
+          src={cdnPath + products[0]?.imageUrl}
           className='object-cover lg:w-[359px] lg:h-[397px] max-sm:w-full'
           alt=''
         />
@@ -57,7 +58,7 @@ const ImageWeekSection = ({ products }) => {
               .map((image, index) => (
                 <img
                   className='lg:w-[161px] lg:h-[200px] object-cover'
-                  src={image.imageUrl}
+                  src={cdnPath + image.imageUrl}
                   alt=''
                   key={index}
                 />
@@ -76,7 +77,7 @@ const ImageWeekSection = ({ products }) => {
             ?.slice(0, 3)
             .map((image, index) => (
               <img
-                src={image.imageUrl}
+                src={cdnPath + image.imageUrl}
                 className='object-cover lg:w-[166px] lg:h-[201px]'
                 key={index}
                 alt=''
@@ -87,7 +88,7 @@ const ImageWeekSection = ({ products }) => {
             ?.slice(0, 1)
             .map((image, index) => (
               <img
-                src={image.imageUrl}
+                src={cdnPath + image.imageUrl}
                 className='object-cover lg:w-[166px] lg:h-[201px]'
                 key={index}
                 alt=''
@@ -105,7 +106,7 @@ const ProductWeekSection = ({ products }) => {
         products?.slice(0, 4).map((product, index) => (
           <div key={index} className='flex gap-3 font-semibold'>
             <img
-              src={product?.imageUrl}
+              src={cdnPath + product?.imageUrl}
               className='lg:w-20 lg:h-20 max-sm:w-full'
               width={100}
               height={100}
