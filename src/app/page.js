@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import MainPage from './HomePageComponents/MainPage'
+import Head from 'next/head'
 
 const schemaData = {
   '@context': 'https://schema.org/',
@@ -62,7 +63,7 @@ export const metadata = {
     creator: '@clothes2wear',
   },
 
-  canonical: 'https://www.clothes2wear.com',
+  canonical: 'https://www.thebmim.com',
 }
 
 const HomePage = async () => {
@@ -114,7 +115,16 @@ const HomePage = async () => {
     const socialLinks = socialLinksRes.data || []
     const blogs = blogsRes.data || []
     return (
-      <div>
+      <>
+        <Head>
+          <link rel='canonical' href='https://www.clothes2wear.com' />
+          <script
+            type='application/ld+json'
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(schemaData),
+            }}
+          />
+        </Head>
         <MainPage
           showcases={showcases}
           heroSliders={heroSliders}
@@ -128,7 +138,7 @@ const HomePage = async () => {
           socialLinks={socialLinks}
           blogs={blogs}
         />
-      </div>
+      </>
     )
   } catch (error) {
     console.log('Error fetching data:', error)

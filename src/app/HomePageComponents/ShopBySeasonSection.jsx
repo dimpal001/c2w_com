@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
       <img
         className='lg:w-[226px] lg:h-[323px] max-sm:w-[240px] max-sm:h-[380px] object-cover'
         src={cdnPath + product?.imageUrl}
-        alt=''
+        alt={product?.title || 'clothes2wear'}
         loading='lazy'
       />
     </Link>

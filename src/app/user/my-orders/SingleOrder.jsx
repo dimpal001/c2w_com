@@ -20,7 +20,7 @@ const SingleOrder = ({ order }) => {
           <img
             src={order?.orderItems[0]?.product?.thumbnailUrl}
             className='lg:w-[150px] lg:h-[150px] max-sm:w-[100px] max-sm:h-[140px] rounded-xl'
-            alt=''
+            alt={order?.orderItems[0]?.product?.title || 'clothes2wear'}
           />
           <div className='py-2 flex flex-col gap-1'>
             <p className='font-semibold max-sm:text-sm'>

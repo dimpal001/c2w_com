@@ -33,7 +33,7 @@ const HeroSliderCard = ({ slider }) => {
       <img
         src={cdnPath + slider.imageUrl}
         className='w-full lg:h-[582px] max-sm:h-[225px] object-cover'
-        alt=''
+        alt='clothes2wear'
         loading='lazy'
       />
     </Link>

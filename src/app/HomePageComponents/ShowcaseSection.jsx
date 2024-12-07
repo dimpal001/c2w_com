@@ -45,7 +45,7 @@ const ShowcaseCard = ({ showcase, onClick }) => {
       <img
         src={cdnPath + showcase.imageUrl}
         className='lg:w-[200px] max-sm:w-[100px] rounded-xl max-sm:h-[146px] lg:h-[270px] object-cover'
-        alt=''
+        alt='clothes2wear'
       />
       <div className='absolute rounded-xl bottom-0 left-0 right-0 h-[120px] z-10 bg-gradient-to-t from-black to-transparent from-[1%]'></div>
       <p className='absolute max-sm:text-xs text-lg inset-0 flex justify-start items-end max-sm:py-1 max-sm:px-2 py-3 px-5 z-20 font-bold text-white'>

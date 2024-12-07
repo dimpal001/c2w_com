@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
   return (
     <img
       src={cdnPath + product.thumbnailUrl}
-      alt=''
+      alt={product?.title || 'clothes2wear'}
       className='w-[160px] max-sm:w-full h-[200px] rounded-lg'
     />
   )

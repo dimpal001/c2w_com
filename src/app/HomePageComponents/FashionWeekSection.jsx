@@ -44,7 +44,7 @@ const ImageWeekSection = ({ products }) => {
         <img
           src={cdnPath + products[0]?.imageUrl}
           className='object-cover lg:w-[359px] lg:h-[397px] max-sm:w-full'
-          alt=''
+          alt={'clothes2wear'}
         />
         <span className='max-sm:hidden font-bold lg:pt-5 max-sm:pt-4 -rotate-90 text-6xl max-sm:text-5xl tracking-[14px] uppercase'>
           fashoin
@@ -60,7 +60,7 @@ const ImageWeekSection = ({ products }) => {
                 <img
                   className='lg:w-[161px] lg:h-[200px] object-cover'
                   src={cdnPath + image.imageUrl}
-                  alt=''
+                  alt='clothes2wear'
                   key={index}
                 />
               ))}
@@ -81,7 +81,7 @@ const ImageWeekSection = ({ products }) => {
                 src={cdnPath + image.imageUrl}
                 className='object-cover lg:w-[166px] lg:h-[201px]'
                 key={index}
-                alt=''
+                alt='clothes2wear'
               />
             ))}
         {products?.length > 0 &&
@@ -92,7 +92,7 @@ const ImageWeekSection = ({ products }) => {
                 src={cdnPath + image.imageUrl}
                 className='object-cover lg:w-[166px] lg:h-[201px]'
                 key={index}
-                alt=''
+                alt='clothes2wear'
               />
             ))}
       </div>
@@ -116,7 +116,7 @@ const ProductWeekSection = ({ products }) => {
               className='lg:w-20 lg:h-20 max-sm:w-full'
               width={100}
               height={100}
-              alt=''
+              alt='clothes2wear'
             />
             <p className='text-sm max-sm:hidden group-hover:underline'>
               {product?.title}

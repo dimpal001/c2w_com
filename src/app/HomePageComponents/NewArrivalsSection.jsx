@@ -49,7 +49,7 @@ const ProductCard = ({ product }) => {
       <img
         className='lg:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in lg:h-[300px] lg:min-w-[225px] lg:max-w-[225px] rounded-xl'
         src={cdnPath + product.imageUrl}
-        alt='image'
+        alt={product?.title || 'clothes2wear'}
       />
       <div className='w-2 p-3 max-sm:w-[170px] h-[90%] lg:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
         <p className='text-sm max-sm:text-xs hidden max-sm:block group-hover:block font-semibold'>

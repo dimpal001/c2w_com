@@ -71,7 +71,7 @@ const TrendingNowCard = ({ product }) => {
             <img
               src={cdnPath + product.avatarUrl}
               className='lg:w-[50px] lg:h-[50px] max-sm:w-[30px] max-sm:h-[30px] rounded-full'
-              alt=''
+              alt={product?.title || 'clothes2wear'}
             />
             <p className='text-center max-sm:text-[7px] max-sm:leading-[10px] text-sm leading-6'>
               {product?.title}

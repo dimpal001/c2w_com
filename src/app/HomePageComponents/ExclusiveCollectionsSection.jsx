@@ -94,7 +94,7 @@ const ProductCard1 = ({ product }) => {
                 src={cdnPath + image.imageUrl}
                 key={index}
                 className='lg:w-[168px] max-sm:h-[85%] object-cover lg:h-[270px]]'
-                alt=''
+                alt={image.hyperLink}
               />
             ))}
       </div>
@@ -121,7 +121,7 @@ const ProductCard2 = ({ product }) => {
       <img
         src={cdnPath + product.imageUrl}
         className='lg:w-[202px] lg:h-[322px] rounded-2xl'
-        alt=''
+        alt={product?.title}
       />
       <div className='absolute rounded-2xl inset-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>
         <div className='flex flex-col w-full h-full justify-end p-5 max-sm:p-3 text-white'>

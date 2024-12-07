@@ -60,7 +60,7 @@ export default function MyAccountPage() {
             <div className='flex gap-5 items-center lg:pt-8 max-sm:py-5'>
               <img
                 src='https://www.picsum.photos/521/854'
-                alt='User Profile'
+                alt={userDetails?.firstName || 'clothes2wear'}
                 className='w-28 h-28 max-sm:w-20 max-sm:h-20 rounded-xl max-sm:rounded-md object-cover'
               />
               <div className='text-center text-xl max-sm:text-sm md:text-left'>

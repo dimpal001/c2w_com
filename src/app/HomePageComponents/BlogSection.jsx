@@ -16,7 +16,11 @@ const BlogSection = ({ blogs }) => {
               key={index}
               className='cursor-pointer group lg:w-[50%]'
             >
-              <img src={cdnPath + blog.imageUrl} className='w-full' alt='' />
+              <img
+                src={cdnPath + blog.imageUrl}
+                className='w-full'
+                alt={blog.title}
+              />
               <h3 className='text-4xl max-sm:text-xl group-hover:underline font-bold'>
                 {blog.title}
               </h3>

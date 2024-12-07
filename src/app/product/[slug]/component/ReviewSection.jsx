@@ -28,7 +28,7 @@ const ReviewCard = ({ review }) => {
       <img
         src='https://picsum.photos/452/715?random=1'
         className='w-7 h-7 rounded-full'
-        alt=''
+        alt={'clothes2wear'}
       />
       <div className='w-[95%]'>
         <div className='flex gap-1'>

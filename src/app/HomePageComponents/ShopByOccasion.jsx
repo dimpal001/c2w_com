@@ -88,7 +88,7 @@ const Card = ({ product }) => {
       <img
         src={cdnPath + product.imageUrl}
         className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] object-cover'
-        alt=''
+        alt={product?.title || 'clothes2wear'}
       />
     </Link>
   )

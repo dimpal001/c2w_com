@@ -38,7 +38,7 @@ const LogoutModal = ({ isOpen, onClose }) => {
             <img
               src='/logout.gif'
               className='w-[70px] mb-4'
-              alt='Order Placed'
+              alt='confirm logout'
             />
             <p className='text-2xl font-bold'>Confirm Logout</p>
           </div>

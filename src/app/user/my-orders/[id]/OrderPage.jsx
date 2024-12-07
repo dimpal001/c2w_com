@@ -179,7 +179,11 @@ const OrderPage = ({ id }) => {
         {/* WhatsApp Support */}
         <div className='bg-white p-4 rounded-lg shadow-md text-center'>
           <div className='flex justify-center items-center p-3'>
-            <img src='/whatsapp.gif' className='bg-transparent' alt='' />
+            <img
+              src='/whatsapp.gif'
+              className='bg-transparent'
+              alt='whatsapp'
+            />
           </div>
           <button
             className='flex items-center justify-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg'
