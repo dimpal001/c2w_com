@@ -5,42 +5,46 @@ import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
 
-export const metadata = {
-  title: 'Product Page | Clothes2Wear',
-  openGraph: {
-    title: 'Product Page | Clothes2Wear',
-    description:
-      'Check out our latest product at Clothes2Wear. Best deals available!',
-    images: [
-      {
-        url: '',
-        width: 800,
-        height: 600,
-        alt: 'Product Image',
-      },
-    ],
-    url: '',
-    type: 'website',
-    site_name: 'Clothes2Wear',
-    locale: 'en_US',
-  },
-}
+// Dynamic Metadata Generation
+export async function generateMetadata({ params }) {
+  const affiliateId = params.affiliateId
 
-const Page = async ({ params }) => {
-  const affiliateId = await params.affiliateId
-
+  // Fetch product data for the given affiliateId
   const response = await axios.get(
     `${api}/api/product/affiliateId?affiliateId=${affiliateId}`
   )
-
   const product = response.data
-  console.log(product)
 
-  // Dynamically updating Open Graph fields with product data
-  metadata.openGraph.title = product.title
-  metadata.openGraph.description = `Get the best deals on ${product.name} at Clothes2Wear. Shop now!`
-  metadata.openGraph.images[0].url = product.ogImage
-  metadata.openGraph.url = `${api}/product/${affiliateId}`
+  // Return metadata based on the fetched product details
+  return {
+    title: `${product.title} | Clothes2Wear`,
+    openGraph: {
+      title: `Buy ${product.name} Now | Clothes2Wear`,
+      description: `Get the best deals on ${product.name} at Clothes2Wear. Shop now!`,
+      images: [
+        {
+          url: product.ogImage || '/default-og-image.jpg',
+          width: 800,
+          height: 600,
+          alt: product.name || 'Product Image',
+        },
+      ],
+      url: `${api}/product/${affiliateId}`,
+      type: 'website',
+      site_name: 'Clothes2Wear',
+      locale: 'en_US',
+    },
+  }
+}
+
+const Page = async ({ params }) => {
+  const affiliateId = params.affiliateId
+
+  // Fetch product data
+  const response = await axios.get(
+    `${api}/api/product/affiliateId?affiliateId=${affiliateId}`
+  )
+  const product = response.data
 
   return (
     <div>
