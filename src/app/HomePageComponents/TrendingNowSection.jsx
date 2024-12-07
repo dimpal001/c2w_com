@@ -3,7 +3,6 @@ import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import RightArrowIcon from './RightArrowIcon'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const TrendingNowSection = ({ products }) => {
   return (
@@ -52,7 +51,8 @@ const TrendingNowSection = ({ products }) => {
 
 const TrendingNowCard = ({ product }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
       className='lg:w-[240px] cursor-pointer max-sm:w-[110px] max-sm:min-w-[110px] lg:h-[443px] max-sm:h-[202px] rounded-xl max-sm:rounded-md'
@@ -82,7 +82,7 @@ const TrendingNowCard = ({ product }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   )
 }
 

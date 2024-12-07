@@ -3,7 +3,6 @@ import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const HeroSliderSection = ({ heroSliders }) => {
   return (
@@ -25,7 +24,8 @@ const HeroSliderSection = ({ heroSliders }) => {
 
 const HeroSliderCard = ({ slider }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       target='_blank'
       href={slider.hyperLink}
       className='w-screen cursor-pointer lg:h-[582px] max-sm:h-[225px]'
@@ -36,7 +36,7 @@ const HeroSliderCard = ({ slider }) => {
         alt='clothes2wear'
         loading='lazy'
       />
-    </Link>
+    </a>
   )
 }
 

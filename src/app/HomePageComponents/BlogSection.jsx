@@ -2,7 +2,6 @@
 import React from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const BlogSection = ({ blogs }) => {
   return (
@@ -10,7 +9,8 @@ const BlogSection = ({ blogs }) => {
       <div className='flex py-7 max-sm:flex-col max-sm:gap-4'>
         {blogs.length > 0 &&
           blogs.slice(0, 2).map((blog, index) => (
-            <Link
+            <a
+              rel='noreferrer'
               href={blog.hyperLink}
               target='_blank'
               key={index}
@@ -27,7 +27,7 @@ const BlogSection = ({ blogs }) => {
               <p className='text-xl max-sm:text-sm lg:pe-3 text-neutral-500'>
                 {blog.description}
               </p>
-            </Link>
+            </a>
           ))}
       </div>
       <div className='flex justify-end lg:px-5'>

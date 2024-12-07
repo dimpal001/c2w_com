@@ -5,7 +5,6 @@ import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const ShopBySeasonSection = ({ seasons }) => {
   return (
@@ -71,7 +70,8 @@ const SeasonCard = ({ season }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       href={product.hyperLink}
       target='_blank'
       className='cursor-pointer lg:w-[226px] animate__animated animate__flip lg:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'
@@ -82,7 +82,7 @@ const ProductCard = ({ product }) => {
         alt={product?.title || 'clothes2wear'}
         loading='lazy'
       />
-    </Link>
+    </a>
   )
 }
 

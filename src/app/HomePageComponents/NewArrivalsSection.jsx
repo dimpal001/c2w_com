@@ -4,7 +4,6 @@ import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const NewArrivalsSection = ({ products }) => {
   return (
@@ -68,18 +67,18 @@ const ProductCard = ({ product }) => {
           ₹{product?.price}
         </p>
 
-        <Link href={product.hyperLink} target='_blank'>
+        <a rel='noreferrer' href={product.hyperLink} target='_blank'>
           <button className='relative w-full text-xs hidden max-sm:block group-hover:block py-1 font-semibold rounded-e-full bg-black text-white'>
             Buy now
             <ArrowRight className='absolute text-white inset-0 self-center place-self-end mr-3' />
           </button>
-        </Link>
-        <Link href={product.hyperLink} target='_blank'>
+        </a>
+        <a rel='noreferrer' href={product.hyperLink} target='_blank'>
           <button className='relative mt-2 hidden max-sm:block text-xs group-hover:block w-full py-1 font-semibold rounded-s-full bg-black text-white'>
             Add to cart
             <ArrowRight className='absolute text-white inset-0 self-center place-self-end mr-3' />
           </button>
-        </Link>
+        </a>
       </div>
     </div>
   )

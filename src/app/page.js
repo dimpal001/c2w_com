@@ -22,6 +22,8 @@ const schemaData = {
     'https://www.instagram.com/clothes2wear',
     'https://www.linkedin.com/company/clothes2wear',
   ],
+  mainEntityOfPage: 'https://www.clothes2wear.com',
+  headline: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
 }
 
 export const metadata = {
@@ -117,7 +119,7 @@ const HomePage = async () => {
     return (
       <>
         <Head>
-          <link rel='canonical' href='https://www.clothes2wear.com' />
+          <link rel='canonical' href='https://www.thebmim.com' />
           <script
             type='application/ld+json'
             dangerouslySetInnerHTML={{

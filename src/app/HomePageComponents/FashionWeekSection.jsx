@@ -5,7 +5,6 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const FashionWeekSection = () => {
   const [products, setProducts] = useState([])
@@ -105,7 +104,8 @@ const ProductWeekSection = ({ products }) => {
     <div className='grid grid-cols-4 gap-3 max-sm:grid-cols-2 max-sm:p-3'>
       {products?.length > 0 &&
         products?.slice(0, 4).map((product, index) => (
-          <Link
+          <a
+            rel='noreferrer'
             target='_blank'
             href={product.hyperLink}
             key={index}
@@ -121,7 +121,7 @@ const ProductWeekSection = ({ products }) => {
             <p className='text-sm max-sm:hidden group-hover:underline'>
               {product?.title}
             </p>
-          </Link>
+          </a>
         ))}
     </div>
   )

@@ -3,7 +3,6 @@
 import React from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const ShowcaseSection = ({ showcases }) => {
   return (
@@ -36,7 +35,8 @@ const ShowcaseSection = ({ showcases }) => {
 
 const ShowcaseCard = ({ showcase, onClick }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       target='_blank'
       href={showcase.hyperLink}
       onClick={onClick}
@@ -51,7 +51,7 @@ const ShowcaseCard = ({ showcase, onClick }) => {
       <p className='absolute max-sm:text-xs text-lg inset-0 flex justify-start items-end max-sm:py-1 max-sm:px-2 py-3 px-5 z-20 font-bold text-white'>
         {showcase.title}
       </p>
-    </Link>
+    </a>
   )
 }
 

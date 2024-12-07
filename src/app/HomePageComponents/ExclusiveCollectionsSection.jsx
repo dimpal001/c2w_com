@@ -6,7 +6,6 @@ import RightArrowIcon from './RightArrowIcon'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
   return (
@@ -80,7 +79,8 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
 
 const ProductCard1 = ({ product }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       target='_blank'
       href={`/product/${product.slug}`}
       className='lg:w-[535px] lg:h-[342px] max-sm:h-[330px] rounded-2xl relative'
@@ -94,7 +94,7 @@ const ProductCard1 = ({ product }) => {
                 src={cdnPath + image.imageUrl}
                 key={index}
                 className='lg:w-[168px] max-sm:h-[85%] object-cover lg:h-[270px]]'
-                alt={image.hyperLink}
+                alt={'Clothes2wear'}
               />
             ))}
       </div>
@@ -107,13 +107,14 @@ const ProductCard1 = ({ product }) => {
           ₹{product.displayPrice}/-
         </p>
       </div>
-    </Link>
+    </a>
   )
 }
 
 const ProductCard2 = ({ product }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
       className='lg:w-[202px] cursor-pointer rounded-2xl lg:h-[322px] relative'
@@ -121,7 +122,7 @@ const ProductCard2 = ({ product }) => {
       <img
         src={cdnPath + product.imageUrl}
         className='lg:w-[202px] lg:h-[322px] rounded-2xl'
-        alt={product?.title}
+        alt={'Clothes2wear'}
       />
       <div className='absolute rounded-2xl inset-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>
         <div className='flex flex-col w-full h-full justify-end p-5 max-sm:p-3 text-white'>
@@ -130,7 +131,7 @@ const ProductCard2 = ({ product }) => {
           <p className='font-bold text-xl text-end'>₹{product?.price}/-</p>
         </div>
       </div>
-    </Link>
+    </a>
   )
 }
 

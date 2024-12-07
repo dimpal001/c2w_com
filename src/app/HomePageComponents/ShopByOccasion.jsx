@@ -6,7 +6,6 @@ import 'animate.css'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
-import Link from 'next/link'
 
 const ShopByOccasion = ({ occasions }) => {
   return (
@@ -80,7 +79,8 @@ const Occasion = ({ occasion, index }) => {
 
 const Card = ({ product }) => {
   return (
-    <Link
+    <a
+      rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
       className='lg:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'
@@ -90,7 +90,7 @@ const Card = ({ product }) => {
         className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] object-cover'
         alt={product?.title || 'clothes2wear'}
       />
-    </Link>
+    </a>
   )
 }
 
