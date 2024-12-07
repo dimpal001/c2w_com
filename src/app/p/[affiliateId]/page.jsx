@@ -22,8 +22,8 @@ export async function generateMetadata({ params }) {
       images: [
         {
           url: product.ogImage || '/default-og-image.jpg',
-          width: 800,
-          height: 600,
+          width: 1600,
+          height: 1000,
           alt: product.name || 'Product Image',
         },
       ],

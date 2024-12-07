@@ -31,8 +31,8 @@ export async function generateMetadata({ params }) {
       images: [
         {
           url: firstProduct.ogImage || '/default-category-image.jpg',
-          width: 800,
-          height: 600,
+          width: 1600,
+          height: 1000,
           alt: firstProduct.name || 'Category Image',
         },
       ],
