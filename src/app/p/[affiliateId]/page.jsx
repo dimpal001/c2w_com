@@ -34,9 +34,10 @@ const Page = async ({ params }) => {
   )
 
   const product = response.data
+  console.log(product)
 
   // Dynamically updating Open Graph fields with product data
-  metadata.openGraph.title = product.ogImage
+  metadata.openGraph.title = product.title
   metadata.openGraph.description = `Get the best deals on ${product.name} at Clothes2Wear. Shop now!`
   metadata.openGraph.images[0].url = product.ogImage
   metadata.openGraph.url = `${api}/product/${affiliateId}`
