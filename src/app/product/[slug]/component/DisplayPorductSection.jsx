@@ -9,11 +9,30 @@ import {
   DropdownTrigger,
 } from '@nextui-org/dropdown'
 /* eslint-disable react/prop-types */
-import { ArrowRight, Forward, Heart, Link } from 'lucide-react'
+import { ArrowRight, Forward, Heart, Link, Minus, Plus } from 'lucide-react'
 import React, { useState } from 'react'
 
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
+  const [selectedQuantity, setSelectedQuantity] = useState(
+    product?.inventory[0].minQuantity
+  )
+  const [selectedInventory, setSelectedInventory] = useState(
+    product?.inventory[0]
+  )
+
+  const handleBuyNowClick = () => {
+    const selectedSizeId = selectedInventory.size.id
+    const totalPrice = selectedInventory?.price * selectedQuantity
+
+    console.log('Buy Now clicked:', {
+      productId: product?.id,
+      sizeId: selectedSizeId,
+      quantity: selectedQuantity,
+      totalPrice,
+    })
+  }
+
   return (
     <div className='flex max-sm:flex-col'>
       {/* Image Section  */}
@@ -50,17 +69,22 @@ const DisplayPorductSection = ({ product }) => {
         </div>
         <div className='flex justify-between'>
           <div>
-            <div className='flex gap-8 items-center'>
-              <strike className='text-2xl strik'>
-                ₹{product?.inventory[0].mrp}/-
-              </strike>
-              <span className='text-3xl font-semibold'>
-                {' '}
-                ₹{product?.inventory[0].price}/-
-              </span>
-            </div>
+            {product && (
+              <ProductInventorySection
+                product={product}
+                selectedInventory={selectedInventory}
+                setSelectedInventory={setSelectedInventory}
+                selectedQuantity={selectedQuantity}
+                setSelectedQuantity={setSelectedQuantity}
+              />
+            )}
             <p className='text-sm mt-2'>
-              Est. Delivery by: {new Date().toDateString()}
+              Est. Delivery by:{' '}
+              {new Date(
+                new Date().setDate(
+                  new Date().getDate() + product.estimatedDeliveryDay
+                )
+              ).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}
             </p>
           </div>
           <div className='h-full flex flex-col justify-between'>
@@ -103,7 +127,10 @@ const DisplayPorductSection = ({ product }) => {
           <button className='rounded-lg py-2 w-full font-semibold uppercase bg-pink-200'>
             add to cart
           </button>
-          <button className='rounded-lg py-2 w-full flex justify-center items-center gap-5 font-semibold bg-pink-400 uppercase'>
+          <button
+            onClick={handleBuyNowClick}
+            className='rounded-lg py-2 w-full flex justify-center items-center gap-5 font-semibold bg-pink-400 uppercase'
+          >
             buy now
             <div className='bg-white  px-3 py-1 rounded-lg'>
               <ArrowRight className='rounded-lg text-pink-600' />
@@ -123,6 +150,92 @@ const ProductImage = ({ image, onClick }) => {
         alt={image.altText}
         className='w-[130px] h-[160px] max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
       />
+    </div>
+  )
+}
+
+const ProductInventorySection = ({
+  product,
+  selectedInventory,
+  setSelectedInventory,
+  selectedQuantity,
+  setSelectedQuantity,
+}) => {
+  // Handle quantity change (increase or decrease)
+  const handleQuantityChange = (operation) => {
+    if (
+      operation === 'increase' &&
+      selectedQuantity < selectedInventory.stock
+    ) {
+      setSelectedQuantity((prev) => prev + 1)
+    }
+    if (
+      operation === 'decrease' &&
+      selectedQuantity > selectedInventory.minQuantity
+    ) {
+      setSelectedQuantity((prev) => prev - 1)
+    }
+  }
+
+  // Handle inventory change
+  const handleInventoryChange = (event) => {
+    const selectedSizeId = event.target.value
+    const newInventory = product.inventory.find(
+      (inv) => inv.size.id === selectedSizeId
+    )
+    setSelectedInventory(newInventory)
+    setSelectedQuantity(newInventory.minQuantity)
+  }
+
+  return (
+    <div>
+      <div className='mt-2'>
+        {/* Select for inventory size */}
+        <div className='flex items-center gap-5 mb-2'>
+          <select
+            value={selectedInventory?.size?.id}
+            onChange={handleInventoryChange}
+            className='px-3 py-2 border rounded-md'
+          >
+            {product.inventory.map((inv) => (
+              <option key={inv.id} value={inv?.size?.id}>
+                {inv?.size?.name.toUpperCase()}
+              </option>
+            ))}
+          </select>
+
+          <div className='flex items-center gap-4 mt-2'>
+            {/* Decrease Quantity */}
+            <button
+              onClick={() => handleQuantityChange('decrease')}
+              className='text-gray-500 hover:text-gray-600'
+              disabled={selectedQuantity <= selectedInventory.minQuantity}
+            >
+              <Minus className='w-5 h-5' />
+            </button>
+
+            {/* Display Selected Quantity */}
+            <p className='text-lg font-semibold'>{selectedQuantity}</p>
+
+            {/* Increase Quantity */}
+            <button
+              onClick={() => handleQuantityChange('increase')}
+              className='text-gray-500 hover:text-gray-600'
+              disabled={selectedQuantity >= selectedInventory.stock}
+            >
+              <Plus className='w-5 h-5' />
+            </button>
+          </div>
+        </div>
+
+        <div className='flex gap-8 items-center'>
+          <strike className='text-2xl strik'>₹{selectedInventory.mrp}/-</strike>
+          <span className='text-3xl font-semibold'>
+            {' '}
+            ₹{selectedInventory.price}/-
+          </span>
+        </div>
+      </div>
     </div>
   )
 }

@@ -12,7 +12,16 @@ export async function GET(request) {
     let product = await prisma.product.findUnique({
       where: { slug },
       include: {
-        inventory: true,
+        inventory: {
+          select: {
+            id: true,
+            mrp: true,
+            price: true,
+            stock: true,
+            minQuantity: true,
+            size: true,
+          },
+        },
         productReview: true,
         images: true,
         similarProducts: true,
@@ -31,7 +40,16 @@ export async function GET(request) {
           },
         },
         include: {
-          inventory: true,
+          inventory: {
+            select: {
+              id: true,
+              mrp: true,
+              price: true,
+              stock: true,
+              minQuantity: true,
+              size: true,
+            },
+          },
           productReview: true,
           images: true,
           similarProducts: true,
@@ -49,7 +67,16 @@ export async function GET(request) {
               },
             },
             include: {
-              inventory: true,
+              inventory: {
+                select: {
+                  id: true,
+                  mrp: true,
+                  price: true,
+                  stock: true,
+                  minQuantity: true,
+                  size: true,
+                },
+              },
               productReview: true,
               images: true,
               similarProducts: true,

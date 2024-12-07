@@ -5,38 +5,42 @@ import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
 
-export const metadata = {
-  title: 'Product Page | Clothes2Wear',
-  openGraph: {
-    title: 'Product Page | Clothes2Wear',
-    description:
-      'Check out our latest product at Clothes2Wear. Best deals available!',
-    images: [
-      {
-        url: '',
-        width: 800,
-        height: 600,
-        alt: 'Product Image',
-      },
-    ],
-    url: '',
-    type: 'website',
-    site_name: 'Clothes2Wear',
-    locale: 'en_US',
-  },
+export async function generateMetadata({ params }) {
+  const slug = params.slug
+
+  // Fetch the product data
+  const response = await axios.get(`${api}/api/product?slug=${slug}`)
+  const product = response.data
+
+  // Return dynamic metadata
+  return {
+    title: `${product.title} | Clothes2Wear`,
+    openGraph: {
+      title: product.title,
+      description:
+        product.description || 'Discover the latest trends with Clothes2Wear.',
+      images: [
+        {
+          url: product.ogImage || '/default-image.jpg',
+          width: 800,
+          height: 600,
+          alt: product.title || 'Product Image',
+        },
+      ],
+      url: `${api}/product/${slug}`,
+      type: 'website',
+      site_name: 'Clothes2Wear',
+      locale: 'en_US',
+    },
+  }
 }
 
 const Page = async ({ params }) => {
   const slug = params.slug
 
+  // Fetch the product data
   const response = await axios.get(`${api}/api/product?slug=${slug}`)
-
   const product = response.data
-
-  // Update Open Graph dynamic fields
-  metadata.openGraph.images[0].url = product.ogImage
-  metadata.openGraph.url = `${api}/product/${slug}`
-  metadata.openGraph.title = product.title
 
   return (
     <div>
