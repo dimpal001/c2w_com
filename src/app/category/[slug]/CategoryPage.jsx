@@ -9,6 +9,7 @@ import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import axios from 'axios'
 import { Frown } from 'lucide-react'
+import { useSearch } from '@/app/context/SearchContext'
 
 const CategoryPage = ({ slug }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
@@ -16,14 +17,7 @@ const CategoryPage = ({ slug }) => {
 
   const [isEmptyProduct, setIsEmptyProduct] = useState(false)
 
-  let searchQuery
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const searchParams = new URLSearchParams(window.location.search)
-      searchQuery = searchParams.get('search') || ''
-    }
-  }, [])
+  const { searchQuery } = useSearch()
 
   const [products, setProducts] = useState([])
 

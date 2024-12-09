@@ -11,12 +11,14 @@ import SideDrawer from './SideDrawer'
 import LogoImg from '../../assets/img.webp'
 import { useRouter } from 'next/navigation'
 import { useUserContext } from '../context/UserContext'
+import { useSearch } from '../context/SearchContext'
 
 const Header = ({ sticky = true }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
 
   const [query, setQuery] = useState('')
+  const { setSearchQuery } = useSearch()
 
   const { user } = useUserContext()
 
@@ -28,6 +30,7 @@ const Header = ({ sticky = true }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setSearchQuery(query)
     router.push(`/search?search=${query}`)
   }
 

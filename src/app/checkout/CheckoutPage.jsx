@@ -152,7 +152,7 @@ const CheckoutPage = ({ orderData }) => {
         finalPrice,
         discountId: discountData?.id || null,
         paymentMethod: paymentMode,
-        addressId: selectedAddress?.id,
+        addressId: selectedAddress,
       })
 
       if (response.status === 200) {

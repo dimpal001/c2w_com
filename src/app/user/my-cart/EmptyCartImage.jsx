@@ -16,7 +16,7 @@ const EmptyCartImage = () => {
       <g
         id='SVGRepo_tracerCarrier'
         strokeLinecap='round'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       ></g>
       <g id='SVGRepo_iconCarrier'>
         {' '}

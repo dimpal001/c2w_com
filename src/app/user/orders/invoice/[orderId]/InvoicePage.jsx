@@ -64,7 +64,7 @@ const InvoicePage = ({ orderId }) => {
 
           {/* Header */}
           <div className='border-b pb-4 mb-6 flex justify-between items-center'>
-            <div>
+            <div className='max-sm:text-sm'>
               <h1 className='text-2xl font-bold'>Invoice</h1>
               <p className='text-gray-500'>Order ID: {orderDetails.orderId}</p>
               <p className='text-gray-500'>
@@ -72,10 +72,11 @@ const InvoicePage = ({ orderId }) => {
                 {new Date(orderDetails.createdAt).toLocaleDateString()}
               </p>
             </div>
+
             <div>
               <Image
                 layout='intrinsic'
-                className='w-52'
+                className='w-52 max-sm:w-36'
                 src={Logo}
                 alt='Logo'
               />
@@ -102,25 +103,39 @@ const InvoicePage = ({ orderId }) => {
 
           {/* Order Summary */}
           <div className='mb-6'>
-            <h2 className='text-lg font-semibold mb-2'>Order Summary</h2>
-            <table className='w-full border-collapse border border-gray-200'>
+            <h2 className='text-lg max-sm:text-sm font-semibold mb-2'>
+              Order Summary
+            </h2>
+            <table className='w-full max-sm:text-sm border-collapse border border-gray-200'>
               <thead>
                 <tr className='bg-gray-100'>
-                  <th className='border px-4 py-2 text-left'>Product</th>
-                  <th className='border px-4 py-2 text-left'>Price</th>
-                  <th className='border px-4 py-2 text-left'>Quantity</th>
-                  <th className='border px-4 py-2 text-left'>Total</th>
+                  <th className='border px-4 max-sm:px-3 py-2 text-left'>
+                    Product
+                  </th>
+                  <th className='border px-4 max-sm:px-3 py-2 text-left'>
+                    Price
+                  </th>
+                  <th className='border px-4 max-sm:px-3 py-2 text-left'>
+                    Quantity
+                  </th>
+                  <th className='border px-4 max-sm:px-3 py-2 text-left'>
+                    Total
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {orderDetails.orderItems.map((item) => (
                   <tr key={item.id}>
-                    <td className='border px-4 py-2'>{item.product.title}</td>
-                    <td className='border px-4 py-2'>
+                    <td className='border px-4 max-sm:px-3 py-2'>
+                      {item.product.title}
+                    </td>
+                    <td className='border px-4 max-sm:px-3 py-2'>
                       ₹{item.price?.toFixed(2)}
                     </td>
-                    <td className='border px-4 py-2'>{item.quantity}</td>
-                    <td className='border px-4 py-2'>
+                    <td className='border px-4 max-sm:px-3 py-2'>
+                      {item.quantity}
+                    </td>
+                    <td className='border px-4 max-sm:px-3 py-2'>
                       ₹{(item.price * item.quantity)?.toFixed(2)}
                     </td>
                   </tr>

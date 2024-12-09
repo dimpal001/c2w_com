@@ -285,19 +285,20 @@ model WishlistItem {
 }
 
 model OrderDetails {
-  id            String         @id @default(uuid())
-  orderId       String         @unique
-  userId        String
-  addressId     String?
-  totalPrice    Float
-  finalPrice    Float?
-  status        OrderStatus
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  paymentMethod PaymentMethod?
-  orderItems    OrderItem[]
-  notes         String?        @db.Text
-  trackingId    String?
+  id                   String         @id @default(uuid())
+  orderId              String         @unique
+  userId               String
+  addressId            String?
+  totalPrice           Float
+  finalPrice           Float?
+  status               OrderStatus
+  expectedDeliveryDate DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  paymentMethod        PaymentMethod?
+  orderItems           OrderItem[]
+  notes                String?        @db.Text
+  trackingId           String?
 
   user           User             @relation(fields: [userId], references: [id])
   address        UserAddress?     @relation(fields: [addressId], references: [id])

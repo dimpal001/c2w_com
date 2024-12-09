@@ -37,6 +37,10 @@
   font-family: var(--font-inter);
 }
 
+.plhu {
+  font-family: var(--font-plhu);
+}
+
 .unbounded {
   font-family: var(--font-unbounded);
 }

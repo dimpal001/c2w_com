@@ -1,5 +1,6 @@
 'use client'
 
+import { cdnPath } from '@/app/Components/cdnPath'
 /* eslint-disable react/prop-types */
 import {
   Ban,
@@ -18,17 +19,21 @@ const SingleOrder = ({ order }) => {
       <div className='flex lg:items-start gap-3 max-sm:flex-col'>
         <div className='lg:w-[50%] max-sm:w-full flex items-start gap-3'>
           <img
-            src={order?.orderItems[0]?.product?.thumbnailUrl}
+            src={cdnPath + order?.orderItems[0]?.product?.thumbnailUrl}
             className='lg:w-[150px] lg:h-[150px] max-sm:w-[100px] max-sm:h-[140px] rounded-xl'
             alt={order?.orderItems[0]?.product?.title || 'clothes2wear'}
           />
           <div className='py-2 flex flex-col gap-1'>
-            <p className='font-semibold max-sm:text-sm'>
+            <p
+              onClick={() =>
+                router.push(`/product/${order?.orderItems[0]?.product?.slug}`)
+              }
+              className='font-semibold hover:text-pink-500 hover:underline cursor-pointer max-sm:text-sm'
+            >
               {order?.orderItems[0]?.product?.title}
             </p>
             <p className='text-xs max-sm:text-[10px] text-pink-500'>
-              Estimated delivery date :{' '}
-              {new Date(order?.createdAt).toDateString()}
+              Ordered on : {new Date(order?.createdAt).toDateString()}
             </p>
             {order?.orderItems.length > 1 && (
               <p className='text-neutral-500 max-sm:text-[10px]'>
@@ -86,13 +91,13 @@ const SingleOrder = ({ order }) => {
           </div>
         </div>
         <div className='lg:w-[25%] max-sm:w-full flex flex-col items-center lg:justify-center'>
-          <div className='flex flex-col lf:items-center w-full'>
+          <div className='flex flex-col items-center max-sm:flex-row max-sm:gap-2 max-sm:justify-center w-full'>
             <p className='text-neutral-500 font-semibold max-sm:text-xs text-sm'>
               Order ID
             </p>
             <p className='font-bold italic max-sm:text-sm'>#{order?.orderId}</p>
           </div>
-          <div className='flex flex-col gap-2 mt-2 max-sm:flex-row'>
+          <div className='flex flex-col gap-2 mt-3 max-sm:flex-row'>
             <button
               onClick={() => router.push(`/user/orders/invoice/${order.id}`)}
               className='bg-gradient-to-b from-pink-500 to-pink-200 text-white px-10 py-1 text-sm font-semibold rounded-[5px]'

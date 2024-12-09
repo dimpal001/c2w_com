@@ -9,6 +9,7 @@ import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 import Loading from '@/app/Components/Loading'
 import OrderTrackingSection from './OrderTrackingSection'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const OrderPage = ({ id }) => {
   const [orderDetails, setOrderDetails] = useState(null)
@@ -48,13 +49,14 @@ const OrderPage = ({ id }) => {
       <div className='flex justify-between items-center mb-8'>
         <div className='flex items-center gap-4'>
           <ShoppingBag className='w-8 h-8 text-pink-600' />
-          <h1 className='text-3xl max-sm:text-2xl font-semibold'>
-            Order <i className='text-blue-800 text-base'>({id})</i>
+          <h1 className='text-3xl max-sm:text-xl font-semibold'>
+            Order{' '}
+            <i className='text-blue-800 max-sm:text-sm text-base'>({id})</i>
           </h1>
         </div>
         <button
           onClick={() => router.push('/')}
-          className='text-lg text-blue-600 max-sm:hidden hover:gap-4 transition-all duration-300 flex items-center gap-2'
+          className='text-lg text-blue-600 max-sm:text-sm max-sm:gap-1 hover:gap-4 transition-all duration-300 flex items-center gap-2'
         >
           <ArrowLeftCircle size={22} />
           Continue Shopping
@@ -68,7 +70,7 @@ const OrderPage = ({ id }) => {
           {orderDetails.orderItems.map((item) => (
             <div key={item.id} className='flex items-center'>
               <Image
-                src={item.product.thumbnailUrl}
+                src={cdnPath + item.product.thumbnailUrl}
                 alt={item.name}
                 width={60}
                 height={60}
@@ -84,11 +86,27 @@ const OrderPage = ({ id }) => {
                 <p className='text-sm text-gray-600'>
                   Quantity: {item.quantity} | Size:{' '}
                   <span className='uppercase'>{item.size.name}</span> | Price: ₹
-                  {item.price}
+                  {item.product.displayPrice}
                 </p>
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Order info */}
+      <div className='bg-pink-50 p-6 rounded-lg shadow-md mb-6'>
+        <h3 className='text-xl font-semibold mb-4 text-center text-blue-800'>
+          Order Info
+        </h3>
+        <div className='text-sm text-gray-700 space-y-3'>
+          {/* Item Total */}
+          <div className='flex justify-between'>
+            <span className='font-medium'>Ordered date:</span>
+            <strong>
+              {new Date(orderDetails.createdAt).toLocaleDateString()}
+            </strong>
+          </div>
         </div>
       </div>
 
@@ -153,10 +171,12 @@ const OrderPage = ({ id }) => {
           <h4 className='text-md font-medium'>Payment Mode:</h4>
           <p
             className={`font-bold text-${
-              orderDetails.paymentMode === 'Cash' ? 'red' : 'green'
+              orderDetails.paymentMethod === 'COD' ? 'red' : 'green'
             }-600`}
           >
-            {orderDetails.paymentMode}
+            {orderDetails.paymentMethod === 'COD'
+              ? 'Cash On Delivery'
+              : 'Online'}
           </p>
         </div>
       </div>
@@ -177,7 +197,7 @@ const OrderPage = ({ id }) => {
         </div>
 
         {/* WhatsApp Support */}
-        <div className='bg-white p-4 rounded-lg shadow-md text-center'>
+        <div className='bg-white p-4 flex flex-col items-center justify-center pb-10 rounded-lg shadow-md text-center'>
           <div className='flex justify-center items-center p-3'>
             <img
               src='/whatsapp.gif'

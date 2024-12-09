@@ -13,7 +13,7 @@ const extractTitleFromSlug = (slug) => {
 }
 
 export async function generateMetadata({ params }) {
-  const slug = params.slug
+  const { slug } = await params
 
   const response = await axios.get(`${api}/api/search?categorySlug=${slug}`)
   const allData = response.data
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }) {
 }
 
 const Page = async ({ params }) => {
-  const slug = params.slug
+  const { slug } = await params
 
   const response = await axios.get(`${api}/api/search?categorySlug=${slug}`)
   const allData = response.data

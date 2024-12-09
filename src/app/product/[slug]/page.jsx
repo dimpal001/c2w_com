@@ -6,7 +6,7 @@ import axios from 'axios'
 import { api } from '@/app/Components/api'
 
 export async function generateMetadata({ params }) {
-  const slug = params.slug
+  const { slug } = await params
 
   try {
     // Fetch the product data
@@ -101,7 +101,7 @@ export async function generateMetadata({ params }) {
 }
 
 const Page = async ({ params }) => {
-  const slug = params.slug
+  const { slug } = await params
 
   try {
     // Fetch the product data

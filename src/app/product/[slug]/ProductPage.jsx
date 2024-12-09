@@ -7,6 +7,7 @@ import DisplayPorductSection from './component/DisplayPorductSection'
 import ReviewSection from './component/ReviewSection'
 import SimilarProducts from './component/SimilarProducts'
 import TagSection from './component/TagSection'
+import QuoteSection from './component/QuoteSection'
 
 const ProductPage = ({ product }) => {
   const displayProductRef = useRef(null)
@@ -21,7 +22,7 @@ const ProductPage = ({ product }) => {
   }, [])
 
   return (
-    <div className='container mx-auto p-5 flex flex-col relative'>
+    <div className='container mx-auto p-5 flex flex-col relative max-sm:mb-14'>
       <div>
         <CouponSecion />
       </div>
@@ -34,11 +35,14 @@ const ProductPage = ({ product }) => {
           <ReviewSection reviews={product?.productReview} />
         </div>
         <div className='lg:w-[50%]'>
-          <SimilarProducts products={product?.similarTo} />
+          <TagSection tags={product?.tags} />
         </div>
       </div>
+      <div>
+        <QuoteSection />
+      </div>
       <div className='my-5'>
-        <TagSection tags={product?.tags} />
+        <SimilarProducts products={product?.similarProducts} />
       </div>
     </div>
   )

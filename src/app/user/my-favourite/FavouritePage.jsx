@@ -42,13 +42,11 @@ export default function FavouritePage() {
       <div className='flex justify-between items-center mb-8'>
         <div className='flex items-center gap-4'>
           <Heart className='w-8 h-8 text-pink-600' />
-          <h1 className='text-3xl max-sm:text-2xl font-semibold'>
-            My Favourites
-          </h1>
+          <h1 className='text-3xl max-sm:text-xl font-semibold'>Favourites</h1>
         </div>
         <button
           onClick={() => router.push('/')}
-          className='text-lg text-blue-600 hover:gap-4 transition-all duration-300 flex items-center gap-2'
+          className='text-lg text-blue-600 max-sm:text-sm max-sm:gap-1 hover:gap-4 transition-all duration-300 flex items-center gap-2'
         >
           <ArrowLeftCircle size={22} />
           Continue Shopping
