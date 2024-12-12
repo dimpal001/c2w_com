@@ -1,0 +1,44 @@
+# *
+User-agent: *
+Disallow: /admin_
+Disallow: /auth
+Disallow: /checkout
+Disallow: /Component
+Disallow: /context
+Disallow: /fonts
+Disallow: /globals.css
+Disallow: /HomePageComponents
+Disallow: /landing
+Disallow: /layout.js
+Disallow: /order-placed
+Disallow: /youtube
+Disallow: /private
+Disallow: /user
+Disallow: /api
+Disallow: /_next/static/media/*
+Disallow: /cdn.thefashionsalad.com/*
+
+# *
+User-agent: *
+Allow: /about
+Allow: /contact
+Allow: /category/*
+Allow: /community
+Allow: /discount-policy
+Allow: /p/*
+Allow: /product/*
+Allow: /refund-policy
+Allow: /return-policy
+Allow: /search
+Allow: /what-we-do
+Allow: /privacy-policy
+Allow: /terms-and-condition
+Allow: /favicon.ico
+Allow: /blogs/*
+Allow: /category/*
+
+# Host
+Host: https://www.thebmim.com
+
+# Sitemaps
+Sitemap: https://www.thebmim.com/sitemap.xml

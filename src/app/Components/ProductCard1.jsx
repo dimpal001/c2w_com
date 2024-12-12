@@ -39,7 +39,7 @@ const ProductCard1 = ({ product }) => {
       } else if (response.status === 201) {
         updatedUser = {
           ...user,
-          wishlistItem: user?.wishlistItem.filter(
+          wishlistItem: user?.wishlistItem?.filter(
             (item) => item.productId !== product.id
           ),
         }
@@ -103,7 +103,7 @@ const ProductCard1 = ({ product }) => {
           <Heart
             onClick={handleAddWishList}
             className={`text-pink-500 cursor-pointer ${
-              user?.wishlistItem.some(
+              user?.wishlistItem?.some(
                 (item) => item.productId === product.id
               ) && 'fill-pink-500'
             }`}
