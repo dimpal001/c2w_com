@@ -72,8 +72,37 @@ export default function RootLayout({ children }) {
     }
   }, [])
 
+  const schemaData = {
+    '@context': 'https://schema.org/',
+    '@type': 'WebSite',
+    name: 'Clothes2Wear',
+    url: 'https://www.thebmim.com',
+    description:
+      'Clothes2Wear offers the latest trends in fashion, with the best deals on clothing, shoes, and accessories.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://www.thebmim.com/search',
+      'query-input': 'required search=search_term_string',
+    },
+    logo: 'https://www.thebmim.com/logo.png',
+    sameAs: [
+      'https://www.facebook.com/thebmim',
+      'https://twitter.com/thebmim',
+      'https://www.instagram.com/thebmim',
+      'https://www.linkedin.com/company/thebmim',
+    ],
+    mainEntityOfPage: 'https://www.thebmim.com',
+    headline: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+  }
+
   return (
     <html lang='en'>
+      <head>
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${plhu.variable} ${unbounded.variable} ${inter.variable} antialiased`}
       >
