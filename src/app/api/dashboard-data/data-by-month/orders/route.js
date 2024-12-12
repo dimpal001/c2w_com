@@ -26,6 +26,7 @@ export async function GET(request) {
           gte: startDate,
           lte: endDate,
         },
+        status: 'DELIVERED',
       },
       include: {
         discount: true,

@@ -11,6 +11,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import LogoImg from '../../../assets/img.webp'
+import { useUserContext } from '@/app/context/UserContext'
 
 export default function SignupPage() {
   const [email, setEmail] = useState('')
@@ -19,6 +20,8 @@ export default function SignupPage() {
   const [errors, setErrors] = useState({ email: '', password: '' })
 
   const router = useRouter()
+
+  const { user } = useUserContext()
 
   const validateFields = () => {
     let valid = true
@@ -72,7 +75,11 @@ export default function SignupPage() {
   }
 
   useEffect(() => {
-    document.title = 'Sign In | Clothes2Wear'
+    document.title = 'Sign Up | Clothes2Wear'
+
+    if (user) {
+      router.push('/')
+    }
   }, [])
 
   return (

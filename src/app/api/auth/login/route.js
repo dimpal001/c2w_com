@@ -20,6 +20,7 @@ export async function POST(request) {
 
     const user = await prisma.user.findUnique({
       where: { email },
+      include: { cartItems: true, wishlist: true, reviews: true },
     })
 
     if (!user) {
@@ -103,6 +104,9 @@ export async function POST(request) {
         id: user.id,
         email: user.email,
         fullName: user.firstName + ' ' + user.lastName,
+        cartItems: user.cartItems,
+        wishlistItem: user.wishlist,
+        reviews: user.reviews,
       },
     })
 

@@ -34,13 +34,14 @@ export async function GET(request) {
         include: {
           orderItems: { include: { product: true, size: true } },
           paymentDetails: true,
+          discount: true,
         },
       })
 
       if (!order) {
         return NextResponse.json(
           { message: 'No order found on this ID', orders: [] },
-          { status: 200 }
+          { status: 404 }
         )
       }
     }

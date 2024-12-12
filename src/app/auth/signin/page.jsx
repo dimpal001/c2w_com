@@ -25,7 +25,7 @@ export default function SigninPage() {
   const [showLogoutButton, setShowLogoutButton] = useState(false)
   const [loggingOut, setLoggingOut] = useState(false)
 
-  const { setUser } = useUserContext()
+  const { user, setUser } = useUserContext()
 
   const router = useRouter()
 
@@ -50,8 +50,14 @@ export default function SigninPage() {
     return valid
   }
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e) => {
+    e.preventDefault()
     setLoginError(null)
+
+    if (!validateFields()) {
+      return
+    }
+
     try {
       setShowLogoutButton(true)
       setSubmitting(true)
@@ -94,6 +100,9 @@ export default function SigninPage() {
 
   useEffect(() => {
     document.title = 'Sign In | Clothes2Wear'
+    if (user) {
+      router.push('/')
+    }
   }, [])
 
   const handleLogout = async () => {
@@ -132,7 +141,7 @@ export default function SigninPage() {
             <h1 className='text-4xl font-extrabold text-black mb-8'>Sign in</h1>
           </div>
 
-          <div>
+          <form>
             <div className='mb-6'>
               <label
                 htmlFor='email'
@@ -215,6 +224,7 @@ export default function SigninPage() {
             </Link>
 
             <button
+              // type='submit'
               disabled={submitting}
               onClick={handleSignIn}
               className={`w-full ${
@@ -229,7 +239,7 @@ export default function SigninPage() {
                 </>
               )}
             </button>
-          </div>
+          </form>
 
           <p className='text-center text-gray-500 mt-6'>
             I don’t have an account?{' '}

@@ -5,7 +5,7 @@ import { isAuth } from '../../middleware/auth'
 const prisma = new PrismaClient()
 
 export async function POST(request) {
-  const { userId, productId, rating, review } = await request.json()
+  const { userId, productId, rating, review, images } = await request.json()
 
   if (!isAuth(request)) {
     return NextResponse.json(
@@ -28,21 +28,32 @@ export async function POST(request) {
     )
   }
 
-  if (review.length > 600) {
+  if (review && review.length > 600) {
     return NextResponse.json({ message: 'Review is too long' }, { status: 400 })
   }
 
+  if (images && images.length > 3) {
+    return NextResponse.json(
+      { message: 'You can upload up to 3 images only' },
+      { status: 400 }
+    )
+  }
+
   try {
-    // Create a new product review
     const newReview = await prisma.productReview.create({
       data: {
         userId,
         productId,
         rating,
         review,
+        images: images || [],
       },
     })
-    return NextResponse.json(newReview, { status: 201 })
+
+    return NextResponse.json(
+      { newReview, message: 'Review submitted.' },
+      { status: 200 }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(

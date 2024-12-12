@@ -2,7 +2,7 @@
 'use client'
 
 import { Camera, Heart, Menu, Search, ShoppingCart, User } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Drawer from 'react-modern-drawer'
@@ -12,13 +12,16 @@ import LogoImg from '../../assets/img.webp'
 import { useRouter } from 'next/navigation'
 import { useUserContext } from '../context/UserContext'
 import { useSearch } from '../context/SearchContext'
+import { enqueueSnackbar } from 'notistack'
 
 const Header = ({ sticky = true }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
 
-  const [query, setQuery] = useState('')
-  const { setSearchQuery } = useSearch()
+  const { searchQuery, setSearchQuery } = useSearch()
+  const [query, setQuery] = useState(searchQuery || '')
+
+  const inputRef = useRef(null)
 
   const { user } = useUserContext()
 
@@ -30,7 +33,18 @@ const Header = ({ sticky = true }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSearchQuery(query)
+
+    setSearchQuery(query.trim())
+
+    if (query === '') {
+      enqueueSnackbar('Type something ...', { autoHideDuration: 500 })
+      return
+    }
+
+    if (inputRef.current) {
+      inputRef.current.blur()
+    }
+
     router.push(`/search?search=${query}`)
   }
 
@@ -138,13 +152,17 @@ const Header = ({ sticky = true }) => {
           />
         </div>
       </div>
-      <div
+      <form
+        onSubmit={handleSubmit}
         className={`sm:hidden px-5 transition-all duration-100 ${
           showSearch ? 'h-[42px]' : 'h-0'
         } `}
       >
         <input
+          ref={inputRef}
           type='text'
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           name=''
           placeholder='Search here'
           className={`border mt-2 w-full focus:outline-none focus:border-pink-500 p-2 ${
@@ -152,7 +170,7 @@ const Header = ({ sticky = true }) => {
           }`}
           id=''
         />
-      </div>
+      </form>
     </>
   )
 }

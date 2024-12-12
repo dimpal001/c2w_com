@@ -34,6 +34,9 @@ const PaymentPage = () => {
         `/api/orders/get/current-order?id=${orderId}&userId=${user.id}`
       )
       setOrderData(response.data.orders[0])
+      if (response.data.orders[0].status !== 'INCOMPLETE') {
+        router.push('/')
+      }
     } catch {
       router.push('/')
     } finally {

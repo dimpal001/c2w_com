@@ -31,8 +31,23 @@ export async function GET(request) {
           orderItems: {
             select: {
               price: true,
+              sizeId: true,
               quantity: true,
-              product: true,
+              product: {
+                select: {
+                  id: true,
+                  title: true,
+                  inventory: {
+                    select: {
+                      id: true,
+                      size: true,
+                      price: true,
+                    },
+                  },
+                  thumbnailUrl: true,
+                  slug: true,
+                },
+              },
             },
           },
         },
@@ -42,13 +57,14 @@ export async function GET(request) {
     }
 
     const orders = await prisma.orderDetails.findMany({
-      where: { userId: decoded.userId },
+      where: { userId: decoded.userId, status: { not: 'INCOMPLETE' } },
       include: {
         address: true,
         discount: true,
         user: true,
         orderItems: {
           select: {
+            sizeId: true,
             product: true,
           },
         },

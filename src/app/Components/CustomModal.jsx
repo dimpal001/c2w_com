@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import React from 'react'
 
 // T CSS
-export const Modal = ({ isOpen, children, size }) => {
+export const Modal = ({ isOpen, children, size, className }) => {
   const [showModal, setShowModal] = useState(isOpen)
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export const Modal = ({ isOpen, children, size }) => {
     <>
       {showModal ? (
         <div
-          className={`fixed inset-0 top-0 bottom-0 z-50 w-screen h-screen flex items-center justify-center`}
+          className={`fixed ${className} inset-0 top-0 bottom-0 z-50 w-screen h-screen flex items-center justify-center`}
         >
           <div className='fixed inset-0 z-40 bg-black opacity-60'></div>
           <div
@@ -106,9 +106,11 @@ export const ModalCloseButton = ({ onClick }) => {
 }
 
 // T CSS
-export const ModalBody = ({ children }) => {
+export const ModalBody = ({ children, className }) => {
   return (
-    <div className='text-gray-700 h-full max-h-[450px] md:max-h-[500px] overflow-scroll'>
+    <div
+      className={`${className} text-gray-700 h-full max-h-[450px] md:max-h-[500px] overflow-scroll`}
+    >
       {children}
     </div>
   )

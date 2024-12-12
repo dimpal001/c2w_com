@@ -33,6 +33,13 @@ export async function GET(request) {
       },
     })
 
+    if (order.status !== 'INCOMPLETE') {
+      return NextResponse.json(
+        { message: 'Invalid order data' },
+        { status: 400 }
+      )
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: order.userId },
       select: {

@@ -13,6 +13,7 @@ export async function PATCH(request) {
     description,
     minPrice,
     isSpecial,
+    isWebAvailable,
     userEmails,
     orders,
   } = await request.json()
@@ -75,6 +76,7 @@ export async function PATCH(request) {
         amount,
         type,
         isSpecial,
+        isWebAvailable,
         userEmails: userEmailArray,
         description,
         minPrice,

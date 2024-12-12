@@ -9,6 +9,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import { CircleCheckBig, X } from 'lucide-react'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const SimilarProruct = ({
   formData,
@@ -215,7 +216,7 @@ export const SimilarProductCard = ({
       } hover:shadow-lg transition-transform transform`}
     >
       <img
-        src={product.thumbnailUrl}
+        src={cdnPath + product.thumbnailUrl}
         alt={product.title}
         className='object-cover h-36 w-full rounded-t-md'
       />

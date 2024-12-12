@@ -9,7 +9,7 @@ export async function POST(request) {
 
   if (!isAuth(request)) {
     return NextResponse.json(
-      { message: 'Unauthorised access!' },
+      { message: 'Unauthorized access!' },
       { status: 401 }
     )
   }
@@ -31,27 +31,33 @@ export async function POST(request) {
     })
 
     if (existingWishlistItem) {
-      // If the product is already in the wishlist, return a message
+      // If the product is already in the wishlist, remove it
+      await prisma.wishlistItem.delete({
+        where: {
+          id: existingWishlistItem.id,
+        },
+      })
+
       return NextResponse.json(
-        { message: 'Product is already in the wishlist' },
-        { status: 400 }
+        { message: 'Product removed from wishlist' },
+        { status: 201 }
+      )
+    } else {
+      // If not, add the product to the wishlist
+      const wishlistItem = await prisma.wishlistItem.create({
+        data: {
+          userId,
+          productId,
+        },
+      })
+
+      return NextResponse.json(
+        { message: 'Product added to wishlist', wishlistItem },
+        { status: 200 }
       )
     }
-
-    // If not, add the product to the wishlist
-    const wishlistItem = await prisma.wishlistItem.create({
-      data: {
-        userId,
-        productId,
-      },
-    })
-
-    return NextResponse.json(
-      { message: 'Product added to wishlist', wishlistItem },
-      { status: 201 }
-    )
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

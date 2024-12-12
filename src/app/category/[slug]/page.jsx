@@ -4,6 +4,7 @@ import CategoryPage from './CategoryPage'
 import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
+import Footer from '@/app/Components/Footer'
 
 const extractTitleFromSlug = (slug) => {
   return slug
@@ -54,6 +55,7 @@ const Page = async ({ params }) => {
     <div>
       <Header />
       <CategoryPage slug={slug} data={allData} />
+      <Footer />
     </div>
   )
 }

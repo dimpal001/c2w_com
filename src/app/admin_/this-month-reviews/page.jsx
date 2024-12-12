@@ -262,7 +262,7 @@ const ThisMonthOverview = () => {
                                   <Ellipsis className='cursor-pointer' />
                                 </DropdownTrigger>
                                 <DropdownMenu
-                                  className='bg-white border p-3 rounded-md shadow-xl'
+                                  className='p-3 rounded-md'
                                   aria-label='Static Actions'
                                 >
                                   <DropdownItem

@@ -224,20 +224,21 @@ model CustomerType {
 }
 
 model Discount {
-  id          String       @id @default(uuid())
-  code        String       @unique
-  description String?
-  isSpecial   Boolean      @default(false)
-  userEmails  Json         @default("[]")
-  amount      Float
-  minPrice    Float?
-  orders      Int?
-  maxPrice    Float?
-  type        DiscountType
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  isActive    Boolean      @default(true)
-  productId   String?
+  id             String       @id @default(uuid())
+  code           String       @unique
+  description    String?
+  isSpecial      Boolean      @default(false)
+  isWebAvailable Boolean      @default(true)
+  userEmails     Json         @default("[]")
+  amount         Float
+  minPrice       Float?
+  orders         Int?
+  maxPrice       Float?
+  type           DiscountType
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  isActive       Boolean      @default(true)
+  productId      String?
 
   Product      Product?       @relation("ProductDiscounts", fields: [productId], references: [id])
   OrderDetails OrderDetails[]
@@ -285,20 +286,19 @@ model WishlistItem {
 }
 
 model OrderDetails {
-  id                   String         @id @default(uuid())
-  orderId              String         @unique
-  userId               String
-  addressId            String?
-  totalPrice           Float
-  finalPrice           Float?
-  status               OrderStatus
-  expectedDeliveryDate DateTime?
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
-  paymentMethod        PaymentMethod?
-  orderItems           OrderItem[]
-  notes                String?        @db.Text
-  trackingId           String?
+  id            String         @id @default(uuid())
+  orderId       String         @unique
+  userId        String
+  addressId     String?
+  totalPrice    Float
+  finalPrice    Float?
+  status        OrderStatus
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  paymentMethod PaymentMethod?
+  orderItems    OrderItem[]
+  notes         String?        @db.Text
+  trackingId    String?
 
   user           User             @relation(fields: [userId], references: [id])
   address        UserAddress?     @relation(fields: [addressId], references: [id])
@@ -517,33 +517,6 @@ model ImageWeek {
   imageUrl  String?
 }
 
-model Button {
-  id      String  @id @default(uuid())
-  name    String
-  iconUrl String
-  link    String?
-}
-
-model SearchHint {
-  id   String @id @default(uuid())
-  text String
-}
-
-model TrendingLink {
-  id   String @id @default(uuid())
-  link String
-}
-
-model ArrivalsLink {
-  id   String @id @default(uuid())
-  link String
-}
-
-model CollectionLink {
-  id   String @id @default(uuid())
-  link String
-}
-
 model Blogs {
   id          String  @id @default(uuid())
   imageUrl    String?
@@ -576,4 +549,11 @@ model Vides {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   productId String?
+}
+
+model Quotes {
+  id        String  @id @default(uuid())
+  text      String? @db.Text
+  imageUrl  String?
+  hyperLink String?
 }

@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { cdnPath } from '@/app/Components/cdnPath'
 import {
   Modal,
   ModalBody,
@@ -35,7 +36,7 @@ const ReviewModal = ({
           {/* Product Information */}
           <div className='flex items-center space-x-4'>
             <img
-              src={thumbnailUrl && thumbnailUrl}
+              src={cdnPath + thumbnailUrl}
               alt={title && title}
               className='w-16 h-16 object-cover rounded-md shadow-md'
             />
@@ -70,17 +71,25 @@ const ReviewModal = ({
           <div>
             <i>Reviewed by</i>
             <div className='flex gap-2 mt-3 items-center'>
-              <Image
-                src={
-                  profileUrl === ''
-                    ? profileUrl
-                    : 'https://cdn.thefashionsalad.com/profile-pictures/default-image.jpg'
-                }
-                width={36}
-                height={36}
-                className='rounded-full'
-                alt='Profile iamge'
-              />
+              {profileUrl ? (
+                <Image
+                  src={cdnPath + profileUrl}
+                  width={36}
+                  height={36}
+                  className='rounded-full'
+                  alt='Profile iamge'
+                />
+              ) : (
+                <Image
+                  src={
+                    'https://cdn.thefashionsalad.com/profile-pictures/default-image.jpg'
+                  }
+                  width={36}
+                  height={36}
+                  className='rounded-full'
+                  alt='Profile iamge'
+                />
+              )}
               <div>
                 <p className='text-base'>{userName}</p>
               </div>

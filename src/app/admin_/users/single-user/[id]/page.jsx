@@ -19,6 +19,7 @@ import { use } from 'react'
 import Button from '@/app/admin_/components/Button'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 // eslint-disable-next-line react/prop-types
 const UserDetailsPage = ({ params }) => {
@@ -217,7 +218,7 @@ const UserDetailsPage = ({ params }) => {
                           <td className='p-2'>
                             <div className='flex items-center gap-5'>
                               <Image
-                                src={item.product.thumbnailUrl}
+                                src={cdnPath + item.product.thumbnailUrl}
                                 width={32}
                                 height={40}
                                 alt='Image'
@@ -280,7 +281,7 @@ const UserDetailsPage = ({ params }) => {
                           <td className='p-2'>
                             <div className='flex items-center gap-5'>
                               <Image
-                                src={item.product.thumbnailUrl}
+                                src={cdnPath + item.product.thumbnailUrl}
                                 width={32}
                                 height={40}
                                 alt='Image'
@@ -344,7 +345,7 @@ const UserDetailsPage = ({ params }) => {
                           <td className='p-2'>
                             <div className='flex items-center gap-5'>
                               <Image
-                                src={item.product.thumbnailUrl}
+                                src={cdnPath + item.product.thumbnailUrl}
                                 width={32}
                                 height={40}
                                 alt='Image'

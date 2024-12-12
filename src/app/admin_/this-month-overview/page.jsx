@@ -6,7 +6,7 @@ import axios from 'axios'
 import Loading from '../components/Loading'
 import Button from '../components/Button'
 import { useRouter } from 'next/navigation'
-import { IndianRupee, ShoppingCart, Users } from 'lucide-react'
+import { CornerRightUp, IndianRupee, ShoppingCart, Users } from 'lucide-react'
 
 const ThisMonthOverview = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1)
@@ -108,14 +108,18 @@ const ThisMonthOverview = () => {
             <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
               <ShoppingCart size={32} />
               <div>
-                <p className='text-sm'>Total Orders</p>
+                <p className='text-sm flex gap-3 items-center'>
+                  Total Orders <CornerRightUp />
+                </p>
                 <p className='text-xl font-bold'>{data?.totalOrders}</p>
               </div>
             </div>
             <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
               <IndianRupee size={32} />
               <div>
-                <p className='text-sm'>Revenue</p>
+                <p className='text-sm flex gap-3 items-center'>
+                  Revenue <CornerRightUp />
+                </p>
                 <p className='text-xl font-bold'>
                   ₹{data?.totalIncome.toFixed(2)}
                 </p>
@@ -124,7 +128,9 @@ const ThisMonthOverview = () => {
             <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
               <Users size={32} />
               <div>
-                <p className='text-sm'>Users</p>
+                <p className='text-sm flex gap-3 items-center'>
+                  Users <CornerRightUp />
+                </p>
                 <p className='text-xl font-bold'>{data?.newUsers}</p>
               </div>
             </div>

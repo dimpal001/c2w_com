@@ -13,7 +13,17 @@ export async function POST(request) {
         { status: 401 }
       )
     }
-    const { couponCode, orderDetailsId, userId } = await request.json()
+    const { couponCode, orderDetailsId, userId, device } = await request.json()
+
+    if (device !== '__##mobile()$') {
+      return NextResponse.json(
+        {
+          message:
+            'This coupon is not applicable for web purchases. Please try using our mobile app.',
+        },
+        { status: 400 }
+      )
+    }
 
     // Validate input
     if (!couponCode || !orderDetailsId || !userId) {

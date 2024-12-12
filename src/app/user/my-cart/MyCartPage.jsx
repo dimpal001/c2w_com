@@ -2,19 +2,29 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Trash, Plus, Minus, ShoppingCart, ArrowLeftCircle } from 'lucide-react'
+import {
+  Plus,
+  Minus,
+  ShoppingCart,
+  ArrowLeftCircle,
+  Trash2,
+  Loader2,
+} from 'lucide-react'
 import EmptyCartImage from './EmptyCartImage'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { useUserContext } from '@/app/context/UserContext'
 import Skeleton from '@/app/Components/Skeleton'
+import { cdnPath } from '@/app/Components/cdnPath'
+import { enqueueSnackbar } from 'notistack'
 
 export default function MyCartPage() {
   const [products, setProducts] = useState([])
   const [fetching, setFetching] = useState(true)
   const [totalAmount, setTotalAmount] = useState(0)
+  const [deleting, setDeleting] = useState(false)
 
-  const { user } = useUserContext()
+  const { user, setUser } = useUserContext()
   const router = useRouter()
 
   useEffect(() => {
@@ -58,6 +68,33 @@ export default function MyCartPage() {
     setTotalAmount(total)
   }
 
+  const handleRemoveFromWishlist = async (product) => {
+    try {
+      setDeleting(true)
+      const response = await axios.post('/api/cart/remove', {
+        cartItemId: product,
+      })
+
+      enqueueSnackbar(response.data.message, { variant: 'success' })
+      const updatedProducts = products.filter((item) => item.id !== product)
+
+      const updatedUser = {
+        ...user,
+        cartItems: user?.cartItems?.filter((item) => item.id !== product),
+      }
+
+      setUser(updatedUser)
+
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+
+      setProducts(updatedProducts)
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setDeleting(false)
+    }
+  }
+
   useEffect(() => {
     if (!fetching) {
       updateTotalAmount()
@@ -81,7 +118,7 @@ export default function MyCartPage() {
             productId: item.product.id,
             sizeId: inventory.size.id,
             quantity: item.quantity,
-            price: inventory.price,
+            price: inventory.price * item.quantity,
           }
         }),
       }
@@ -148,6 +185,8 @@ export default function MyCartPage() {
                   }, 0)
                   setTotalAmount(total)
                 }}
+                handleRemoveFromWishlist={handleRemoveFromWishlist}
+                deleting={deleting}
               />
             ))}
           </div>
@@ -177,7 +216,7 @@ export default function MyCartPage() {
   )
 }
 
-const Item = ({ item, updateProduct }) => {
+const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
   const [selectedInventory, setSelectedInventory] = useState(
     item.product.inventory.find((inv) => inv.size.id === item.selectedSizeId) ||
       item.product.inventory[0]
@@ -243,10 +282,10 @@ const Item = ({ item, updateProduct }) => {
   }
 
   return (
-    <div className='bg-zinc-100 hover:bg-zinc-200 rounded-lg p-6 flex flex-col justify-between h-full'>
+    <div className='bg-zinc-100 relative hover:bg-zinc-200 rounded-lg p-6 flex flex-col justify-between h-full'>
       <div className='flex items-center gap-4'>
         <img
-          src={item.product.thumbnailUrl}
+          src={cdnPath + item.product.thumbnailUrl}
           alt={item.product.title}
           className='w-24 h-28 object-cover rounded-lg'
         />
@@ -296,10 +335,16 @@ const Item = ({ item, updateProduct }) => {
           ₹{selectedInventory.price * selectedQuantity}
         </p>
       </div>
-
-      <button className='mt-4 text-red-600 flex items-center gap-2 hover:text-red-500'>
-        <Trash className='w-5 h-5' /> Remove
-      </button>
+      {deleting ? (
+        <Loader2 className='text-pink-600 absolute animate-spin top-3 right-3' />
+      ) : (
+        <Trash2
+          onClick={() => {
+            handleRemoveFromWishlist(item.id)
+          }}
+          className='text-red-600 absolute top-3 right-3'
+        />
+      )}
     </div>
   )
 }

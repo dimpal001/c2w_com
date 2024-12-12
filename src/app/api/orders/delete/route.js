@@ -15,7 +15,6 @@ export async function DELETE(request) {
 
     if (
       order.status === 'PENDING' ||
-      order.status === 'INCOMPLETE' ||
       order.status === 'SHIPPED' ||
       order.status === 'INTRANSIT' ||
       order.status === 'APPROVED'

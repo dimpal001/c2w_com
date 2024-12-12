@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import axios from 'axios'
 import { Upload, X } from 'lucide-react'
@@ -12,6 +12,12 @@ import AddDiscount from '../create-product/AddDiscount'
 import SimilarProruct from './SimilarProruct'
 import { useRouter } from 'next/navigation'
 import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
+import { cdnPath } from '@/app/Components/cdnPath'
+import Devider from './Devider'
+import Section from './Section'
+import Select from './Select'
+import TextArea from './TextArea'
+import Input from './Input'
 
 const ProductForm = ({ formData, setFormData, type }) => {
   const [inventory, setInventory] = useState({
@@ -500,29 +506,40 @@ const ProductForm = ({ formData, setFormData, type }) => {
       <Devider />
 
       <Section>
-        <div className='flex items-center gap-5'>
-          <Select
-            label='Select Customer Type'
-            name='customerTypeId'
-            defaultValue={formData.customerTypeId}
-            value={formData.customerTypeId}
-            onChange={handleChange}
-          >
-            <option value=''>Select Customer Type</option>
-            {customerTypes.map((type) => (
-              <option key={type.id} value={type.id}>
-                {uppercaseText(type.name)}
-              </option>
-            ))}
-          </Select>
+        <div>
+          <div className='flex items-center gap-5'>
+            <Select
+              label='Select Customer Type'
+              name='customerTypeId'
+              defaultValue={formData.customerTypeId}
+              value={formData.customerTypeId}
+              onChange={handleChange}
+            >
+              <option value=''>Select Customer Type</option>
+              {customerTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {uppercaseText(type.name)}
+                </option>
+              ))}
+            </Select>
+            <Select
+              label='Returnable'
+              name='isCODAvailable'
+              value={formData?.isCODAvailable || false}
+              onChange={handleChange}
+            >
+              <option value={false}>COD not available</option>
+              <option value={true}>COD available</option>
+            </Select>
+          </div>
           <div>
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center gap-3 mt-3'>
               <label>Categories:</label>
               <div className='flex gap-4 flex-wrap'>
                 {allCategories?.map((category) => (
                   <div
                     key={category.id}
-                    className='capitalize flex gap-1 items-center text-sm'
+                    className='capitalize flex gap-1 py-1 items-center text-sm'
                   >
                     <input
                       type='checkbox'
@@ -544,7 +561,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
               )
 
               return (
-                <div key={categoryId} className='flex items-center gap-3'>
+                <div key={categoryId} className='flex items-center py-1 gap-3'>
                   <label>
                     Subcategories for{' '}
                     <span className='capitalize'>
@@ -721,7 +738,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
                       {/* Display Image */}
                       {img.imageUrl && (
                         <img
-                          src={img.imageUrl}
+                          src={cdnPath + img.imageUrl}
                           alt='Selected Product'
                           className='w-40 object-cover'
                         />
@@ -735,17 +752,16 @@ const ProductForm = ({ formData, setFormData, type }) => {
                           }}
                         ></div>
                       )}
-                      {img.altText && (
-                        <p className='text-xs text-center py-1'>
-                          <span className='font-bold'>Alt:</span> {img.altText}
-                        </p>
-                      )}
-                      <div className='absolute top-5 right-5'>
+                      <p className='text-xs text-center py-1'>
+                        <span className='font-bold'>Alt:</span>{' '}
+                        {img.altText && img.altText}
+                      </p>
+                      <div className='absolute top-2 right-2'>
                         {/* Remove Button */}
-                        <Button
-                          label='Remove'
-                          variant='error'
+                        <X
                           onClick={() => removeFormDataCard(index, img)}
+                          className='text-red-500 cursor-pointer hover:w-10 hover:h-10 transition-all duration-300 w-8 h-8'
+                          strokeWidth={3}
                         />
                       </div>
                     </div>
@@ -947,109 +963,3 @@ const ProductForm = ({ formData, setFormData, type }) => {
 }
 
 export default ProductForm
-
-// eslint-disable-next-line react/prop-types
-const Input = ({
-  label,
-  type,
-  onChange,
-  value,
-  name,
-  placeholder,
-  width,
-  disabled,
-}) => {
-  return (
-    <div className={`flex flex-col gap-1 ${width && width}`}>
-      <label htmlFor={label}>{label}</label>
-      <input
-        id={label}
-        disabled={disabled}
-        name={name}
-        type={type ? type : 'text'}
-        onChange={onChange}
-        value={value}
-        className={`px-2 py-[6px] border focus:outline-none focus:border-blue-800 border-slate-500 rounded-sm`}
-        placeholder={placeholder}
-      />
-    </div>
-  )
-}
-
-// eslint-disable-next-line react/prop-types
-
-const TextArea = ({
-  label,
-  rows = 1,
-  onChange,
-  name,
-  value,
-  placeholder,
-  onKeyDown,
-}) => {
-  const textAreaRef = useRef(null)
-
-  const adjustHeight = () => {
-    const textArea = textAreaRef.current
-    if (textArea) {
-      textArea.style.height = 'auto'
-      textArea.style.height = `${textArea.scrollHeight}px`
-    }
-  }
-
-  useEffect(() => {
-    adjustHeight()
-  }, [value])
-
-  return (
-    <div className='flex w-full flex-col gap-1'>
-      <label htmlFor={label}>{label}</label>
-      <textarea
-        ref={textAreaRef}
-        onKeyDown={onKeyDown}
-        onChange={(e) => {
-          onChange(e)
-          adjustHeight()
-        }}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        rows={rows}
-        id={label}
-        className='px-2 py-[6px] w-full border focus:outline-none focus:border-blue-800 border-slate-500 rounded-sm resize-none'
-        style={{ overflow: 'hidden' }}
-      ></textarea>
-    </div>
-  )
-}
-
-// eslint-disable-next-line react/prop-types
-const Select = ({ label, onChange, name, children, defaultValue }) => {
-  return (
-    <div className='flex flex-col gap-1'>
-      <label htmlFor={label}>{label}</label>
-      <select
-        defaultValue={defaultValue}
-        className='px-3 py-[7px] border bg-white focus:outline-none focus:border-blue-800 border-slate-500 rounded-sm '
-        name={name}
-        id={label}
-        onChange={onChange}
-      >
-        {children}
-      </select>
-    </div>
-  )
-}
-
-// eslint-disable-next-line react/prop-types
-const Section = ({ children, className }) => {
-  return (
-    <section className={`${className} flex w-full items-end gap-6`}>
-      {children}
-    </section>
-  )
-}
-
-const Devider = () => {
-  return <div className='h-[1px] bg-slate-300 my-7 w-full' />
-}

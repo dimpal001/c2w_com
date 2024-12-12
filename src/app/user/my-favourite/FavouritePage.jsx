@@ -1,17 +1,20 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { ArrowLeftCircle, Heart, Trash } from 'lucide-react'
+import { ArrowLeftCircle, Heart, Loader2, Trash2 } from 'lucide-react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useUserContext } from '@/app/context/UserContext'
 import Skeleton from '@/app/Components/Skeleton'
+import { cdnPath } from '@/app/Components/cdnPath'
+import { enqueueSnackbar } from 'notistack'
 
 export default function FavouritePage() {
   const [products, setProducts] = useState([])
   const [fetching, setFetching] = useState(true)
+  const [deleting, setDeleting] = useState(false)
 
-  const { user } = useUserContext()
+  const { user, setUser } = useUserContext()
   const router = useRouter()
 
   useEffect(() => {
@@ -30,6 +33,46 @@ export default function FavouritePage() {
     } catch (error) {
       console.log(error)
       router.push('/')
+    }
+  }
+
+  const handleRemoveFromWishlist = async (product) => {
+    if (!product) return
+
+    try {
+      setDeleting(true)
+      const response = await axios.post('/api/wishlist/remove', {
+        userId: user.id,
+        productId: product.id,
+      })
+
+      const updatedProducts = products.filter(
+        (item) => item.product.id !== product.id
+      )
+
+      setProducts(updatedProducts)
+
+      const updatedUser = {
+        ...user,
+        wishlistItem: user?.wishlistItem?.filter(
+          (item) => item.productId !== product.id
+        ),
+      }
+
+      setUser(updatedUser)
+
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+
+      enqueueSnackbar(response?.data?.message || 'Removed from wishlist.', {
+        variant: 'success',
+      })
+    } catch (error) {
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to remove from wishlist.',
+        { variant: 'error' }
+      )
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -55,21 +98,21 @@ export default function FavouritePage() {
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {products?.length > 0 &&
-          products.map((item) => (
+          products.map((item, index) => (
             <div
-              key={item.id}
-              className='bg-zinc-100 hover:bg-zinc-200 rounded-lg p-6 flex flex-col justify-between h-full'
+              key={index}
+              className='bg-zinc-100 relative z-10 hover:bg-zinc-200 rounded-lg p-6 flex flex-col justify-between h-full'
             >
               <div className='flex items-center gap-4'>
                 <img
-                  src={item.product.thumbnailUrl}
+                  src={cdnPath + item.product.thumbnailUrl}
                   alt={item.product.title}
                   className='w-24 h-24 object-cover rounded-lg'
                 />
                 <div className='flex flex-col'>
                   <p
                     onClick={() => router.push(`/product/${item.product.slug}`)}
-                    className='text-xl cursor-pointer hover:underline max-sm:text-lg max-sm:leading-[20px] font-semibold text-gray-800'
+                    className='text-xl cursor-pointer hover:text-pink-600 hover:underline max-sm:text-lg max-sm:leading-[20px] font-semibold text-gray-800'
                   >
                     {item.product.title}
                   </p>
@@ -78,18 +121,16 @@ export default function FavouritePage() {
                   </p>
                 </div>
               </div>
-
-              <div className='flex text-xs items-center justify-between mt-4'>
-                <button className='bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-300'>
-                  Add to Cart
-                </button>
-                <button className='bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-500 transition duration-300'>
-                  Buy now
-                </button>
-                <button className='text-red-600 hover:text-red-500 flex items-center gap-2'>
-                  <Trash className='w-5 h-5' /> Remove
-                </button>
-              </div>
+              {deleting ? (
+                <Loader2 className='text-pink-600 absolute animate-spin top-3 right-3' />
+              ) : (
+                <Trash2
+                  onClick={() => {
+                    handleRemoveFromWishlist(item.product)
+                  }}
+                  className='text-red-600 absolute top-3 right-3'
+                />
+              )}
             </div>
           ))}
       </div>

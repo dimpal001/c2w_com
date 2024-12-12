@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import MainPage from './HomePageComponents/MainPage'
 import Head from 'next/head'
+import { api } from './Components/api'
 
 const schemaData = {
   '@context': 'https://schema.org/',
@@ -83,25 +84,19 @@ const HomePage = async () => {
       socialLinksRes,
       blogsRes,
     ] = await Promise.all([
-      axios.get('https://www.thebmim.com/api/customs/showcases/get'),
-      axios.get('https://www.thebmim.com/api/customs/hero-sliders/get'),
-      axios.get('https://www.thebmim.com/api/customs/trending/get'),
-      axios.get('https://www.thebmim.com/api/customs/new-arrivals/get'),
+      axios.get(`${api}/api/customs/showcases/get`),
+      axios.get(`${api}/api/customs/hero-sliders/get`),
+      axios.get(`${api}/api/customs/trending/get`),
+      axios.get(`${api}/api/customs/new-arrivals/get`),
+      axios.get(`${api}/api/customs/shop-by-occasion/occasion`),
+      axios.get(`${api}/api/customs/exclusive-collections/get`),
+      axios.get(`${api}/api/customs/fashion-week/product-week`),
       axios.get(
-        'https://www.thebmim.com/api/customs/shop-by-occasion/occasion'
+        `${api}/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1`
       ),
-      axios.get(
-        'https://www.thebmim.com/api/customs/exclusive-collections/get'
-      ),
-      axios.get(
-        'https://www.thebmim.com/api/customs/fashion-week/product-week'
-      ),
-      axios.get(
-        'https://www.thebmim.com/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1'
-      ),
-      axios.get('https://www.thebmim.com/api/customs/shop-by-season/get'),
-      axios.get('https://www.thebmim.com/api/customs/social-links'),
-      axios.get('https://www.thebmim.com/api/customs/blogs'),
+      axios.get(`${api}/api/customs/shop-by-season/get`),
+      axios.get(`${api}/api/customs/social-links`),
+      axios.get(`${api}/api/customs/blogs`),
     ])
 
     const showcases = showcasesRes.data.showcases || []
@@ -144,7 +139,13 @@ const HomePage = async () => {
     )
   } catch (error) {
     console.log('Error fetching data:', error)
-    return <div>Error loading data.</div>
+    return (
+      <div className='w-screen bg-gradient-to-br from-green-400 to-blue-500 via-indigo-600 text-white flex justify-center items-center h-screen'>
+        <p className='text-3xl font-semibold animate__animated animate__flip animate__slow'>
+          Hello, world 👋
+        </p>
+      </div>
+    )
   }
 }
 

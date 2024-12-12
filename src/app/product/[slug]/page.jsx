@@ -4,6 +4,8 @@ import ProductPage from './ProductPage'
 import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
+import Footer from '@/app/Components/Footer'
+import CategoryBar from '@/app/Components/CategoryBar'
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
@@ -111,7 +113,9 @@ const Page = async ({ params }) => {
     return (
       <div>
         <Header />
+        <CategoryBar />
         <ProductPage product={product} />
+        <Footer />
       </div>
     )
   } catch (error) {

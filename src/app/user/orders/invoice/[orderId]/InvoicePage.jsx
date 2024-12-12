@@ -113,6 +113,9 @@ const InvoicePage = ({ orderId }) => {
                     Product
                   </th>
                   <th className='border px-4 max-sm:px-3 py-2 text-left'>
+                    Size
+                  </th>
+                  <th className='border px-4 max-sm:px-3 py-2 text-left'>
                     Price
                   </th>
                   <th className='border px-4 max-sm:px-3 py-2 text-left'>
@@ -129,14 +132,24 @@ const InvoicePage = ({ orderId }) => {
                     <td className='border px-4 max-sm:px-3 py-2'>
                       {item.product.title}
                     </td>
+                    <td className='border px-4 uppercase max-sm:px-3 py-2'>
+                      {
+                        item.product.inventory.find(
+                          (inv) => inv.size.id === item.sizeId
+                        )?.size?.name
+                      }
+                    </td>
                     <td className='border px-4 max-sm:px-3 py-2'>
-                      ₹{item.price?.toFixed(2)}
+                      ₹
+                      {item.product.inventory
+                        .find((inv) => inv.size.id === item.sizeId)
+                        ?.price.toFixed(2)}
                     </td>
                     <td className='border px-4 max-sm:px-3 py-2'>
                       {item.quantity}
                     </td>
                     <td className='border px-4 max-sm:px-3 py-2'>
-                      ₹{(item.price * item.quantity)?.toFixed(2)}
+                      ₹{item.price?.toFixed(2)}
                     </td>
                   </tr>
                 ))}
@@ -154,7 +167,12 @@ const InvoicePage = ({ orderId }) => {
             {orderDetails.discount && (
               <div className='flex justify-between mb-2'>
                 <p className='text-gray-500'>Discount:</p>
-                <p>-₹{orderDetails.discount.amount?.toFixed(2)}</p>
+                <p>
+                  - ₹
+                  {(orderDetails.totalPrice - orderDetails.finalPrice).toFixed(
+                    2
+                  )}
+                </p>
               </div>
             )}
             <div className='flex justify-between mb-2'>

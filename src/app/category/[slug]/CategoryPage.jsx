@@ -8,16 +8,23 @@ import ProductCard1 from '@/app/Components/ProductCard1'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import axios from 'axios'
-import { Frown } from 'lucide-react'
+import { Frown, Loader } from 'lucide-react'
 import { useSearch } from '@/app/context/SearchContext'
+import { useUserContext } from '@/app/context/UserContext'
 
 const CategoryPage = ({ slug }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [sortDrawerOpen, setSortDrawerOpen] = useState(false)
 
   const [isEmptyProduct, setIsEmptyProduct] = useState(false)
+  const [fetching, setFetching] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
+
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasMoreProducts, setHasMoreProducts] = useState(true)
 
   const { searchQuery } = useSearch()
+  const { user } = useUserContext()
 
   const [products, setProducts] = useState([])
 
@@ -30,10 +37,29 @@ const CategoryPage = ({ slug }) => {
   }
 
   useEffect(() => {
-    fetchFilterData()
+    fetchFilterData(1)
   }, [searchQuery])
 
-  const fetchFilterData = async () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition =
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.scrollHeight
+
+      if (scrollPosition && !loadingMore && hasMoreProducts) {
+        setCurrentPage(currentPage + 1)
+        fetchFilterData(currentPage + 1)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [currentPage, loadingMore, hasMoreProducts])
+
+  const fetchFilterData = async (page = 1) => {
     const storedColors =
       JSON.parse(localStorage.getItem('selectedColors')) || []
     const storedSizes = JSON.parse(localStorage.getItem('selectedSizes')) || []
@@ -42,6 +68,8 @@ const CategoryPage = ({ slug }) => {
 
     try {
       setIsEmptyProduct(false)
+      setFetching(page === 1)
+      setLoadingMore(page !== 1)
       const params = {
         searchQuery: searchQuery,
         colors:
@@ -49,19 +77,30 @@ const CategoryPage = ({ slug }) => {
         sizes: storedSizes.length > 0 ? JSON.stringify(storedSizes) : undefined,
         minPrice: storedMinPrice,
         maxPrice: storedMaxPrice,
-        categorySlug: slug ? slug : null,
+        categorySlug: slug || null,
+        page: page,
+        userId: user.id,
       }
 
       const response = await axios.get('/api/search', { params })
-      console.log(response.data)
+      setProducts((prevProducts) =>
+        page === 1
+          ? response.data.products
+          : [...prevProducts, ...response.data.products]
+      )
 
-      setProducts(response.data.products)
+      setHasMoreProducts(
+        response.data.totalProducts > products.length ? true : false
+      )
+
       if (response.data.products.length === 0) {
-        console.log(response.data.products)
         setIsEmptyProduct(true)
       }
     } catch (error) {
       console.log('Error:', error.message)
+    } finally {
+      setFetching(false)
+      setLoadingMore(false)
     }
   }
 
@@ -73,21 +112,21 @@ const CategoryPage = ({ slug }) => {
 
       <div className='p-3 flex md:gap-4 gap-2 items-start max-md:flex-col'>
         {/* Filter */}
-        <div className='max-sm:w-full lg:sticky top-2 left-4'>
+        <div className='max-sm:w-full lg:sticky top-[70px] left-4'>
           <div className='max-md:hidden'>
             <Sidebar onHandleFilter={() => fetchFilterData()} />
           </div>
           <div className='lg:hidden w-full'>
             <div className='mb-1 gap-2 justify-end w-full flex '>
-              <span
+              {/* <span
                 onClick={toggleSortDrawer}
                 className='text-sm p-[8px] text-pink-600 px-5 font-semibold rounded-full bg-pink-100'
               >
                 Sort by
-              </span>
+              </span> */}
               <span
                 onClick={toggleFilterDrawer}
-                className='text-sm p-[8px] text-pink-600 px-5 font-semibold rounded-full bg-pink-100'
+                className='text-sm p-[5px] text-pink-600 px-5 font-semibold rounded-full bg-pink-100'
               >
                 Filter
               </span>
@@ -156,23 +195,50 @@ const CategoryPage = ({ slug }) => {
         </div>
 
         {/* Products */}
-        <div className='flex gap-6 flex-wrap max-sm:grid grid-cols-2 max-sm:gap-2'>
-          {products.map((item, index) => (
-            <ProductCard1 key={index} product={item} />
-          ))}
+        <div className='w-full'>
+          {fetching ? (
+            <div className='w-full h-[600px] flex justify-center items-center'>
+              <Loader className='animate-spin' />
+            </div>
+          ) : (
+            <div className='max-sm:min-h-[600px]'>
+              <p className='lg:py-2 max-sm:pb-2 max-sm:text-sm text-neutral-600'>
+                {products?.length} products found
+              </p>
+
+              {/* Show Products  */}
+              <div className='flex gap-6 flex-wrap max-sm:grid grid-cols-2 max-sm:gap-2'>
+                {products.map((item, index) => (
+                  <ProductCard1 key={index} product={item} />
+                ))}
+              </div>
+
+              {/* Load more  */}
+              <div className='flex justify-center items-center'>
+                {loadingMore && (
+                  <div className='flex justify-center items-center py-2'>
+                    <Loader className='animate-spin' size={24} />
+                  </div>
+                )}
+              </div>
+
+              <div>
+                {isEmptyProduct && products.length === 0 && (
+                  <div className='flex items-center justify-center flex-col h-[450px] w-full'>
+                    <Frown className='text-zinc-300' size={120} />
+                    <p className='text-2xl font-bold text-zinc-300'>
+                      No Products found!
+                    </p>
+                    <p className='text-zinc-300 text-center'>
+                      Your search did not match any products.
+                      <br /> Please try again
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
-        {isEmptyProduct && (
-          <div className='flex items-center justify-center flex-col h-[450px] w-full'>
-            <Frown className='text-zinc-300' size={120} />
-            <p className='text-2xl font-bold text-zinc-300'>
-              No Products found!
-            </p>
-            <p className='text-zinc-300 text-center'>
-              Your search did not match any products.
-              <br /> Please try again
-            </p>
-          </div>
-        )}
       </div>
     </div>
   )

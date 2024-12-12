@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { SlideItem, Slider } from '@/app/HomePageComponents/Slider'
 import { ArrowRight, Star } from 'lucide-react'
 import React from 'react'
 
@@ -7,10 +8,31 @@ const ReviewSection = ({ reviews }) => {
     <div>
       <p className='text-2xl font-semibold py-4'>Customer Reviews</p>
       <div className='flex flex-col gap-6'>
-        {reviews?.length > 0 &&
-          reviews
-            .slice(0, 2)
-            .map((review, index) => <ReviewCard key={index} review={review} />)}
+        <Slider
+          slideInterval={4000}
+          showArrows={false}
+          showIndicators={false}
+          slideDirection='slideRight'
+        >
+          {reviews?.length > 0 &&
+            reviews.slice(0, 2).map((review, index) => (
+              <SlideItem key={index}>
+                <ReviewCard review={review} />
+              </SlideItem>
+            ))}
+          {reviews?.length > 0 &&
+            reviews.slice(0, 2).map((review, index) => (
+              <SlideItem key={index}>
+                <ReviewCard review={review} />
+              </SlideItem>
+            ))}
+          {reviews?.length > 0 &&
+            reviews.slice(0, 2).map((review, index) => (
+              <SlideItem key={index}>
+                <ReviewCard review={review} />
+              </SlideItem>
+            ))}
+        </Slider>
       </div>
       <div className='flex justify- pt-4'>
         <p className='flex gap-3 hover:gap-5 cursor-pointer transition-all items-center text-pink-600 font-semibold'>
@@ -38,7 +60,7 @@ const ReviewCard = ({ review }) => {
               key={index}
               className={
                 index < review.rating
-                  ? 'text-yellow-400 fill-yellow-400'
+                  ? 'text-pink-600 fill-pink-600'
                   : 'text-gray-400 fill-gray-400'
               }
             />

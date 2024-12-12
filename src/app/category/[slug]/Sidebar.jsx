@@ -125,10 +125,7 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
         </span>
       </div>
 
-      <div
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        className='overflow-scroll max-h-[520px]'
-      >
+      <div className='overflow-scroll scrollbar-hide max-h-[500px]'>
         {/* Price Range */}
         <div className='mb-4 bg-neutral-200 p-4 rounded-md'>
           <h3 className='text-lg font-medium text-gray-700 mb-4'>

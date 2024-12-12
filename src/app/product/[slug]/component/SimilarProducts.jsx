@@ -19,6 +19,19 @@ const SimilarProducts = ({ products }) => {
             />
           ))}
       </div>
+
+      {products?.length > 17 && (
+        <div
+          onClick={() =>
+            router.push(`/category/${products[0].categories[0].slug}`)
+          }
+          className='py-5 flex justify-end'
+        >
+          <p className='text-pink-500 cursor-pointer p-2 px-14 border-pink-500 border rounded-full max-sm:w-full text-center hover:bg-pink-500 hover:text-white'>
+            View all
+          </p>
+        </div>
+      )}
     </div>
   )
 }

@@ -19,16 +19,18 @@ export async function POST(request) {
     })
 
     if (existingCartItem) {
-      const updatedCartItem = await prisma.cartItem.update({
-        where: { id: existingCartItem.id },
-        data: { quantity: existingCartItem.quantity + quantity },
-      })
-      return NextResponse.json({ cartItem: updatedCartItem }, { status: 200 })
+      return NextResponse.json(
+        { message: 'Item is already added' },
+        { status: 200 }
+      )
     } else {
       const cartItem = await prisma.cartItem.create({
         data: { userId, productId, quantity },
       })
-      return NextResponse.json({ cartItem }, { status: 201 })
+      return NextResponse.json(
+        { cartItem, message: 'Item has been added' },
+        { status: 201 }
+      )
     }
   } catch (error) {
     console.log(error)

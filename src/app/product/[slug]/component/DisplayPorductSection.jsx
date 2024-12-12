@@ -30,8 +30,10 @@ const DisplayPorductSection = ({ product }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(
     product?.inventory[0].minQuantity
   )
+  const [addingCart, setAddingCart] = useState(false)
+  const [addingWishList, setAddingWishList] = useState(false)
 
-  const { user } = useUserContext()
+  const { user, setUser } = useUserContext()
   const router = useRouter()
 
   const [selectedInventory, setSelectedInventory] = useState(
@@ -55,7 +57,7 @@ const DisplayPorductSection = ({ product }) => {
     try {
       setSubmitting(true)
       const response = await axios.post('/api/orders/create', {
-        userId: user.id,
+        userId: user?.id,
         totalPrice,
         orderItems,
       })
@@ -68,6 +70,88 @@ const DisplayPorductSection = ({ product }) => {
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      router.push('/auth/signin')
+      return
+    }
+
+    try {
+      setAddingCart(true)
+      const response = await axios.post('/api/cart/add', {
+        userId: user?.id,
+        productId: product.id,
+        quantity: parseInt(product.inventory[0].minQuantity),
+      })
+      const newCartItem = {
+        ...response.data.cartItem,
+      }
+
+      const updatedUser = {
+        ...user,
+        cartItems: [...user.cartItems, newCartItem],
+      }
+
+      setUser(updatedUser)
+
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+
+      enqueueSnackbar(response.data.message, { variant: 'success' })
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setAddingCart(false)
+    }
+  }
+
+  const handleAddWishList = async () => {
+    if (!user) {
+      router.push('/auth/signin')
+      return
+    }
+
+    try {
+      setAddingWishList(true)
+
+      const response = await axios.post('/api/wishlist/add', {
+        userId: user?.id,
+        productId: product.id,
+      })
+
+      const { wishlistItem, message } = response.data
+
+      let updatedUser
+
+      if (response.status === 200) {
+        updatedUser = {
+          ...user,
+          wishlistItem: [...user.wishlistItem, wishlistItem],
+        }
+      } else if (response.status === 201) {
+        updatedUser = {
+          ...user,
+          wishlistItem: user?.wishlistItem.filter(
+            (item) => item.productId !== product.id
+          ),
+        }
+      }
+
+      setUser(updatedUser)
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+
+      enqueueSnackbar(message, { variant: 'success' })
+    } catch (error) {
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Something went wrong!',
+        {
+          variant: 'error',
+        }
+      )
+    } finally {
+      setAddingWishList(false)
     }
   }
 
@@ -95,6 +179,7 @@ const DisplayPorductSection = ({ product }) => {
           <ThumbnailImage image={thumbnailUrl} />
         </div>
       </div>
+
       {/* Data Section  */}
       <div className='py-5 lg:w-[47%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
@@ -130,10 +215,19 @@ const DisplayPorductSection = ({ product }) => {
             </p>
           </div>
           <div className='h-full flex flex-col justify-between'>
-            <Heart
-              className='text-pink-500 fill-pink-500 cursor-pointer'
-              size={27}
-            />
+            {addingWishList ? (
+              <Loader2 size={27} className='text-pink-600 animate-spin' />
+            ) : (
+              <Heart
+                onClick={handleAddWishList}
+                className={`text-pink-500 cursor-pointer ${
+                  user?.wishlistItem?.some(
+                    (item) => item.productId === product.id
+                  ) && 'fill-pink-500'
+                }`}
+                size={27}
+              />
+            )}
             <Dropdown>
               <DropdownTrigger>
                 <Forward className='text-pink-500 cursor-pointer' size={27} />
@@ -170,18 +264,35 @@ const DisplayPorductSection = ({ product }) => {
         <div>
           {/* <p className='text-xl font-semibold'>Similar Product</p> */}
           <div className='flex gap-4 py-2 flex-wrap'>
-            {product?.images?.length > 0 &&
-              product?.images?.map((image, index) => (
-                <SimilarProductImage key={index} image={image} />
+            {product?.similarProducts?.length > 0 &&
+              product?.similarProducts?.map((product, index) => (
+                <SimilarProductImage
+                  key={index}
+                  product={product}
+                  onClick={() => router.push(`/product/${product.slug}`)}
+                />
               ))}
           </div>
         </div>
 
         {/* Buy button  */}
 
-        <div className='py-3 w-[90%] max-sm:fixed z-20 max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
-          <button className='rounded-lg py-2 w-full font-semibold uppercase bg-pink-200'>
-            add to cart
+        <div className='py-3 w-[90%] max-sm:fixed z-30 max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
+          <button
+            disabled={
+              addingCart ||
+              user?.cartItems?.some((item) => item.productId === product.id)
+            }
+            onClick={handleAddToCart}
+            className={`rounded-lg ${
+              addingCart && 'opacity-60'
+            } py-2 w-full font-semibold bg-pink-200`}
+          >
+            {addingCart
+              ? 'Adding...'
+              : user?.cartItems?.some((item) => item.productId === product.id)
+              ? 'ADDED'
+              : 'ADD TO CART'}
           </button>
           <button
             disabled={submitting}
@@ -305,12 +416,12 @@ const ProductInventorySection = ({
   )
 }
 
-const SimilarProductImage = ({ image }) => {
+const SimilarProductImage = ({ product, onClick }) => {
   return (
-    <div>
+    <div onClick={onClick} className='cursor-pointer'>
       <img
-        src={cdnPath + image.imageUrl}
-        alt={image.altText}
+        src={cdnPath + product?.thumbnailUrl}
+        alt={product?.altText}
         className='w-[80px] h-[100px] rounded-lg'
       />
     </div>

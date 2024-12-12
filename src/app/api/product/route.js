@@ -25,7 +25,7 @@ export async function GET(request) {
         productReview: true,
         images: true,
         similarProducts: true,
-        similarTo: true,
+        categories: true,
         discounts: true,
       },
     })
@@ -53,7 +53,7 @@ export async function GET(request) {
           productReview: true,
           images: true,
           similarProducts: true,
-          similarTo: true,
+          categories: true,
           discounts: true,
         },
       })
@@ -80,7 +80,7 @@ export async function GET(request) {
               productReview: true,
               images: true,
               similarProducts: true,
-              similarTo: true,
+              categories: true,
               discounts: true,
             },
           })

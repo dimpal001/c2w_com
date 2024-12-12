@@ -30,22 +30,22 @@ const Footer = () => {
             <h4 className='text-4xl font-extrabold mb-4'>Info links</h4>
             <ul className='space-y-2 text-xl'>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/about' className='hover:underline'>
                   About us
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/what-we-do' className='hover:underline'>
                   What we do
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/contact' className='hover:underline'>
                   Contact us
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/community' className='hover:underline'>
                   Community
                 </a>
               </li>
@@ -78,27 +78,27 @@ const Footer = () => {
             <h4 className='text-4xl font-extrabold mb-4'>Legal</h4>
             <ul className='space-y-2 flex flex-col items-end max-sm:items-start text-xl'>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/terms-and-conditions' className='hover:underline'>
                   Terms & conditions
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/privacy-policy' className='hover:underline'>
                   Privacy policy
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/refund-policy' className='hover:underline'>
                   Refund policy
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/return-policy' className='hover:underline'>
                   Return policy
                 </a>
               </li>
               <li>
-                <a href='#' className='hover:underline'>
+                <a href='/discount-policy' className='hover:underline'>
                   Discount Policy
                 </a>
               </li>

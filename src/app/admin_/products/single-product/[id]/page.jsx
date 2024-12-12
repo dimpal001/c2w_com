@@ -13,6 +13,7 @@ import { Heart, ShoppingBasket, ShoppingCart } from 'lucide-react'
 import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
 import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const ProductDetailsPage = ({ params }) => {
   const { id } = use(params)
@@ -189,14 +190,18 @@ const ProductDetailsPage = ({ params }) => {
                 </div>
                 <div className='mb-3 flex gap-3 flex-wrap'>
                   {productDetails.images.map((item, index) => (
-                    <Image
-                      className='border rounded-md shadow-md shadow-blue-800'
-                      key={index}
-                      src={item.imageUrl}
-                      width={240}
-                      height={300}
-                      alt=''
-                    />
+                    <div key={index} className='flex flex-col'>
+                      <Image
+                        className='border rounded-md shadow-md shadow-blue-800'
+                        src={cdnPath + item.imageUrl}
+                        width={240}
+                        height={300}
+                        alt=''
+                      />
+                      <div className='flex p-2 justify-center'>
+                        <strong>Alt: &nbsp;</strong> {item?.altText}
+                      </div>
+                    </div>
                   ))}
                 </div>
                 <div className='mb-3'>
@@ -213,6 +218,9 @@ const ProductDetailsPage = ({ params }) => {
                           </th>
                           <th className='p-2 text-center border-r border-white'>
                             Estimated delivery day
+                          </th>
+                          <th className='p-2 text-center border-r border-white'>
+                            Available COD
                           </th>
                         </tr>
                       </thead>
@@ -234,6 +242,11 @@ const ProductDetailsPage = ({ params }) => {
                           </td>
                           <td className='p-3 border text-center'>
                             {productDetails.estimatedDeliveryDay}
+                          </td>
+                          <td className='p-3 border text-center'>
+                            {productDetails.isCODAvailable
+                              ? 'Available'
+                              : 'Not available'}
                           </td>
                         </tr>
                       </tbody>
@@ -310,7 +323,7 @@ const ProductDetailsPage = ({ params }) => {
                       <thead>
                         <tr className='p-2 bg-blue-800 border-r border border-blue-800 text-white'>
                           <th className='p-2 text-left border-r border-white'>
-                            Summary
+                            Categories
                           </th>
                         </tr>
                       </thead>
@@ -318,7 +331,7 @@ const ProductDetailsPage = ({ params }) => {
                         {productDetails.categories.map((item, index) => (
                           <tr key={index}>
                             <td className='text-left capitalize p-3 border'>
-                              {item.name}
+                              <span className='capitalize'>{item.name}</span>
                             </td>
                           </tr>
                         ))}
@@ -342,6 +355,33 @@ const ProductDetailsPage = ({ params }) => {
                                   </span>
                                 ))
                               : 'No tags'}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Category & Tags  */}
+                <div className='mb-3'>
+                  <h3 className='text-lg font-semibold text-blue-800'>
+                    Long tail keyword
+                  </h3>
+                  <div className='py-3 flex'>
+                    <table className='w-full'>
+                      <thead>
+                        <tr className='p-2 bg-blue-800 border-r border border-blue-800 text-white'>
+                          <th className='p-2 text-left border-r border-white'>
+                            Keyword
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className='text-left capitalize p-3 border'>
+                            <span className='capitalize'>
+                              {productDetails?.longTailKeyword}
+                            </span>
                           </td>
                         </tr>
                       </tbody>
@@ -426,7 +466,7 @@ const ProductDetailsPage = ({ params }) => {
                           <tr key={index}>
                             <td className='text-left p-2 uppercase border'>
                               <Image
-                                src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.thumbnailUrl}`}
+                                src={cdnPath + item?.thumbnailUrl}
                                 width={40}
                                 height={50}
                                 alt='Product image'
@@ -441,7 +481,15 @@ const ProductDetailsPage = ({ params }) => {
                             </td>
                             <td className='text-left p-3 border'>
                               <div className='justify-center flex'>
-                                <Button label={'Details'} variant='warning' />
+                                <Button
+                                  onClick={() =>
+                                    router.push(
+                                      `/admin_/products/single-product/${item.id}`
+                                    )
+                                  }
+                                  label={'Details'}
+                                  variant='warning'
+                                />
                               </div>
                             </td>
                           </tr>

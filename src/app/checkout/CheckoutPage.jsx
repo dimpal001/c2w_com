@@ -76,6 +76,7 @@ const CheckoutPage = ({ orderData }) => {
         couponCode,
         orderDetailsId: orderData.id,
         userId: user.id,
+        device: 'mobile',
       })
 
       setDiscount(response.data.discountAmount)

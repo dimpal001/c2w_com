@@ -19,6 +19,7 @@ export async function GET(request) {
       _sum: {
         totalPrice: true,
       },
+      where: { status: 'DELIVERED' },
     })
     const totalCustomers = await prisma.user.count({
       where: {

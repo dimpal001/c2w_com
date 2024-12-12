@@ -3,13 +3,12 @@
 
 import React, { useEffect, useState } from 'react'
 import { MessageSquare, ShoppingBag, ArrowLeftCircle } from 'lucide-react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 import Loading from '@/app/Components/Loading'
 import OrderTrackingSection from './OrderTrackingSection'
-import { cdnPath } from '@/app/Components/cdnPath'
+import OrderItems from './OrderItems'
 
 const OrderPage = ({ id }) => {
   const [orderDetails, setOrderDetails] = useState(null)
@@ -39,9 +38,34 @@ const OrderPage = ({ id }) => {
 
   const handleWhatsAppClick = () => {
     window.open(
-      `https://wa.me/919395498847?text=Hello, I have a query regarding order ID ${orderDetails.orderId}`,
+      `https://wa.me/919395498847?text=Hello, I have a query regarding order ID ${orderDetails?.orderId}`,
       '_blank'
     )
+  }
+
+  function renderDynamicLinks(text) {
+    if (!text) return ''
+
+    // Regular expression to match URLs starting with http, https, or www
+    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g
+
+    return text.split(urlRegex).map((part, index) => {
+      if (urlRegex.test(part)) {
+        const href = part.startsWith('http') ? part : `https://${part}`
+        return (
+          <a
+            key={index}
+            href={href}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='text-blue-500 hover:underline'
+          >
+            {part}
+          </a>
+        )
+      }
+      return part
+    })
   }
 
   return (
@@ -66,32 +90,7 @@ const OrderPage = ({ id }) => {
       {/* Order Items */}
       <div className='bg-pink-50 p-4 rounded-lg shadow-md mb-6'>
         <h3 className='text-lg font-bold mb-4'>Order Items</h3>
-        <div className='space-y-4'>
-          {orderDetails.orderItems.map((item) => (
-            <div key={item.id} className='flex items-center'>
-              <Image
-                src={cdnPath + item.product.thumbnailUrl}
-                alt={item.name}
-                width={60}
-                height={60}
-                className='rounded-md'
-              />
-              <div className='ml-4'>
-                <h4
-                  onClick={() => router.push(`/product/${item.product.slug}`)}
-                  className='font-semibold hover:underline hover:text-pink-600 cursor-pointer'
-                >
-                  {item.product.title}
-                </h4>
-                <p className='text-sm text-gray-600'>
-                  Quantity: {item.quantity} | Size:{' '}
-                  <span className='uppercase'>{item.size.name}</span> | Price: ₹
-                  {item.product.displayPrice}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <OrderItems orderDetails={orderDetails} />
       </div>
 
       {/* Order info */}
@@ -104,14 +103,14 @@ const OrderPage = ({ id }) => {
           <div className='flex justify-between'>
             <span className='font-medium'>Ordered date:</span>
             <strong>
-              {new Date(orderDetails.createdAt).toLocaleDateString()}
+              {new Date(orderDetails?.createdAt).toLocaleDateString()}
             </strong>
           </div>
         </div>
       </div>
 
       {/* Order tracking  */}
-      <OrderTrackingSection status={orderDetails.status} />
+      <OrderTrackingSection status={orderDetails?.status} />
 
       {/* Price Breakdown */}
       <div className='bg-white p-6 rounded-lg shadow-md mb-6'>
@@ -122,7 +121,7 @@ const OrderPage = ({ id }) => {
           {/* Item Total */}
           <div className='flex justify-between'>
             <span className='font-medium'>Item Total:</span>
-            <strong>₹{orderDetails.finalPrice.toFixed(2)}</strong>
+            <strong>₹{orderDetails?.totalPrice.toFixed(2)}</strong>
           </div>
 
           {/* Shipping Charges */}
@@ -130,30 +129,27 @@ const OrderPage = ({ id }) => {
             <span className='font-medium'>Shipping Charges:</span>
             <span
               className={`${
-                orderDetails.shippingCharges > 0
+                orderDetails?.shippingCharges > 0
                   ? 'text-black'
                   : 'text-green-500'
               }`}
             >
-              {orderDetails.shippingCharges > 0
-                ? `₹${orderDetails.shippingCharges}`
+              {orderDetails?.shippingCharges > 0
+                ? `₹${orderDetails?.shippingCharges}`
                 : 'Free'}
             </span>
           </div>
 
           {/* Discount */}
-          {orderDetails.discount > 0 && (
+          {orderDetails?.discount && (
             <div className='flex justify-between'>
               <span className='font-medium text-green-600'>Discount:</span>
-              <span className='text-green-600'>- ₹{orderDetails.discount}</span>
-            </div>
-          )}
-
-          {/* Tax (if applicable) */}
-          {orderDetails.tax > 0 && (
-            <div className='flex justify-between'>
-              <span className='font-medium'>Tax (GST):</span>
-              <span>₹{orderDetails.tax}</span>
+              <span className='text-green-600'>
+                - ₹
+                {(orderDetails?.totalPrice - orderDetails?.finalPrice).toFixed(
+                  2
+                )}
+              </span>
             </div>
           )}
 
@@ -161,7 +157,7 @@ const OrderPage = ({ id }) => {
           <div className='flex justify-between border-t-2 border-gray-200 pt-3'>
             <span className='font-bold text-lg'>Final Price:</span>
             <span className='font-bold text-lg text-pink-600'>
-              ₹{orderDetails.finalPrice.toFixed(2)}
+              ₹{orderDetails?.finalPrice.toFixed(2)}
             </span>
           </div>
         </div>
@@ -171,10 +167,10 @@ const OrderPage = ({ id }) => {
           <h4 className='text-md font-medium'>Payment Mode:</h4>
           <p
             className={`font-bold text-${
-              orderDetails.paymentMethod === 'COD' ? 'red' : 'green'
+              orderDetails?.paymentMethod === 'COD' ? 'red' : 'green'
             }-600`}
           >
-            {orderDetails.paymentMethod === 'COD'
+            {orderDetails?.paymentMethod === 'COD'
               ? 'Cash On Delivery'
               : 'Online'}
           </p>
@@ -185,15 +181,24 @@ const OrderPage = ({ id }) => {
         {/* Admin Info */}
         <div className='bg-white p-4 rounded-lg shadow-md mb-6'>
           <h3 className='text-lg font-bold mb-4'>Other Info</h3>
-          <p className='text-sm text-gray-700'>{orderDetails.notes}</p>
           <button
             onClick={() =>
-              router.push(`/user/orders/invoice/${orderDetails.id}`)
+              router.push(`/user/orders/invoice/${orderDetails?.id}`)
             }
             className='p-1 px-5 rounded-md bg-pink-600 text-white font-semibold'
           >
             Invoice
           </button>
+          <div className='flex flex-col gap-1 py-2'>
+            <p className='text-sm text-gray-700'>
+              {renderDynamicLinks(orderDetails.notes)}
+            </p>
+            {orderDetails.trackingId && (
+              <p className='text-sm text-gray-700'>
+                Tracking ID: <strong>{orderDetails.trackingId}</strong>
+              </p>
+            )}
+          </div>
         </div>
 
         {/* WhatsApp Support */}

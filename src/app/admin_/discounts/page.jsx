@@ -21,6 +21,7 @@ const Page = () => {
     minPrice: selectedDiscount?.minPrice || null,
     type: selectedDiscount?.type || '',
     isSpecial: (selectedDiscount?.isSpecial && 'yes') || 'no',
+    isWebAvailable: (selectedDiscount?.isWebAvailable && 'yes') || 'no',
     userEmails: selectedDiscount?.userEmails?.join(', ') || '',
   })
   const [showForm, setShowForm] = useState(false)
@@ -86,6 +87,7 @@ const Page = () => {
         description: newDiscount.description,
         minPrice: parseFloat(newDiscount.minPrice),
         isSpecial: newDiscount.isSpecial === 'yes' ? true : false,
+        isWebAvailable: newDiscount.isWebAvailable === 'yes' ? true : false,
         userEmails: newDiscount.userEmails || null,
       })
       setDiscounts((prev) => [...prev, response.data.discount])
@@ -152,6 +154,7 @@ const Page = () => {
         description: newDiscount.description,
         minPrice: parseFloat(newDiscount.minPrice),
         isSpecial: newDiscount.isSpecial === 'yes' ? true : false,
+        isWebAvailable: newDiscount.isWebAvailable === 'yes' ? true : false,
         userEmails: newDiscount.userEmails || null,
       })
       fetchDiscounts()
@@ -258,7 +261,7 @@ const Page = () => {
                   type='text'
                   name='code'
                   placeholder='C2W201245'
-                  value={newDiscount.code}
+                  value={newDiscount?.code}
                   onChange={handleChange}
                   className='border p-2 uppercase rounded w-full'
                 />
@@ -283,7 +286,7 @@ const Page = () => {
                 <input
                   type='number'
                   name='amount'
-                  value={newDiscount.amount}
+                  value={newDiscount?.amount}
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                   min={0}
@@ -294,7 +297,7 @@ const Page = () => {
                 <input
                   type='text'
                   name='description'
-                  value={newDiscount.description}
+                  value={newDiscount?.description}
                   onChange={handleChange}
                   placeholder='FLAT 20% discount'
                   className='border p-2 rounded w-full'
@@ -307,7 +310,7 @@ const Page = () => {
                 <input
                   type='number'
                   name='minPrice'
-                  value={newDiscount.minPrice}
+                  value={newDiscount?.minPrice}
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                   min={0}
@@ -319,7 +322,21 @@ const Page = () => {
                 </label>
                 <select
                   name='isSpecial'
-                  value={newDiscount.isSpecial}
+                  value={newDiscount?.isSpecial}
+                  onChange={handleChange}
+                  className='border p-2 rounded w-full'
+                >
+                  <option value={'no'}>No</option>
+                  <option value={'yes'}>Yes</option>
+                </select>
+              </div>
+              <div className='mb-2'>
+                <label className='block mb-1 font-semibold'>
+                  Available for website
+                </label>
+                <select
+                  name='isWebAvailable'
+                  value={newDiscount?.isWebAvailable}
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                 >
@@ -334,7 +351,7 @@ const Page = () => {
                 <input
                   type='number'
                   name='orders'
-                  value={newDiscount.orders}
+                  value={newDiscount?.orders}
                   onChange={handleChange}
                   className='border p-2 rounded w-full'
                   min={0}
@@ -342,7 +359,7 @@ const Page = () => {
               </div>
             </div>
 
-            {newDiscount.isSpecial === 'yes' && (
+            {newDiscount?.isSpecial === 'yes' && (
               <div className='mb-2'>
                 <label className='block mb-1 font-semibold'>
                   User Email for Special Discount
@@ -350,7 +367,7 @@ const Page = () => {
                 <input
                   type='email'
                   name='userEmails'
-                  value={newDiscount.userEmails}
+                  value={newDiscount?.userEmails}
                   onChange={handleChange}
                   placeholder='user@example.com'
                   className='border p-2 rounded w-full'
@@ -382,7 +399,9 @@ const Page = () => {
               <th className='border px-4 py-2 text-left'>Discount Type</th>
               <th className='border px-4 py-2 text-left'>Amount</th>
               <th className='border px-4 py-2 text-left'>Min. Price</th>
-              <th className='border px-4 py-2 text-left'>Special / Normal</th>
+              <th className='border px-4 py-2 text-left'>
+                Website availablity
+              </th>
               <th className='border px-4 py-2 text-left'>User</th>
               <th className='border px-4 py-2 text-left'>Required Orders</th>
               <th className='border px-4 py-2 text-left'>Actions</th>
@@ -391,36 +410,36 @@ const Page = () => {
           <tbody>
             {discounts.map((discount) => (
               <tr key={discount.id}>
-                <td className='border px-4 py-2'>{discount.code}</td>
-                <td className='border px-4 py-2'>{discount.description}</td>
-                <td className='border px-4 py-2'>{discount.type}</td>
+                <td className='border px-4 py-2'>{discount?.code}</td>
+                <td className='border px-4 py-2'>{discount?.description}</td>
+                <td className='border px-4 py-2'>{discount?.type}</td>
                 <td className='border px-4 py-2'>
-                  {discount.type === 'FIXED' ? '₹' : ''}
-                  {discount.type === 'FIXED'
-                    ? discount.amount.toFixed(2)
-                    : discount.amount}
+                  {discount?.type === 'FIXED' ? '₹' : ''}
+                  {discount?.type === 'FIXED'
+                    ? discount?.amount.toFixed(2)
+                    : discount?.amount}
                   {discount.type === 'PERCENTAGE' ? '%' : ''}
                 </td>
                 <td className='border px-4 py-2'>
-                  ₹{discount.minPrice.toFixed(2)}
+                  ₹{discount?.minPrice?.toFixed(2)}
                 </td>
                 <td className='border px-4 py-2'>
-                  {discount.isSpecial ? 'Special' : 'Normal'}
+                  {discount?.isWebAvailable ? 'Available' : 'Not available'}
                 </td>
                 <td
                   className={`border ${
-                    !discount.isSpecial && 'bg-gray-300'
+                    !discount?.isSpecial && 'bg-gray-300'
                   } px-4 py-2`}
                 >
-                  {discount.userEmails &&
-                    discount.userEmails.map((email, index) => (
+                  {discount?.userEmails &&
+                    discount?.userEmails?.map((email, index) => (
                       <span key={index}>
                         {email}
-                        {index < discount.userEmails.length - 1 && ', '}
+                        {index < discount?.userEmails?.length - 1 && ', '}
                       </span>
                     ))}
                 </td>
-                <td className='border px-4 py-2'>{discount.orders}</td>
+                <td className='border px-4 py-2'>{discount?.orders}</td>
                 <td className='border px-4 py-2'>
                   <div className='flex gap-3 justify-center items-center'>
                     <Trash2
@@ -442,6 +461,8 @@ const Page = () => {
                           minPrice: discount.minPrice,
                           type: discount.type,
                           isSpecial: discount.isSpecial === true ? 'yes' : 'no',
+                          isWebAvailable:
+                            discount.isWebAvailable === true ? 'yes' : 'no',
                           userEmails: discount.userEmails?.join(', ') || '',
                         })
                         setShowForm(true)

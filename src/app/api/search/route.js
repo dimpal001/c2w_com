@@ -2,9 +2,10 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export async function GET(req) {
-  const url = new URL(req.url)
+export async function GET(request) {
+  const url = new URL(request.url)
   const slug = url.searchParams.get('categorySlug')
+  const userId = url.searchParams.get('userId')
   const colorsParam = JSON.parse(url.searchParams.get('colors') || '[]')
   const sizesParam = JSON.parse(url.searchParams.get('sizes') || '[]')
   const minPrice = parseFloat(url.searchParams.get('minPrice')) || 0
@@ -16,6 +17,15 @@ export async function GET(req) {
   try {
     const whereConditions = {
       AND: [],
+    }
+
+    if (searchQuery && userId) {
+      await prisma.searchQuery.create({
+        data: {
+          query: searchQuery,
+          userId: userId,
+        },
+      })
     }
 
     if (searchQuery) {
@@ -112,21 +122,8 @@ export async function GET(req) {
       skip,
       take: pageSize,
       include: {
-        images: {
-          include: {
-            color: true,
-          },
-        },
-        inventory: {
-          include: {
-            size: true,
-          },
-        },
         categories: true,
-        subcategories: true,
-        similarProducts: true,
-        user: true,
-        productReview: true,
+        discounts: true,
       },
     })
 

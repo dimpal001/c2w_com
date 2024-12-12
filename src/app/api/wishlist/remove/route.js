@@ -4,7 +4,7 @@ import { isAuth } from '../../middleware/auth'
 
 const prisma = new PrismaClient()
 
-export async function DELETE(request) {
+export async function POST(request) {
   const { userId, productId } = await request.json()
 
   if (!isAuth(request)) {

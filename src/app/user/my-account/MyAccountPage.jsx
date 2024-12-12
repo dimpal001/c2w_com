@@ -12,17 +12,21 @@ import {
   Gift,
   ArrowRight,
   LogOut,
+  Heart,
 } from 'lucide-react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Skeleton from '@/app/Components/Skeleton'
 import AddressSection from './AddressSection'
 import LogoutModal from '@/app/Components/LogoutModal'
+import { useUserContext } from '@/app/context/UserContext'
 
 export default function MyAccountPage() {
   const [userDetails, setUserDetails] = useState(null)
   const [fetching, setFetching] = useState(true)
   const [showLogoutModal, setShowLogoutModal] = useState(false)
+
+  const { setUser } = useUserContext()
 
   const router = useRouter()
 
@@ -39,6 +43,11 @@ export default function MyAccountPage() {
       setFetching(false)
     } catch (error) {
       console.log(error)
+      if (error.response.status === 401) {
+        setUser(null)
+        localStorage.removeItem('user')
+        router.push('/auth/signin')
+      }
       router.push('/')
     }
   }
@@ -112,7 +121,11 @@ export default function MyAccountPage() {
               icon: ShoppingCart,
               onClick: () => router.push('/user/my-cart'),
             },
-            { title: 'Track Order', icon: Truck },
+            {
+              title: 'Wishlist',
+              icon: Heart,
+              onClick: () => router.push('/user/my-favourite'),
+            },
             { title: 'Profile', icon: User },
             {
               title: 'Settings',
@@ -122,7 +135,7 @@ export default function MyAccountPage() {
             {
               title: 'Logout',
               icon: LogOut,
-              color: 'text-red-600',
+              color: 'text-red-600 hover:bg-red-600 hover:text-white',
               onClick: () => setShowLogoutModal(true),
             },
           ].map((item, index) => (

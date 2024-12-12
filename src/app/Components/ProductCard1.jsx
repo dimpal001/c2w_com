@@ -1,17 +1,68 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
-import { ArrowRight } from 'lucide-react'
+import React, { useState } from 'react'
+import { ArrowRight, Heart, Loader2, Shield } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { cdnPath } from './cdnPath'
+import { useUserContext } from '../context/UserContext'
+import { enqueueSnackbar } from 'notistack'
+import axios from 'axios'
 
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
+  const [addingWishList, setAddingWishList] = useState(false)
+
+  const { user, setUser } = useUserContext()
+
+  const handleAddWishList = async () => {
+    if (!user) {
+      router.push('/auth/signin')
+      return
+    }
+
+    try {
+      setAddingWishList(true)
+
+      const response = await axios.post('/api/wishlist/add', {
+        userId: user?.id,
+        productId: product.id,
+      })
+
+      const { wishlistItem, message } = response.data
+
+      let updatedUser
+
+      if (response.status === 200) {
+        updatedUser = {
+          ...user,
+          wishlistItem: [...user.wishlistItem, wishlistItem],
+        }
+      } else if (response.status === 201) {
+        updatedUser = {
+          ...user,
+          wishlistItem: user?.wishlistItem.filter(
+            (item) => item.productId !== product.id
+          ),
+        }
+      }
+
+      setUser(updatedUser)
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+
+      enqueueSnackbar(message, { variant: 'success' })
+    } catch (error) {
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Something went wrong!',
+        {
+          variant: 'error',
+        }
+      )
+    } finally {
+      setAddingWishList(false)
+    }
+  }
 
   return (
-    <div
-      onClick={() => router.push(`/product/${product?.slug}`)}
-      className='w-60 max-sm:w-[182px] bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'
-    >
+    <div className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'>
       {/* Product Image */}
       <div className='h-60 max-sm:h-52 max-sm:w-full bg-stone-200 rounded-lg'>
         <img
@@ -22,9 +73,12 @@ const ProductCard1 = ({ product }) => {
       </div>
 
       {/* Product Details */}
-      <div className='p-4 max-sm:p-2 relative'>
+      <div
+        onClick={() => router.push(`/product/${product?.slug}`)}
+        className='p-4 max-sm:p-2 group relative'
+      >
         {/* Title */}
-        <h2 className='text-sm font-semibold text-gray-800 max-sm:font-normal text-wrap'>
+        <h2 className='text-sm group-hover:text-pink-600 group-hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'>
           {product.title}
         </h2>
 
@@ -40,6 +94,35 @@ const ProductCard1 = ({ product }) => {
           {/* </button> */}
         </div>
       </div>
+
+      {/* Favourite icon  */}
+      <div className='absolute w-20 h-20 flex justify-end top-3 right-3 z-10'>
+        {addingWishList ? (
+          <Loader2 size={27} className='text-pink-600 animate-spin' />
+        ) : (
+          <Heart
+            onClick={handleAddWishList}
+            className={`text-pink-500 cursor-pointer ${
+              user?.wishlistItem.some(
+                (item) => item.productId === product.id
+              ) && 'fill-pink-500'
+            }`}
+            size={27}
+          />
+        )}
+      </div>
+
+      {/* discount label  */}
+      {product?.discounts.length > 0 && (
+        <div className='absolute top-3 left-3'>
+          <div className='relative w-14 h-14 flex flex-wrap items-center justify-center'>
+            <Shield className='w-14 h-14 text-green-600 fill-green-600' />
+            <p className='text-[13px] max-sm:text-[11px] max-sm:leading-3 font-semibold leading-4 p-2 text-white absolute inset-0 self-center text-center text-wrap'>
+              {product?.discounts[0]?.description}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
