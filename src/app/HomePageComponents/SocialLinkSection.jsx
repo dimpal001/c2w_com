@@ -25,7 +25,7 @@ const SocialLinkSection = ({ socialLinks }) => {
                   className='rounded-xl cursor-pointer'
                   key={index}
                   src={cdnPath + image.imageUrl}
-                  alt=''
+                  alt={image.imageUrl}
                 />
               </a>
             ))}

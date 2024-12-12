@@ -8,31 +8,31 @@ const schemaData = {
   '@context': 'https://schema.org/',
   '@type': 'WebSite',
   name: 'Clothes2Wear',
-  url: 'https://www.clothes2wear.com',
+  url: 'https://www.thebmim.com',
   description:
     'Clothes2Wear offers the latest trends in fashion, with the best deals on clothing, shoes, and accessories.',
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://www.clothes2wear.com/search',
-    'query-input': 'required name=search_term_string',
+    target: 'https://www.thebmim.com/search',
+    'query-input': 'required search=search_term_string',
   },
-  logo: 'https://www.clothes2wear.com/logo.png',
+  logo: 'https://www.thebmim.com/logo.png',
   sameAs: [
-    'https://www.facebook.com/clothes2wear',
-    'https://twitter.com/clothes2wear',
-    'https://www.instagram.com/clothes2wear',
-    'https://www.linkedin.com/company/clothes2wear',
+    'https://www.facebook.com/thebmim',
+    'https://twitter.com/thebmim',
+    'https://www.instagram.com/thebmim',
+    'https://www.linkedin.com/company/thebmim',
   ],
-  mainEntityOfPage: 'https://www.clothes2wear.com',
+  mainEntityOfPage: 'https://www.thebmim.com',
   headline: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
 }
 
 export const metadata = {
   title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
   description:
-    'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+    'Clothes2Wear offers the latest fashion trends, Clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
   keywords:
-    'clothing, fashion, online shopping, shoes, accessories, latest trends',
+    'Clothing, fashion, online shopping, shoes, accessories, latest trends, Clothes2wear',
   robots: 'index, follow',
   author: 'Clothes2Wear',
   language: 'en',
@@ -43,13 +43,13 @@ export const metadata = {
     title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
     description:
       'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
-    url: 'https://www.clothes2wear.com',
+    url: 'https://www.thebmim.com',
     type: 'website',
     site_name: 'Clothes2Wear',
     locale: 'en_US',
     images: [
       {
-        url: 'https://www.clothes2wear.com/og-image.jpg',
+        url: 'https://www.thebmim.com/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Clothes2Wear Fashion Collection',
@@ -62,7 +62,7 @@ export const metadata = {
     title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
     description:
       'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
-    image: 'https://www.clothes2wear.com/twitter-card-image.jpg',
+    image: 'https://www.thebmim.com/twitter-card-image.jpg',
     creator: '@clothes2wear',
   },
 
@@ -115,6 +115,7 @@ const HomePage = async () => {
       <>
         <Head>
           <link rel='canonical' href='https://www.thebmim.com' />
+
           <script
             type='application/ld+json'
             dangerouslySetInnerHTML={{
