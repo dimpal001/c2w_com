@@ -38,6 +38,7 @@ const Layout = ({ children }) => {
         router.push('/admin_/home')
       } else {
         if (!allowedPrivileges.includes(currentPrivilege)) {
+          console.log('No access')
           enqueueSnackbar('Access Denied: Insufficient privileges.', {
             variant: 'error',
           })
@@ -47,7 +48,7 @@ const Layout = ({ children }) => {
     }
 
     setIsClient(true)
-  }, [router])
+  }, [router, user, pathname])
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded)

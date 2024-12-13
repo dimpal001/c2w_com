@@ -133,7 +133,7 @@ const CreateEditStaffModal = ({ isOpen, onClose, staff, refresh }) => {
       <ModalBody>
         <form onSubmit={handleSubmit} className='space-y-4'>
           {/* Staff Name */}
-          <div className={`grid grid-cols-2 gap-4 ${staff && 'grid-cols-3'}`}>
+          <div className={`grid grid-cols-4 gap-4 ${staff && 'grid-cols-3'}`}>
             <div className='flex flex-col'>
               <label htmlFor='firstName' className='text-gray-600'>
                 First Name

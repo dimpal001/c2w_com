@@ -130,7 +130,7 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
           <div className='text-sm text-blue-500'>
             <p
               onClick={() => setShowResetModal(true)}
-              className='hover:underline'
+              className='hover:underline cursor-pointer'
             >
               Forgot your password? Reset it here.
             </p>
@@ -146,6 +146,7 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
         <ResetPasswordModal
           isOpen={true}
           onClose={() => setShowResetModal(false)}
+          close={() => onClose()}
         />
       )}
     </Modal>

@@ -37,12 +37,10 @@ export async function POST(request) {
       return NextResponse.json({ message: 'OTP has expired!' }, { status: 400 })
     }
 
-    // Validate OTP match
-    if (userOtp.otp !== otp) {
+    if (userOtp.code !== otp) {
       return NextResponse.json({ message: 'Incorrect OTP!' }, { status: 400 })
     }
 
-    // Validate password strength
     if (!isValidPassword(password)) {
       return NextResponse.json(
         {
@@ -53,10 +51,8 @@ export async function POST(request) {
       )
     }
 
-    // Delete OTP after validation
     await prisma.otp.deleteMany({ where: { userId: user.id } })
 
-    // Hash the new password and update the user
     const hashedPassword = await hash(password, 10)
     await prisma.user.update({
       where: { id: user.id },

@@ -8,28 +8,56 @@ import {
 } from '@/app/Components/CustomModal'
 import Input from '../products/components/Input'
 import Button from '../components/Button'
+import { enqueueSnackbar } from 'notistack'
+import axios from 'axios'
 
-const ResetPasswordModal = ({ isOpen, onClose }) => {
+const ResetPasswordModal = ({ isOpen, onClose, close }) => {
   const [step, setStep] = useState(1)
   const [email, setEmail] = useState('')
   const [otp, setOtp] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [otpSent, setOtpSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [reseting, setReseting] = useState(false)
 
-  const generatedOtp = '123456'
+  const handleEmailSubmit = async () => {
+    try {
+      setSending(true)
+      const response = await axios.post('/api/staff/reset-password', {
+        email,
+      })
 
-  const handleEmailSubmit = () => {
-    setOtpSent(true)
-    setStep(2)
+      if (response.status === 200) {
+        setStep(2)
+        setOtpSent(true)
+        enqueueSnackbar(response.data.message, { variant: 'success' })
+      }
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSending(false)
+    }
   }
 
-  const handleFormSubmit = () => {
-    // Verify OTP
-    if (otp === generatedOtp) {
-      alert('Password has been successfully updated!')
+  const handleFormSubmit = async () => {
+    try {
+      setReseting(true)
+      const response = await axios.post(
+        '/api/staff/reset-password/change-password',
+        {
+          email,
+          otp,
+          password: newPassword,
+        }
+      )
+
+      enqueueSnackbar(response.data.message, { variant: 'success' })
       onClose()
-    } else {
-      alert('Invalid OTP. Please try again.')
+      close()
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setReseting(false)
     }
   }
 
@@ -50,6 +78,8 @@ const ResetPasswordModal = ({ isOpen, onClose }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <Button
+              loading={sending}
+              loadingText={'Sending..'}
               label={'Request OTP'}
               onClick={handleEmailSubmit}
               disabled={!email}
@@ -73,6 +103,8 @@ const ResetPasswordModal = ({ isOpen, onClose }) => {
               onChange={(e) => setNewPassword(e.target.value)}
             />
             <Button
+              loading={reseting}
+              loadingText={'Reseting..'}
               label={'Reset Password'}
               onClick={handleFormSubmit}
               disabled={!otp || !newPassword}

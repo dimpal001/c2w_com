@@ -112,27 +112,30 @@ const Sidebar = ({ isExpanded }) => {
 
   return (
     <div
-      style={{
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none',
-      }}
       className={`${
-        isExpanded ? 'w-[250px]' : 'w-[80px]'
-      } p-[20px] bg-blue-800 rounded-sm transition-all overflow-scroll duration-300 shadow-md`}
+        isExpanded ? 'w-[290px]' : 'w-[80px]'
+      } p-[20px] bg-blue-800 scrollbar-hide rounded-sm transition-all overflow-scroll duration-300 shadow-md`}
     >
       <nav>
         {filteredMenuItems.map((item, index) => (
-          <div key={index} className='overflow-scroll scrollbar-hidden'>
+          <div key={index} className='overflow-scroll scrollbar-hide'>
             <Link href={item.path || '#'} passHref>
               <div
-                className={`flex hover:bg-white hover:text-blue-800 my-[1px] items-center px-[10px] py-[8px] cursor-pointer font-semibold rounded-[4px] ${
+                className={`${
+                  !isExpanded && 'block'
+                } flex justify-center hover:bg-white hover:text-black transition-none my-[1px] items-center px-[10px] py-[8px] cursor-pointer font-[500] rounded-[4px] ${
                   pathname === item.path ? 'bg-white' : 'bg-transparent'
-                } ${pathname === item.path ? 'text-blue-800' : 'text-white'}`}
+                } ${pathname === item.path ? 'text-black' : 'text-white'}`}
               >
-                <item.icon size={18} />
-                {isExpanded && (
-                  <span style={{ marginLeft: '10px' }}>{item.label}</span>
-                )}
+                <item.icon strokeWidth={2} size={18} />
+
+                <span
+                  className={`${
+                    isExpanded ? 'w-full' : 'w-0'
+                  } overflow-hidden transition-all duration-300 text-nowrap`}
+                >
+                  <span className='pl-2'>{item.label}</span>
+                </span>
               </div>
             </Link>
           </div>

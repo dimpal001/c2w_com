@@ -1,19 +1,25 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Lock, User } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Lock, Mail } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
 import { useUserContext } from '@/app/context/UserContext'
+import ResetPasswordModal from '../home/ResetPasswordModal'
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false)
   const router = useRouter()
   const { setUser } = useUserContext()
+
+  useEffect(() => {
+    window.document.title = 'Login | Clothes2Wear'
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -49,68 +55,82 @@ const AdminLoginPage = () => {
   }
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-sky-200 to-white p-4'>
-      <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-md'>
-        <h2 className='text-2xl font-semibold text-center mb-6'>Admin Login</h2>
+    <div className='flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500'>
+      <div className='bg-white text-black p-8 rounded-xl shadow-xl w-full sm:max-w-md'>
+        <h2 className='text-3xl unbounded font-extrabold  text-center mb-6'>
+          Official Login
+        </h2>
 
-        {error && (
-          <div className='text-red-500 text-center text-sm mb-4'>{error}</div>
-        )}
+        {/* Error Message */}
+        {error && <p className='text-red-400 text-center mb-4'>{error}</p>}
 
         <form onSubmit={handleSubmit}>
-          {/* email Field */}
-          <div className='mb-4'>
-            <label
-              htmlFor='email'
-              className='block text-sm font-medium text-gray-700'
-            >
+          <div className='mb-5'>
+            <label htmlFor='email' className='block text-sm font-medium '>
               Email
             </label>
-            <div className='flex items-center border border-gray-300 rounded-md px-2 mt-1'>
-              <User size={20} className='text-gray-500' />
+            <div className='relative mt-1'>
               <input
-                id='email'
                 type='text'
+                id='email'
+                name='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className='ml-2 p-2 w-full outline-none border-none'
                 placeholder='Enter your email'
+                className='pl-10 py-3 border-2 border-gray-300 rounded-lg w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                required
               />
+              <Mail className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500' />
             </div>
           </div>
 
-          {/* Password Field */}
           <div className='mb-6'>
-            <label
-              htmlFor='password'
-              className='block text-sm font-medium text-gray-700'
-            >
+            <label htmlFor='password' className='block text-sm font-medium '>
               Password
             </label>
-            <div className='flex items-center border border-gray-300 rounded-md px-2 mt-1'>
-              <Lock size={20} className='text-gray-500' />
+            <div className='relative mt-1'>
               <input
-                id='password'
                 type='password'
+                id='password'
+                name='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className='ml-2 p-2 w-full outline-none border-none'
                 placeholder='Enter your password'
+                className='pl-10 py-3 border-2 border-gray-300 rounded-lg w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                required
               />
+              <Lock className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500' />
             </div>
           </div>
 
-          {/* Login Button */}
+          {/* Submit Button */}
           <button
-            disabled={submitting ? true : false}
             type='submit'
-            className={`w-full p-[10px] text-white bg-blue-800 rounded-[4px] ${
-              submitting && 'opacity-50'
-            }`}
+            className={`w-full ${
+              submitting && 'opacity-60'
+            } unbounded py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105`}
+            disabled={submitting}
           >
-            {submitting ? 'Please wait ...' : 'Login'}
+            {submitting ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
+        <div className='flex justify-between items-center mt-4'>
+          {/* Reset Password Link */}
+          <p
+            onClick={() => setShowResetPasswordModal(true)}
+            className='text-sm text-black hover:underline cursor-pointer'
+          >
+            Forgot password?
+          </p>
+        </div>
+        {showResetPasswordModal && (
+          <ResetPasswordModal
+            isOpen={true}
+            onClose={() => setShowResetPasswordModal(false)}
+            close={() => setShowResetPasswordModal(false)}
+          />
+        )}
       </div>
     </div>
   )

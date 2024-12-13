@@ -16,12 +16,17 @@ export async function POST(request) {
 
     const user = await prisma.user.findUnique({ where: { email } })
 
+    if (!user) {
+      return NextResponse.json({ message: 'User is found' }, { status: 400 })
+    }
+
     const otp = generateOtp()
 
     await prisma.otp.create({
       data: {
         userId: user.id,
-        otp: otp,
+        code: otp,
+        expiresAt: new Date(),
       },
     })
 
