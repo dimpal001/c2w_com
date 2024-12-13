@@ -18,10 +18,12 @@ export async function POST(request) {
 
     // Check if the role is admin
     if (decoded.role !== 'ADMIN') {
-      return NextResponse.json(
-        { message: 'Forbidden: Not an admin' },
-        { status: 403 }
-      )
+      if (decoded.role !== 'STAFF') {
+        return NextResponse.json(
+          { message: 'Forbidden: Not an admin' },
+          { status: 403 }
+        )
+      }
     }
 
     // If everything is valid, grant access

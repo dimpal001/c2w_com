@@ -21,17 +21,20 @@ export async function POST(request) {
     // Find the user by email
     const user = await prisma.user.findUnique({
       where: { email },
+      include: { UserPrivilege: { select: { privilege: true } } },
     })
 
     if (!user) {
       return NextResponse.json({ message: 'Admin not found' }, { status: 404 })
     }
 
-    if (user && user.role !== 'ADMIN') {
-      return NextResponse.json(
-        { message: 'Unauthorised access!' },
-        { status: 401 }
-      )
+    if (user.role !== 'ADMIN') {
+      if (user.role !== 'STAFF') {
+        return NextResponse.json(
+          { message: 'Unauthorised access!' },
+          { status: 401 }
+        )
+      }
     }
 
     // Verify the password using bcrypt
@@ -50,8 +53,11 @@ export async function POST(request) {
       user: {
         id: user.id,
         email: user.email,
-        name: user.firstName,
+        firstName: user.firstName,
+        mobileNumber: user.mobileNumber,
+        lastName: user.lastName,
         role: user.role,
+        privileges: user.UserPrivilege,
       },
     })
 

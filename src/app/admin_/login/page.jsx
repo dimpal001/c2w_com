@@ -5,6 +5,7 @@ import { Lock, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
+import { useUserContext } from '@/app/context/UserContext'
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState('')
@@ -12,6 +13,7 @@ const AdminLoginPage = () => {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const router = useRouter()
+  const { setUser } = useUserContext()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -30,8 +32,13 @@ const AdminLoginPage = () => {
         password,
       })
       if (response.status === 200) {
+        setUser(response.data.user)
         localStorage.setItem('user', JSON.stringify(response.data.user))
-        router.push('/admin_/dashboard')
+        if (response.data.user.role === 'ADMIN') {
+          router.push('/admin_/dashboard')
+        } else {
+          router.push('/admin_/home')
+        }
       }
     } catch (error) {
       console.log(error)

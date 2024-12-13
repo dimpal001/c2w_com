@@ -18,28 +18,28 @@ import {
   SunSnow,
   TrendingUp,
   Truck,
+  UserCog,
   Users,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useUserContext } from '@/app/context/UserContext'
 
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ isExpanded }) => {
   const pathname = usePathname()
+  const { user } = useUserContext()
 
   const menuItems = [
+    { label: 'Home', icon: Home, path: '/admin_/home' },
     { label: 'Dashboard', icon: Home, path: '/admin_/dashboard' },
+    { label: 'Manage Staff', icon: UserCog, path: '/admin_/manage-staff' },
     { label: 'Users', icon: Users, path: '/admin_/users/user-list' },
     {
       label: 'Products',
       icon: ShoppingBasket,
       path: '/admin_/products/product-list',
     },
-    // {
-    //   label: 'Product Reviews',
-    //   icon: Star,
-    //   path: '/admin_/products/reviews',
-    // },
     {
       label: 'Discounts',
       icon: CirclePercent,
@@ -71,11 +71,6 @@ const Sidebar = ({ isExpanded }) => {
       icon: Shirt,
       path: '/admin_/fashion-week',
     },
-    // {
-    //   label: 'Design Configuration',
-    //   icon: Component,
-    //   path: '/admin_/designs',
-    // },
     {
       label: 'Manage Blogs',
       icon: ScrollText,
@@ -98,6 +93,23 @@ const Sidebar = ({ isExpanded }) => {
     },
   ]
 
+  const filteredMenuItems = menuItems.filter((item) => {
+    const privilegeName = item.path.split('/admin_/')[1].split('/')[0]
+
+    if (item.label === 'Home') {
+      return user.role === 'STAFF'
+    }
+
+    if (user.role === 'ADMIN') {
+      return true
+    } else if (user.role === 'STAFF') {
+      return user.privileges.some(
+        (userPrivilege) => userPrivilege.privilege.name === privilegeName
+      )
+    }
+    return false
+  })
+
   return (
     <div
       style={{
@@ -109,11 +121,11 @@ const Sidebar = ({ isExpanded }) => {
       } p-[20px] bg-blue-800 rounded-sm transition-all overflow-scroll duration-300 shadow-md`}
     >
       <nav>
-        {menuItems.map((item, index) => (
+        {filteredMenuItems.map((item, index) => (
           <div key={index} className='overflow-scroll scrollbar-hidden'>
             <Link href={item.path || '#'} passHref>
               <div
-                className={`flex items-center px-[10px] py-[8px] cursor-pointer font-semibold rounded-[4px] ${
+                className={`flex hover:bg-white hover:text-blue-800 my-[1px] items-center px-[10px] py-[8px] cursor-pointer font-semibold rounded-[4px] ${
                   pathname === item.path ? 'bg-white' : 'bg-transparent'
                 } ${pathname === item.path ? 'text-blue-800' : 'text-white'}`}
               >
