@@ -39,7 +39,7 @@ Allow: /blogs/*
 Allow: /category/*
 
 # Host
-Host: https://www.thebmim.com
+Host: https://www.clothes2wear.com
 
 # Sitemaps
-Sitemap: https://www.thebmim.com/sitemap.xml
+Sitemap: https://www.clothes2wear.com/sitemap.xml

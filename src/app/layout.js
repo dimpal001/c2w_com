@@ -76,22 +76,22 @@ export default function RootLayout({ children }) {
     '@context': 'https://schema.org/',
     '@type': 'WebSite',
     name: 'Clothes2Wear',
-    url: 'https://www.thebmim.com',
+    url: 'https://www.clothes2wear.com',
     description:
       'Clothes2Wear offers the latest trends in fashion, with the best deals on clothing, shoes, and accessories.',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://www.thebmim.com/search',
+      target: 'https://www.clothes2wear.com/search',
       'query-input': 'required search=search_term_string',
     },
-    logo: 'https://www.thebmim.com/logo.png',
+    logo: 'https://www.clothes2wear.com/logo.png',
     sameAs: [
       'https://www.facebook.com/thebmim',
       'https://twitter.com/thebmim',
       'https://www.instagram.com/thebmim',
       'https://www.linkedin.com/company/thebmim',
     ],
-    mainEntityOfPage: 'https://www.thebmim.com',
+    mainEntityOfPage: 'https://www.clothes2wear.com',
     headline: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
   }
 

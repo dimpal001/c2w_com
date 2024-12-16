@@ -139,7 +139,7 @@ CREATE TABLE `Button` (
 
 LOCK TABLES `Button` WRITE;
 /*!40000 ALTER TABLE `Button` DISABLE KEYS */;
-INSERT INTO `Button` VALUES ('297463ba-b5d7-4139-9149-4d7c1fabe27c','Favorite','https://cdn.thefashionsalad.com/clothes2wear/image-1732355431016.png','https://santwoo.com/'),('f4856530-344a-4fb5-921d-24b3c71151e0','Cart','https://cdn.thefashionsalad.com/clothes2wear/image-1732355215362.png','https://www.thebmim.com/');
+INSERT INTO `Button` VALUES ('297463ba-b5d7-4139-9149-4d7c1fabe27c','Favorite','https://cdn.thefashionsalad.com/clothes2wear/image-1732355431016.png','https://santwoo.com/'),('f4856530-344a-4fb5-921d-24b3c71151e0','Cart','https://cdn.thefashionsalad.com/clothes2wear/image-1732355215362.png','https://www.clothes2wear.com/');
 /*!40000 ALTER TABLE `Button` ENABLE KEYS */;
 UNLOCK TABLES;
 
