@@ -140,7 +140,7 @@ const page = () => {
         <div className='flex flex-wrap my-2 items-end gap-2'>
           <Input
             type='text'
-            placeholder='Search by title'
+            placeholder='Search by name'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

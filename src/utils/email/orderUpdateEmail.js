@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 const nodemailer = require('nodemailer')
 
-const sendOtp = async (email, otp) => {
+const orderUpdateEmail = async (email, status, trackingId, notes) => {
+  console.log(status, trackingId, notes)
   try {
     const transporter = nodemailer.createTransport({
       host: 'smtpout.secureserver.net',
@@ -150,4 +151,4 @@ const sendOtp = async (email, otp) => {
   }
 }
 
-module.exports = { sendOtp }
+module.exports = { orderUpdateEmail }

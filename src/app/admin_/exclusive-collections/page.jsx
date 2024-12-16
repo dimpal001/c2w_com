@@ -293,8 +293,16 @@ const Page = () => {
                       className='w-[70px] h-[80px] border object-cover rounded'
                     />
                   </td>
-                  <td className='border px-4 py-2'>{item?.mrp}</td>
-                  <td className='border px-4 py-2'>{item?.price}</td>
+                  <td className='border px-4 py-2'>
+                    {item?.mrp && (
+                      <span>₹{parseInt(item?.mrp)?.toFixed(2)}</span>
+                    )}
+                  </td>
+                  <td className='border px-4 py-2'>
+                    {item?.price && (
+                      <span>₹{parseInt(item?.price)?.toFixed(2)}</span>
+                    )}
+                  </td>
                   <td className='border px-4 py-2'>
                     <a
                       href={item.hyperLink}

@@ -8,23 +8,36 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
 
   const styleId = searchParams.get('styleId')
+  const id = searchParams.get('id')
 
   try {
-    console.log(styleId)
-    if (!styleId) {
+    if (!styleId && !id) {
       return NextResponse.json({ message: 'ID is required' }, { status: 404 })
     }
 
-    const productReviews = await prisma.product.findUnique({
-      where: { styleId },
-      include: {
-        productReview: {
-          include: {
-            user: true,
+    let productReviews
+    if (styleId) {
+      productReviews = await prisma.product.findUnique({
+        where: { styleId },
+        include: {
+          productReview: {
+            include: {
+              user: true,
+            },
           },
         },
-      },
-    })
+      })
+    }
+
+    if (id) {
+      productReviews = await prisma.product.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          productReview: true,
+        },
+      })
+    }
 
     return NextResponse.json(productReviews, { status: 200 })
   } catch (error) {

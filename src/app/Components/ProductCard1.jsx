@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import { ArrowRight, Heart, Loader2, Shield } from 'lucide-react'
+import { ArrowRight, Heart, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { cdnPath } from './cdnPath'
 import { useUserContext } from '../context/UserContext'
 import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
+import Sale from './Sale'
 
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
@@ -114,11 +115,14 @@ const ProductCard1 = ({ product }) => {
 
       {/* discount label  */}
       {product?.discounts.length > 0 && (
-        <div className='absolute top-3 left-3'>
-          <div className='relative w-14 h-14 flex flex-wrap items-center justify-center'>
-            <Shield className='w-14 h-14 text-green-600 fill-green-600' />
-            <p className='text-[13px] max-sm:text-[11px] max-sm:leading-3 font-semibold leading-4 p-2 text-white absolute inset-0 self-center text-center text-wrap'>
-              {product?.discounts[0]?.description}
+        <div className='absolute top-0 left-5'>
+          <div className='relative'>
+            <Sale className={''} />
+            <p className='text-[13px] max-sm:text-[11px] max-sm:leading-3 font-semibold leading-4 p-2 pb-4 text-white absolute inset-0 self-center text-center text-wrap'>
+              {product?.discounts[0]?.description
+                ?.split(' ')
+                .slice(0, 2)
+                .join(' ')}
             </p>
           </div>
         </div>

@@ -43,7 +43,54 @@ export async function PATCH(request) {
       )
     }
 
-    console.log(inventory)
+    if (!title) {
+      return NextResponse.json(
+        { message: 'Please provide a title for the product.' },
+        { status: 400 }
+      )
+    }
+
+    if (categories.length === 0) {
+      return NextResponse.json(
+        { message: 'At least one category must be selected.' },
+        { status: 400 }
+      )
+    }
+
+    if (inventory.length === 0) {
+      return NextResponse.json(
+        { message: 'Please add inventory details for the product.' },
+        { status: 400 }
+      )
+    }
+
+    if (!summary) {
+      return NextResponse.json(
+        { message: 'A summary of the product is required.' },
+        { status: 400 }
+      )
+    }
+
+    if (!description) {
+      return NextResponse.json(
+        { message: 'A brief description of the product is required.' },
+        { status: 400 }
+      )
+    }
+
+    if (images.length === 0) {
+      return NextResponse.json(
+        { message: 'Please upload at least one image of the product.' },
+        { status: 400 }
+      )
+    }
+
+    if (!displayPrice) {
+      return NextResponse.json(
+        { message: 'Display price of the product is required.' },
+        { status: 400 }
+      )
+    }
 
     // Update or replace inventory
     const newInventory = inventory.map(

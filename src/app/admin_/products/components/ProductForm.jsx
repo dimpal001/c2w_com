@@ -944,6 +944,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
 
       <Section>
         <Button
+          variant='success'
           loading={saving}
           loadingText={'Saving...'}
           onClick={type === 'edit' ? handlEditSubmit : handleSubmit}

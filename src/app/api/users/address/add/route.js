@@ -16,6 +16,7 @@ export async function POST(request) {
     zipCode,
     country,
     mobileNumber,
+    altMobileNumber,
   } = await request.json()
 
   if (!isAuth(request)) {
@@ -51,6 +52,7 @@ export async function POST(request) {
         { status: 400 }
       )
     }
+
     if (addressLine1.length > 100) {
       return NextResponse.json(
         { message: 'Address Line 1 is too long.' },
@@ -114,7 +116,7 @@ export async function POST(request) {
       })
     }
 
-    const newAddress = await prisma.userAddress.create({
+    await prisma.userAddress.create({
       data: {
         userId,
         fullName,
@@ -126,11 +128,11 @@ export async function POST(request) {
         zipCode,
         country,
         mobileNumber,
+        altMobileNumber,
       },
     })
 
     return NextResponse.json(
-      newAddress,
       { message: 'Address has been added.' },
       { status: 200 }
     )

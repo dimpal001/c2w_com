@@ -41,6 +41,7 @@ export async function GET(request) {
             select: {
               id: true,
               quantity: true,
+              updatedAt: true,
               product: {
                 select: {
                   id: true,
@@ -212,6 +213,7 @@ export async function GET(request) {
               totalPrice: true,
               status: true,
               createdAt: true,
+              updatedAt: true,
               trackingId: true,
             },
           },
@@ -318,6 +320,7 @@ export async function GET(request) {
             totalPrice: true,
             status: true,
             createdAt: true,
+            updatedAt: true,
             trackingId: true,
           },
         },

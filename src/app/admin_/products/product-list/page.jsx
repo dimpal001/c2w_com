@@ -353,7 +353,7 @@ const page = () => {
                           </span>
                         </td>
                         <td className='p-2 border capitalize border-gray-300'>
-                          {product.displayPrice.toFixed(2)}
+                          ₹{product.displayPrice.toFixed(2)}
                         </td>
                         <td
                           className={`p-2 border capitalize border-gray-300 ${

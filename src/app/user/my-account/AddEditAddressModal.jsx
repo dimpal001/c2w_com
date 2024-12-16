@@ -21,8 +21,9 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
     city: address?.city || '',
     state: address?.state || '',
     zipCode: address?.zipCode || '',
-    country: address?.country || '',
+    country: address?.country || 'India',
     mobileNumber: address?.mobileNumber || '',
+    altMobileNumber: address?.altMobileNumber || '',
   })
 
   const { user } = useUserContext()
@@ -128,6 +129,8 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
           mobileNumber: formData?.mobileNumber,
         })
         enqueueSnackbar(response.data.message, { variant: 'success' })
+        onClose()
+        onSave()
       } catch (error) {
         console.log(error)
         enqueueSnackbar(error?.response?.data?.message || 'An error occurred', {
@@ -150,15 +153,15 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
           country: formData.country,
           mobileNumber: formData.mobileNumber,
         })
-        enqueueSnackbar(response.data.message, { variant: 'success' })
+        enqueueSnackbar(response?.data?.message, { variant: 'success' })
+        onClose()
+        onSave()
       } catch (error) {
         enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
       } finally {
         setSaving(false)
       }
     }
-    onClose()
-    onSave()
   }
 
   return (
@@ -249,12 +252,12 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
           </div>
           <div>
             <label className='block text-sm font-medium'>
-              Country <span className='text-red-600'>*</span>
+              Mobile Number <span className='text-red-600'>*</span>
             </label>
             <input
               type='text'
-              name='country'
-              value={formData.country}
+              name='mobileNumber'
+              value={formData.mobileNumber}
               onChange={handleChange}
               className='w-full border rounded p-2'
               required
@@ -262,12 +265,12 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
           </div>
           <div>
             <label className='block text-sm font-medium'>
-              Mobile Number <span className='text-red-600'>*</span>
+              Alternate Mobile Number
             </label>
             <input
               type='text'
-              name='mobileNumber'
-              value={formData.mobileNumber}
+              name='altMobileNumber'
+              value={formData.altMobileNumber}
               onChange={handleChange}
               className='w-full border rounded p-2'
               required

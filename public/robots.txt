@@ -25,6 +25,7 @@ Allow: /contact
 Allow: /category/*
 Allow: /community
 Allow: /discount-policy
+Allow: /404
 Allow: /p/*
 Allow: /product/*
 Allow: /refund-policy

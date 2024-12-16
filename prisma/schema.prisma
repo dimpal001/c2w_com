@@ -218,6 +218,8 @@ model ProductInventory {
 
   size    ProductSize? @relation(fields: [sizeId], references: [id], onDelete: SetNull)
   product Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, sizeId])
 }
 
 model ProductColor {

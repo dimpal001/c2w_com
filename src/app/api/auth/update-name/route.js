@@ -21,7 +21,8 @@ export async function POST(request) {
   try {
     const user = await prisma.user.update({
       where: { email },
-      data: { firstName, lastName },
+      data: { firstName, lastName, isLoggedIn: true },
+      include: { cartItems: true, wishlist: true, reviews: true },
     })
 
     const response = NextResponse.json({
@@ -30,6 +31,9 @@ export async function POST(request) {
         id: user.id,
         email: user.email,
         fullName: user.firstName + ' ' + user.lastName,
+        cartItems: user.cartItems,
+        wishlistItem: user.wishlist,
+        reviews: user.reviews,
       },
     })
 

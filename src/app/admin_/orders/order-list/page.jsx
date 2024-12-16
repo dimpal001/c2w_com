@@ -248,7 +248,9 @@ const page = () => {
                           </p>
                         </td>
                         <td className='p-2 border capitalize border-gray-300'>
-                          {order.totalPrice}
+                          {order.totalPrice && (
+                            <span>₹{order.totalPrice.toFixed(2)}</span>
+                          )}
                         </td>
                         <td className='p-2 border capitalize border-gray-300'>
                           {order.paymentMethod}

@@ -247,6 +247,7 @@ const ReviewPage = () => {
                         title={productData.title}
                         thumbnailUrl={productData.thumbnailUrl}
                         profileUrl={productData?.user?.profileUrl}
+                        id={selectedReview?.user?.id}
                       />
                     )}
                     {deleteModalOpen && (

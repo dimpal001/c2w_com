@@ -109,6 +109,12 @@ const OrderPage = ({ id }) => {
         </div>
       </div>
 
+      <div className='flex justify-center items-center p-2'>
+        {orderDetails?.status === 'DELIVERED' && (
+          <img src='/celebrate.gif' className='w-[150]' alt='' />
+        )}
+      </div>
+
       {/* Order tracking  */}
       <OrderTrackingSection status={orderDetails?.status} />
 

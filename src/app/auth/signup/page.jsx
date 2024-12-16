@@ -44,7 +44,8 @@ export default function SignupPage() {
     return valid
   }
 
-  const handleSignup = async () => {
+  const handleSignup = async (e) => {
+    e.preventDefault()
     try {
       setSubmitting(true)
       if (validateFields()) {
@@ -88,7 +89,7 @@ export default function SignupPage() {
         className={`w-full relative animate__animated animate__fadeInUp animate__faster transition-all duration-500 max-w-4xl flex md:flex-row flex-col-reverse bg-white rounded-xl shadow-lg overflow-hidden`}
       >
         {/* Form Section */}
-        <div className={`flex-1 p-10`}>
+        <form className={`flex-1 p-10`}>
           <div className='text-center md:text-left'>
             <h1 className='text-2xl font-bold mb-4 hidden'>Logo</h1>
             <div className='flex justify-center mb-3'>
@@ -165,6 +166,7 @@ export default function SignupPage() {
             </div>
 
             <button
+              type='submit'
               disabled={submitting}
               onClick={handleSignup}
               className={`w-full ${
@@ -187,7 +189,7 @@ export default function SignupPage() {
               Sign In
             </Link>
           </p>
-        </div>
+        </form>
 
         {/* Illustration Section */}
         <div className='max-sm:hidden md:block flex-1 max-sm:p-10 max-sm:px-28 bg-[#FDF3E9] flex justify-center items-center'>

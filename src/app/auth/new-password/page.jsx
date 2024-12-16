@@ -11,6 +11,7 @@ import Loading from '@/app/admin_/components/Loading'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import LogoImg from '../../../assets/img.webp'
+import { useUserContext } from '@/app/context/UserContext'
 
 export default function ForgpasswordasswordPage() {
   const [password, setPassword] = useState('')
@@ -19,6 +20,7 @@ export default function ForgpasswordasswordPage() {
   const [checking, setChecking] = useState(false)
 
   const router = useRouter()
+  const { setUser } = useUserContext()
 
   useEffect(() => {
     document.title = 'Create New Password | Clothes2Wear'
@@ -57,6 +59,8 @@ export default function ForgpasswordasswordPage() {
         { withCredentials: true }
       )
       if (response.status === 200) {
+        setUser(response.data.user)
+        localStorage.setItem('user', JSON.stringify(response.data.user))
         router.push('/')
         enqueueSnackbar(response.data.message, { variant: 'success' })
       }
@@ -77,7 +81,7 @@ export default function ForgpasswordasswordPage() {
         className={`w-full relative animate__animated animate__fadeInUp animate__faster transition-all duration-500 max-w-4xl flex md:flex-row flex-col-reverse bg-white rounded-xl shadow-lg overflow-hidden`}
       >
         {/* Form Section */}
-        <div className={`flex-1 p-10`}>
+        <form className={`flex-1 p-10`}>
           <div className='text-center md:text-left'>
             <h1 className='text-2xl font-bold mb-4 hidden'>Logo</h1>
             <div className='flex justify-center mb-3'>
@@ -133,6 +137,7 @@ export default function ForgpasswordasswordPage() {
             </div>
 
             <button
+              type='submit'
               disabled={submitting}
               onClick={handleSubmit}
               className={`w-full ${
@@ -148,7 +153,7 @@ export default function ForgpasswordasswordPage() {
               )}
             </button>
           </div>
-        </div>
+        </form>
 
         {/* Illustration Section */}
         <div className='max-sm:hidden md:block flex-1 max-sm:p-10 max-sm:px-28 bg-[#FDF3E9] flex justify-center items-center'>

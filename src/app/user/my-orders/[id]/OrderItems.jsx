@@ -16,7 +16,6 @@ const OrderItems = ({ orderDetails }) => {
   const router = useRouter()
   const { user } = useUserContext()
 
-  // Function to get reviews for the specific product
   const getProductReview = (productId) => {
     return user.reviews.filter((review) => review.productId === productId)
   }
@@ -56,26 +55,28 @@ const OrderItems = ({ orderDetails }) => {
                 {item.product.displayPrice}
               </p>
             </div>
-            <div className='ml-auto'>
-              {hasReviews ? (
-                <p
-                  onClick={() => handleShowReviews(item.product)}
-                  className='text-pink-500 max-sm:text-xs hover:underline font-semibold cursor-pointer'
-                >
-                  View Reviews
-                </p>
-              ) : (
-                <p
-                  onClick={() => {
-                    setIsAddReviewModalOpen(true)
-                    setSelectedProduct(item.product)
-                  }}
-                  className='text-pink-500 max-sm:text-xs hover:underline font-semibold cursor-pointer'
-                >
-                  Send Review
-                </p>
-              )}
-            </div>
+            {orderDetails.status === 'DELIVERED' && (
+              <div className='ml-auto'>
+                {hasReviews ? (
+                  <p
+                    onClick={() => handleShowReviews(item.product)}
+                    className='text-pink-500 max-sm:text-xs hover:underline font-semibold cursor-pointer'
+                  >
+                    View Reviews
+                  </p>
+                ) : (
+                  <p
+                    onClick={() => {
+                      setIsAddReviewModalOpen(true)
+                      setSelectedProduct(item.product)
+                    }}
+                    className='text-pink-500 max-sm:text-xs hover:underline font-semibold cursor-pointer'
+                  >
+                    Send Review
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         )
       })}

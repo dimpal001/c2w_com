@@ -421,7 +421,9 @@ const Page = () => {
                   {discount.type === 'PERCENTAGE' ? '%' : ''}
                 </td>
                 <td className='border px-4 py-2'>
-                  ₹{discount?.minPrice?.toFixed(2)}
+                  {discount?.minPrice && (
+                    <span>₹{discount?.minPrice?.toFixed(2)}</span>
+                  )}
                 </td>
                 <td className='border px-4 py-2'>
                   {discount?.isWebAvailable ? 'Available' : 'Not available'}

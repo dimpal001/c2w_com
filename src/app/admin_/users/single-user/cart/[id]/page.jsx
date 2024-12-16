@@ -4,6 +4,7 @@ import Button from '@/app/admin_/components/Button'
 import Layout from '@/app/admin_/components/Layout'
 import Loading from '@/app/admin_/components/Loading'
 import Pagination from '@/app/admin_/components/Pagination'
+import { cdnPath } from '@/app/Components/cdnPath'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -115,7 +116,7 @@ const page = ({ params }) => {
                         <td className='border px-4 py-2'>
                           <div>
                             <Image
-                              src={item.product.thumbnailUrl}
+                              src={cdnPath + item.product.thumbnailUrl}
                               width={32}
                               height={40}
                               alt='Image'

@@ -156,7 +156,7 @@ export default function MyAccountPage() {
         </div>
 
         {/* Address Section */}
-        <AddressSection userDetails={userDetails} />
+        <AddressSection userDetails={userDetails} refresh={fetchUserDetails} />
         {showLogoutModal && (
           <LogoutModal
             isOpen={true}

@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { SlideItem, Slider } from '@/app/HomePageComponents/Slider'
 import { ArrowRight, Star } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const ReviewSection = ({ reviews }) => {
+  const router = useRouter()
   return (
     <div>
       <p className='text-2xl font-semibold py-4'>Customer Reviews</p>
@@ -35,7 +37,10 @@ const ReviewSection = ({ reviews }) => {
         </Slider>
       </div>
       <div className='flex justify- pt-4'>
-        <p className='flex gap-3 hover:gap-5 cursor-pointer transition-all items-center text-pink-600 font-semibold'>
+        <p
+          onClick={() => router.push(`/product/review/${reviews[0].productId}`)}
+          className='flex gap-3 hover:gap-5 cursor-pointer transition-all items-center text-pink-600 font-semibold'
+        >
           See all reviews
           <ArrowRight strokeWidth={3} />
         </p>

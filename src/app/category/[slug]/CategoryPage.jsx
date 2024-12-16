@@ -79,7 +79,7 @@ const CategoryPage = ({ slug }) => {
         maxPrice: storedMaxPrice,
         categorySlug: slug || null,
         page: page,
-        userId: user.id,
+        userId: user?.id || null,
       }
 
       const response = await axios.get('/api/search', { params })
@@ -97,7 +97,7 @@ const CategoryPage = ({ slug }) => {
         setIsEmptyProduct(true)
       }
     } catch (error) {
-      console.log('Error:', error.message)
+      console.log('Error:', error)
     } finally {
       setFetching(false)
       setLoadingMore(false)

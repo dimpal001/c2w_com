@@ -21,6 +21,15 @@ module.exports = {
     '/_next/static/media/*',
     '/cdn.thefashionsalad.com/*',
   ],
+  additionalPaths: async () => {
+    return [
+      {
+        loc: '/404',
+        changefreq: 'never',
+        priority: 0.1,
+      },
+    ]
+  },
   robotsTxtOptions: {
     policies: [
       {
@@ -53,6 +62,7 @@ module.exports = {
           '/category/*',
           '/community',
           '/discount-policy',
+          '/404',
           '/p/*',
           '/product/*',
           '/refund-policy',

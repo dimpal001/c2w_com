@@ -160,7 +160,7 @@ const UserDetailsPage = ({ params }) => {
                         <td className='p-2'>
                           {new Date(order.updatedAt).toLocaleString()}
                         </td>
-                        <td className='p-2'>₹{order.totalPrice}</td>
+                        <td className='p-2'>₹{order.totalPrice.toFixed(2)}</td>
                         <td className='p-2'>{order.status}</td>
                         <td className='p-2'>
                           <Button

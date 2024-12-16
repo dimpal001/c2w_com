@@ -27,7 +27,9 @@ const ReviewModal = ({ isOpen, onClose, product }) => {
 
     files.forEach((file) => {
       if (file.size > 300 * 1024) {
-        alert('Image size should be less than 300KB!')
+        enqueueSnackbar('Image size should be less than 300KB!', {
+          variant: 'error',
+        })
       } else {
         const reader = new FileReader()
         reader.onload = () => {

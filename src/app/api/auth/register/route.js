@@ -7,6 +7,12 @@ import jwt from 'jsonwebtoken'
 
 const prisma = new PrismaClient()
 
+const isValidPassword = (password) => {
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/
+  return passwordRegex.test(password)
+}
+
 export async function POST(request) {
   const { email, password } = await request.json()
 
@@ -19,6 +25,16 @@ export async function POST(request) {
     return NextResponse.json(
       { message: 'User already exists' },
       { status: 409 }
+    )
+  }
+
+  if (!isValidPassword(password)) {
+    return NextResponse.json(
+      {
+        message:
+          'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long.',
+      },
+      { status: 400 }
     )
   }
 

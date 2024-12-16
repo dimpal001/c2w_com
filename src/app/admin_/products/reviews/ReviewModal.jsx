@@ -8,6 +8,7 @@ import {
 } from '@/app/Components/CustomModal'
 import { Star } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const ReviewModal = ({
@@ -20,10 +21,11 @@ const ReviewModal = ({
   title,
   profileUrl,
   thumbnailUrl,
+  id,
 }) => {
   if (!review) return null
-
-  console.log(thumbnailUrl)
+  const router = useRouter()
+  console.log(id)
 
   return (
     <Modal size={'4xl'} isOpen={isOpen}>
@@ -91,7 +93,12 @@ const ReviewModal = ({
                 />
               )}
               <div>
-                <p className='text-base'>{userName}</p>
+                <p
+                  onClick={() => router.push(`/admin_/users/single-user/${id}`)}
+                  className='text-base cursor-pointer hover:text-blue-600 hover:underline'
+                >
+                  {userName}
+                </p>
               </div>
             </div>
           </div>

@@ -174,7 +174,7 @@ const ProductDetailsPage = ({ params }) => {
                             </p>
                           </td>
                           <td className='p-3 border text-center'>
-                            {productDetails.displayPrice.toFixed(2)}
+                            ₹{productDetails.displayPrice.toFixed(2)}
                           </td>
                           <td className='p-3 border capitalize text-center'>
                             {customerTypes.length > 0 &&
@@ -421,9 +421,11 @@ const ProductDetailsPage = ({ params }) => {
                             <td className='text-left p-3 uppercase border'>
                               {item?.size?.name}
                             </td>
-                            <td className='text-left p-3 border'>{item.mrp}</td>
                             <td className='text-left p-3 border'>
-                              {item.price}
+                              ₹{item.mrp.toFixed(2)}
+                            </td>
+                            <td className='text-left p-3 border'>
+                              ₹{item.price.toFixed(2)}
                             </td>
                             <td className='text-left p-3 border'>
                               {item.stock}
@@ -477,7 +479,7 @@ const ProductDetailsPage = ({ params }) => {
                               {item.title}
                             </td>
                             <td className='text-left p-3 border'>
-                              {item.displayPrice.toFixed(2)}
+                              ₹{item.displayPrice.toFixed(2)}
                             </td>
                             <td className='text-left p-3 border'>
                               <div className='justify-center flex'>
@@ -539,7 +541,9 @@ const ProductDetailsPage = ({ params }) => {
                               {item.type === 'PERCENTAGE' ? '%' : ''}
                             </td>
                             <td className='text-left p-3 border'>
-                              {item.minPrice}
+                              {item?.minPrice && (
+                                <span>₹{item?.minPrice?.toFixed(2)}</span>
+                              )}
                             </td>
                           </tr>
                         ))}

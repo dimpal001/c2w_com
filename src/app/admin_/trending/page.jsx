@@ -319,7 +319,11 @@ const Page = () => {
                       alt='Image'
                     />
                   </td>
-                  <td className='border px-4 py-2'>{item.price}</td>
+                  <td className='border px-4 py-2'>
+                    {item?.price && (
+                      <span>₹{parseInt(item?.price)?.toFixed(2)}</span>
+                    )}
+                  </td>
                   <td className='border px-4 py-2'>
                     <a
                       href={item.hyperLink}

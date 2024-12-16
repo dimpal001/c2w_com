@@ -35,7 +35,7 @@ const OrderTrackingSection = ({ status }) => {
                 status === 'CANCELLED' && step.id === 'CANCELLED'
                   ? 'bg-red-500'
                   : index <= currentStatusIndex
-                  ? 'bg-pink-600'
+                  ? 'bg-pink-600 animate-pulse'
                   : 'bg-gray-300'
               }`}
             >

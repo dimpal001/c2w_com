@@ -1,12 +1,34 @@
 /* eslint-disable react/prop-types */
-import { CirclePlus, Edit } from 'lucide-react'
+import { CirclePlus } from 'lucide-react'
 import React, { useState } from 'react'
 import AddEditAddressModal from './AddEditAddressModal'
+import { enqueueSnackbar } from 'notistack'
+import axios from 'axios'
+import DeleteModal from '@/app/Components/DeleteModal'
 
-const AddressSection = ({ userDetails }) => {
+const AddressSection = ({ userDetails, refresh }) => {
   const [showAddressModal, setShowAddressModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [selectedAddress, setSelectedAddress] = useState(null)
+
+  const deleteAddress = async () => {
+    try {
+      const response = await axios.post('/api/users/address/remove', {
+        addressId: selectedAddress?.id,
+        userId: selectedAddress?.userId,
+      })
+      setShowDeleteModal(false)
+      enqueueSnackbar(response?.data?.message, { variant: 'success' })
+      refresh()
+    } catch (error) {
+      console.log(error)
+      const errorMessage =
+        error?.response?.data?.message || 'An error occurred.'
+      enqueueSnackbar(errorMessage, { variant: 'error' })
+    }
+  }
+
   return (
     <div className='bg-zinc-100 rounded-lg shadow-md w-full max-w-5xl p-6 mt-6'>
       <div className='flex justify-between items-center w-full'>
@@ -27,7 +49,10 @@ const AddressSection = ({ userDetails }) => {
           </div>
           {userDetails.addresses.length > 0 &&
             userDetails.addresses.map((item, index) => (
-              <div key={index} className='flex gap-2 text-sm items-center mb-4'>
+              <div
+                key={index}
+                className='flex gap-2 text-sm max-sm:justify-between items-end mb-4'
+              >
                 <p className='text-gray-600'>
                   {item?.addressLine1} <br /> {item?.mobileNumber} <br />{' '}
                   {item?.addressLine2 && item?.addressLine2}{' '}
@@ -35,16 +60,27 @@ const AddressSection = ({ userDetails }) => {
                   {item?.city}, {item?.zipCode}, {item?.state}, {item?.country}
                 </p>{' '}
                 <br />
-                <button
-                  onClick={() => {
-                    setSelectedAddress(item)
-                    setEditMode(true)
-                    setShowAddressModal(true)
-                  }}
-                  className='flex items-center gap-2 text-blue-500 hover:underline'
-                >
-                  <Edit className='w-5 h-5' /> Edit
-                </button>
+                <div className='flex items-center gap-2'>
+                  <button
+                    onClick={() => {
+                      setSelectedAddress(item)
+                      setEditMode(true)
+                      setShowAddressModal(true)
+                    }}
+                    className='flex items-center mr-1 gap-2 text-pink-500 font-semibold hover:underline'
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedAddress(item)
+                      setShowDeleteModal(true)
+                    }}
+                    className='flex items-center gap-2 text-red-500 font-semibold hover:underline'
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           {showAddressModal && (
@@ -53,7 +89,14 @@ const AddressSection = ({ userDetails }) => {
               address={selectedAddress}
               isOpen={true}
               onClose={() => setShowAddressModal(false)}
-              onSave={() => window.location.reload()}
+              onSave={refresh}
+            />
+          )}
+          {showDeleteModal && (
+            <DeleteModal
+              isOpen={true}
+              onClose={() => setShowDeleteModal(false)}
+              onDelete={deleteAddress}
             />
           )}
         </div>

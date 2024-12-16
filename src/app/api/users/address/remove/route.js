@@ -4,8 +4,8 @@ import { isAuth } from '@/app/api/middleware/auth'
 
 const prisma = new PrismaClient()
 
-export async function DELETE(request) {
-  const { addressId, userId } = request.query
+export async function POST(request) {
+  const { addressId, userId } = await request.json()
 
   if (!isAuth(request)) {
     return NextResponse.json(
@@ -35,7 +35,7 @@ export async function DELETE(request) {
 
     const isDefaultAddress = addressToDelete.isDefault
 
-    const deletedAddress = await prisma.userAddress.delete({
+    await prisma.userAddress.delete({
       where: { id: addressId },
     })
 
@@ -54,7 +54,10 @@ export async function DELETE(request) {
       }
     }
 
-    return NextResponse.json(deletedAddress, { status: 200 })
+    return NextResponse.json(
+      { message: 'Address has been deleted' },
+      { status: 200 }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(

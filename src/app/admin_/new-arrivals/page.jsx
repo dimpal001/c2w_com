@@ -283,8 +283,14 @@ const Page = () => {
                     />
                   </td>
                   <td className='border px-4 py-2'>{item.description}</td>
-                  <td className='border px-4 py-2'>{item.price}</td>
-                  <td className='border px-4 py-2'>{item.mrp}</td>
+                  <td className='border px-4 py-2'>
+                    {item.price && (
+                      <span>₹{parseInt(item.price).toFixed(2)}</span>
+                    )}
+                  </td>
+                  <td className='border px-4 py-2'>
+                    {item.mrp && <span>₹{parseInt(item.mrp).toFixed(2)}</span>}
+                  </td>
                   <td className='border px-4 py-2'>
                     <a
                       target='_blank'

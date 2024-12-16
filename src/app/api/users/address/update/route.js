@@ -17,6 +17,7 @@ export async function PATCH(request) {
     zipCode,
     country,
     mobileNumber,
+    altMobileNumber,
   } = await request.json()
 
   if (!isAuth(request)) {
@@ -128,6 +129,7 @@ export async function PATCH(request) {
         zipCode,
         country,
         mobileNumber,
+        altMobileNumber,
       },
     })
 

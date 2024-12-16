@@ -171,7 +171,7 @@ const page = () => {
                         >
                           {item.status}
                         </td>
-                        <td className='p-2'>{item.totalPrice}</td>
+                        <td className='p-2'>₹{item.totalPrice.toFixed(2)}</td>
                       </tr>
                     ))}
                 </tbody>

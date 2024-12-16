@@ -13,6 +13,7 @@ import { Star } from 'lucide-react'
 import Loading from '@/app/admin_/components/Loading'
 import { enqueueSnackbar } from 'notistack'
 import DeleteModal from '@/app/Components/DeleteModal'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const page = ({ params }) => {
   const { id } = use(params)
@@ -140,7 +141,7 @@ const page = ({ params }) => {
                         <td className='border px-4 py-2'>
                           <div>
                             <Image
-                              src={item.product.thumbnailUrl}
+                              src={cdnPath + item.product.thumbnailUrl}
                               width={32}
                               height={40}
                               alt='Image'

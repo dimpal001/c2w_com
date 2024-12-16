@@ -14,6 +14,8 @@ export async function GET(request) {
   const pageSize = parseInt(url.searchParams.get('pageSize')) || 16
   const searchQuery = url.searchParams.get('searchQuery') || ''
 
+  console.log('Search calling...')
+
   try {
     const whereConditions = {
       AND: [],

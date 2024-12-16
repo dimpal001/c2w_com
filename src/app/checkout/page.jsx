@@ -45,6 +45,7 @@ const PaymentPage = () => {
   }
 
   useEffect(() => {
+    window.document.title = 'Checkout | Clothes2Wear'
     fetchOrderData()
   }, [])
 
