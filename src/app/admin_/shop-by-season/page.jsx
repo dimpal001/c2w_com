@@ -12,6 +12,7 @@ import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import Loading from '../components/Loading'
 import DeleteSeasonModal from './DeleteSeasonModal'
 import AddProductModal from './AddProductModal'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const Page = () => {
   const [seasons, setSeasons] = useState([])
@@ -264,7 +265,7 @@ const Page = () => {
                   <div>
                     <video
                       controls
-                      src={`https://cdn.thefashionsalad.com/clothes2wear/${season.videoUrl}`}
+                      src={`${cdnPath}${season.videoUrl}`}
                       className='w-72 mb-3 border border-black'
                     ></video>
                     <div className='flex gap-2 items-center'>
@@ -325,7 +326,7 @@ const Page = () => {
                             </td>
                             <td className='border px-4 py-2'>
                               <img
-                                src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
+                                src={`${cdnPath}${item?.imageUrl}`}
                                 alt={item?.imageUrl}
                                 className='w-18 h-32 object-cover rounded'
                               />

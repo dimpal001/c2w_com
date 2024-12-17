@@ -97,14 +97,14 @@ const Sidebar = ({ isExpanded }) => {
     const privilegeName = item.path.split('/admin_/')[1].split('/')[0]
 
     if (item.label === 'Home') {
-      return user.role === 'STAFF'
+      return user?.role === 'STAFF'
     }
 
-    if (user.role === 'ADMIN') {
+    if (user?.role === 'ADMIN') {
       return true
-    } else if (user.role === 'STAFF') {
-      return user.privileges.some(
-        (userPrivilege) => userPrivilege.privilege.name === privilegeName
+    } else if (user?.role === 'STAFF') {
+      return user?.privileges.some(
+        (userPrivilege) => userPrivilege?.privilege?.name === privilegeName
       )
     }
     return false
@@ -117,9 +117,9 @@ const Sidebar = ({ isExpanded }) => {
       } p-[20px] bg-blue-800 scrollbar-hide rounded-sm transition-all overflow-scroll duration-300 shadow-md`}
     >
       <nav>
-        {filteredMenuItems.map((item, index) => (
+        {filteredMenuItems?.map((item, index) => (
           <div key={index} className='overflow-scroll scrollbar-hide'>
-            <Link href={item.path || '#'} passHref>
+            <Link href={item?.path || '#'} passHref>
               <div
                 className={`${
                   !isExpanded && 'block'
@@ -134,7 +134,7 @@ const Sidebar = ({ isExpanded }) => {
                     isExpanded ? 'w-full' : 'w-0'
                   } overflow-hidden transition-all duration-300 text-nowrap`}
                 >
-                  <span className='pl-2'>{item.label}</span>
+                  <span className='pl-2'>{item?.label}</span>
                 </span>
               </div>
             </Link>

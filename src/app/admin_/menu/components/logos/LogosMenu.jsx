@@ -9,6 +9,7 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import AddEditModal from './AddEditModal'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const LogosMenu = () => {
   const [expandSection, setExpandSection] = useState(false)
@@ -106,7 +107,7 @@ const LogosMenu = () => {
                           width={30}
                           height={0}
                           alt={item?.altText || ''}
-                          src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.logoUrl}`}
+                          src={`${cdnPath}${item?.logoUrl}`}
                         />
                       </td>
                       <td className='border px-4 py-2'>{item?.altText}</td>

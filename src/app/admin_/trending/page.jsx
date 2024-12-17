@@ -307,7 +307,7 @@ const Page = () => {
                   <td className='border px-4 py-2'>{item.title}</td>
                   <td className='border px-4 py-2'>
                     <video
-                      src={`https://cdn.thefashionsalad.com/clothes2wear/${item.videoUrl}`}
+                      src={`${cdnPath}${item.videoUrl}`}
                       className='w-24'
                     ></video>
                   </td>

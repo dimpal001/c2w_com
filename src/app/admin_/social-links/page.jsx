@@ -12,6 +12,7 @@ import { FilePen, Trash2, Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import EditModal from './EditModal'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const Page = () => {
   const [items, setItems] = useState([])
@@ -213,7 +214,7 @@ const Page = () => {
                 <tr key={index} className='border-b'>
                   <td className='border px-4 py-2'>
                     <img
-                      src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
+                      src={`${cdnPath}${item?.imageUrl}`}
                       alt={item.title}
                       className='w-[140px]  border object-cover rounded'
                     />

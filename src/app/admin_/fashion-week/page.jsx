@@ -9,6 +9,7 @@ import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import AddEditProductWeek from './AddEditProductWeek'
 import AddEditImageWeek from './AddEditImageWeek'
 import { FilePen, Trash2 } from 'lucide-react'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const Page = () => {
   const [products, setProducts] = useState([])
@@ -142,7 +143,7 @@ const Page = () => {
                       <td className='border px-4 py-2'>{item?.title}</td>
                       <td className='border px-4 py-2'>
                         <img
-                          src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
+                          src={`${cdnPath}${item?.imageUrl}`}
                           alt={item?.imageUrl}
                           className='w-18 h-32 object-cover rounded'
                         />
@@ -197,7 +198,7 @@ const Page = () => {
                     <tr key={index} className='border-b'>
                       <td className='border px-4 py-2'>
                         <img
-                          src={`https://cdn.thefashionsalad.com/clothes2wear/${item?.imageUrl}`}
+                          src={`${cdnPath}${item?.imageUrl}`}
                           alt={item?.imageUrl}
                           className='w-18 h-32 object-cover rounded'
                         />
