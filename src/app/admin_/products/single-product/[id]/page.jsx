@@ -153,7 +153,7 @@ const ProductDetailsPage = ({ params }) => {
                           <td className='p-3 border font-semibold text-blue-800 text-center'>
                             <p
                               onClick={() => {
-                                const linkToCopy = `https://clothes2wear.com/product/${productDetails?.slug}`
+                                const linkToCopy = `https://www.clothes2wear.com/product/${productDetails?.slug}`
                                 navigator.clipboard
                                   .writeText(linkToCopy)
                                   .then(() => {
@@ -191,12 +191,10 @@ const ProductDetailsPage = ({ params }) => {
                 <div className='mb-3 flex gap-3 flex-wrap'>
                   {productDetails.images.map((item, index) => (
                     <div key={index} className='flex flex-col'>
-                      <Image
-                        className='border rounded-md shadow-md shadow-blue-800'
+                      <img
+                        className='border w-40 rounded-md shadow-md shadow-blue-800'
                         src={cdnPath + item.imageUrl}
-                        width={240}
-                        height={300}
-                        alt=''
+                        alt={item?.altText || 'clothes2wear'}
                       />
                       <div className='flex p-2 justify-center'>
                         <strong>Alt: &nbsp;</strong> {item?.altText}
