@@ -32,6 +32,7 @@ const DisplayPorductSection = ({ product }) => {
   )
   const [addingCart, setAddingCart] = useState(false)
   const [addingWishList, setAddingWishList] = useState(false)
+  const [showFull, setShowFull] = useState(false)
 
   const { user, setUser } = useUserContext()
   const router = useRouter()
@@ -183,7 +184,15 @@ const DisplayPorductSection = ({ product }) => {
       {/* Data Section  */}
       <div className='py-5 lg:w-[47%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
-        <p className='text-sm text-neutral-600'>{product?.summary}</p>
+        <p className='text-sm text-neutral-600'>
+          {showFull ? product?.summary : product?.summary.slice(0, 200)}{' '}
+          <span
+            onClick={() => setShowFull(!showFull)}
+            className='font-semibold text-pink-500 cursor-pointer'
+          >
+            {showFull ? ' show less' : ' ...show full'}
+          </span>
+        </p>
         <p className='text-base'>
           Style No. <strong>{product?.styleId}</strong>
         </p>

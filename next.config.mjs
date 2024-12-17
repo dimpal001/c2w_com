@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'cdn.thefashionsalad.com',
+        hostname: 'clothes2wear.blr1.cdn.digitaloceanspaces.com',
       },
       {
         protocol: 'https',

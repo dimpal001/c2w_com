@@ -102,7 +102,9 @@ const ProductCard1 = ({ product }) => {
         <p className='text-2xl max-sm:text-xl font-bold text-white'>
           {product.title}
         </p>
-        <p className='text-sm max-sm:text-xs text-white'>{product.summary}</p>
+        <p className='text-sm max-sm:text-xs text-white'>
+          {product.summary.slice(0, 100)}...
+        </p>
         <p className='font-bold text-3xl max-sm:text-2xl text-white'>
           ₹{product.displayPrice}/-
         </p>

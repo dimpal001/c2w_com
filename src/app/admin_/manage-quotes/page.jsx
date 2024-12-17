@@ -97,10 +97,10 @@ const Page = () => {
   }
 
   useEffect(() => {
-    document.title = 'Manage Blogs | Clothes2Wear'
+    document.title = 'Manage Quotes | Clothes2Wear'
   }, [])
 
-  const deleteBlog = async () => {
+  const deleteQuote = async () => {
     try {
       const response = await axios.delete('/api/customs/quotes', {
         params: { id: selectedItem.id },
@@ -131,7 +131,7 @@ const Page = () => {
           <h2 className='text-xl font-semibold text-blue-800'>Manage Quotes</h2>
           <div className='flex items-center gap-2'>
             <Button
-              label={'Add a Blog'}
+              label={'Add a Quote'}
               onClick={() => setShowForm(!showForm)}
             />
           </div>
@@ -273,7 +273,7 @@ const Page = () => {
           <DeleteModal
             isOpen={true}
             onClose={() => setShowDeleteModal(false)}
-            onDelete={() => deleteBlog()}
+            onDelete={() => deleteQuote()}
           />
         )}
         {showImageCroper && (
