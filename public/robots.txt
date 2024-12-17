@@ -25,7 +25,6 @@ Allow: /contact
 Allow: /category/*
 Allow: /community
 Allow: /discount-policy
-Allow: /404
 Allow: /p/*
 Allow: /product/*
 Allow: /refund-policy
@@ -39,7 +38,7 @@ Allow: /blogs/*
 Allow: /category/*
 
 # Host
-Host: https://www.clothes2wear.com
+Host: https://www.thebmim.com
 
 # Sitemaps
-Sitemap: https://www.clothes2wear.com/sitemap.xml
+Sitemap: https://www.thebmim.com/sitemap.xml

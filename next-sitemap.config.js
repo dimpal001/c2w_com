@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://www.clothes2wear.com',
+  siteUrl: 'https://www.thebmim.com',
   generateRobotsTxt: true,
   exclude: [
     '/admin_/*',
@@ -21,15 +21,6 @@ module.exports = {
     '/_next/static/media/*',
     '/cdn.thefashionsalad.com/*',
   ],
-  additionalPaths: async () => {
-    return [
-      {
-        loc: '/404',
-        changefreq: 'never',
-        priority: 0.1,
-      },
-    ]
-  },
   robotsTxtOptions: {
     policies: [
       {
@@ -62,7 +53,6 @@ module.exports = {
           '/category/*',
           '/community',
           '/discount-policy',
-          '/404',
           '/p/*',
           '/product/*',
           '/refund-policy',
