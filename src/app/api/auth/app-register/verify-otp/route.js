@@ -30,7 +30,7 @@ export async function POST(request) {
   }
 
   try {
-    await prisma.otp.delete({ where: { id: decoded.otp } })
+    await prisma.otp.deleteMany({ where: { userId: user.is } })
     return NextResponse.json(
       {
         message: 'Email verified successfully!',
@@ -40,7 +40,7 @@ export async function POST(request) {
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: 'Somethin gis wrong, try again!' },
+      { message: 'Something is wrong, try again!' },
       { status: 500 }
     )
   }
