@@ -42,7 +42,7 @@ export async function POST(request) {
   }
 
   await prisma.user.update({
-    where: { id },
+    where: { id: user.id },
     data: { isLoggedIn: true, isVerified: true },
   })
 
