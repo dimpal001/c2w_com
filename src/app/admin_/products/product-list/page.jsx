@@ -169,11 +169,11 @@ const page = () => {
         })
       )
       const response = await axios.delete(`/api/products/delete`, {
-        data: { id: selectedProduct.id },
+        data: { id: selectedProduct?.id },
       })
 
       setProductList((prev) =>
-        prev.filter((item) => item.id != selectedProduct.id)
+        prev.filter((item) => item?.id != selectedProduct?.id)
       )
       setDeleteModalOpen(false)
       enqueueSnackbar(response.data.message, { variant: 'success' })
@@ -196,7 +196,7 @@ const page = () => {
 
   useEffect(() => {
     const selectedCategory = allCategories.find(
-      (category) => category.id === categoryId
+      (category) => category?.id === categoryId
     )
     if (selectedCategory) {
       setFilteredSubCategories(selectedCategory.subcategories)
@@ -249,7 +249,7 @@ const page = () => {
             >
               <option value=''>Select Category</option>
               {allCategories?.map((category) => (
-                <option key={category.id} value={category.id}>
+                <option key={category?.id} value={category?.id}>
                   {category.name.toUpperCase()}
                 </option>
               ))}
@@ -263,7 +263,7 @@ const page = () => {
             >
               <option value=''>Select Sub Category</option>
               {filteredSubCategories?.map((subCategory) => (
-                <option key={subCategory.id} value={subCategory.id}>
+                <option key={subCategory?.id} value={subCategory?.id}>
                   {subCategory.name.toUpperCase()}
                 </option>
               ))}
@@ -276,7 +276,7 @@ const page = () => {
             >
               <option value=''>Select Color</option>
               {colors?.map((colorOption) => (
-                <option key={colorOption.id} value={colorOption.id}>
+                <option key={colorOption?.id} value={colorOption?.id}>
                   {colorOption.name.toUpperCase()}
                 </option>
               ))}
@@ -332,7 +332,7 @@ const page = () => {
                           <span
                             onClick={() =>
                               router.push(
-                                `/admin_/products/single-product/${product.id}`
+                                `/admin_/products/single-product/${product?.id}`
                               )
                             }
                             className='hover:text-blue-800 hover:underline cursor-pointer'
@@ -344,7 +344,7 @@ const page = () => {
                           <span
                             onClick={() =>
                               router.push(
-                                `/admin_/products/single-product/${product.id}`
+                                `/admin_/products/single-product/${product?.id}`
                               )
                             }
                             className='hover:text-blue-800 hover:underline cursor-pointer'
@@ -402,7 +402,7 @@ const page = () => {
                                 <DropdownItem
                                   onClick={() =>
                                     router.push(
-                                      `/admin_/products/edit-product/${product.id}`
+                                      `/admin_/products/edit-product/${product?.id}`
                                     )
                                   }
                                   className='py-2 flex items-center gap-2 px-4 hover:bg-gray-300 rounded-sm'
@@ -430,7 +430,7 @@ const page = () => {
                                     <p
                                       onClick={() =>
                                         handleActiveDeactiveProduct(
-                                          product.id,
+                                          product?.id,
                                           false
                                         )
                                       }
@@ -443,7 +443,7 @@ const page = () => {
                                     <p
                                       onClick={() =>
                                         handleActiveDeactiveProduct(
-                                          product.id,
+                                          product?.id,
                                           true
                                         )
                                       }
@@ -457,7 +457,7 @@ const page = () => {
                                 <DropdownItem
                                   onClick={() =>
                                     router.push(
-                                      `/admin_/products/single-product/${product.id}`
+                                      `/admin_/products/single-product/${product?.id}`
                                     )
                                   }
                                   className='text-yellow-600 py-2 px-4 hover:bg-gray-300 rounded-sm'
