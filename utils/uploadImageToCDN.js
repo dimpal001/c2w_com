@@ -20,8 +20,8 @@ export const uploadImageToCDN = async (image, name) => {
 
   // Define the S3 parameters
   const params = {
-    Bucket: 'the-fashion-salad',
-    Key: `clothes2wear/${imageName}`,
+    Bucket: 'clothes2wear',
+    Key: `images/${imageName}`,
     Body: image,
     ACL: 'public-read',
   }

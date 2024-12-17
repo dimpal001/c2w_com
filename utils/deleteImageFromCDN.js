@@ -13,8 +13,8 @@ export const deleteImageFromCDN = async (imageUrl) => {
   })
 
   const deleteParams = {
-    Bucket: 'the-fashion-salad',
-    Key: `clothes2wear/${imageUrl}`,
+    Bucket: 'clothes2wear',
+    Key: `images/${imageUrl}`,
     ACL: 'public-read',
   }
   try {
