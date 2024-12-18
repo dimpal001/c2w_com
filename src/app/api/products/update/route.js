@@ -12,6 +12,7 @@ export async function PATCH(request) {
     longTailKeyword,
     inventory,
     summary,
+    sellerCode,
     description,
     displayPrice,
     discounts,
@@ -125,6 +126,7 @@ export async function PATCH(request) {
           summary,
           customerTypeId,
           userId,
+          sellerCode,
           returnPolicy,
           tags,
           images:

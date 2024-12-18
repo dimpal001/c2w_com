@@ -17,6 +17,7 @@ const Page = ({ params }) => {
   const [formData, setFormData] = useState({
     title: '',
     customerTypeId: '',
+    sellerCode: '',
     longTailKeyword: '',
     categories: [],
     subcategories: [],
@@ -80,6 +81,7 @@ const Page = ({ params }) => {
         returnPolicy: productDetails.returnPolicy,
         subcategories: productDetails.subcategories,
         longTailKeyword: productDetails.longTailKeyword,
+        sellerCode: productDetails.sellerCode,
       })
     }
 

@@ -523,7 +523,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
               ))}
             </Select>
             <Select
-              label='Returnable'
+              label='COD Available'
               name='isCODAvailable'
               value={formData?.isCODAvailable || false}
               onChange={handleChange}
@@ -531,6 +531,14 @@ const ProductForm = ({ formData, setFormData, type }) => {
               <option value={false}>COD not available</option>
               <option value={true}>COD available</option>
             </Select>
+            <Input
+              type={'number'}
+              name={'sellerCode'}
+              label={'Enter Seller Code'}
+              placeholder={'Enter code'}
+              value={formData?.sellerCode}
+              onChange={handleChange}
+            />
           </div>
           <div>
             <div className='flex items-center gap-3 mt-3'>

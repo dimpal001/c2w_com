@@ -31,6 +31,14 @@ export async function POST(request) {
 
   try {
     await prisma.otp.deleteMany({ where: { userId: user.is } })
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isVerified: true,
+      },
+    })
+
     return NextResponse.json(
       {
         message: 'Email verified successfully!',
