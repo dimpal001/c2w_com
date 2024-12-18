@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://www.thebmim.com',
+  siteUrl: 'https://www.clothes2wear.com',
   generateRobotsTxt: true,
   exclude: [
     '/admin_/*',
