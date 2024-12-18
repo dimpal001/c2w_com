@@ -25,7 +25,7 @@ const HeroProductSection = () => {
         </div>
       </div>
       <div>
-        <img src='' alt='' />
+        <img src='https://picsum.photos/457/524' className='w-full' alt='' />
       </div>
     </div>
   )
