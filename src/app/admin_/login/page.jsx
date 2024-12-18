@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Lock, Mail } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
@@ -14,6 +14,7 @@ const AdminLoginPage = () => {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   const { setUser } = useUserContext()
 
@@ -90,7 +91,7 @@ const AdminLoginPage = () => {
             </label>
             <div className='relative mt-1'>
               <input
-                type='password'
+                type={showPassword ? 'text' : 'password'}
                 id='password'
                 name='password'
                 value={password}
@@ -100,6 +101,17 @@ const AdminLoginPage = () => {
                 required
               />
               <Lock className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500' />
+              {showPassword ? (
+                <EyeOff
+                  onClick={() => setShowPassword(false)}
+                  className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+                />
+              ) : (
+                <Eye
+                  onClick={() => setShowPassword(true)}
+                  className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+                />
+              )}
             </div>
           </div>
 

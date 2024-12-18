@@ -532,7 +532,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
               <option value={true}>COD available</option>
             </Select>
             <Input
-              type={'number'}
+              type={'text'}
               name={'sellerCode'}
               label={'Enter Seller Code'}
               placeholder={'Enter code'}
