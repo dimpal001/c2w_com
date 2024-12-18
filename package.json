@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build & next-sitemap",
     "start": "next start",
-    "lint": "next lint",
-    "postbuild": "next-sitemap"
+    "lint": "next lint"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.688.0",
@@ -16,7 +15,6 @@
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
-    "draft-js": "^0.11.7",
     "framer-motion": "^11.12.0",
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.2",
@@ -30,7 +28,6 @@
     "react": "^18.3.1",
     "react-collapsible": "^2.10.0",
     "react-dom": "^18.3.1",
-    "react-draft-wysiwyg": "^1.15.0",
     "react-image-crop": "^11.0.7",
     "react-modern-drawer": "^1.4.0",
     "rimraf": "^6.0.1",
