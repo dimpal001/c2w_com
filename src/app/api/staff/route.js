@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { isAdmin } from '../middleware/adminAuth'
 import { hash } from 'bcryptjs'
+import { staffRegistrationEmail } from '@/utils/email/staffregistrationEmail'
 
 const prisma = new PrismaClient()
 
@@ -52,6 +53,8 @@ export async function POST(request) {
         },
       },
     })
+
+    await staffRegistrationEmail(email, firstName, password)
 
     return NextResponse.json(
       { message: 'Staff created successfully.' },

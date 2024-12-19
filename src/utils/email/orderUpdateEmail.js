@@ -5,8 +5,8 @@ const orderUpdateEmail = async (email, status, trackingId, notes) => {
   console.log(status, trackingId, notes)
   try {
     const transporter = nodemailer.createTransport({
-      host: 'smtpout.secureserver.net',
-      port: 46,
+      host: process.env.HOST,
+      port: 465,
       secure: true,
       auth: {
         user: process.env.EMAIL,

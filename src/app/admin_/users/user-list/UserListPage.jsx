@@ -84,8 +84,24 @@ const page = () => {
       })
       enqueueSnackbar(response.data.message, { variant: 'success' })
       fetchUserList()
+      setSelectedUser(null)
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSelectedUser(null)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.post(`/api/users/delete?id=${id}`)
+      enqueueSnackbar(response.data.message, { variant: 'success' })
+      fetchUserList()
+      setSelectedUser(null)
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setSelectedUser(null)
     }
   }
 
@@ -111,7 +127,7 @@ const page = () => {
   }
 
   const handleDeleteUser = async () => {
-    handleChangeUserStatus(selectedUser.id, 'BANNED')
+    handleDelete(selectedUser.id)
     setDeleteModalOpen(false)
   }
 

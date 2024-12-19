@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 const nodemailer = require('nodemailer')
 
-const otpEmail = async (email, otp) => {
+const staffRegistrationEmail = async (email, fullName, password) => {
+  console.log(fullName)
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.HOST,
@@ -16,14 +17,15 @@ const otpEmail = async (email, otp) => {
     const mailOptions = {
       from: '"Clothes2Wear" <' + process.env.EMAIL + '>',
       to: email,
-      subject: 'OTP Verification | Clothes2wear',
+      subject: 'Staff Registration',
       html: `
+      
         <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your OTP for Clothes2Wear</title>
+    <title>Welcome to Clothes2Wear, Staff Member!</title>
     <style>
       body {
         margin: 0;
@@ -65,16 +67,14 @@ const otpEmail = async (email, otp) => {
         line-height: 1.5;
         margin: 10px 0;
       }
-      .otp-container {
+      .content .details {
         margin-top: 20px;
         background-color: #f8f8f8;
         padding: 15px;
         border-radius: 5px;
-        text-align: center;
-        font-size: 20px;
+        font-size: 16px;
         color: #333;
         font-weight: bold;
-        letter-spacing: 2px;
       }
       .content a {
         display: inline-block;
@@ -111,19 +111,28 @@ const otpEmail = async (email, otp) => {
         />
       </div>
       <div class="content">
-        <h2>Hi Dimpal,</h2>
+        <h2>Welcome, ${fullName}!</h2>
         <p>
-          You requested an OTP for verifying your account on
-          <strong>Clothes2Wear</strong>.
+          We're excited to have you join the Clothes2Wear team as a staff
+          member! As part of our team, you'll be playing an important role in
+          helping us deliver top-notch service and experiences.
         </p>
-        <div class="otp-container">
-          <strong>${otp}</strong>
+        <p>
+          Below are your login details. Please keep them secure and use them to
+          access your account and start managing your tasks:
+        </p>
+        <div class="details">
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Password:</strong> ${password}</p>
         </div>
-        <p>Enter this OTP on the verification page to complete your process.</p>
-        <p>If you didn't request this, please ignore this email.</p>
-        <a href="https://www.clothes2wear.com" target="_blank"
-          >Go to Home Page</a
+        <p>To log in to your account and get started, click the link below:</p>
+        <a href="https://www.clothes2wear.com/admin_/login" target="_blank"
+          >Login to Your Account</a
         >
+        <p>
+          If you have any issues with your account, feel free to reach out to
+          our support team.
+        </p>
       </div>
       <div class="footer">
         <p>
@@ -139,6 +148,7 @@ const otpEmail = async (email, otp) => {
   </body>
 </html>
 
+
       `,
     }
 
@@ -148,4 +158,4 @@ const otpEmail = async (email, otp) => {
   }
 }
 
-module.exports = { otpEmail }
+module.exports = { staffRegistrationEmail }

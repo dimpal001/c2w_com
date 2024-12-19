@@ -4,14 +4,19 @@ import { isAdmin } from '../../middleware/adminAuth'
 
 const prisma = new PrismaClient()
 
-export async function DELETE(request) {
-  const { id } = await request.json()
+export async function POST(request) {
+  const { searchParams } = new URL(request.url)
+  const id = searchParams.get('id')
 
   if (!isAdmin(request)) {
     return NextResponse.json(
       { message: 'Unauthorised access!' },
       { status: 401 }
     )
+  }
+
+  if (!id) {
+    return NextResponse.json({ message: 'ID is required.' }, { status: 400 })
   }
 
   try {
@@ -29,10 +34,7 @@ export async function DELETE(request) {
       { status: 200 }
     )
   } catch (error) {
-    if (error.code === 'P2025') {
-      // Prisma error code for not found
-      return NextResponse.json({ message: 'User not found.' }, { status: 404 })
-    }
+    console.log(error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

@@ -4,6 +4,7 @@ import { hash } from 'bcryptjs'
 import { generateOtp } from '@/lib/generateOtp'
 import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
+import { otpEmail } from '@/utils/email/otpEmail'
 
 const prisma = new PrismaClient()
 
@@ -67,6 +68,9 @@ export async function POST(request) {
       expiresIn: '10m',
     }
   )
+
+  await otpEmail(email, otpCode)
+
   const response = NextResponse.json(
     {
       message: 'We have sent an OTP to your registered email address!',

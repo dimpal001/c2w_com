@@ -1,4 +1,5 @@
 import { generateOtp } from '@/lib/generateOtp'
+import { otpEmail } from '@/utils/email/otpEmail'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
@@ -29,6 +30,8 @@ export async function POST(request) {
         expiresAt: new Date(),
       },
     })
+
+    await otpEmail(email, otp)
 
     return NextResponse.json(
       { message: 'OTP has been sent to your registered email address!' },
