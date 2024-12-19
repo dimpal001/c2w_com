@@ -71,44 +71,46 @@ const CategoryMenu = () => {
               label={'Add Category'}
             />
           </div>
-          {fetchedItems && (
-            <table className='min-w-full text-blue-800 border-collapse'>
-              <thead>
-                <tr className='bg-blue-800 text-white'>
-                  <th className='border px-4 py-2 text-left'>Data</th>
-                  <th className='border px-4 py-2 text-center'>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {fetchedItems.length > 0 &&
-                  fetchedItems.map((item, index) => (
-                    <tr key={index}>
-                      <td className='border px-4 py-2'>{item?.name}</td>
-                      <td className='border flex justify-center py-2'>
-                        <div className='flex items-center justify-center gap-2'>
-                          <Button
-                            onClick={() => {
-                              setSelectedItem(item)
-                              setShowEditModal(true)
-                              setIsEditMode(true)
-                            }}
-                            label={'Edit'}
-                          />
-                          <Button
-                            onClick={() => {
-                              setSelectedItem(item)
-                              setShowDeleteModal(true)
-                            }}
-                            label={'Delete'}
-                            variant='error'
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          )}
+          <div className='overflow-scroll max-h-[200px] border border-blue-700'>
+            {fetchedItems && (
+              <table className='min-w-full text-blue-800 border-collapse'>
+                <thead>
+                  <tr className='bg-blue-800 text-white'>
+                    <th className='border px-4 py-2 text-left'>Data</th>
+                    <th className='border px-4 py-2 text-center'>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {fetchedItems.length > 0 &&
+                    fetchedItems.map((item, index) => (
+                      <tr key={index}>
+                        <td className='border px-4 py-2'>{item?.name}</td>
+                        <td className='border flex justify-center py-2'>
+                          <div className='flex items-center justify-center gap-2'>
+                            <Button
+                              onClick={() => {
+                                setSelectedItem(item)
+                                setShowEditModal(true)
+                                setIsEditMode(true)
+                              }}
+                              label={'Edit'}
+                            />
+                            <Button
+                              onClick={() => {
+                                setSelectedItem(item)
+                                setShowDeleteModal(true)
+                              }}
+                              label={'Delete'}
+                              variant='error'
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            )}
+          </div>
           {showEditModal && (
             <AddEditCategory
               isOpen={true}

@@ -104,7 +104,7 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
                 onClick={handleSubmit}
               />
             </div>
-            <div>
+            <div className='overflow-scroll border border-blue-700 max-h-[250px] scrollbar-hide'>
               {data?.subcategories && data?.subcategories.length > 0 && (
                 <table className='min-w-full text-xs mb-2 text-blue-800 border-collapse'>
                   <thead>

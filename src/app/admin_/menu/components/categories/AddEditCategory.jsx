@@ -59,7 +59,7 @@ const AddEditCategory = ({ isOpen, onClose, item, refresh, isEdit }) => {
           <Button variant='secondary' onClick={onClose} label={'Close'} />
           <Button
             loading={submitting}
-            label={isEdit ? 'Edit' : 'Add'}
+            label={isEdit ? 'Save' : 'Add'}
             onClick={handleSubmit}
           />
         </ModalFooter>

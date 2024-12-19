@@ -94,3 +94,39 @@ export async function DELETE(request) {
     )
   }
 }
+
+// Update color
+export async function PATCH(request) {
+  try {
+    if (!isAdmin(request)) {
+      return NextResponse.json(
+        { message: 'Unauthorised access!' },
+        { status: 401 }
+      )
+    }
+
+    const { id, name, code } = await request.json()
+
+    // Generate slug
+    const slug = slugify(name, { lower: true })
+
+    const color = await prisma.productColor.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        code,
+        slug,
+      },
+    })
+
+    return NextResponse.json(
+      { message: 'Color added successfully', color },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.error('Error adding color:', error)
+    return NextResponse.json({ message: 'Error adding color' }, { status: 500 })
+  }
+}
