@@ -48,3 +48,14 @@
 body {
   font-family: var(--font-inter);
 }
+
+.editor-content p:empty::before {
+  /* content: '\00a0'; */
+  display: block;
+  /* height: 1rem; */
+}
+
+.editor-content a {
+  text-decoration: underline;
+  font-weight: 600;
+}

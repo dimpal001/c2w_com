@@ -19,6 +19,7 @@ import Select from './Select'
 import TextArea from './TextArea'
 import Input from './Input'
 import SizeChartSection from './SizeChartSection'
+import CustomEditor from './CustomEditor'
 
 const ProductForm = ({ formData, setFormData, type }) => {
   const [inventory, setInventory] = useState({
@@ -869,26 +870,32 @@ const ProductForm = ({ formData, setFormData, type }) => {
       <Devider />
 
       <Section className={'rounded-sm p-5 bg-stone-300'}>
-        <TextArea
-          label='Enter summary'
-          placeholder='Enter here ...'
-          rows={3}
+        <CustomEditor
           name='summary'
+          label={'Enter Summary'}
           value={formData.summary}
-          onChange={handleChange}
+          onChange={(content) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              summary: content,
+            }))
+          }}
         />
       </Section>
 
       <Devider />
 
       <Section className={'rounded-sm p-5 bg-stone-300'}>
-        <TextArea
-          label='Enter description'
-          placeholder='Enter here ...'
-          rows={3}
+        <CustomEditor
           name='description'
+          label={'Enter description'}
           value={formData.description}
-          onChange={handleChange}
+          onChange={(content) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              description: content,
+            }))
+          }}
         />
       </Section>
 
