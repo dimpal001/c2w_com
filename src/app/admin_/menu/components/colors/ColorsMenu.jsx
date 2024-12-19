@@ -75,6 +75,7 @@ const ColorsMenu = () => {
               <table className='min-w-full sticky top-0 left-0 right-0 text-blue-800 border-collapse'>
                 <thead>
                   <tr className='bg-blue-800 text-white'>
+                    <th className='border px-4 py-2 text-left'>Sl. No.</th>
                     <th className='border px-4 py-2 text-left'>Data</th>
                     <th className='border px-4 py-2 text-left'>Color</th>
                     <th className='border px-4 py-2 text-center'>Action</th>
@@ -84,6 +85,9 @@ const ColorsMenu = () => {
                   {fetchedItems.length > 0 &&
                     fetchedItems.map((item, index) => (
                       <tr key={index}>
+                        <td className='border font-semibold capitalize px-4 py-2'>
+                          {index + 1}
+                        </td>
                         <td className='border capitalize px-4 py-2'>
                           {item?.name}
                         </td>
