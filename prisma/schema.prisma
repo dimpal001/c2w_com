@@ -158,6 +158,8 @@ model Product {
   customerTypeId       String?
   userId               String
   estimatedDeliveryDay Int?
+  sizeChartId          String?
+  sizeChart            SizeChart[]
   categories           ProductCategory[] @relation("ProductCategories")
   subcategories        SubCategory[]     @relation("SubcategoryProducts")
   similarProducts      Product[]         @relation("SimilarProducts")
@@ -174,6 +176,17 @@ model Product {
   tags          Json               @default("[]")
 
   similarTo Product[] @relation("SimilarProducts")
+}
+
+model SizeChart {
+  id       String  @id @default(uuid())
+  title    String?
+  imageUrl String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
 }
 
 model ProductImage {

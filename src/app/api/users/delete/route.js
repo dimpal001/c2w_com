@@ -5,8 +5,7 @@ import { isAdmin } from '../../middleware/adminAuth'
 const prisma = new PrismaClient()
 
 export async function POST(request) {
-  const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
+  const { id } = await request.json()
 
   if (!isAdmin(request)) {
     return NextResponse.json(
@@ -15,22 +14,26 @@ export async function POST(request) {
     )
   }
 
-  if (!id) {
-    return NextResponse.json({ message: 'ID is required.' }, { status: 400 })
-  }
-
   try {
-    // Delete the product by its ID
-    const deletedUser = await prisma.user.delete({
-      where: { id },
-    })
+    console.log(id)
 
-    if (!deletedUser) {
-      return NextResponse.json({ message: 'User not found.' }, { status: 404 })
+    if (!id) {
+      return NextResponse.json({ message: 'ID is required!' }, { status: 404 })
+    }
+
+    await prisma.userAddress.deleteMany({
+      where: { userId: id },
+    })
+    const user = await prisma.user.delete({ where: { id } })
+
+    console.log(user)
+
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
     return NextResponse.json(
-      { message: 'User has been deleted.', product: deletedUser },
+      { message: 'User has been deleted' },
       { status: 200 }
     )
   } catch (error) {
@@ -39,7 +42,5 @@ export async function POST(request) {
       { message: 'Something went wrong, try again!' },
       { status: 500 }
     )
-  } finally {
-    await prisma.$disconnect()
   }
 }

@@ -227,6 +227,10 @@ const page = () => {
                 label={'Reviews'}
               />
               <Button
+                onClick={() => router.push('/admin_/products/size-chart')}
+                label={'Size Chart'}
+              />
+              <Button
                 onClick={() => router.push('/admin_/products/create-product')}
                 label={'Add Product'}
               />

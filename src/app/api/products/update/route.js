@@ -24,6 +24,7 @@ export async function PATCH(request) {
     userId,
     tags,
     similarProducts,
+    sizeChartId,
   } = await request.json()
 
   try {
@@ -128,6 +129,7 @@ export async function PATCH(request) {
           userId,
           sellerCode,
           returnPolicy,
+          sizeChartId,
           tags,
           images:
             images && images.length > 0

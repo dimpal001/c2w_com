@@ -70,6 +70,7 @@ export async function POST(request) {
     returnPolicy,
     tags,
     similarProducts,
+    sizeChartId,
   } = await request.json()
 
   if (!isAdmin(request)) {
@@ -153,6 +154,7 @@ export async function POST(request) {
         displayPrice: parseFloat(displayPrice),
         summary,
         sellerCode,
+        sizeChartId,
         customerTypeId,
         returnPolicy,
         userId,

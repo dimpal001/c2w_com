@@ -94,7 +94,9 @@ const page = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.post(`/api/users/delete?id=${id}`)
+      const response = await axios.post(`/api/users/delete`, {
+        id,
+      })
       enqueueSnackbar(response.data.message, { variant: 'success' })
       fetchUserList()
       setSelectedUser(null)
@@ -165,6 +167,7 @@ const page = () => {
             <option value='BUYER'>Buyer</option>
             <option value='SELLER'>Seller</option>
             <option value='ADMIN'>Admin</option>
+            <option value='STAFF'>Staff</option>
           </Select>
         </div>
 

@@ -12,6 +12,7 @@ const Page = ({ productId }) => {
     title: '',
     customerTypeId: '',
     sellerCode: '',
+    sizeChartId: '',
     longTailKeyword: '',
     categories: [],
     subcategories: [],
