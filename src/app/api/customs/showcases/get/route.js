@@ -6,6 +6,7 @@ const prisma = new PrismaClient()
 export async function GET() {
   try {
     const showcases = await prisma.showcases.findMany()
+    console.log(showcases)
 
     return NextResponse.json({ showcases }, { status: 200 })
   } catch (error) {
