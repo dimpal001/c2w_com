@@ -28,12 +28,6 @@ const TrendingNowSection = ({ products }) => {
           products.map((product, index) => (
             <TrendingNowCard key={index} product={product} />
           ))}
-        {products.length > 0 &&
-          products
-            .slice(0, 2)
-            .map((product, index) => (
-              <TrendingNowCard key={index} product={product} />
-            ))}
 
         {!products &&
           Array.from({ length: 5 }, (_, index) => (
