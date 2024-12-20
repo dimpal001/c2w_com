@@ -3,7 +3,7 @@ import { ChevronLeft } from 'lucide-react'
 import React, { useState } from 'react'
 import Collapsible from 'react-collapsible'
 
-const ProductInfo = ({ title, data }) => {
+const ProductInfo = ({ title, data, isDangerouslySetInnerHTML }) => {
   const [open, setOpen] = useState(false)
   return (
     <div className={open && 'bg-pink-50'}>
@@ -29,7 +29,14 @@ const ProductInfo = ({ title, data }) => {
           </div>
         }
       >
-        <p className='text-sm lg:pl-9 p-2'>{data}</p>
+        {isDangerouslySetInnerHTML ? (
+          <div
+            className='editor-content text-sm lg:pl-9 p-2'
+            dangerouslySetInnerHTML={{ __html: data }}
+          />
+        ) : (
+          <p className='text-sm lg:pl-9 p-2'>{data}</p>
+        )}
         <div className='bg-neutral-300 mt-2 w-full h-[1px]'></div>
       </Collapsible>
     </div>

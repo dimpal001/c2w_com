@@ -24,6 +24,8 @@ import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import React, { useState } from 'react'
 import ProductInfo from './ProductInfo'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
@@ -185,7 +187,15 @@ const DisplayPorductSection = ({ product }) => {
       <div className='py-5 lg:w-[47%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
         <p className='text-sm text-neutral-600'>
-          {showFull ? product?.summary : product?.summary.slice(0, 200)}{' '}
+          <span
+            className='text-sm'
+            dangerouslySetInnerHTML={{
+              __html: showFull
+                ? product?.summary
+                : product?.summary.slice(0, 200),
+            }}
+          />
+          {/* {showFull ? product?.summary : product?.summary.slice(0, 200)}{' '} */}
           <span
             onClick={() => setShowFull(!showFull)}
             className='font-semibold text-pink-500 cursor-pointer'
@@ -263,6 +273,7 @@ const DisplayPorductSection = ({ product }) => {
         {/* Product info collapsible card */}
         <div className='mb-1 flex flex-col gap-2'>
           <ProductInfo
+            isDangerouslySetInnerHTML={true}
             title={'Product description'}
             data={product.description}
           />
@@ -439,11 +450,13 @@ const SimilarProductImage = ({ product, onClick }) => {
 
 const ThumbnailImage = ({ image }) => {
   return (
-    <img
-      src={cdnPath + image}
-      alt={image.altText}
-      className='lg:w-[500px] object-fill rounded-lg lg:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
-    />
+    <Zoom>
+      <img
+        src={cdnPath + image}
+        alt={image.altText}
+        className='lg:w-[470px] object-cover rounded-lg lg:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
+      />
+    </Zoom>
   )
 }
 
