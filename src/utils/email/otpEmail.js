@@ -111,7 +111,7 @@ const otpEmail = async (email, otp) => {
         />
       </div>
       <div class="content">
-        <h2>Hi Dimpal,</h2>
+        <h2>Hi there,</h2>
         <p>
           You requested an OTP for verifying your account on
           <strong>Clothes2Wear</strong>.
