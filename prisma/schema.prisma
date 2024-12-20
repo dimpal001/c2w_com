@@ -254,10 +254,11 @@ model ProductSize {
 }
 
 model CustomerType {
-  id       String    @id @default(uuid())
-  name     String
-  slug     String    @unique
-  products Product[]
+  id        String    @id @default(uuid())
+  name      String
+  slug      String    @unique
+  productId String?
+  products  Product[]
 }
 
 model Discount {

@@ -405,22 +405,26 @@ const ProductDetailsPage = ({ params }) => {
 
                 {/* Size Chart  */}
                 <div className='mb-3'>
-                  <div className='py-3 flex flex-col gap-3'>
-                    <h3 className='text-lg font-semibold text-blue-800'>
-                      Size Chart
-                    </h3>
-                    <div>
-                      <img
-                        onClick={() => {
-                          setSelectedImage(productDetails.sizeChart[0].imageUrl)
-                          setShowImageModal(true)
-                        }}
-                        src={cdnPath + productDetails.sizeChart[0].imageUrl}
-                        className='w-[120px] border cursor-pointer h-[140px]'
-                        alt=''
-                      />
+                  {productDetails?.sizeChart?.length > 0 && (
+                    <div className='py-3 flex flex-col gap-3'>
+                      <h3 className='text-lg font-semibold text-blue-800'>
+                        Size Chart
+                      </h3>
+                      <div>
+                        <img
+                          onClick={() => {
+                            setSelectedImage(
+                              productDetails.sizeChart[0].imageUrl
+                            )
+                            setShowImageModal(true)
+                          }}
+                          src={cdnPath + productDetails.sizeChart[0].imageUrl}
+                          className='w-[120px] border cursor-pointer h-[140px]'
+                          alt=''
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Product Variants  */}

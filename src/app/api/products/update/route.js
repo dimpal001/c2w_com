@@ -110,6 +110,12 @@ export async function PATCH(request) {
       where: { productId },
     })
 
+    const existingCustomerType = await prisma.customerType.findFirst({
+      where: {
+        productId,
+      },
+    })
+
     // Start a transaction to update product details
     await prisma.$transaction([
       prisma.productImage.deleteMany({
@@ -132,10 +138,20 @@ export async function PATCH(request) {
           sellerCode,
           returnPolicy,
           sizeChartId,
+          customerType: customerTypeId
+            ? {
+                connect: { id: customerTypeId },
+                ...(existingCustomerType && {
+                  disconnect: { id: existingCustomerType.id },
+                }),
+              }
+            : undefined,
           sizeChart: sizeChartId
             ? {
                 connect: { id: sizeChartId },
-                disconnect: { id: existingSizeChart.id },
+                ...(existingSizeChart && {
+                  disconnect: { id: existingSizeChart.id },
+                }),
               }
             : undefined,
           tags,
