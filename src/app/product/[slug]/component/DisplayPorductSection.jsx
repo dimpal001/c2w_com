@@ -161,7 +161,7 @@ const DisplayPorductSection = ({ product }) => {
   return (
     <div className='flex max-sm:flex-col'>
       {/* Image Section  */}
-      <div className='flex max-sm:flex-col-reverse gap-4 max-sm:gap-2 lg:w-[55%]'>
+      <div className='flex max-sm:flex-col-reverse lg:pl-10 gap-8 max-sm:gap-2 lg:w-[54%]'>
         <div
           style={{
             scrollbarWidth: 'none',
@@ -184,7 +184,7 @@ const DisplayPorductSection = ({ product }) => {
       </div>
 
       {/* Data Section  */}
-      <div className='py-5 lg:w-[47%] flex-col flex gap-3 justify-start'>
+      <div className='py-5 lg:w-[46%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
         <p className='text-sm text-neutral-600'>
           <span
@@ -454,7 +454,7 @@ const ThumbnailImage = ({ image }) => {
       <img
         src={cdnPath + image}
         alt={image.altText}
-        className='lg:w-[470px] object-cover rounded-lg lg:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
+        className='lg:w-[500px] object-cover rounded-lg lg:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
       />
     </Zoom>
   )

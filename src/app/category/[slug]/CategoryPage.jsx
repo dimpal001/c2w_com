@@ -11,6 +11,7 @@ import axios from 'axios'
 import { Frown, Loader } from 'lucide-react'
 import { useSearch } from '@/app/context/SearchContext'
 import { useUserContext } from '@/app/context/UserContext'
+import Skeleton from '@/app/Components/Skeleton'
 
 const CategoryPage = ({ slug }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
@@ -110,7 +111,7 @@ const CategoryPage = ({ slug }) => {
         <CategoryBar />
       </div>
 
-      <div className='p-3 flex md:gap-4 gap-2 items-start max-md:flex-col'>
+      <div className='p-3 flex md:gap-10 gap-2 items-start max-md:flex-col'>
         {/* Filter */}
         <div className='max-sm:w-full lg:sticky top-[70px] left-4'>
           <div className='max-md:hidden'>
@@ -197,8 +198,16 @@ const CategoryPage = ({ slug }) => {
         {/* Products */}
         <div className='w-full'>
           {fetching ? (
-            <div className='w-full h-[600px] flex justify-center items-center'>
-              <Loader className='animate-spin' />
+            <div className='flex gap-6 mt-5 h-full flex-wrap max-sm:grid grid-cols-2 max-sm:gap-2'>
+              {/* <Loader className='animate-spin' /> */}
+              {Array.from({ length: 12 }, (_, index) => (
+                <Skeleton
+                  key={index}
+                  className={
+                    'w-60 max-sm:w-[182px] max-w-60 max-sm:max-w-[182px] h-96 max-sm:h-72 max-sm:max-h-72 max-h-96'
+                  }
+                />
+              ))}
             </div>
           ) : (
             <div className='max-sm:min-h-[600px]'>

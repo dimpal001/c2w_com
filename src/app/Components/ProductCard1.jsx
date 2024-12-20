@@ -65,7 +65,10 @@ const ProductCard1 = ({ product }) => {
   return (
     <div className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'>
       {/* Product Image */}
-      <div className='h-60 max-sm:h-52 max-sm:w-full bg-stone-200 rounded-lg'>
+      <div
+        onClick={() => router.push(`/product/${product?.slug}`)}
+        className='h-72 max-sm:h-52 max-sm:w-full bg-stone-200 rounded-lg'
+      >
         <img
           src={cdnPath + product.thumbnailUrl}
           alt={product.title}
@@ -74,12 +77,12 @@ const ProductCard1 = ({ product }) => {
       </div>
 
       {/* Product Details */}
-      <div
-        onClick={() => router.push(`/product/${product?.slug}`)}
-        className='p-4 max-sm:p-2 group relative'
-      >
+      <div className='p-2 max-sm:p-2 relative'>
         {/* Title */}
-        <h2 className='text-sm group-hover:text-pink-600 group-hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'>
+        <h2
+          onClick={() => router.push(`/product/${product?.slug}`)}
+          className='text-sm hover:text-pink-600 hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'
+        >
           {product.title}
         </h2>
 
@@ -89,28 +92,24 @@ const ProductCard1 = ({ product }) => {
         </p>
 
         {/* Arrow Icon */}
-        <div className='absolute bottom-4 right-4'>
-          {/* <button className='bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors'> */}
+        <div className='absolute bottom-2 gap-4 right-4 flex items-end'>
+          <div className='flex justify-end'>
+            {addingWishList ? (
+              <Loader2 size={27} className='text-pink-600 animate-spin' />
+            ) : (
+              <Heart
+                onClick={handleAddWishList}
+                className={`text-pink-500 cursor-pointer ${
+                  user?.wishlistItem?.some(
+                    (item) => item.productId === product.id
+                  ) && 'fill-pink-500'
+                }`}
+                size={27}
+              />
+            )}
+          </div>
           <ArrowRight strokeWidth={3} className='h-7 text-gray-700' />
-          {/* </button> */}
         </div>
-      </div>
-
-      {/* Favourite icon  */}
-      <div className='absolute w-20 h-20 flex justify-end top-3 right-3 z-10'>
-        {addingWishList ? (
-          <Loader2 size={27} className='text-pink-600 animate-spin' />
-        ) : (
-          <Heart
-            onClick={handleAddWishList}
-            className={`text-pink-500 cursor-pointer ${
-              user?.wishlistItem?.some(
-                (item) => item.productId === product.id
-              ) && 'fill-pink-500'
-            }`}
-            size={27}
-          />
-        )}
       </div>
 
       {/* discount label  */}

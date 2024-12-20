@@ -114,7 +114,7 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   }
 
   return (
-    <div className='w-64 overflow-scroll max-md:w-full max-sm:min-h-[600px] max-sm:p-6 bg-pink-50 shadow-sm shadow-pink-300 p-3 rounded-lg'>
+    <div className='w-80 overflow-scroll max-md:w-full max-sm:min-h-[600px] max-sm:p-6 bg-pink-50 shadow-sm shadow-pink-300 p-3 rounded-lg'>
       <div className='flex items-center justify-between mb-4'>
         <h2 className='text-2xl font-semibold text-gray-800'>Filter</h2>
         <span
