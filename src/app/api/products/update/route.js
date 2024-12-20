@@ -106,16 +106,6 @@ export async function PATCH(request) {
       })
     )
 
-    const existingSizeChart = await prisma.sizeChart.findFirst({
-      where: { productId },
-    })
-
-    const existingCustomerType = await prisma.customerType.findFirst({
-      where: {
-        productId,
-      },
-    })
-
     // Start a transaction to update product details
     await prisma.$transaction([
       prisma.productImage.deleteMany({
@@ -138,22 +128,6 @@ export async function PATCH(request) {
           sellerCode,
           returnPolicy,
           sizeChartId,
-          customerType: customerTypeId
-            ? {
-                connect: { id: customerTypeId },
-                ...(existingCustomerType && {
-                  disconnect: { id: existingCustomerType.id },
-                }),
-              }
-            : undefined,
-          sizeChart: sizeChartId
-            ? {
-                connect: { id: sizeChartId },
-                ...(existingSizeChart && {
-                  disconnect: { id: existingSizeChart.id },
-                }),
-              }
-            : undefined,
           tags,
           images:
             images && images.length > 0

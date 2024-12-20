@@ -193,7 +193,7 @@ const ProductDetailsPage = ({ params }) => {
                 </div>
                 <div className='mb-3 flex gap-3 flex-wrap'>
                   {productDetails.images.map((item, index) => (
-                    <div key={index} className='flex flex-col'>
+                    <div key={index} className='flex flex-col max-w-40'>
                       <img
                         onClick={() => {
                           setSelectedImage(item.imageUrl)
@@ -203,7 +203,7 @@ const ProductDetailsPage = ({ params }) => {
                         src={cdnPath + item.imageUrl}
                         alt={item?.altText || 'clothes2wear'}
                       />
-                      <div className='flex p-2 justify-center'>
+                      <div className='flex p-2 text-xs overflow-scroll justify-center'>
                         <strong>Alt: &nbsp;</strong> {item?.altText}
                       </div>
                     </div>
@@ -376,7 +376,7 @@ const ProductDetailsPage = ({ params }) => {
                   </div>
                 </div>
 
-                {/* Category & Tags  */}
+                {/* Long tail keyword  */}
                 <div className='mb-3'>
                   <h3 className='text-lg font-semibold text-blue-800'>
                     Long tail keyword
@@ -405,7 +405,7 @@ const ProductDetailsPage = ({ params }) => {
 
                 {/* Size Chart  */}
                 <div className='mb-3'>
-                  {productDetails?.sizeChart?.length > 0 && (
+                  {productDetails?.sizeChart && (
                     <div className='py-3 flex flex-col gap-3'>
                       <h3 className='text-lg font-semibold text-blue-800'>
                         Size Chart
@@ -413,12 +413,10 @@ const ProductDetailsPage = ({ params }) => {
                       <div>
                         <img
                           onClick={() => {
-                            setSelectedImage(
-                              productDetails.sizeChart[0].imageUrl
-                            )
+                            setSelectedImage(productDetails.sizeChart.imageUrl)
                             setShowImageModal(true)
                           }}
-                          src={cdnPath + productDetails.sizeChart[0].imageUrl}
+                          src={cdnPath + productDetails.sizeChart.imageUrl}
                           className='w-[120px] border cursor-pointer h-[140px]'
                           alt=''
                         />

@@ -8,24 +8,16 @@ export async function GET(request) {
   const id = searchParams.get('id')
 
   try {
-    let productDetails = []
-
     if (!id) {
       return NextResponse.json({ message: 'ID is required' }, { status: 404 })
     }
 
-    productDetails = await prisma.product.findUnique({
+    // Fetch product details
+    const productDetails = await prisma.product.findUnique({
       where: { id },
       include: {
         categories: true,
         subcategories: true,
-        sizeChart: {
-          select: {
-            id: true,
-            title: true,
-            imageUrl: true,
-          },
-        },
         inventory: {
           include: {
             size: {
@@ -86,7 +78,32 @@ export async function GET(request) {
       },
     })
 
-    return NextResponse.json(productDetails, { status: 200 })
+    // If the product is not found, return a 404 response
+    if (!productDetails) {
+      return NextResponse.json(
+        { message: 'Product not found' },
+        { status: 404 }
+      )
+    }
+
+    // Fetch sizeChart data if sizeChartId exists
+    let sizeChartData = null
+    if (productDetails.sizeChartId) {
+      sizeChartData = await prisma.sizeChart.findUnique({
+        where: { id: productDetails.sizeChartId },
+        select: {
+          id: true,
+          title: true,
+          imageUrl: true,
+        },
+      })
+    }
+
+    // Return the product details and sizeChart data together
+    return NextResponse.json(
+      { ...productDetails, sizeChart: sizeChartData },
+      { status: 200 }
+    )
   } catch (error) {
     console.error('Error querying products:', error)
     return NextResponse.json(
