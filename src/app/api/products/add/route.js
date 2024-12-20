@@ -159,6 +159,7 @@ export async function POST(request) {
         returnPolicy,
         userId,
         tags,
+        sizeChart: sizeChartId ? { connect: { id: sizeChartId } } : undefined,
         images:
           images.length > 0
             ? {

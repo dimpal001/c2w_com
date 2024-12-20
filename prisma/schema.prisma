@@ -159,7 +159,7 @@ model Product {
   userId               String
   estimatedDeliveryDay Int?
   sizeChartId          String?
-  sizeChart            SizeChart[]
+  sizeChart            SizeChart?        @relation(fields: [sizeChartId], references: [id])
   categories           ProductCategory[] @relation("ProductCategories")
   subcategories        SubCategory[]     @relation("SubcategoryProducts")
   similarProducts      Product[]         @relation("SimilarProducts")
@@ -183,10 +183,10 @@ model SizeChart {
   title    String?
   imageUrl String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
-  Product   Product? @relation(fields: [productId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
   productId String?
+  Product   Product[]
 }
 
 model ProductImage {

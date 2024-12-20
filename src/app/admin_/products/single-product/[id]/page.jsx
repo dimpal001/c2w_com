@@ -14,6 +14,7 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
 import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
 import { cdnPath } from '@/app/Components/cdnPath'
+import ShowImageModal from '../../components/ShowImageModal'
 
 const ProductDetailsPage = ({ params }) => {
   const { id } = use(params)
@@ -23,6 +24,8 @@ const ProductDetailsPage = ({ params }) => {
   const [loading, setLoading] = useState(true)
   const [copiedText, setCopiedText] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [showImageModal, setShowImageModal] = useState(false)
 
   const fetchCustomerTypes = async () => {
     try {
@@ -192,7 +195,11 @@ const ProductDetailsPage = ({ params }) => {
                   {productDetails.images.map((item, index) => (
                     <div key={index} className='flex flex-col'>
                       <img
-                        className='border w-40 rounded-md shadow-md shadow-blue-800'
+                        onClick={() => {
+                          setSelectedImage(item.imageUrl)
+                          setShowImageModal(true)
+                        }}
+                        className='border w-40 rounded-md cursor-pointer shadow-md shadow-blue-800'
                         src={cdnPath + item.imageUrl}
                         alt={item?.altText || 'clothes2wear'}
                       />
@@ -267,7 +274,11 @@ const ProductDetailsPage = ({ params }) => {
                       <tbody>
                         <tr>
                           <td className='text-left p-3 border'>
-                            {productDetails.summary}
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: productDetails.summary,
+                              }}
+                            />
                           </td>
                         </tr>
                       </tbody>
@@ -285,7 +296,12 @@ const ProductDetailsPage = ({ params }) => {
                       <tbody>
                         <tr>
                           <td className='text-left p-3 border'>
-                            {productDetails.description}
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: productDetails.description,
+                              }}
+                            />
+                            {/* {productDetails.description} */}
                           </td>
                         </tr>
                       </tbody>
@@ -384,6 +400,26 @@ const ProductDetailsPage = ({ params }) => {
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+
+                {/* Size Chart  */}
+                <div className='mb-3'>
+                  <div className='py-3 flex flex-col gap-3'>
+                    <h3 className='text-lg font-semibold text-blue-800'>
+                      Size Chart
+                    </h3>
+                    <div>
+                      <img
+                        onClick={() => {
+                          setSelectedImage(productDetails.sizeChart[0].imageUrl)
+                          setShowImageModal(true)
+                        }}
+                        src={cdnPath + productDetails.sizeChart[0].imageUrl}
+                        className='w-[120px] border cursor-pointer h-[140px]'
+                        alt=''
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -640,6 +676,14 @@ const ProductDetailsPage = ({ params }) => {
                     </div>
                   </div>
                 </div>
+
+                {showImageModal && (
+                  <ShowImageModal
+                    isOpen={true}
+                    onClose={() => setShowImageModal(false)}
+                    imageUrl={selectedImage}
+                  />
+                )}
               </>
             ) : (
               <p className='text-gray-700'>Product details not available.</p>

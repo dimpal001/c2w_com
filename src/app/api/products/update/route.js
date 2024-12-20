@@ -106,14 +106,16 @@ export async function PATCH(request) {
       })
     )
 
-    console.log(images)
+    const existingSizeChart = await prisma.sizeChart.findFirst({
+      where: { productId },
+    })
 
     // Start a transaction to update product details
     await prisma.$transaction([
-      // Delete old images if new images are provided
       prisma.productImage.deleteMany({
         where: { productId },
       }),
+
       // Update the product with new data
       prisma.product.update({
         where: { id: productId },
@@ -130,6 +132,12 @@ export async function PATCH(request) {
           sellerCode,
           returnPolicy,
           sizeChartId,
+          sizeChart: sizeChartId
+            ? {
+                connect: { id: sizeChartId },
+                disconnect: { id: existingSizeChart.id },
+              }
+            : undefined,
           tags,
           images:
             images && images.length > 0
@@ -170,7 +178,7 @@ export async function PATCH(request) {
       { status: 200 }
     )
   } catch (error) {
-    console.error(error)
+    console.log(error.message || 'Something went wrong')
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

@@ -19,6 +19,13 @@ export async function GET(request) {
       include: {
         categories: true,
         subcategories: true,
+        sizeChart: {
+          select: {
+            id: true,
+            title: true,
+            imageUrl: true,
+          },
+        },
         inventory: {
           include: {
             size: {
