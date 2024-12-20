@@ -9,7 +9,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import { cdnPath } from '@/app/Components/cdnPath'
-import { Check, Eye } from 'lucide-react'
+import { Check, Eye, X } from 'lucide-react'
 
 const SizeChartSection = ({ formData, setFormData }) => {
   const [sizeCharts, setSizeCharts] = useState([])
@@ -57,6 +57,13 @@ const SizeChartSection = ({ formData, setFormData }) => {
                     product={selectedChart}
                     isSelected={false}
                     showImage={() => handleShowImage(selectedChart)}
+                    removeChart={() => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        sizeChartId: '',
+                      }))
+                    }}
+                    showClose={true}
                   />
                 ))}
             </div>
@@ -113,6 +120,8 @@ export const SimilarProductCard = ({
   onClick,
   isSelected,
   showImage,
+  removeChart,
+  showClose,
 }) => {
   return (
     <div
@@ -132,6 +141,16 @@ export const SimilarProductCard = ({
       {isSelected && (
         <Check
           className='text-white absolute top-1 right-1 rounded-full bg-blue-700 w-7 h-7 p-1'
+          strokeWidth={2}
+        />
+      )}
+      {showClose && (
+        <X
+          onClick={(e) => {
+            e.stopPropagation()
+            removeChart()
+          }}
+          className='text-white absolute top-1 left-10 rounded-full bg-red-600 w-7 h-7 p-1'
           strokeWidth={2}
         />
       )}

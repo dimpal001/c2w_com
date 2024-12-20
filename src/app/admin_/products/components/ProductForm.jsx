@@ -758,7 +758,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
                 formData.images.map((img, index) => (
                   <div
                     key={index}
-                    className='border border-slate-700 rounded-md flex items-center justify-between'
+                    className='border max-w-40 border-slate-700 rounded-md flex items-center justify-between'
                   >
                     <div className='border relative rounded-md'>
                       {/* Display Image */}
@@ -778,8 +778,8 @@ const ProductForm = ({ formData, setFormData, type }) => {
                           }}
                         ></div>
                       )}
-                      <p className='text-xs text-center py-1'>
-                        <span className='font-bold'>Alt:</span>{' '}
+                      <p className='text-xs text-center text-wrap py-1'>
+                        <span className='font-bold text-blue-700'>Alt:</span>{' '}
                         {img.altText && img.altText}
                       </p>
                       <div className='absolute top-2 right-2'>

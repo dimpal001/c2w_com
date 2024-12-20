@@ -203,7 +203,7 @@ const ProductDetailsPage = ({ params }) => {
                         src={cdnPath + item.imageUrl}
                         alt={item?.altText || 'clothes2wear'}
                       />
-                      <div className='flex p-2 text-xs overflow-scroll justify-center'>
+                      <div className='text-xs text-center text-wrap py-1'>
                         <strong>Alt: &nbsp;</strong> {item?.altText}
                       </div>
                     </div>

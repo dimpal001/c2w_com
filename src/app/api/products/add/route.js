@@ -154,7 +154,7 @@ export async function POST(request) {
         displayPrice: parseFloat(displayPrice),
         summary,
         sellerCode,
-        sizeChartId,
+        sizeChartId: sizeChartId ? sizeChartId : null,
         customerTypeId,
         returnPolicy,
         userId,
