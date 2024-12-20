@@ -8,10 +8,10 @@ const BlogPage = () => {
     <div>
       <HeroProductSection />
       <div className='flex gap-2 px-5 py-2'>
-        <div className='lg:w-[70%] w-full'>
+        <div className='md:w-[70%] w-full'>
           <SecondHeroProductSection />
         </div>
-        <div className='lg:w-[30%] w-full'>
+        <div className='md:w-[30%] w-full'>
           <SideProductsSection />
         </div>
       </div>

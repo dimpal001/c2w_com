@@ -120,7 +120,7 @@ export default function RootLayout({ children }) {
                 {/* Applies Inter font */}
                 {/* Scroll Buttons */}
                 {isVisible && (
-                  <div className='fixed z-20 bottom-4 right-4 lg:bottom-16 lg:right-16 flex flex-col space-y-2'>
+                  <div className='fixed z-20 bottom-4 right-4 md:bottom-16 md:right-16 flex flex-col space-y-2'>
                     <button
                       onClick={scrollToTop}
                       className='bg-pink-500 text-white animate__animated animate__fadeInUp flex justify-center p-2 rounded-lg shadow-lg'

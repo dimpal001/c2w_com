@@ -45,7 +45,7 @@ const QuoteSection = () => {
                       width={500}
                       height={200}
                       layout='intrinsic'
-                      className='lg:w-[500px] rounded-tl-2xl rounded-br-2xl lg:h-[200px] -skew-x-12'
+                      className='md:w-[500px] rounded-tl-2xl rounded-br-2xl md:h-[200px] -skew-x-12'
                       alt=''
                       src={cdnPath + item.imageUrl}
                     />
@@ -67,7 +67,7 @@ const QuoteSection = () => {
 
 const Card = ({ data }) => {
   return (
-    <div className='w-full relative gap-5 max-sm:p-5 -skew-x-12 justify-center items-center rounded-2xl lg:w-[500px] lg:h-[150px] bg-gradient-to-r from-pink-500 to-blue-400 text-white flex mt-3'>
+    <div className='w-full relative gap-5 max-sm:p-5 -skew-x-12 justify-center items-center rounded-2xl md:w-[500px] md:h-[150px] bg-gradient-to-r from-pink-500 to-blue-400 text-white flex mt-3'>
       <p className='font-semibold plhu max-sm:text-sm text-center'>
         {data?.text}
       </p>

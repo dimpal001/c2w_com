@@ -80,7 +80,7 @@ const Header = ({ sticky = true }) => {
         </div>
 
         {/* Search Bar */}
-        <div className='lg:w-[70%] max-sm:hidden'>
+        <div className='md:w-[70%] max-sm:hidden'>
           <div className='p-2 px-4 rounded-full bg-neutral-100 flex items-center gap-2'>
             <Camera size={20} />
             <form onSubmit={handleSubmit}>
@@ -101,7 +101,7 @@ const Header = ({ sticky = true }) => {
           <Link href={'/'}>
             <Image
               layout='intrinsic'
-              className='lg:w-52'
+              className='md:w-52'
               src={LogoImg}
               alt='Logo'
             />

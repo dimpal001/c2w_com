@@ -21,10 +21,10 @@ const ShopBySeasonSection = ({ seasons }) => {
 
 const SeasonCard = ({ season }) => {
   return (
-    <div className='w-screen relative lg:h-[583px] max-sm:h-[500px]'>
+    <div className='w-screen relative md:h-[583px] max-sm:h-[500px]'>
       <video
         loop
-        className='w-screen max-sm:w-full object-cover lg:h-[583px] max-sm:h-[500px] '
+        className='w-screen max-sm:w-full object-cover md:h-[583px] max-sm:h-[500px] '
         autoPlay
         muted
         src={cdnPath + season?.videoUrl}
@@ -32,7 +32,7 @@ const SeasonCard = ({ season }) => {
       <div className='w-ful z-10 opacity-40 absolute h-full inset-0 bg-black'></div>
       <div className='w-ful gap-10 flex flex-col justify-center items-center text-white z-20 absolute h-full inset-0 bg-transparent'>
         <div>
-          <p className='text-xl max-sm:text-sm max-sm:tracking-[12px] lg:tracking-[20px] pb-3 max-sm:pb-1 uppercase font-bold text-center unbounded'>
+          <p className='text-xl max-sm:text-sm max-sm:tracking-[12px] md:tracking-[20px] pb-3 max-sm:pb-1 uppercase font-bold text-center unbounded'>
             shop by
           </p>
           <h2 className='text-5xl max-sm:text-4xl uppercase tracking-[10px] font-extrabold text-center unbounded'>
@@ -60,7 +60,7 @@ const SeasonCard = ({ season }) => {
             ))}
           {season.products.length === 0 &&
             Array.from({ length: 5 }, (_, index) => (
-              <Skeleton key={index} className={'lg:w-[226px] lg:h-[323px]'} />
+              <Skeleton key={index} className={'md:w-[226px] md:h-[323px]'} />
             ))}
         </div>
       </div>
@@ -74,10 +74,10 @@ const ProductCard = ({ product }) => {
       rel='noreferrer'
       href={product.hyperLink}
       target='_blank'
-      className='cursor-pointer lg:w-[226px] animate__animated animate__flip lg:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'
+      className='cursor-pointer md:w-[226px] animate__animated animate__flip md:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'
     >
       <img
-        className='lg:w-[226px] lg:h-[323px] max-sm:w-[240px] max-sm:h-[380px] object-cover'
+        className='md:w-[226px] md:h-[323px] max-sm:w-[240px] max-sm:h-[380px] object-cover'
         src={cdnPath + product?.imageUrl}
         alt={product?.title || 'clothes2wear'}
         loading='lazy'

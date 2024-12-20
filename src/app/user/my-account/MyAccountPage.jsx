@@ -61,12 +61,12 @@ export default function MyAccountPage() {
       {/* Header Section */}
       <div className=' w-full container mx-auto p-6 max-sm:p-3 py-10'>
         <div className='flex flex-col md:flex-row justify-between'>
-          <div className='lg:w-[50%] flex flex-col gap-4 max-sm:gap-1'>
-            <p className='lg:text-5xl max-sm:text-3xl font-bold'>
+          <div className='md:w-[50%] flex flex-col gap-4 max-sm:gap-1'>
+            <p className='md:text-5xl max-sm:text-3xl font-bold'>
               Hii, {userDetails?.firstName}
             </p>
-            <p className='lg:text-xl font-semibold'>I hope you doing well</p>
-            <div className='flex gap-5 items-center lg:pt-8 max-sm:py-5'>
+            <p className='md:text-xl font-semibold'>I hope you doing well</p>
+            <div className='flex gap-5 items-center md:pt-8 max-sm:py-5'>
               <img
                 src='https://www.picsum.photos/521/854'
                 alt={userDetails?.firstName || 'clothes2wear'}
@@ -90,7 +90,7 @@ export default function MyAccountPage() {
               </div>
             </div>
           </div>
-          <div className='lg:w-[50%] flex gap-4 mt-4 md:mt-0 items-start'>
+          <div className='md:w-[50%] flex gap-4 mt-4 md:mt-0 items-start'>
             <div className='flex flex-col items-center bg-green-50 p-3 px-5 rounded-xl text-center'>
               <Gift className='text-yellow-500 w-6 h-6' />
               <span className='text-sm text-gray-600'>Rewards</span>
@@ -107,9 +107,9 @@ export default function MyAccountPage() {
         <div className='h-[1px] w-[50%] bg-neutral-400'></div>
       </div>
 
-      <div className='flex flex-col items-start container lg:p-6 mx-auto gap-5'>
+      <div className='flex flex-col items-start container md:p-6 mx-auto gap-5'>
         {/* Menu Section */}
-        <div className='bg-neutral-100 rounded-lg shadow-md w-full max-w-5xl p-6 mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className='bg-neutral-100 rounded-lg shadow-md w-full max-w-5xl p-6 mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
           {[
             {
               title: 'Orders',

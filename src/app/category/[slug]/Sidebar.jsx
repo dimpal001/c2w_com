@@ -119,7 +119,7 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
         <h2 className='text-2xl font-semibold text-gray-800'>Filter</h2>
         <span
           onClick={handleApplyFilters}
-          className='py-[7px] lg:text-sm cursor-pointer px-5 bg-blue-700 text-white rounded-full'
+          className='py-[7px] md:text-sm cursor-pointer px-5 bg-blue-700 text-white rounded-full'
         >
           Apply
         </span>

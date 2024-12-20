@@ -3,8 +3,8 @@ import React from 'react'
 const BestSellerSection = () => {
   return (
     <div className='py-12 p-1'>
-      <div className='border-3 max-sm:flex max-sm:flex-col max-sm:gap-5 border-dashed border-zinc-700 p-7 max-sm:p-4 flex lg:gap-7'>
-        <div className='lg:w-[50%]'>
+      <div className='border-3 max-sm:flex max-sm:flex-col max-sm:gap-5 border-dashed border-zinc-700 p-7 max-sm:p-4 flex md:gap-7'>
+        <div className='md:w-[50%]'>
           <h3 className='font-semibold text-xl'>
             Clothes2Wear&apos;s Bestseller Ethnic Wear Online in India
           </h3>
@@ -47,7 +47,7 @@ const BestSellerSection = () => {
             outings and brunch parties.
           </p>
         </div>
-        <div className='lg:w-[50%]'>
+        <div className='md:w-[50%]'>
           <div>
             <div className='flex justify-between'>
               <h3 className='text-3xl font-semibold'>

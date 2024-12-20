@@ -16,11 +16,11 @@ const SingleOrder = ({ order }) => {
   const router = useRouter()
   return (
     <div className='border rounded-sm bg-white border-zinc-100 shadow-md p-5'>
-      <div className='flex lg:items-start gap-3 max-sm:flex-col'>
-        <div className='lg:w-[50%] max-sm:w-full flex items-start gap-3'>
+      <div className='flex md:items-start gap-3 max-sm:flex-col'>
+        <div className='md:w-[50%] max-sm:w-full flex items-start gap-3'>
           <img
             src={cdnPath + order?.orderItems[0]?.product?.thumbnailUrl}
-            className='lg:w-[150px] lg:h-[150px] max-sm:w-[100px] max-sm:h-[140px] rounded-xl'
+            className='md:w-[150px] md:h-[150px] max-sm:w-[100px] max-sm:h-[140px] rounded-xl'
             alt={order?.orderItems[0]?.product?.title || 'clothes2wear'}
           />
           <div className='py-2 flex flex-col gap-1'>
@@ -75,7 +75,7 @@ const SingleOrder = ({ order }) => {
             </div>
           </div>
         </div>
-        <div className='lg:w-[25%]'>
+        <div className='md:w-[25%]'>
           <div className='bg-neutral-100 rounded-sm p-3'>
             <p className='font-bold'>Address</p>
             <div className='text-sm mt-2'>
@@ -90,7 +90,7 @@ const SingleOrder = ({ order }) => {
             </div>
           </div>
         </div>
-        <div className='lg:w-[25%] max-sm:w-full flex flex-col items-center lg:justify-center'>
+        <div className='md:w-[25%] max-sm:w-full flex flex-col items-center md:justify-center'>
           <div className='flex flex-col items-center max-sm:flex-row max-sm:gap-2 max-sm:justify-center w-full'>
             <p className='text-neutral-500 font-semibold max-sm:text-xs text-sm'>
               Order ID

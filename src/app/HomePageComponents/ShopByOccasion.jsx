@@ -11,8 +11,8 @@ const ShopByOccasion = ({ occasions }) => {
   return (
     <div>
       {/* Heading  */}
-      <div className='lg:w-[50%] max-sm:w-full flex lg:justify-center bg-black relative p-4'>
-        <div className='lg:pr-10'>
+      <div className='md:w-[50%] max-sm:w-full flex md:justify-center bg-black relative p-4'>
+        <div className='md:pr-10'>
           <h2 className='font-extrabold max-sm:text-2xl text-5xl tracking-wide text-white'>
             Shop by Occasion
           </h2>
@@ -20,7 +20,7 @@ const ShopByOccasion = ({ occasions }) => {
             When You & I then why fear Oh! New Occasion is Near
           </p>
         </div>
-        <div className='absolute inset-0 flex items-center justify-end pe-3 lg:pe-10'>
+        <div className='absolute inset-0 flex items-center justify-end pe-3 md:pe-10'>
           <RightArrowIcon
             className={'w-10 text-white fill-white'}
             fill={'#ffffff'}
@@ -65,7 +65,7 @@ const Occasion = ({ occasion, index }) => {
       {occasion.products.map((item, index) => (
         <Card key={index} product={item} />
       ))}
-      <div className='lg:w-[232px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] p-6 flex flex-col justify-center items-start'>
+      <div className='md:w-[232px] max-sm:w-[131px] max-sm:h-[147px] md:h-[284px] p-6 flex flex-col justify-center items-start'>
         <p className='font-extrabold inter max-sm:leading-5 max-sm:text-lg text-4xl'>
           {occasion.occasionName}
         </p>
@@ -83,11 +83,11 @@ const Card = ({ product }) => {
       rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
-      className='lg:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px]'
+      className='md:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] md:h-[284px]'
     >
       <img
         src={cdnPath + product.imageUrl}
-        className='lg:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] lg:h-[284px] object-cover'
+        className='md:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] md:h-[284px] object-cover'
         alt={product?.title || 'clothes2wear'}
       />
     </a>

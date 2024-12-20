@@ -183,7 +183,7 @@ const OrderPage = ({ id }) => {
         </div>
       </div>
 
-      <div className='grid lg:grid-cols-2 grid-cols-1 gap-5'>
+      <div className='grid md:grid-cols-2 grid-cols-1 gap-5'>
         {/* Admin Info */}
         <div className='bg-white p-4 rounded-lg shadow-md mb-6'>
           <h3 className='text-lg font-bold mb-4'>Other Info</h3>

@@ -43,7 +43,7 @@ const AddressSection = ({ userDetails, refresh }) => {
               }}
               className='flex items-center gap-1 hover:gap-2 cursor-pointer transition-all duration-300 text-blue-500 hover:text-blue-600'
             >
-              <CirclePlus className='lg:w-5 lg:h-5' />
+              <CirclePlus className='md:w-5 md:h-5' />
               <p>Add New</p>
             </div>
           </div>

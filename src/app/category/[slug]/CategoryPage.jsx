@@ -113,11 +113,11 @@ const CategoryPage = ({ slug }) => {
 
       <div className='p-3 flex md:gap-10 gap-2 items-start max-md:flex-col'>
         {/* Filter */}
-        <div className='max-sm:w-full lg:sticky top-[70px] left-4'>
+        <div className='max-sm:w-full md:sticky top-[70px] left-4'>
           <div className='max-md:hidden'>
             <Sidebar onHandleFilter={() => fetchFilterData()} />
           </div>
-          <div className='lg:hidden w-full'>
+          <div className='md:hidden w-full'>
             <div className='mb-1 gap-2 justify-end w-full flex '>
               {/* <span
                 onClick={toggleSortDrawer}
@@ -211,7 +211,7 @@ const CategoryPage = ({ slug }) => {
             </div>
           ) : (
             <div className='max-sm:min-h-[600px]'>
-              <p className='lg:py-2 max-sm:pb-2 max-sm:text-sm text-neutral-600'>
+              <p className='md:py-2 max-sm:pb-2 max-sm:text-sm text-neutral-600'>
                 {products?.length} products found
               </p>
 

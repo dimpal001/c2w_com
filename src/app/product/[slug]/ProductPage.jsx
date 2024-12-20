@@ -46,20 +46,20 @@ const ProductPage = ({ product }) => {
   }, [])
 
   return (
-    <div className='container mx-auto p-5 lg:px-10 flex flex-col relative max-sm:mb-14'>
+    <div className='container mx-auto p-5 md:px-10 flex flex-col relative max-sm:mb-14'>
       <div>{/* <CouponSecion /> */}</div>
       <div ref={displayProductRef} className='py-1'></div>
       <div>
         <DisplayPorductSection product={product} />
       </div>
-      <div className='flex gap-10 max-sm:flex-col max-sm:gap-5 lg:mt-7 lg:mb-3'>
+      <div className='flex gap-10 max-sm:flex-col max-sm:gap-5 md:mt-7 md:mb-3'>
         {product?.productReview.length > 0 && (
-          <div className='lg:w-[50%]'>
+          <div className='md:w-[50%]'>
             <ReviewSection reviews={product?.productReview} />
           </div>
         )}
         {product?.tags.length > 0 && (
-          <div className='lg:w-[50%]'>
+          <div className='md:w-[50%]'>
             <TagSection tags={product?.tags} />
           </div>
         )}

@@ -15,8 +15,8 @@ const ShowImageModal = ({ isOpen, onClose, image }) => {
         <ModalHeader>
           <ModalCloseButton onClick={onClose} />
         </ModalHeader>
-        <ModalBody className={'w-full scrollbar-hide lg:h-screen'}>
-          <div className='flex justify-center items-center scrollbar-hide max-w-full lg:h-screen'>
+        <ModalBody className={'w-full scrollbar-hide md:h-screen'}>
+          <div className='flex justify-center items-center scrollbar-hide max-w-full md:h-screen'>
             <img
               src={cdnPath + image}
               alt='Modal Content'

@@ -173,7 +173,7 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
       <ModalBody>
         <form
           onSubmit={handleSubmit}
-          className='max-sm:space-y-4 lg:grid grid-cols-2 lg:gap-5'
+          className='max-sm:space-y-4 md:grid grid-cols-2 md:gap-5'
         >
           <div>
             <label className='block text-sm font-medium'>

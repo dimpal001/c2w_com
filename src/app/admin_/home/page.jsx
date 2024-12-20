@@ -46,7 +46,7 @@ export default function page() {
             </div>
 
             {/* User Dashboard - Personal Settings */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8'>
               {/* Update Profile */}
               <div className='bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4 hover:bg-teal-50'>
                 <div className='text-teal-600'>

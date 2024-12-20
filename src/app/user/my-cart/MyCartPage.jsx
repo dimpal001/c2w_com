@@ -165,7 +165,7 @@ export default function MyCartPage() {
             <p className='text-gray-600 mt-4 text-xl'>Your cart is empty</p>
           </div>
         ) : (
-          <div className='grid grid-cols-1 lg:w-[65%] max-sm:w-full gap-6 max-sm:gap-3'>
+          <div className='grid grid-cols-1 md:w-[65%] max-sm:w-full gap-6 max-sm:gap-3'>
             {products.map((item, index) => (
               <Item
                 item={item}
@@ -193,7 +193,7 @@ export default function MyCartPage() {
         )}
 
         {products.length > 0 && (
-          <div className='lg:w-[35%] max-sm:w-full bg-gradient-to-b from-pink-200 to-zinc-50 p-16 max-sm:p-10 gap-5 rounded-lg flex flex-col justify-between items-center'>
+          <div className='md:w-[35%] max-sm:w-full bg-gradient-to-b from-pink-200 to-zinc-50 p-16 max-sm:p-10 gap-5 rounded-lg flex flex-col justify-between items-center'>
             <div>
               <p className='text-2xl font-bold'>Proceed to Checkout</p>
             </div>

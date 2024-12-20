@@ -6,11 +6,11 @@ const Community = () => {
     <div className='bg-gray-50 min-h-screen'>
       {/* Hero Section */}
       <section className='relative bg-gradient-to-r from-indigo-600 to-blue-500 text-white'>
-        <div className='container mx-auto px-6 py-16 lg:py-20 text-center'>
-          <h1 className='text-4xl lg:text-5xl font-bold'>
+        <div className='container mx-auto px-6 py-16 md:py-20 text-center'>
+          <h1 className='text-4xl md:text-5xl font-bold'>
             Join the Clothes2Wear Community
           </h1>
-          <p className='mt-4 text-lg lg:text-xl'>
+          <p className='mt-4 text-lg md:text-xl'>
             Be part of our growing family of fashion enthusiasts. Share,
             connect, and stay updated with the latest trends and deals!
           </p>
@@ -18,15 +18,15 @@ const Community = () => {
       </section>
 
       {/* Why Join Section */}
-      <section className='container mx-auto px-6 py-12 lg:py-16'>
-        <h2 className='text-3xl lg:text-4xl font-bold text-center text-gray-800'>
+      <section className='container mx-auto px-6 py-12 md:py-16'>
+        <h2 className='text-3xl md:text-4xl font-bold text-center text-gray-800'>
           Why Join Our Community?
         </h2>
         <p className='text-center text-gray-600 mt-4'>
           Our community is all about connecting with like-minded people who
           share your love for fashion. Here&apos;s why you should join:
         </p>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mt-12'>
+        <div className='grid grid-cols-1 md:grid-cols-2 md:grid-cols-4 gap-12 mt-12'>
           <div className='flex flex-col items-center text-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition'>
             <Users className='w-16 h-16 text-indigo-500' />
             <h3 className='text-lg font-semibold text-gray-800 mt-4'>
@@ -71,16 +71,16 @@ const Community = () => {
       </section>
 
       {/* Community Highlights Section */}
-      <section className='bg-gray-100 py-12 lg:py-16'>
+      <section className='bg-gray-100 py-12 md:py-16'>
         <div className='container mx-auto px-6 text-center'>
-          <h2 className='text-3xl lg:text-4xl font-bold text-gray-800'>
+          <h2 className='text-3xl md:text-4xl font-bold text-gray-800'>
             Community Highlights
           </h2>
           <p className='text-gray-600 mt-4'>
             Here are just a few of the amazing things happening in our
             community!
           </p>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-12'>
+          <div className='grid grid-cols-1 md:grid-cols-2 md:grid-cols-3 gap-12 mt-12'>
             <div className='bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition'>
               <img
                 src='https://via.placeholder.com/500x300'
@@ -128,10 +128,10 @@ const Community = () => {
       </section>
 
       {/* Join Our Community Section */}
-      {/* <section className='py-12 lg:py-16 bg-gradient-to-r from-teal-500 to-blue-500 text-white'>
+      {/* <section className='py-12 md:py-16 bg-gradient-to-r from-teal-500 to-blue-500 text-white'>
         <div className='container mx-auto px-6 text-center'>
-          <h2 className='text-3xl lg:text-4xl font-bold'>Ready to Join Us?</h2>
-          <p className='text-lg lg:text-xl mt-4'>
+          <h2 className='text-3xl md:text-4xl font-bold'>Ready to Join Us?</h2>
+          <p className='text-lg md:text-xl mt-4'>
             Become a part of the Clothes2Wear community today and stay ahead in
             the fashion game.
           </p>

@@ -31,11 +31,11 @@ const ProductInfo = ({ title, data, isDangerouslySetInnerHTML }) => {
       >
         {isDangerouslySetInnerHTML ? (
           <div
-            className='editor-content text-sm lg:pl-9 p-2'
+            className='editor-content text-sm md:pl-9 p-2'
             dangerouslySetInnerHTML={{ __html: data }}
           />
         ) : (
-          <p className='text-sm lg:pl-9 p-2'>{data}</p>
+          <p className='text-sm md:pl-9 p-2'>{data}</p>
         )}
         <div className='bg-neutral-300 mt-2 w-full h-[1px]'></div>
       </Collapsible>

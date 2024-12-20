@@ -8,10 +8,10 @@ const AboutPage = () => {
     <div className='bg-gray-50 min-h-screen'>
       {/* Hero Section */}
       <section className='relative bg-gradient-to-br from-pink-600 to-indigo-500 text-white'>
-        <div className='container mx-auto px-6 py-16 lg:py-20'>
+        <div className='container mx-auto px-6 py-16 md:py-20'>
           <div className='text-center'>
-            <h1 className='text-4xl lg:text-5xl font-bold'>About Us</h1>
-            <p className='mt-4 text-lg lg:text-xl'>
+            <h1 className='text-4xl md:text-5xl font-bold'>About Us</h1>
+            <p className='mt-4 text-lg md:text-xl'>
               Discover the story behind our brand and our mission to deliver the
               best online shopping experience.
             </p>
@@ -20,10 +20,10 @@ const AboutPage = () => {
       </section>
 
       {/* Mission Section */}
-      <section className='container mx-auto px-6 py-12 lg:py-16'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 items-center'>
+      <section className='container mx-auto px-6 py-12 md:py-16'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center'>
           <div>
-            <h2 className='text-3xl lg:text-4xl font-bold text-gray-800'>
+            <h2 className='text-3xl md:text-4xl font-bold text-gray-800'>
               Our Mission
             </h2>
             <p className='mt-4 text-gray-600 leading-relaxed'>
@@ -46,9 +46,9 @@ const AboutPage = () => {
       </section>
 
       {/* Values Section */}
-      <section className='bg-gray-100 py-12 lg:py-16'>
+      <section className='bg-gray-100 py-12 md:py-16'>
         <div className='container mx-auto px-6'>
-          <h2 className='text-3xl lg:text-4xl font-bold text-gray-800 text-center'>
+          <h2 className='text-3xl md:text-4xl font-bold text-gray-800 text-center'>
             What We Value
           </h2>
           <div className='mt-8 grid grid-cols-1 md:grid-cols-3 gap-8'>
@@ -92,8 +92,8 @@ const AboutPage = () => {
       </section>
 
       {/* Team Section */}
-      <section className='container mx-auto px-6 py-12 lg:py-16'>
-        <h2 className='text-3xl lg:text-4xl font-bold text-gray-800 text-center'>
+      <section className='container mx-auto px-6 py-12 md:py-16'>
+        <h2 className='text-3xl md:text-4xl font-bold text-gray-800 text-center'>
           Meet Our Team
         </h2>
         <div className='mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>

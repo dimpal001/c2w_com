@@ -72,7 +72,7 @@ const page = () => {
           {/* Main Content Area */}
           <div className='flex-1'>
             {/* Top Stats Cards */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6'>
               <div
                 onClick={() => router.push('/admin_/orders/order-list')}
                 className='bg-blue-50 group cursor-pointer p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'
@@ -179,7 +179,7 @@ const page = () => {
             </div>
 
             {/* Sales and Products Overview */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6'>
               <div
                 onClick={() => router.push('/admin_/this-month-overview')}
                 className='bg-blue-50 group cursor-pointer p-6 rounded-xl shadow-md text-blue-800'

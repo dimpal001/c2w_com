@@ -25,7 +25,7 @@ const OrdersPage = () => {
 
   const router = useRouter()
   return (
-    <div className='container mx-auto p-6 lg:max-w-5xl'>
+    <div className='container mx-auto p-6 md:max-w-5xl'>
       <div className='flex justify-between items-center mb-8'>
         <div className='flex items-center gap-4'>
           <ShoppingBag className='w-8 h-8 text-pink-600' />

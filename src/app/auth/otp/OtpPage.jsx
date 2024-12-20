@@ -114,7 +114,7 @@ export default function OtpPage() {
             <div className='flex justify-center mb-3'>
               <Image
                 layout='intrinsic'
-                className='lg:w-52 max-sm:w-52'
+                className='md:w-52 max-sm:w-52'
                 src={LogoImg}
                 alt='Logo'
               />

@@ -36,11 +36,9 @@ const EditModal = ({
   const [fileName, setFileName] = useState(null)
   const [image, setImage] = useState({
     blob: null,
-    fileName: '',
+    fileName: null,
     imageUrl: cdnPath + selectedTrendingProducts.avatarUrl || null,
   })
-
-  console.log(selectedTrendingProducts)
 
   const fileInputRef = useRef(null)
 
@@ -64,12 +62,17 @@ const EditModal = ({
       setSubmitting(true)
       let videoUrl
       let avatarUrl
+
+      console.log(fileName)
+
       if (fileName !== null) {
         await deleteImageFromCDN(selectedTrendingProducts.videoUrl)
         videoUrl = await uploadImageToCDN(video, fileName)
       } else {
         videoUrl = selectedTrendingProducts.videoUrl
       }
+
+      console.log(image.fileName)
 
       if (image.fileName !== null) {
         await deleteImageFromCDN(selectedTrendingProducts.avatarUrl)
@@ -94,7 +97,8 @@ const EditModal = ({
           price: '',
           avatarUrl: '',
         })
-        console.log(response)
+
+        console.log(response?.message)
         fetchTrendingProducts()
         onClose()
       }
@@ -118,7 +122,6 @@ const EditModal = ({
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,

@@ -83,7 +83,7 @@ const ReviewCard = ({ review, openModal, index }) => {
             <img
               src={cdnPath + image}
               alt={`Review Image ${index + 1}`}
-              className='rounded-lg w-full lg:w-52 lg:h-52 lg:max-h-52 lg:max-w-52 max-sm:max-w-20 max-sm:w-20 max-sm:h-20 h-auto object-cover'
+              className='rounded-lg w-full md:w-52 md:h-52 md:max-h-52 md:max-w-52 max-sm:max-w-20 max-sm:w-20 max-sm:h-20 h-auto object-cover'
             />
           </div>
         ))}
@@ -97,7 +97,7 @@ const Modal = ({ image, closeModal }) => {
 
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
-      <div className='relative lg:w-[500px] w-[350px] h-[450px] lg:h-[600px]'>
+      <div className='relative md:w-[500px] w-[350px] h-[450px] md:h-[600px]'>
         <img
           src={cdnPath + image}
           alt='Full view'

@@ -639,7 +639,7 @@ const ProductDetailsPage = ({ params }) => {
 
                 {/* Additional Information  */}
                 <div className='mt-7'>
-                  <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6'>
                     <div className='bg-blue-50 p-6 rounded-xl shadow-md text-blue-800 flex items-center space-x-4'>
                       <ShoppingCart size={32} />
                       <div>

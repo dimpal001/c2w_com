@@ -37,8 +37,8 @@ const SocialLinkSection = ({ socialLinks }) => {
 
 const DiscountCard = () => {
   return (
-    <div className='rounded-xl w-[95%] lg:w-[60%] flex justify-between items-center bg-gradient-to-b p-3 px-6 max-sm:px-3 from-white to bg-pink-300'>
-      <div className='text-2xl max-sm:text-sm lg:tracking-widest lg:leading-tight uppercase font-bold'>
+    <div className='rounded-xl w-[95%] md:w-[60%] flex justify-between items-center bg-gradient-to-b p-3 px-6 max-sm:px-3 from-white to bg-pink-300'>
+      <div className='text-2xl max-sm:text-sm md:tracking-widest md:leading-tight uppercase font-bold'>
         flash <br /> sale %
       </div>
       <div className='font-semibold max-sm:text-[10px]'>

@@ -222,7 +222,7 @@ const CheckoutPage = ({ orderData }) => {
             </div>
           )}
 
-          <div className='grid lg:grid-cols-3 items-start gap-5 w-full mt-5'>
+          <div className='grid md:grid-cols-3 items-start gap-5 w-full mt-5'>
             {/* Payment Selector */}
             <PaymentSelector
               paymentMode={paymentMode}

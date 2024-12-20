@@ -6,7 +6,7 @@ import { cdnPath } from '../Components/cdnPath'
 
 const ShowcaseSection = ({ showcases }) => {
   return (
-    <div className='w-auto flex overflow-auto scrollbar-hide items-center gap-6 px-14 max-sm:px-5 max-sm:gap-3 lg:h-[320px] max-sm:h-[192px]'>
+    <div className='w-auto flex overflow-auto scrollbar-hide items-center gap-6 px-14 max-sm:px-5 max-sm:gap-3 md:h-[320px] max-sm:h-[192px]'>
       {showcases.length > 0 &&
         showcases.map((showcase, index) => (
           <ShowcaseCard key={index} showcase={showcase} />
@@ -17,7 +17,7 @@ const ShowcaseSection = ({ showcases }) => {
           <Skeleton
             key={index}
             className={
-              'lg:w-[200px] rounded-xl max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] max-sm:h-[146px] lg:h-[270px]'
+              'md:w-[200px] rounded-xl max-sm:w-[100px] max-sm:min-w-[100px] md:min-w-[200px] max-sm:h-[146px] md:h-[270px]'
             }
           />
         ))}
@@ -32,11 +32,11 @@ const ShowcaseCard = ({ showcase, onClick }) => {
       target='_blank'
       href={showcase.hyperLink}
       onClick={onClick}
-      className='lg:w-[200px] cursor-pointer max-sm:w-[100px] max-sm:min-w-[100px] lg:min-w-[200px] relative rounded-xl max-sm:h-[146px] lg:h-[270px]'
+      className='md:w-[200px] cursor-pointer max-sm:w-[100px] max-sm:min-w-[100px] md:min-w-[200px] relative rounded-xl max-sm:h-[146px] md:h-[270px]'
     >
       <img
         src={cdnPath + showcase.imageUrl}
-        className='lg:w-[200px] max-sm:w-[100px] rounded-xl max-sm:h-[146px] lg:h-[270px] object-cover'
+        className='md:w-[200px] max-sm:w-[100px] rounded-xl max-sm:h-[146px] md:h-[270px] object-cover'
         alt='clothes2wear'
       />
       <div className='absolute rounded-xl bottom-0 left-0 right-0 h-[120px] z-10 bg-gradient-to-t from-black to-transparent from-[1%]'></div>

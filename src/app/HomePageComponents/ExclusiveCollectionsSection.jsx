@@ -11,33 +11,33 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
   return (
     <div className='container mx-auto py-10 max-sm:py-3 max-sm:p-0'>
       {/* label  */}
-      <div className='flex justify-between lg:px-8 items-center max-sm:p-4'>
+      <div className='flex justify-between md:px-8 items-center max-sm:p-4'>
         <div className='max-sm:w-[80%]'>
-          <h2 className='lg:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
+          <h2 className='md:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
             Exclusive Collections
           </h2>
-          <p className='lg:pt-3 max-sm:font-[500] max-sm:text-neutral-600 max-sm:leading-[21px] text-xl max-sm:text-[14px] text-neutral-700'>
+          <p className='md:pt-3 max-sm:font-[500] max-sm:text-neutral-600 max-sm:leading-[21px] text-xl max-sm:text-[14px] text-neutral-700'>
             Discover the Most Exclusive Collection of This Season @Clothes2Wear
           </p>
         </div>
         <div className=' max-sm:w-[20%] flex justify-center'>
-          <RightArrowIcon className={'lg:w-20 max-sm:w-10 lg:mr-14'} />
+          <RightArrowIcon className={'md:w-20 max-sm:w-10 md:mr-14'} />
         </div>
       </div>
 
-      <div className='flex gap-1 lg:py-10 max-sm:flex-col max-sm:p-5 items-center'>
-        <div className='lg:w-[50%] font-[1000] lg:p-6'>
-          <p className='lg:text-[80px] max-sm:text-[40px] max-sm:leading-[38px] lg:leading-[80px]'>
+      <div className='flex gap-1 md:py-10 max-sm:flex-col max-sm:p-5 items-center'>
+        <div className='md:w-[50%] font-[1000] md:p-6'>
+          <p className='md:text-[80px] max-sm:text-[40px] max-sm:leading-[38px] md:leading-[80px]'>
             WHEN
           </p>
-          <p className='lg:text-[80px] max-sm:text-[40px] max-sm:leading-[38px] lg:leading-[60px]'>
+          <p className='md:text-[80px] max-sm:text-[40px] max-sm:leading-[38px] md:leading-[60px]'>
             STYLE MEETS
           </p>
-          <p className='lg:text-[80px] max-sm:text-[40px] max-sm:leading-[43px] lg:leading-[100px] text-pink-500'>
+          <p className='md:text-[80px] max-sm:text-[40px] max-sm:leading-[43px] md:leading-[100px] text-pink-500'>
             ELEGANCE
           </p>
         </div>
-        <div className='lg:w-[50%] max-sm:mt-10'>
+        <div className='md:w-[50%] max-sm:mt-10'>
           <Slider
             showIndicators={false}
             // showArrows={false}
@@ -67,7 +67,7 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
           Array.from({ length: 5 }, (_, index) => (
             <Skeleton
               key={index}
-              className={'lg:w-[202px] rounded-2xl lg:h-[322px]'}
+              className={'md:w-[202px] rounded-2xl md:h-[322px]'}
             />
           ))}
       </div>
@@ -83,9 +83,9 @@ const ProductCard1 = ({ product }) => {
       rel='noreferrer'
       target='_blank'
       href={`/product/${product.slug}`}
-      className='lg:w-[535px] lg:h-[342px] max-sm:h-[330px] rounded-2xl relative'
+      className='md:w-[535px] md:h-[342px] max-sm:h-[330px] rounded-2xl relative'
     >
-      <div className='flex justify-between max-sm:grid grid-cols-3 max-sm:h-[300px] max-sm:gap-1 lg:h-[270px] gap-3'>
+      <div className='flex justify-between max-sm:grid grid-cols-3 max-sm:h-[300px] max-sm:gap-1 md:h-[270px] gap-3'>
         {product?.images.length > 0 &&
           product?.images
             .slice(0, 3)
@@ -93,7 +93,7 @@ const ProductCard1 = ({ product }) => {
               <img
                 src={cdnPath + image.imageUrl}
                 key={index}
-                className='lg:w-[168px] max-sm:h-[85%] object-cover lg:h-[270px]]'
+                className='md:w-[168px] max-sm:h-[85%] object-cover md:h-[270px]]'
                 alt={'Clothes2wear'}
               />
             ))}
@@ -119,11 +119,11 @@ const ProductCard2 = ({ product }) => {
       rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
-      className='lg:w-[202px] cursor-pointer rounded-2xl lg:h-[322px] relative'
+      className='md:w-[202px] cursor-pointer rounded-2xl md:h-[322px] relative'
     >
       <img
         src={cdnPath + product.imageUrl}
-        className='lg:w-[202px] lg:h-[322px] rounded-2xl'
+        className='md:w-[202px] md:h-[322px] rounded-2xl'
         alt={'Clothes2wear'}
       />
       <div className='absolute rounded-2xl inset-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>

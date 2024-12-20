@@ -3,7 +3,7 @@ import React from 'react'
 
 const SecondHeroProductSection = () => {
   return (
-    <div className='w-full relative lg:h-[400px] rounded-tr-[90px]'>
+    <div className='w-full relative md:h-[400px] rounded-tr-[90px]'>
       <img
         src='https://picsum.photos/531/638'
         alt=''

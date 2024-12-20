@@ -5,9 +5,9 @@ import React from 'react'
 const HeroProductSection = () => {
   return (
     <div className='p-3 py-7 flex gap-2'>
-      <div className='p-3 py-5 lg:w-3/5 flex flex-col justify-between'>
+      <div className='p-3 py-5 md:w-3/5 flex flex-col justify-between'>
         <div className='flex flex-col'>
-          <h1 className='lg:text-4xl font-bold unbounded'>
+          <h1 className='md:text-4xl font-bold unbounded'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor eaque
             fugiat
           </h1>
@@ -18,7 +18,7 @@ const HeroProductSection = () => {
             aperiam incidunt quis. Animi, sed aliquam.
           </p>
           <div className='flex justify-end'>
-            <div className='lg:w-[50%] justify-between p-3 px-6 rounded-bl-[20px] font-semibold bg-pink-300 flex items-center gap-1'>
+            <div className='md:w-[50%] justify-between p-3 px-6 rounded-bl-[20px] font-semibold bg-pink-300 flex items-center gap-1'>
               <div>
                 <p>Read more</p>
               </div>
@@ -34,10 +34,10 @@ const HeroProductSection = () => {
 
         <ExtraCard />
       </div>
-      <div className='lg:w-2/5'>
+      <div className='md:w-2/5'>
         <img
           src='https://picsum.photos/457/524'
-          className='w-full lg:h-[440px] rounded-tl-[70px] rounded-bl-[70px]'
+          className='w-full md:h-[440px] rounded-tl-[70px] rounded-bl-[70px]'
           alt=''
         />
       </div>
@@ -51,7 +51,7 @@ const ExtraCard = () => {
       <div className='w-[20%]'>
         <img
           src='https://picsum.photos/418/851'
-          className='lg:h-[95px] lg:w-full object-cover rounded-lg'
+          className='md:h-[95px] md:w-full object-cover rounded-lg'
           alt=''
         />
       </div>

@@ -7,24 +7,24 @@ import { cdnPath } from '../Components/cdnPath'
 
 const NewArrivalsSection = ({ products }) => {
   return (
-    <div className='container mx-auto pb-10 lg:px-3 max-sm:p-5'>
+    <div className='container mx-auto pb-10 md:px-3 max-sm:p-5'>
       <div>
         <div className='flex items-center'>
-          <div className='lg:w-[80%] max-sm:w-[75%] border border-black px-4'>
-            <h2 className='lg:tracking-[5px] max-sm:tracking-[5px] max-sm:text-[21px] text-black lg:text-[45px] font-bold max-sm:font-extrabold'>
+          <div className='md:w-[80%] max-sm:w-[75%] border border-black px-4'>
+            <h2 className='md:tracking-[5px] max-sm:tracking-[5px] max-sm:text-[21px] text-black md:text-[45px] font-bold max-sm:font-extrabold'>
               NEW ARRIVALS
             </h2>
           </div>
-          <div className='lg:w-[20%] max-sm:w-[25%] max-sm:ps-3 flex justify-center'>
-            <RightArrowIcon className={'lg:w-20 max-sm:w-10'} />
+          <div className='md:w-[20%] max-sm:w-[25%] max-sm:ps-3 flex justify-center'>
+            <RightArrowIcon className={'md:w-20 max-sm:w-10'} />
           </div>
         </div>
-        <p className='lg:text-2xl lg:py-3 text-neutral-700'>
+        <p className='md:text-2xl md:py-3 text-neutral-700'>
           Hurry Up!!! New Winter Clothes Arrived
         </p>
       </div>
 
-      <div className='lg:h-[390px] pt-4'>
+      <div className='md:h-[390px] pt-4'>
         <div className='bg-zinc-200 scrollbar-hide max-sm:p-4 max-sm:overflow-auto max-sm:gap-5 flex items-center justify-evenly w-full h-full rounded-xl'>
           {products.length > 0 &&
             products
@@ -44,13 +44,13 @@ const NewArrivalsSection = ({ products }) => {
 
 const ProductCard = ({ product }) => {
   return (
-    <div className='flex max-sm:min-w-[320px] items-center cursor-pointer relative group rounded-xl max-sm:h-[270px] lg:h-[300px]'>
+    <div className='flex max-sm:min-w-[320px] items-center cursor-pointer relative group rounded-xl max-sm:h-[270px] md:h-[300px]'>
       <img
-        className='lg:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in lg:h-[300px] lg:min-w-[225px] lg:max-w-[225px] rounded-xl'
+        className='md:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in md:h-[300px] md:min-w-[225px] md:max-w-[225px] rounded-xl'
         src={cdnPath + product.imageUrl}
         alt={product?.title || 'clothes2wear'}
       />
-      <div className='w-2 p-3 max-sm:w-[170px] h-[90%] lg:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
+      <div className='w-2 p-3 max-sm:w-[170px] h-[90%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
         <p className='text-sm max-sm:text-xs hidden max-sm:block group-hover:block font-semibold'>
           {product?.title}
         </p>

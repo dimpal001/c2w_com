@@ -6,10 +6,10 @@ const PrivacyPolicy = () => {
     <div className='bg-gray-50 min-h-screen'>
       {/* Hero Section */}
       <section className='relative bg-gradient-to-r from-purple-500 to-pink-600 text-white'>
-        <div className='container mx-auto px-6 py-16 lg:py-20'>
+        <div className='container mx-auto px-6 py-16 md:py-20'>
           <div className='text-center'>
-            <h1 className='text-4xl lg:text-5xl font-bold'>Privacy Policy</h1>
-            <p className='mt-4 text-lg lg:text-xl'>
+            <h1 className='text-4xl md:text-5xl font-bold'>Privacy Policy</h1>
+            <p className='mt-4 text-lg md:text-xl'>
               Learn how we collect, use, and protect your personal information.
             </p>
           </div>
@@ -17,8 +17,8 @@ const PrivacyPolicy = () => {
       </section>
 
       {/* Privacy Highlights */}
-      <section className='container mx-auto px-6 py-12 lg:py-16'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+      <section className='container mx-auto px-6 py-12 md:py-16'>
+        <div className='grid grid-cols-1 md:grid-cols-2 md:grid-cols-4 gap-8'>
           <div className='flex flex-col items-center text-center bg-white p-6 rounded-lg shadow hover:shadow-lg transition'>
             <Lock className='w-12 h-12 text-purple-500' />
             <h3 className='text-lg font-semibold text-gray-800 mt-4'>
@@ -60,9 +60,9 @@ const PrivacyPolicy = () => {
       </section>
 
       {/* Detailed Policy */}
-      <section className='bg-gray-100 py-12 lg:py-16'>
+      <section className='bg-gray-100 py-12 md:py-16'>
         <div className='container mx-auto px-6'>
-          <h2 className='text-3xl lg:text-4xl font-bold text-gray-800 text-center'>
+          <h2 className='text-3xl md:text-4xl font-bold text-gray-800 text-center'>
             Our Privacy Practices
           </h2>
           <div className='mt-8 space-y-8'>

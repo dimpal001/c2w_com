@@ -42,22 +42,22 @@ const ImageWeekSection = ({ products }) => {
       <div className='flex'>
         <img
           src={cdnPath + products[0]?.imageUrl}
-          className='object-cover lg:w-[359px] lg:h-[397px] max-sm:w-full'
+          className='object-cover md:w-[359px] md:h-[397px] max-sm:w-full'
           alt={'clothes2wear'}
         />
-        <span className='max-sm:hidden font-bold lg:pt-5 max-sm:pt-4 -rotate-90 text-6xl max-sm:text-5xl tracking-[14px] uppercase'>
+        <span className='max-sm:hidden font-bold md:pt-5 max-sm:pt-4 -rotate-90 text-6xl max-sm:text-5xl tracking-[14px] uppercase'>
           fashoin
         </span>
       </div>
 
-      <div className='lg:p-5 max-sm:py-5 lg:px-10'>
+      <div className='md:p-5 max-sm:py-5 md:px-10'>
         <div className='flex max-sm:grid grid-cols-2'>
           {products?.length > 0 &&
             products
               ?.slice(1, 3)
               .map((image, index) => (
                 <img
-                  className='lg:w-[161px] lg:h-[200px] object-cover'
+                  className='md:w-[161px] md:h-[200px] object-cover'
                   src={cdnPath + image.imageUrl}
                   alt='clothes2wear'
                   key={index}
@@ -78,7 +78,7 @@ const ImageWeekSection = ({ products }) => {
             .map((image, index) => (
               <img
                 src={cdnPath + image.imageUrl}
-                className='object-cover lg:w-[166px] lg:h-[201px]'
+                className='object-cover md:w-[166px] md:h-[201px]'
                 key={index}
                 alt='clothes2wear'
               />
@@ -89,7 +89,7 @@ const ImageWeekSection = ({ products }) => {
             .map((image, index) => (
               <img
                 src={cdnPath + image.imageUrl}
-                className='object-cover lg:w-[166px] lg:h-[201px]'
+                className='object-cover md:w-[166px] md:h-[201px]'
                 key={index}
                 alt='clothes2wear'
               />
@@ -113,7 +113,7 @@ const ProductWeekSection = ({ products }) => {
           >
             <img
               src={cdnPath + product?.imageUrl}
-              className='lg:w-20 lg:h-20 max-sm:w-full'
+              className='md:w-20 md:h-20 max-sm:w-full'
               width={100}
               height={100}
               alt='clothes2wear'
