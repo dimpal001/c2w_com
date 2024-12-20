@@ -112,6 +112,10 @@ export async function GET(request) {
       })
     }
 
+    whereConditions.AND.push({
+      isActive: true,
+    })
+
     const totalProducts = await prisma.product.count({
       where: whereConditions.AND.length > 0 ? whereConditions : undefined,
     })
