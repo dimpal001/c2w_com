@@ -130,9 +130,12 @@ export async function POST(request) {
       )
     }
 
-    const slug = slugify(title + '-' + new Date().toISOString().slice(0, 10), {
-      lower: true,
-    })
+    const slug = slugify(
+      title + '-' + new Date().toISOString().replace(/:/g, '-').slice(0, 19),
+      {
+        lower: true,
+      }
+    )
 
     const styleId = await generateUniqueStyleId()
     const affiliateId = await generateUniqueAffiliateId()
