@@ -7,11 +7,11 @@ const BlogPage = () => {
   return (
     <div>
       <HeroProductSection />
-      <div className='flex gap-2'>
-        <div className='lg:w-[60%] w-full'>
+      <div className='flex gap-2 px-5 py-2'>
+        <div className='lg:w-[70%] w-full'>
           <SecondHeroProductSection />
         </div>
-        <div className='lg:w-[40%] w-full'>
+        <div className='lg:w-[30%] w-full'>
           <SideProductsSection />
         </div>
       </div>

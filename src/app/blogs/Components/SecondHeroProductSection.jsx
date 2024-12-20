@@ -3,10 +3,14 @@ import React from 'react'
 
 const SecondHeroProductSection = () => {
   return (
-    <div className='w-full relative lg:h-[200px]'>
-      <img src='' alt='' className='w-full h-full' />
-      <div className='absolute left-0 p-3 right-0 bottom-0 h-[60%] bg-gradient-to-b from-transparent to-black'>
-        <p>
+    <div className='w-full relative lg:h-[400px] rounded-tr-[90px]'>
+      <img
+        src='https://picsum.photos/531/638'
+        alt=''
+        className='w-full h-full rounded-tr-[100px] object-cover'
+      />
+      <div className='absolute left-0 p-7 text-white flex-col justify-end right-0 flex items-end bottom-0 h-[60%] bg-gradient-to-b from-transparent to-black'>
+        <p className='text-2xl font-semibold'>
           {' '}
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor
           excepturi quae molestiae iusto.

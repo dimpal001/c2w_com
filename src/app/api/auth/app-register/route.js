@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { generateOtp } from '@/lib/generateOtp'
 import { PrismaClient } from '@prisma/client'
+import { otpEmail } from '@/utils/email/otpEmail'
 
 const prisma = new PrismaClient()
 
@@ -59,6 +60,8 @@ export async function POST(request) {
         expiresAt,
       },
     })
+
+    await otpEmail(email, otpCode)
 
     return NextResponse.json(
       { message: `OTP has been sent to the email address ${email}` },
