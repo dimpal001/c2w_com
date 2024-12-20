@@ -140,7 +140,7 @@ model Product {
   title                String
   slug                 String            @unique // Server generated
   affiliateId          String            @unique
-  sellerCode           String?           @unique
+  sellerCode           String?
   styleId              String            @unique // Server generated
   isReturnable         Boolean           @default(false)
   isActive             Boolean           @default(false)
