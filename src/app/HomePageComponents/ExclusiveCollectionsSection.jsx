@@ -78,11 +78,12 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
 }
 
 const ProductCard1 = ({ product }) => {
-  const stripHtml = (html) => {
-    const tempDiv = document.createElement('div')
-    tempDiv.innerHTML = html
-    return tempDiv.textContent || tempDiv.innerText || ''
-  }
+  // const stripHtml = (html) => {
+  //   const tempDiv = document.createElement('div')
+  //   tempDiv.innerHTML = html
+  //   return tempDiv.textContent || tempDiv.innerText || ''
+  // }
+
   return (
     <a
       rel='noreferrer'
@@ -108,7 +109,10 @@ const ProductCard1 = ({ product }) => {
           {product.title.slice(0, 50)}
         </p>
         <p className='text-sm max-sm:text-xs text-white'>
-          {stripHtml(product.summary.slice(0, 160))}...
+          <div
+            dangerouslySetInnerHTML={{ __html: product.summary.slice(0, 160) }}
+          />
+          {/* {(product.summary.slice(0, 160))}... */}
         </p>
         <p className='font-bold text-3xl max-sm:text-2xl text-white'>
           ₹{product.displayPrice}/-
