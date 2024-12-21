@@ -6,6 +6,7 @@ import ProductForm from '../../components/ProductForm'
 import { use } from 'react'
 import axios from 'axios'
 import Loading from '@/app/admin_/components/Loading'
+import { enqueueSnackbar } from 'notistack'
 
 // eslint-disable-next-line react/prop-types
 const Page = ({ params }) => {
@@ -41,6 +42,8 @@ const Page = ({ params }) => {
 
   const [productDetails, setProductDetails] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [thumbnailImage, setThumbnailImage] = useState(null)
+  const [imageSetting, setImageSetting] = useState(false)
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -49,6 +52,7 @@ const Page = ({ params }) => {
         const response = await axios.get(`/api/products/get/single`, {
           params: { id },
         })
+        setThumbnailImage(response.data.thumbnailUrl)
         setProductDetails(response.data)
       } catch (error) {
         console.error('Error fetching product details:', error)
@@ -96,6 +100,27 @@ const Page = ({ params }) => {
     document.title = 'Edit Product | Clothes2Wear'
   }, [])
 
+  const handleSetThumbnail = async (imageUrl) => {
+    try {
+      setImageSetting(true)
+
+      const response = await axios.patch(
+        '/api/products/update/make-thumbnail',
+        {
+          id: productDetails?.id,
+          imageUrl: imageUrl,
+        }
+      )
+      setThumbnailImage(imageUrl)
+
+      enqueueSnackbar(response?.data?.message, { variant: 'success' })
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    } finally {
+      setImageSetting(false)
+    }
+  }
+
   return (
     <Layout>
       <div className='p-6 bg-gray-100 min-h-screen'>
@@ -109,6 +134,9 @@ const Page = ({ params }) => {
             formData={formData}
             setFormData={setFormData}
             type={'edit'}
+            thumbnailImage={thumbnailImage}
+            handleSetThumbnail={handleSetThumbnail}
+            imageSetting={imageSetting}
           />
         )}
       </div>

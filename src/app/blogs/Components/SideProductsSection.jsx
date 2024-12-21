@@ -2,7 +2,7 @@ import React from 'react'
 
 const SideProductsSection = () => {
   return (
-    <div className='flex flex-col justify-between h-full p-1'>
+    <div className='flex flex-col max-sm:gap-3 justify-between h-full md:p-1'>
       <ProductCard />
       <ProductCard />
       <div className='relative rounded-lg rounded-bl-[90px] h-[180px]'>
@@ -28,7 +28,7 @@ const ProductCard = () => {
       <div>
         <p className='text-sm font-semibold p-2 text-end leading-4'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-          officiis suscipit nostrum repudiandae!
+          officiis
         </p>
       </div>
       <div>

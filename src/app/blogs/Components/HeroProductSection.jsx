@@ -4,21 +4,20 @@ import React from 'react'
 
 const HeroProductSection = () => {
   return (
-    <div className='p-3 py-7 flex gap-2'>
+    <div className='p-3 py-7 flex gap-2 max-sm:flex-col-reverse'>
       <div className='p-3 py-5 md:w-3/5 flex flex-col justify-between'>
         <div className='flex flex-col'>
-          <h1 className='md:text-4xl font-bold unbounded'>
+          <h1 className='md:text-4xl text-2xl font-bold unbounded'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor eaque
             fugiat
           </h1>
-          <p className='py-4 text-lg text-neutral-600 leading-7'>
+          <p className='py-4 text-base leading-6 md:text-lg text-neutral-600 md:leading-7'>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui
             maiores deleniti rerum iusto possimus magni natus eos placeat nemo,
-            laboriosam accusantium voluptatem in temporibus ipsa quod delectus
-            aperiam incidunt quis. Animi, sed aliquam.
+            laboriosam accusantium voluptatem in temporibus
           </p>
-          <div className='flex justify-end'>
-            <div className='md:w-[50%] justify-between p-3 px-6 rounded-bl-[20px] font-semibold bg-pink-300 flex items-center gap-1'>
+          <div className='flex md:justify-end max-sm:justify-start'>
+            <div className='md:w-[50%] w-full justify-between p-3 px-6 rounded-e-full md:rounded-bl-[20px] font-semibold bg-pink-300 flex items-center gap-1'>
               <div>
                 <p>Read more</p>
               </div>
@@ -37,7 +36,7 @@ const HeroProductSection = () => {
       <div className='md:w-2/5'>
         <img
           src='https://picsum.photos/457/524'
-          className='w-full md:h-[440px] rounded-tl-[70px] rounded-bl-[70px]'
+          className='w-full md:h-[440px] max-sm:h-[200px] rounded-tl-[70px] rounded-bl-[70px]'
           alt=''
         />
       </div>
@@ -47,20 +46,20 @@ const HeroProductSection = () => {
 
 const ExtraCard = () => {
   return (
-    <div className='flex gap-4 p-2 bg-stone-100 items-center relative rounded-lg mt-auto'>
-      <div className='w-[20%]'>
+    <div className='flex max-sm:mt-10 max-sm:flex-col md:gap-4 p-2 bg-zinc-200 items-center relative rounded-lg mt-auto'>
+      <div className='md:w-[20%] w-full'>
         <img
           src='https://picsum.photos/418/851'
-          className='md:h-[95px] md:w-full object-cover rounded-lg'
+          className='md:h-[95px] h-[150px] w-full md:w-full object-cover rounded-lg'
           alt=''
         />
       </div>
-      <div className='w-[80%]'>
-        <p className='text-xl font-semibold leading-6'>
+      <div className='md:w-[80%] p-2'>
+        <p className='md:text-xl font-semibold md:leading-6'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
-          itaque in vero a.
+          itaque
         </p>
-        <p className='text-sm text-neutral-500'>
+        <p className='text-sm text-neutral-500 max-sm:py-1'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
           dolore placeat libero maxime rem cupiditate impedit ut omnis harum
           commodi reiciendis officiis a, sunt voluptatum!

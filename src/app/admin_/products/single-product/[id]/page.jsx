@@ -9,7 +9,7 @@ import { use } from 'react'
 import Image from 'next/image'
 import Button from '@/app/admin_/components/Button'
 import { useRouter } from 'next/navigation'
-import { Heart, ShoppingBasket, ShoppingCart } from 'lucide-react'
+import { CheckCircle, Heart, ShoppingBasket, ShoppingCart } from 'lucide-react'
 import DeleteModal from '@/app/Components/DeleteModal'
 import { enqueueSnackbar } from 'notistack'
 import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
@@ -193,7 +193,10 @@ const ProductDetailsPage = ({ params }) => {
                 </div>
                 <div className='mb-3 flex gap-3 flex-wrap'>
                   {productDetails.images.map((item, index) => (
-                    <div key={index} className='flex flex-col max-w-40'>
+                    <div
+                      key={index}
+                      className='flex relative flex-col max-w-40'
+                    >
                       <img
                         onClick={() => {
                           setSelectedImage(item.imageUrl)
@@ -203,9 +206,17 @@ const ProductDetailsPage = ({ params }) => {
                         src={cdnPath + item.imageUrl}
                         alt={item?.altText || 'clothes2wear'}
                       />
-                      <div className='text-xs text-center text-wrap py-1'>
+                      <div className='text-xs text-center text-wrap py-2'>
                         <strong>Alt: &nbsp;</strong> {item?.altText}
                       </div>
+                      <CheckCircle
+                        strokeWidth={3}
+                        className={`w-8 ${
+                          productDetails?.thumbnailUrl === item.imageUrl
+                            ? 'text-green-500'
+                            : 'text-blue-700 cursor-pointer hidden'
+                        } h-8 absolute top-2 right-2`}
+                      />
                     </div>
                   ))}
                 </div>
@@ -245,7 +256,11 @@ const ProductDetailsPage = ({ params }) => {
                           >
                             {productDetails.isActive ? 'Active' : 'Not active'}
                           </td>
-                          <td className='p-3 border text-center'>
+                          <td
+                            className='p-3 border
+                      <p>{img?.imageUrl}</p>
+                      <p>{thumbnailImage && thumbnailImage}</p> text-center'
+                          >
                             {productDetails.estimatedDeliveryDay}
                           </td>
                           <td className='p-3 border text-center'>

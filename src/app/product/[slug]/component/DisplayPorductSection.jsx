@@ -32,6 +32,9 @@ const DisplayPorductSection = ({ product }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(
     product?.inventory[0].minQuantity
   )
+
+  console.log(product)
+
   const [addingCart, setAddingCart] = useState(false)
   const [addingWishList, setAddingWishList] = useState(false)
   const [showFull, setShowFull] = useState(false)
@@ -183,6 +186,20 @@ const DisplayPorductSection = ({ product }) => {
         </div>
       </div>
 
+      <div className='w-full sm:hidden flex gap-2 items-center'>
+        {product?.images.length > 0 &&
+          product?.images.map((item, index) => (
+            <span
+              onClick={() => setThumbnailUrl(item?.imageUrl)}
+              key={index}
+              style={{
+                background: `${item?.color?.code}`,
+              }}
+              className='rounded-lg w-11 h-11 border-2 cursor-pointer'
+            ></span>
+          ))}
+      </div>
+
       {/* Data Section  */}
       <div className='py-5 md:w-[46%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
@@ -192,7 +209,7 @@ const DisplayPorductSection = ({ product }) => {
             dangerouslySetInnerHTML={{
               __html: showFull
                 ? product?.summary
-                : product?.summary.slice(0, 200),
+                : product?.summary.slice(0, 120),
             }}
           />
           {/* {showFull ? product?.summary : product?.summary.slice(0, 200)}{' '} */}
@@ -268,7 +285,20 @@ const DisplayPorductSection = ({ product }) => {
             </Dropdown>
           </div>
         </div>
-        <div className='h-[1px] w-[60%] my-3 bg-neutral-300'></div>
+
+        <div className='w-full max-sm:hidden flex gap-2 items-center'>
+          {product?.images.length > 0 &&
+            product?.images.map((item, index) => (
+              <span
+                onClick={() => setThumbnailUrl(item?.imageUrl)}
+                key={index}
+                style={{
+                  background: `${item?.color?.code}`,
+                }}
+                className='rounded-lg w-11 h-11 border-2 cursor-pointer'
+              ></span>
+            ))}
+        </div>
 
         {/* Product info collapsible card */}
         <div className='mb-1 flex flex-col gap-2'>
@@ -348,7 +378,7 @@ const ProductImage = ({ image, onClick }) => {
       <img
         src={cdnPath + image.imageUrl}
         alt={image.altText}
-        className='w-[130px] h-[160px] max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
+        className='w-[130px] h-[160px] border max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
       />
     </div>
   )
@@ -458,7 +488,7 @@ const ThumbnailImage = ({ image }) => {
       <img
         src={cdnPath + image}
         alt={image.altText}
-        className='md:w-[500px] object-cover rounded-lg md:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
+        className='md:w-[500px] border object-cover rounded-lg md:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
       />
     </Zoom>
   )

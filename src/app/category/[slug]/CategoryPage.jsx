@@ -118,7 +118,12 @@ const CategoryPage = ({ slug }) => {
             <Sidebar onHandleFilter={() => fetchFilterData()} />
           </div>
           <div className='md:hidden w-full'>
-            <div className='mb-1 gap-2 justify-end w-full flex '>
+            <div className='mb-1 gap-2 justify-between items-center w-full flex '>
+              {products?.length > 0 && (
+                <p className='md:hidden max-sm:text-sm text-zinc-400'>
+                  {products?.length} products found
+                </p>
+              )}
               {/* <span
                 onClick={toggleSortDrawer}
                 className='text-sm p-[8px] text-pink-600 px-5 font-semibold rounded-full bg-pink-100'
@@ -211,9 +216,11 @@ const CategoryPage = ({ slug }) => {
             </div>
           ) : (
             <div className='max-sm:min-h-[600px]'>
-              <p className='md:py-2 max-sm:pb-2 max-sm:text-sm text-neutral-600'>
-                {products?.length} products found
-              </p>
+              {products?.length > 0 && (
+                <p className='max-sm:hidden py-2 max-sm:text-sm text-zinc-400'>
+                  {products?.length} products found
+                </p>
+              )}
 
               {/* Show Products  */}
               <div className='flex gap-6 flex-wrap max-sm:grid grid-cols-2 max-sm:gap-2'>

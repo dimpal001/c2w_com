@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import axios from 'axios'
-import { Upload, X } from 'lucide-react'
+import { Loader2, Upload, X } from 'lucide-react'
 import ImageCroper from '@/app/Components/ImageCroper'
 import { enqueueSnackbar } from 'notistack'
 import { uploadImageToCDN } from '../../../../../utils/uploadImageToCDN'
@@ -21,7 +21,14 @@ import Input from './Input'
 import SizeChartSection from './SizeChartSection'
 import CustomEditor from './CustomEditor'
 
-const ProductForm = ({ formData, setFormData, type }) => {
+const ProductForm = ({
+  formData,
+  setFormData,
+  type,
+  thumbnailImage,
+  handleSetThumbnail,
+  imageSetting,
+}) => {
   const [inventory, setInventory] = useState({
     size: { id: '', name: '' },
     mrp: 0,
@@ -48,6 +55,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
   const [showImageCropper, setShowImageCropper] = useState(false)
   const [tagInputValue, setTagInputValue] = useState('')
   const [saving, setSaving] = useState(false)
+  console.log(thumbnailImage)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -760,7 +768,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
                     key={index}
                     className='border max-w-40 border-slate-700 rounded-md flex items-center justify-between'
                   >
-                    <div className='border relative rounded-md'>
+                    <div className='border flex flex-col justify-between h-full relative rounded-md'>
                       {/* Display Image */}
                       {img.imageUrl && (
                         <img
@@ -769,21 +777,39 @@ const ProductForm = ({ formData, setFormData, type }) => {
                           className='w-40 object-cover'
                         />
                       )}
-                      {/* Display Color */}
-                      {img.color && (
-                        <div
-                          className={`w-full h-5`}
-                          style={{
-                            backgroundColor: img.color.code,
-                          }}
-                        ></div>
-                      )}
-                      <p className='text-xs text-center text-wrap py-1'>
+                      <p className='text-xs text-center text-wrap py-2'>
                         <span className='font-bold text-blue-700'>Alt:</span>{' '}
                         {img.altText && img.altText}
                       </p>
-                      <div className='absolute top-2 right-2'>
+                      <div className='p-1 w-full'>
+                        <button
+                          onClick={() => handleSetThumbnail(img.imageUrl)}
+                          disabled={
+                            thumbnailImage === img.imageUrl ? true : false
+                          }
+                          className={`flex ${
+                            thumbnailImage === img.imageUrl
+                              ? 'bg-gray-600'
+                              : 'bg-blue-700'
+                          } text-white justify-center items-center w-full p-1 rounded-lg`}
+                        >
+                          {thumbnailImage === img.imageUrl ? (
+                            'Thumbnail'
+                          ) : imageSetting ? (
+                            <Loader2 className='animate-spin w-5 h-5' />
+                          ) : (
+                            'Set Thumbnail'
+                          )}
+                        </button>
+                      </div>
+                      <div className='absolute flex items-center gap-2 top-2 right-2'>
                         {/* Remove Button */}
+                        <span
+                          style={{
+                            backgroundColor: img.color.code,
+                          }}
+                          className='w-8 h-8 border-black rounded-full border-2'
+                        ></span>
                         <X
                           onClick={() => removeFormDataCard(index, img)}
                           className='text-red-500 cursor-pointer hover:w-10 hover:h-10 transition-all duration-300 w-8 h-8'

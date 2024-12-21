@@ -125,7 +125,6 @@ export async function PATCH(request) {
           displayPrice: parseFloat(displayPrice),
           summary,
           customerTypeId,
-          thumbnailUrl: images[0].imageUrl,
           userId,
           sellerCode,
           returnPolicy: staticReturnPolicy,
