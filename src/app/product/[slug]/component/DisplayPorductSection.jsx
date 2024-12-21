@@ -288,12 +288,19 @@ const DisplayPorductSection = ({ product }) => {
 
         <div className='w-full max-sm:hidden flex gap-2 items-center'>
           {product?.images.length > 0 &&
-            product?.images.map((item, index) => (
+            Array.from(
+              new Set(product.images.map((item) => item?.color?.code))
+            ).map((color, index) => (
               <span
-                onClick={() => setThumbnailUrl(item?.imageUrl)}
+                onClick={() => {
+                  const selectedImage = product.images.find(
+                    (item) => item.color.code === color
+                  )
+                  setThumbnailUrl(selectedImage?.imageUrl)
+                }}
                 key={index}
                 style={{
-                  background: `${item?.color?.code}`,
+                  background: `${color}`,
                 }}
                 className='rounded-lg w-11 h-11 border-2 cursor-pointer'
               ></span>

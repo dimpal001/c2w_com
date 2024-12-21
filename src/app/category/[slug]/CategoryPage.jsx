@@ -216,6 +216,8 @@ const CategoryPage = ({ slug }) => {
             </div>
           ) : (
             <div className='max-sm:min-h-[600px]'>
+              <div></div>
+
               {products?.length > 0 && (
                 <p className='max-sm:hidden py-2 max-sm:text-sm text-zinc-400'>
                   {products?.length} products found
