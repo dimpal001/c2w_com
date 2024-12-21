@@ -40,13 +40,17 @@ const ImageWeekSection = ({ products }) => {
     <div className='grid grid-cols-3 max-sm:grid-cols-1 py-12'>
       {/* First part  */}
       <div className='flex'>
-        <img
-          src={cdnPath + products[0]?.imageUrl}
-          className='object-cover md:w-[359px] md:h-[397px] max-sm:w-full'
-          alt={'clothes2wear'}
-        />
+        {products[0] ? (
+          <img
+            src={cdnPath + products[0]?.imageUrl}
+            className='object-cover md:w-[359px] md:h-[397px] max-sm:w-full'
+            alt={'clothes2wear'}
+          />
+        ) : (
+          <div className='md:w-[359px] md:h-[397px] max-sm:w-full'></div>
+        )}
         <span className='max-sm:hidden font-bold md:pt-5 max-sm:pt-4 -rotate-90 text-6xl max-sm:text-5xl tracking-[14px] uppercase'>
-          fashoin
+          fashion
         </span>
       </div>
 

@@ -78,6 +78,11 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
 }
 
 const ProductCard1 = ({ product }) => {
+  const stripHtml = (html) => {
+    const tempDiv = document.createElement('div')
+    tempDiv.innerHTML = html
+    return tempDiv.textContent || tempDiv.innerText || ''
+  }
   return (
     <a
       rel='noreferrer'
@@ -100,10 +105,10 @@ const ProductCard1 = ({ product }) => {
       </div>
       <div className='h-[80%] z-10 flex flex-col rounded-2xl justify-end max-sm:p-5 p-8 gap-1 absolute self-end inset-0 bg-gradient-to-t from-25% from-black to-transparent'>
         <p className='text-2xl max-sm:text-xl font-bold text-white'>
-          {product.title}
+          {product.title.slice(0, 50)}
         </p>
         <p className='text-sm max-sm:text-xs text-white'>
-          {product.summary.slice(0, 100)}...
+          {stripHtml(product.summary.slice(0, 160))}...
         </p>
         <p className='font-bold text-3xl max-sm:text-2xl text-white'>
           ₹{product.displayPrice}/-

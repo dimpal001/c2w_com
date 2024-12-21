@@ -52,10 +52,10 @@ const ProductCard = ({ product }) => {
       />
       <div className='w-2 p-3 max-sm:w-[170px] h-[90%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
         <p className='text-sm max-sm:text-xs hidden max-sm:block group-hover:block font-semibold'>
-          {product?.title}
+          {product?.title.slice(0, 50)}
         </p>
         <p className='text-[11px] max-sm:text-[9px] hidden max-sm:block group-hover:block font-light'>
-          {product?.description}
+          {product?.description.slice(0, 180)}...
         </p>
         <p className='text-center hidden max-sm:block group-hover:block tracking-wider'>
           <strike className='text-base max-sm:text-sm font-semibold text-center'>
