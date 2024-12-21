@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../Components/Header'
-import ReturnPolicy from './ReturnPolicy'
 import Footer from '../Components/Footer'
+import ReturnPolicy2 from './ReturnPolicy2'
 
 export const metadata = {
   title: 'Return Policy | Clothes2Wear',
@@ -19,7 +19,7 @@ const page = () => {
   return (
     <div>
       <Header />
-      <ReturnPolicy />
+      <ReturnPolicy2 />
       <Footer />
     </div>
   )

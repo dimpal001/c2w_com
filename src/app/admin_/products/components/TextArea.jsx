@@ -10,6 +10,7 @@ const TextArea = ({
   name,
   value,
   placeholder,
+  disabled,
   onKeyDown,
 }) => {
   const textAreaRef = useRef(null)
@@ -30,6 +31,7 @@ const TextArea = ({
     <div className='flex w-full flex-col gap-1'>
       <label htmlFor={label}>{label}</label>
       <textarea
+        disabled={disabled}
         ref={textAreaRef}
         onKeyDown={onKeyDown}
         onChange={(e) => {

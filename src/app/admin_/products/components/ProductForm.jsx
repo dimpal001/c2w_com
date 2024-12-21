@@ -899,10 +899,11 @@ const ProductForm = ({ formData, setFormData, type }) => {
         />
       </Section>
 
-      <Devider />
+      {/* <Devider />
 
       <Section className={'rounded-sm p-5 bg-stone-300'}>
         <TextArea
+          disabled={true}
           label='Enter Return Policy'
           placeholder='Enter here ...'
           rows={3}
@@ -910,7 +911,7 @@ const ProductForm = ({ formData, setFormData, type }) => {
           value={formData.returnPolicy}
           onChange={handleChange}
         />
-      </Section>
+      </Section> */}
 
       <Devider />
 

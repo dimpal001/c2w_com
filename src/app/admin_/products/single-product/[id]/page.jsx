@@ -275,6 +275,7 @@ const ProductDetailsPage = ({ params }) => {
                         <tr>
                           <td className='text-left p-3 border'>
                             <div
+                              className='editor-content'
                               dangerouslySetInnerHTML={{
                                 __html: productDetails.summary,
                               }}
@@ -319,7 +320,13 @@ const ProductDetailsPage = ({ params }) => {
                       <tbody>
                         <tr>
                           <td className='text-left p-3 border'>
-                            {productDetails.returnPolicy}
+                            <div
+                              className='editor-content'
+                              dangerouslySetInnerHTML={{
+                                __html: productDetails.returnPolicy,
+                              }}
+                            />
+                            {/* {productDetails.returnPolicy} */}
                           </td>
                         </tr>
                       </tbody>

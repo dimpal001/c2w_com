@@ -12,7 +12,7 @@ const Footer = () => {
           <p className='text-5xl max-sm:text-3xl font-extrabold'>
             Clothes2Wear
           </p>
-          <p className='text-base max-sm:text-sm font-semibold'>
+          <p className='text-xl max-sm:text-sm font-semibold'>
             Shop without looking at your pocket
           </p>
         </div>
@@ -23,12 +23,12 @@ const Footer = () => {
       </div>
 
       {/* Main footer  */}
-      <div className='max-w-screen-xl mt-10 mx-auto px-4 sm:px-6 md:px-8'>
+      <div className='max-w-screen-xl mt-10 mx-auto px-4 sm:px-6 lg:px-8'>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-left'>
           {/* Info Links */}
           <div>
-            <h4 className='text-2xl font-extrabold mb-4'>Info links</h4>
-            <ul className='space-y-2 text-base'>
+            <h4 className='text-4xl font-extrabold mb-4'>Info links</h4>
+            <ul className='space-y-2 text-xl'>
               <li>
                 <a href='/about' className='hover:underline'>
                   About us
@@ -54,10 +54,10 @@ const Footer = () => {
 
           {/* Subscription Section */}
           <div className='bg-gray-100 p-6 rounded-lg shadow-md'>
-            <h4 className='text-2xl font-extrabold mb-4'>
+            <h4 className='text-4xl font-extrabold mb-4'>
               Subscribe for a cookie.
             </h4>
-            <p className='text-sm mb-4'>
+            <p className='text-xs mb-4'>
               Enter your email address and get the latest updates from the
               clothes2wear fashion blog.
             </p>
@@ -75,8 +75,8 @@ const Footer = () => {
 
           {/* Legal Links */}
           <div className='flex flex-col items-end max-sm:items-start'>
-            <h4 className='text-2xl font-extrabold mb-4'>Legal</h4>
-            <ul className='space-y-2 flex flex-col items-end max-sm:items-start text-base'>
+            <h4 className='text-4xl font-extrabold mb-4'>Legal</h4>
+            <ul className='space-y-2 flex flex-col items-end max-sm:items-start text-xl'>
               <li>
                 <a href='/terms-and-conditions' className='hover:underline'>
                   Terms & conditions

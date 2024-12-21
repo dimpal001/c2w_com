@@ -277,7 +277,11 @@ const DisplayPorductSection = ({ product }) => {
             title={'Product description'}
             data={product.description}
           />
-          <ProductInfo title={'Return Policy'} data={product.returnPolicy} />
+          <ProductInfo
+            title={'Return Policy'}
+            isDangerouslySetInnerHTML={true}
+            data={product.returnPolicy}
+          />
         </div>
 
         {/* Similar Product  */}
