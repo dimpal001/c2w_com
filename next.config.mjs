@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -21,9 +21,22 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'cdn.thefashionsalad.kphoto-1130884625-612x612.jpg',
+        hostname: 'cdn.thefashionsalad.com', // Corrected
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/:all*(jpg|jpeg|png|gif|svg|webp|bmp|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ]
   },
 }
 
