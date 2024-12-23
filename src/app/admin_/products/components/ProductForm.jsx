@@ -845,6 +845,10 @@ const ProductForm = ({
           </div>
           <div className='flex gap-10'>
             <Select
+              color={
+                colors.filter((color) => color.id === currentImage.color)[0]
+                  ?.code
+              }
               label='Select color of the image'
               name='color'
               value={currentImage.color}
@@ -852,7 +856,11 @@ const ProductForm = ({
             >
               <option value=''>Select a color</option>
               {colors.map((color) => (
-                <option key={color.id} value={color.id}>
+                <option
+                  key={color.id}
+                  value={color.id}
+                  style={{ backgroundColor: color.code }}
+                >
                   {uppercaseText(color.name)}
                 </option>
               ))}
