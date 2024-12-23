@@ -28,8 +28,7 @@ export async function POST(request) {
       { message: 'Notification has been sent to the user.' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong while adding the notification' },
       { status: 500 }

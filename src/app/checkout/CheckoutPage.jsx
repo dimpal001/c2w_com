@@ -41,14 +41,15 @@ const CheckoutPage = ({ orderData }) => {
       )
       setAddresses(response.data.addresses)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
   const router = useRouter()
 
   useEffect(() => {
-    console.log(orderData)
     fetchAddresses()
   }, [])
 
@@ -56,7 +57,6 @@ const CheckoutPage = ({ orderData }) => {
     // Load Razorpay script
     const script = document.createElement('script')
     script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-    script.onload = () => console.log('Razorpay script loaded')
     document.body.appendChild(script)
 
     return () => {
@@ -110,7 +110,6 @@ const CheckoutPage = ({ orderData }) => {
 
       if (response.status === 200) {
         if (response.data.razorpayOrderId) {
-          console.log('Razorpay window should open')
           const options = {
             key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
             amount: response.data.amount,
@@ -133,8 +132,6 @@ const CheckoutPage = ({ orderData }) => {
           razorpay.open()
         }
       }
-    } catch (error) {
-      console.log(error.message)
     } finally {
       setSubmitting(false)
     }
@@ -160,7 +157,9 @@ const CheckoutPage = ({ orderData }) => {
         setShowOrderPlacedModal(true)
       }
     } catch (error) {
-      console.log(error.message)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setSubmitting(false)
     }
@@ -178,8 +177,6 @@ const CheckoutPage = ({ orderData }) => {
         razorpay_order_id,
         razorpay_payment_id,
       }
-
-      console.log(data)
 
       const response = await axios.post(`/api/orders/complete-order`, data)
 

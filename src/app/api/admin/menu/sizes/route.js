@@ -46,8 +46,7 @@ export async function POST(request) {
       { message: 'Size added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding size:', error)
+  } catch {
     return NextResponse.json({ message: 'Error adding size' }, { status: 500 })
   }
 }
@@ -57,8 +56,7 @@ export async function GET() {
   try {
     const sizes = await prisma.productSize.findMany()
     return NextResponse.json(sizes, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching sizes:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error fetching sizes' },
       { status: 500 }
@@ -110,8 +108,7 @@ export async function PATCH(request) {
       { message: 'Size updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding size:', error)
+  } catch {
     return NextResponse.json({ message: 'Error adding size' }, { status: 500 })
   }
 }
@@ -136,8 +133,7 @@ export async function DELETE(request) {
       { message: 'Size deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting size:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error deleting size' },
       { status: 500 }

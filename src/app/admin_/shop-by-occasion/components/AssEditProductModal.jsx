@@ -42,7 +42,6 @@ const AddEditProductModal = ({
   })
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -126,7 +125,6 @@ const AddEditProductModal = ({
 
       setImage({ blob: null, imageUrl: null, fileName: null })
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)

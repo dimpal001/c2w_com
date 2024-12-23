@@ -56,7 +56,7 @@ const EditModal = ({ isOpen, onClose, item, refresh }) => {
       }
 
       if (videoUrl) {
-        const response = await axios.patch('/api/vides', {
+        await axios.patch('/api/vides', {
           id: item.id,
           title: newItem.title,
           videoUrl: videoUrl,
@@ -71,7 +71,6 @@ const EditModal = ({ isOpen, onClose, item, refresh }) => {
           price: '',
           avatarUrl: '',
         })
-        console.log(response)
         refresh()
         onClose()
       }

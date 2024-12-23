@@ -8,8 +8,6 @@ const prisma = new PrismaClient()
 export async function POST(request) {
   const { email, otp } = await request.json()
 
-  console.log(email, otp)
-
   const token = request.cookies.get('otp_token')
 
   if (!token) {
@@ -71,8 +69,7 @@ export async function POST(request) {
     })
 
     return response
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Somethin gis wrong, try again!' },
       { status: 500 }

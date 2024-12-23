@@ -47,7 +47,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/trending/get')
       setTrendingProducts(response.data.trendingProducts)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -113,10 +115,7 @@ const Page = () => {
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(
-          selectedTrendingProducts.videoUrl
-        )
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedTrendingProducts.videoUrl)
       }
 
       setTrendingProducts((prev) =>
@@ -125,7 +124,9 @@ const Page = () => {
       setShowDeleteModal(false)
       setSelectedTrendingProducts(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -147,7 +148,6 @@ const Page = () => {
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,

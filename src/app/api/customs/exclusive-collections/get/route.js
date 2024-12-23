@@ -8,8 +8,7 @@ export async function GET() {
     const exclusiveCollections = await prisma.exclusiveCollection.findMany()
 
     return NextResponse.json({ exclusiveCollections }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again.' },
       { status: 500 }

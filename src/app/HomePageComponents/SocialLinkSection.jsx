@@ -4,6 +4,7 @@ import React from 'react'
 import { cdnPath } from '../Components/cdnPath'
 
 const SocialLinkSection = ({ socialLinks }) => {
+  console.log(socialLinks[0])
   return (
     <div className='container mx-auto'>
       <div>
@@ -18,6 +19,7 @@ const SocialLinkSection = ({ socialLinks }) => {
               <a
                 rel='noreferrer'
                 key={index}
+                className='relative'
                 href={image.hyperLink}
                 target='_blank'
               >
@@ -27,6 +29,24 @@ const SocialLinkSection = ({ socialLinks }) => {
                   src={cdnPath + image.imageUrl}
                   alt={image.imageUrl}
                 />
+                <div className='bg-black inset-0 rounded-xl absolute z-10 opacity-30'></div>
+                <div className='flex justify-center items-center absolute z-20 inset-0'>
+                  <img
+                    className='w-16 max-sm:w-10 shadow-2xl max-sm:rounded-lg rounded-2xl shadow-black'
+                    src={
+                      image.hyperLink?.toLowerCase().includes('instagram')
+                        ? 'https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/instagram.png'
+                        : image.hyperLink?.toLowerCase().includes('youtube')
+                        ? 'https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/youtube.png'
+                        : image.hyperLink?.toLowerCase().includes('facebook')
+                        ? 'https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/facebook.png'
+                        : image.hyperLink?.toLowerCase().includes('pinterest')
+                        ? 'https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/pinterest.png'
+                        : 'https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/default.png'
+                    }
+                    alt='h'
+                  />
+                </div>
               </a>
             ))}
         </div>

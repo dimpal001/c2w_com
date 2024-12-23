@@ -204,8 +204,7 @@ export async function POST(request) {
       { product: newProduct, message: 'The product has been added.' },
       { status: 201 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

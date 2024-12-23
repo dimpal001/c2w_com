@@ -14,7 +14,6 @@ const LogoutModal = ({ isOpen, onClose }) => {
 
   const handleLogout = async () => {
     try {
-      console.log('first')
       setLoading(true)
       const response = await axios.post(`/api/auth/logout?email=${user.email}`)
       enqueueSnackbar(response.data.message, { variant: 'success' })

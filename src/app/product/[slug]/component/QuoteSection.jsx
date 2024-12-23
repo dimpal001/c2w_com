@@ -15,8 +15,8 @@ const QuoteSection = () => {
       setFetching(true)
       const response = await axios.get('/api/customs/quotes')
       setQuotes(response.data)
-    } catch (error) {
-      console.log(error)
+    } catch {
+      // Empty
     } finally {
       setFetching(false)
     }

@@ -39,7 +39,6 @@ const page = ({ params }) => {
       setTotalItems(response.data.totalItems)
       setFilteredQueries(response.data.user.searchQueries || [])
     } catch (error) {
-      console.error(error)
       setError(error.message || 'An unexpected error occurred')
     } finally {
       setLoading(false)

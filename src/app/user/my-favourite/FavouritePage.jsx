@@ -30,8 +30,7 @@ export default function FavouritePage() {
       )
       setProducts(response.data.user.wishlist)
       setFetching(false)
-    } catch (error) {
-      console.log(error)
+    } catch {
       router.push('/')
     }
   }

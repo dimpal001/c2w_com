@@ -15,8 +15,6 @@ export async function POST(request) {
   }
 
   try {
-    console.log(id)
-
     if (!id) {
       return NextResponse.json({ message: 'ID is required!' }, { status: 404 })
     }
@@ -26,8 +24,6 @@ export async function POST(request) {
     })
     const user = await prisma.user.delete({ where: { id } })
 
-    console.log(user)
-
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
@@ -36,8 +32,7 @@ export async function POST(request) {
       { message: 'User has been deleted' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

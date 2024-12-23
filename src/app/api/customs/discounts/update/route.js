@@ -84,8 +84,7 @@ export async function PATCH(request) {
     })
 
     return NextResponse.json({ discount: newDiscount }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Server is not responding.' },
       { status: 500 }

@@ -5,6 +5,7 @@ import Button from '../components/Button'
 import CreateEditStaffModal from './CreateEditStaffModal'
 import axios from 'axios'
 import { FilePen } from 'lucide-react'
+import { enqueueSnackbar } from 'notistack'
 
 const ManageStaffPage = () => {
   const [showCreateEditModal, setShowCreateEditModal] = useState(false)
@@ -17,7 +18,9 @@ const ManageStaffPage = () => {
 
       setStaffs(response.data.staffs)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

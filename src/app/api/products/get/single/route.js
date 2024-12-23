@@ -104,8 +104,7 @@ export async function GET(request) {
       { ...productDetails, sizeChart: sizeChartData },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error querying products:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Internal Server Error' },
       { status: 500 }

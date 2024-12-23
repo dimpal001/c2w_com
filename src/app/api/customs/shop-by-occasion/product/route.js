@@ -27,8 +27,7 @@ export async function POST(request) {
       { message: 'Occasion product has been added.', product },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Somethings went wrong, try again!' },
       { status: 500 }
@@ -41,8 +40,7 @@ export async function GET() {
     const products = await prisma.shopByOccasionProduct.findMany()
 
     return NextResponse.json(products, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -77,8 +75,7 @@ export async function PATCH(request) {
       { message: 'Occasion product has been updated.' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -109,8 +106,7 @@ export async function DELETE(request) {
       { message: 'Occasion product deleted successfully.', occasion },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again.' },
       { status: 500 }

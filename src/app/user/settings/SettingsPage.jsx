@@ -56,7 +56,6 @@ const SettingsPage = () => {
       })
       setFetching(false)
     } catch (error) {
-      console.error(error)
       if (error.response?.status === 401) {
         setUser(null)
         localStorage.removeItem('user')

@@ -29,8 +29,7 @@ export async function POST(request) {
       { message: 'Product Week added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding productWeek:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -53,8 +52,7 @@ export async function GET(request) {
 
     const productWeek = await prisma.productWeek.findMany()
     return NextResponse.json(productWeek, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching Product Week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -90,8 +88,7 @@ export async function PATCH(request) {
       { message: 'Product Week updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding Product Week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -119,8 +116,7 @@ export async function DELETE(request) {
       { message: 'Product week deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Product week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

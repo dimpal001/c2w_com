@@ -33,8 +33,7 @@ export async function GET(request) {
     })
 
     return NextResponse.json(unreadNotifications, { status: 200 })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong while fetching unread notifications' },
       { status: 500 }

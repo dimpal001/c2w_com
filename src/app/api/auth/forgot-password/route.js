@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import { generateOtp } from '@/lib/generateOtp'
+import { otpEmail } from '@/utils/email/otpEmail'
 import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import { NextResponse } from 'next/server'
@@ -35,6 +36,8 @@ export async function POST(request) {
       },
     })
 
+    await otpEmail(email, otpCode)
+
     const token = jwt.sign(
       { userId: user.id, otp: otp.id },
       process.env.JWT_SECRET,
@@ -58,8 +61,7 @@ export async function POST(request) {
     })
 
     return response
-  } catch (error) {
-    console.error('Error during admin login:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

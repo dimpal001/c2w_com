@@ -31,8 +31,7 @@ export async function PATCH(request) {
       { message: 'Showcase has been updated.', showcase },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

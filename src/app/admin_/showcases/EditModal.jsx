@@ -39,7 +39,6 @@ const EditModal = ({ isOpen, onClose, selectedShowcase, fetchShowcases }) => {
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -67,14 +66,13 @@ const EditModal = ({ isOpen, onClose, selectedShowcase, fetchShowcases }) => {
       }
 
       if (imageUrl) {
-        const response = await axios.patch('/api/customs/showcases/update', {
+        await axios.patch('/api/customs/showcases/update', {
           id: selectedShowcase.id,
           title: newShowcase.title,
           imageUrl: imageUrl,
           hyperLink: newShowcase.hyperLink,
         })
         setNewShowcase({ title: '', imageUrl: '', hyperLink: '' })
-        console.log(response)
         fetchShowcases()
         onClose()
       }

@@ -29,7 +29,6 @@ export async function DELETE(request) {
       { status: 200 }
     )
   } catch (error) {
-    console.log(error)
     if (error.code === 'P2025') {
       // Prisma error code for not found
       return NextResponse.json(

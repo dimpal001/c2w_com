@@ -132,7 +132,6 @@ const AddEditAddressModal = ({ isOpen, onClose, isEdit, address, onSave }) => {
         onClose()
         onSave()
       } catch (error) {
-        console.log(error)
         enqueueSnackbar(error?.response?.data?.message || 'An error occurred', {
           variant: 'error',
         })

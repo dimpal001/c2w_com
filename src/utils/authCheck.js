@@ -13,11 +13,9 @@ const authCheck = async (router) => {
     )
 
     if (response.status === 200) {
-      console.log('Access granted to Admin')
       return true
     }
-  } catch (error) {
-    console.log(error)
+  } catch {
     enqueueSnackbar('Access denied. Redirecting...', {
       variant: 'error',
       autoHideDuration: 3000,

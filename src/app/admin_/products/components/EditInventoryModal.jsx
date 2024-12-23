@@ -10,14 +10,7 @@ import React, { useState } from 'react'
 import Section from '../../components/Section'
 import { Input, Select } from './SimilarProruct'
 
-const EditInventoryModal = ({
-  isOpen,
-  onClose,
-  item,
-  formData,
-  setFormData,
-  sizes,
-}) => {
+const EditInventoryModal = ({ isOpen, onClose, item, setFormData, sizes }) => {
   const [inventory, setInventory] = useState({
     size: { id: item.size.id, name: item.size.name },
     mrp: item.mrp,
@@ -86,8 +79,6 @@ const EditInventoryModal = ({
     } else {
       setFormData((prev) => ({ ...prev, [name]: normalizedValue }))
     }
-
-    console.log(formData)
   }
 
   return (

@@ -27,8 +27,7 @@ export async function DELETE(request) {
       { message: 'Showcase deleted successfully.', showcase },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'An error occurred while deleting the showcase.' },
       { status: 500 }

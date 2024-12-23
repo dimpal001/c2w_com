@@ -27,8 +27,7 @@ export async function DELETE(request) {
       { message: 'Hero slider deleted successfully.', heroSlider },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'An error occurred while deleting the hero slider.' },
       { status: 500 }

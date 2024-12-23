@@ -16,8 +16,7 @@ export async function GET(request) {
     const sizeCharts = await prisma.sizeChart.findMany()
 
     return NextResponse.json({ sizeCharts }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

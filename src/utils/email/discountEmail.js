@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 const nodemailer = require('nodemailer')
 
-const discountEmail = async (email, discount) => {
-  console.log(discount)
+const discountEmail = async (email) => {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.HOST,
@@ -146,8 +145,8 @@ const discountEmail = async (email, discount) => {
     }
 
     await transporter.sendMail(mailOptions)
-  } catch (error) {
-    console.log(error)
+  } catch {
+    // Empty
   }
 }
 

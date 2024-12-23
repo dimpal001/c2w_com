@@ -55,7 +55,6 @@ const ProductForm = ({
   const [showImageCropper, setShowImageCropper] = useState(false)
   const [tagInputValue, setTagInputValue] = useState('')
   const [saving, setSaving] = useState(false)
-  console.log(thumbnailImage)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,16 +71,14 @@ const ProductForm = ({
         setColors(colorsRes.data)
         setCustomerTypes(customerTypesRes.data)
       } catch (error) {
-        console.error('Error fetching menu data', error)
+        enqueueSnackbar(
+          error?.response?.data?.message || 'Failed to handle task!'
+        )
       }
     }
     fetchData()
     fetchAllSubcategories()
   }, [])
-
-  setTimeout(() => {
-    console.log(allCategories)
-  }, 4000)
 
   const uppercaseText = (text) => text.toUpperCase()
 
@@ -90,7 +87,9 @@ const ProductForm = ({
       const response = await axios.get('/api/admin/menu/sub-categories')
       setAllSubCategories(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -140,13 +139,10 @@ const ProductForm = ({
         setInventory((prev) => ({ ...prev, [name]: normalizeNumber(value) }))
       }
     } else if (name === 'color') {
-      console.log(value)
       setCurrentImage((prev) => ({ ...prev, color: value }))
     } else {
       setFormData((prev) => ({ ...prev, [name]: normalizedValue }))
     }
-
-    console.log(formData)
   }
 
   const handleCategoryChange = (category) => {
@@ -193,8 +189,6 @@ const ProductForm = ({
     }))
 
     setInventory({ size: { id: '', name: '' }, mrp: 0, price: 0, stock: 0 })
-
-    console.log(formData)
   }
 
   const removeInventory = (indexToRemove) => {
@@ -218,8 +212,6 @@ const ProductForm = ({
           altText: imageAltText,
         },
       ])
-      console.log(imageAltText)
-      console.log(currentImage)
       setCurrentImage({
         blob: null,
         imageUrl: '',
@@ -235,7 +227,6 @@ const ProductForm = ({
   }
 
   const removeFormDataCard = (indexToRemove, image) => {
-    console.log(image)
     setFormData((prevFormData) => ({
       ...prevFormData,
       images: prevFormData.images.filter((_, index) => index !== indexToRemove),
@@ -297,7 +288,6 @@ const ProductForm = ({
       return
     }
 
-    // console.log(formData)
     // enqueueSnackbar('Submitted')
     // if (formData) return null
     try {
@@ -310,13 +300,11 @@ const ProductForm = ({
       )
 
       const submissionData = { ...formData, images: uploadedImages }
-      console.log(submissionData)
 
       const response = await axios.post('/api/products/add', submissionData)
       enqueueSnackbar(response.data.message, { variant: 'success' })
       router.push('/admin_/products/product-list')
     } catch (error) {
-      console.error('Error submitting product', error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -324,8 +312,6 @@ const ProductForm = ({
   }
 
   const handlEditSubmit = async () => {
-    console.log(formData)
-    console.log(imagesToDelete)
     if (formData.title === '') {
       enqueueSnackbar('Add the title', { variant: 'error' })
       return
@@ -396,15 +382,10 @@ const ProductForm = ({
         })
       )
 
-      console.log(formData.images)
-
       const existingImages = (formData.images || []).map((image) => ({
         ...image,
         color: image.colorId,
       }))
-
-      console.log(existingImages)
-      console.log(uploadedImages)
 
       const allImages = [...existingImages, ...uploadedImages]
 
@@ -418,7 +399,6 @@ const ProductForm = ({
 
       router.push('/admin_/products/product-list')
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)

@@ -47,7 +47,6 @@ const EditModal = ({
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -75,7 +74,7 @@ const EditModal = ({
       }
 
       if (imageUrl) {
-        const response = await axios.patch('/api/customs/new-arrivals/update', {
+        await axios.patch('/api/customs/new-arrivals/update', {
           id: selectedNewArrival.id,
           imageUrl: imageUrl,
           hyperLink: newNewArrival.hyperLink,
@@ -85,7 +84,6 @@ const EditModal = ({
           mrp: parseInt(newNewArrival.mrp),
         })
         setNewNewArrival({ title: '', imageUrl: '', hyperLink: '' })
-        console.log(response)
         fetchNewArrivals()
         onClose()
       }

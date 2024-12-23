@@ -27,8 +27,7 @@ export const uploadImageToCDN = async (image, name) => {
   }
 
   try {
-    const data = await s3Client.send(new PutObjectCommand(params))
-    console.log('Image uploaded:', data)
+    await s3Client.send(new PutObjectCommand(params))
 
     // imageName = 'https://cdn.thefashionsalad.com/clothes2wear/' + imageName
 
@@ -36,8 +35,7 @@ export const uploadImageToCDN = async (image, name) => {
     const imageUrl = imageName
 
     return imageUrl
-  } catch (error) {
-    console.error('Error uploading to CDN', error)
+  } catch {
     throw new Error('Image upload failed')
   }
 }

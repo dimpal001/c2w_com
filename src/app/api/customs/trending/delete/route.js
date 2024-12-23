@@ -27,8 +27,7 @@ export async function DELETE(request) {
       { message: 'Trending Product deleted successfully.', trendingProduct },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'An error occurred while deleting the Trending Product.' },
       { status: 500 }

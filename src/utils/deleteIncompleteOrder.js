@@ -40,15 +40,11 @@ const deleteIncompleteOrders = async () => {
         },
       })
     }
-
-    console.log('Old incomplete orders cleaned up successfully!')
-  } catch (error) {
-    console.error('Error cleaning up orders:', error)
+  } catch {
+    // Empty
   } finally {
     await prisma.$disconnect()
   }
 }
 
 cron.schedule('0 0 * * *', deleteIncompleteOrders)
-
-console.log('Cron job scheduled to run daily at midnight.')

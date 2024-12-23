@@ -70,8 +70,7 @@ export async function generateMetadata({ params }) {
       },
       structuredData: schemaData,
     }
-  } catch (error) {
-    console.error('Error fetching product data:', error)
+  } catch {
     // Fallback metadata
     return {
       title: 'Product | Clothes2Wear',
@@ -118,8 +117,7 @@ const Page = async ({ params }) => {
         <Footer />
       </div>
     )
-  } catch (error) {
-    console.error('Error fetching product data:', error)
+  } catch {
     return (
       <div>
         <div className='w-screen h-screen flex justify-center flex-col items-center gap-3'>

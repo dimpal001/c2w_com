@@ -91,7 +91,6 @@ const ReviewModal = ({ isOpen, onClose, product }) => {
       setImages([])
       onClose()
     } catch (error) {
-      console.error('Error submitting review:', error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)

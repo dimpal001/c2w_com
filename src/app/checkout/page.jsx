@@ -19,7 +19,6 @@ const PaymentPage = () => {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search)
       orderId = searchParams.get('id') || ''
-      console.log(searchParams.get('id'))
     }
   }, [])
 

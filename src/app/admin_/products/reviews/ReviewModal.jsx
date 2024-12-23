@@ -25,7 +25,6 @@ const ReviewModal = ({
 }) => {
   if (!review) return null
   const router = useRouter()
-  console.log(id)
 
   return (
     <Modal size={'4xl'} isOpen={isOpen}>

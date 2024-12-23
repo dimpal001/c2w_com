@@ -22,7 +22,9 @@ const CategoryMenu = () => {
       const response = await axios.get('/api/admin/menu?type=categories')
       setFetchedItems(response.data)
     } catch (error) {
-      console.error('Error fetching data:', error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -40,7 +42,6 @@ const CategoryMenu = () => {
       fetchData()
       setShowDeleteModal(false)
     } catch (error) {
-      console.error('Error deleting item:', error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     }
   }

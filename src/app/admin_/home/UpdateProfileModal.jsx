@@ -44,8 +44,7 @@ const UpdateProfileModal = ({ isOpen, onClose }) => {
       enqueueSnackbar(response.data?.message, { variant: 'success' })
       onClose()
     } catch (error) {
-      console.error(error)
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+      enqueueSnackbar(error?.response?.data?.message)
     } finally {
       setIsLoading(false)
     }

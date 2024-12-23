@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import { cdnPath } from '@/app/Components/cdnPath'
 import { Check, Eye, X } from 'lucide-react'
+import { enqueueSnackbar } from 'notistack'
 
 const SizeChartSection = ({ formData, setFormData }) => {
   const [sizeCharts, setSizeCharts] = useState([])
@@ -22,7 +23,9 @@ const SizeChartSection = ({ formData, setFormData }) => {
       const response = await axios.get(`/api/products/size-chart/get`)
       setSizeCharts(response.data.sizeCharts)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

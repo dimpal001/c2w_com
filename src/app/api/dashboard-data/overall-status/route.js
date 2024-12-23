@@ -35,8 +35,7 @@ export async function GET(request) {
     }
 
     return NextResponse.json({ status: status }, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching stats:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, please try again.' },
       { status: 500 }

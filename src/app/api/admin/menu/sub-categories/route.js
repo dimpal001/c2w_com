@@ -48,8 +48,7 @@ export async function POST(request) {
       { message: 'Sub ategory added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding category:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding category' },
       { status: 500 }
@@ -62,8 +61,7 @@ export async function GET() {
   try {
     const categories = await prisma.subCategory.findMany()
     return NextResponse.json(categories, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching categories:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error fetching categories' },
       { status: 500 }
@@ -116,8 +114,7 @@ export async function PATCH(request) {
       { message: 'Cateogry updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding category:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding category' },
       { status: 500 }
@@ -145,8 +142,7 @@ export async function DELETE(request) {
       { message: 'Category deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Category:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error deleting Category' },
       { status: 500 }

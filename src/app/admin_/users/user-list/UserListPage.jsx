@@ -69,7 +69,6 @@ const page = () => {
       setCurrentPage(parseInt(response.data.currentPage))
       setTotalPages(parseInt(response.data.totalPages))
     } catch (error) {
-      console.log(error)
       setError(error.message || 'An unexpected errir occured!')
     } finally {
       setFetching(false)

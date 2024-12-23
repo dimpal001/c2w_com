@@ -32,8 +32,7 @@ export async function POST(request) {
         { status: 201 }
       )
     }
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Server is not responding' },
       { status: 500 }

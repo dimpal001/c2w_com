@@ -23,8 +23,7 @@ export async function DELETE(request) {
       { message: 'Shop by season has been deleted' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

@@ -4,8 +4,6 @@ import jwt from 'jsonwebtoken'
 export function authenticate(request) {
   const token = request.cookies.get('token')
 
-  console.log(token)
-
   if (!token) {
     return null
   }
@@ -14,8 +12,7 @@ export function authenticate(request) {
     // Verify and decode the token
     const decoded = jwt.verify(token.value, process.env.JWT_SECRET)
     return decoded
-  } catch (error) {
-    console.error('Authentication failed:', error.message)
+  } catch {
     return null
   }
 }

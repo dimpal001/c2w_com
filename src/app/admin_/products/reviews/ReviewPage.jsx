@@ -49,7 +49,9 @@ const ReviewPage = () => {
       setProductData(response.data)
       setNotFound(true)
     } catch (error) {
-      console.error('Error fetching product reviews:', error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setFetching(false)
     }

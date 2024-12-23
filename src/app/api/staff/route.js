@@ -60,8 +60,7 @@ export async function POST(request) {
       { message: 'Staff created successfully.' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, please try again.' },
       { status: 500 }
@@ -90,8 +89,7 @@ export async function GET(request) {
       },
     })
     return NextResponse.json({ staffs })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Unable to fetch privileges.' },
       { status: 500 }
@@ -140,8 +138,7 @@ export async function PUT(request) {
       { message: 'Staff updated successfully.', updatedStaff },
       { status: 200 }
     )
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, please try again.' },
       { status: 500 }

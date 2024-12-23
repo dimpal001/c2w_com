@@ -40,7 +40,9 @@ const Page = () => {
       const response = await axios.get('/api/vides')
       setVides(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -114,7 +116,6 @@ const Page = () => {
       setSelectedItem(null)
       enqueueSnackbar(response.data.message, { variant: 'success' })
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     }
   }

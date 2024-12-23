@@ -31,8 +31,7 @@ export async function POST(request) {
       { message: 'Vide uploaded!' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json({ message: '' }, { status: 500 })
   }
 }
@@ -61,8 +60,7 @@ export async function PATCH(request) {
     })
 
     return NextResponse.json({ message: 'Vide updated!' }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json({ message: '' }, { status: 500 })
   }
 }
@@ -72,8 +70,7 @@ export async function GET() {
     const vides = await prisma.vides.findMany({})
 
     return NextResponse.json(vides, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json({ message: '' }, { status: 500 })
   }
 }
@@ -92,8 +89,7 @@ export async function DELETE(request) {
     await prisma.vides.delete({ where: { id } })
 
     return NextResponse.json({ message: 'Vide deleted' }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json({ message: '' }, { status: 500 })
   }
 }

@@ -53,8 +53,7 @@ export async function GET(request) {
       orders,
       newUsers,
     })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, please try again later.' },
       { status: 500 }

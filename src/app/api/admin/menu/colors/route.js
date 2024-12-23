@@ -46,8 +46,7 @@ export async function POST(request) {
       { message: 'Color added successfully', color },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding color:', error)
+  } catch {
     return NextResponse.json({ message: 'Error adding color' }, { status: 500 })
   }
 }
@@ -57,8 +56,7 @@ export async function GET() {
   try {
     const colors = await prisma.productColor.findMany()
     return NextResponse.json(colors, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching colors:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error fetching colors' },
       { status: 500 }
@@ -86,8 +84,7 @@ export async function DELETE(request) {
       { message: 'Color deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting color:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error deleting color' },
       { status: 500 }
@@ -125,8 +122,7 @@ export async function PATCH(request) {
       { message: 'Color added successfully', color },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding color:', error)
+  } catch {
     return NextResponse.json({ message: 'Error adding color' }, { status: 500 })
   }
 }

@@ -8,8 +8,7 @@ export async function GET() {
     const heroSliders = await prisma.heroSliders.findMany()
 
     return NextResponse.json({ heroSliders }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

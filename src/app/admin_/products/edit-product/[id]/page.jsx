@@ -55,7 +55,9 @@ const Page = ({ params }) => {
         setThumbnailImage(response.data.thumbnailUrl)
         setProductDetails(response.data)
       } catch (error) {
-        console.error('Error fetching product details:', error)
+        enqueueSnackbar(
+          error?.response?.data?.message || 'Failed to handle task!'
+        )
       } finally {
         setLoading(false)
       }

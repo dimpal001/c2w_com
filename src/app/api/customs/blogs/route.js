@@ -31,8 +31,7 @@ export async function POST(request) {
       { message: 'Blogs added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding blogs:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -55,8 +54,7 @@ export async function GET(request) {
 
     const blogs = await prisma.blogs.findMany()
     return NextResponse.json(blogs, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching blogs:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -94,8 +92,7 @@ export async function PATCH(request) {
       { message: 'Blog updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding blog:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -123,8 +120,7 @@ export async function DELETE(request) {
       { message: 'Blog deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Blog:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

@@ -57,7 +57,9 @@ const page = () => {
       setCurrentPage(response.data.currentPage)
       setTotalPages(response.data.totalPages)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setFetching(false)
     }
@@ -96,7 +98,6 @@ const page = () => {
   }
 
   const handleUpdateCompleted = (updatedOrder) => {
-    console.log(updatedOrder)
     const updatedOrderIndex = orderList.findIndex(
       (order) => order.id === updatedOrder.id
     )

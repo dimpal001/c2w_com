@@ -19,20 +19,16 @@ export async function PATCH(request) {
       return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
     }
 
-    console.log(imageUrl)
-    const product = await prisma.product.update({
+    await prisma.product.update({
       where: { id },
       data: { thumbnailUrl: imageUrl },
     })
-
-    console.log(product.thumbnailUrl)
 
     return NextResponse.json(
       { message: 'Thumbnail image has been changed!' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something is wrong, try again!' },
       { status: 500 }

@@ -31,7 +31,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/shop-by-occasion/occasion')
       setOccasions(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

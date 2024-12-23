@@ -111,7 +111,6 @@ export default function SigninPage() {
       const response = await axios.post(`/api/auth/logout?email=${email}`)
       enqueueSnackbar(response.data.message, { variant: 'success' })
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setShowLogoutButton(false)

@@ -46,7 +46,9 @@ const page = ({ params }) => {
       setTotalPages(response.data.totalPages)
       setTotalItems(response.data.totalItems)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setLoading(false)
     }

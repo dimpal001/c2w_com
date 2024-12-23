@@ -67,9 +67,10 @@ const TrendingNowCard = ({ product }) => {
               className='md:w-[50px] md:h-[50px] max-sm:w-[30px] max-sm:h-[30px] rounded-full'
               alt={product?.title || 'clothes2wear'}
             />
-            <p className='text-center max-sm:text-[7px] max-sm:leading-[10px] text-sm leading-6'>
-              {product?.title}
-            </p>
+            <marquee direction='left'>
+              <span className='max-sm:text-sm'>{product?.title}</span>
+            </marquee>
+            <p className='text-center max-sm:text-[7px] max-sm:leading-[10px] text-sm leading-6'></p>
             <p className='text-center font-bold max-sm:text-[12px] leading-6'>
               ₹{product?.price}/-
             </p>

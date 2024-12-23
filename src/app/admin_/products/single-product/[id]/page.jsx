@@ -32,7 +32,9 @@ const ProductDetailsPage = ({ params }) => {
       const response = await axios.get('/api/admin/menu/?type=customer-types')
       setCustomerTypes(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -51,7 +53,9 @@ const ProductDetailsPage = ({ params }) => {
         })
         setProductDetails(response.data)
       } catch (error) {
-        console.error('Error fetching product details:', error)
+        enqueueSnackbar(
+          error?.response?.data?.message || 'Failed to handle task!'
+        )
       } finally {
         setLoading(false)
       }
@@ -64,7 +68,6 @@ const ProductDetailsPage = ({ params }) => {
     try {
       await Promise.all(
         productDetails.images.map(async (image) => {
-          // console.log(image.imageUrl)
           await deleteImageFromCDN(image.imageUrl)
         })
       )
@@ -76,7 +79,6 @@ const ProductDetailsPage = ({ params }) => {
       enqueueSnackbar(response.data.message, { variant: 'success' })
       router.push('/admin_/products/product-list')
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     }
   }
@@ -162,9 +164,6 @@ const ProductDetailsPage = ({ params }) => {
                                   .then(() => {
                                     setCopiedText(true)
                                     setTimeout(() => setCopiedText(false), 5000)
-                                  })
-                                  .catch((err) => {
-                                    console.error('Failed to copy: ', err)
                                   })
                               }}
                               className={`${

@@ -41,8 +41,7 @@ export async function POST(request) {
     })
 
     return response
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Invalid or expired token.' },
       { status: 500 }

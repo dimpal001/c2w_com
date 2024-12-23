@@ -38,7 +38,6 @@ const AddEditImageWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -92,7 +91,9 @@ const AddEditImageWeek = ({ isOpen, onClose, item, refresh, editMode }) => {
         enqueueSnackbar(response.data.message, { variant: 'success' })
       }
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)

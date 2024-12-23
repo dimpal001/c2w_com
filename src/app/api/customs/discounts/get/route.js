@@ -7,8 +7,7 @@ export async function GET() {
     const discounts = await prisma.discount.findMany()
 
     return NextResponse.json({ discounts }, { status: 200 })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Server is not responding!' },
       { status: 500 }

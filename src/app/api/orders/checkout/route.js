@@ -21,7 +21,6 @@ export async function POST(request) {
     }
 
     const body = await request.json()
-    console.log(body)
     const { orderId, finalPrice, discountId, paymentMethod, addressId } = body
 
     if (!orderId) {
@@ -74,8 +73,7 @@ export async function POST(request) {
       },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error creating order:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

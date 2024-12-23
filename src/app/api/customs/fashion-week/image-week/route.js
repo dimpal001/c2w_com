@@ -28,8 +28,7 @@ export async function POST(request) {
       { message: 'Image Week added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding Image Week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -52,8 +51,7 @@ export async function GET(request) {
 
     const imageWeek = await prisma.imageWeek.findMany()
     return NextResponse.json(imageWeek, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching Image Week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -88,8 +86,7 @@ export async function PATCH(request) {
       { message: 'Image Week updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding Image Week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -117,8 +114,7 @@ export async function DELETE(request) {
       { message: 'Image Week deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Image Week:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

@@ -137,8 +137,7 @@ export async function POST(request) {
       },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error applying coupon:', error)
+  } catch {
     return NextResponse.json(
       { message: 'An error occurred while applying the coupon' },
       { status: 500 }

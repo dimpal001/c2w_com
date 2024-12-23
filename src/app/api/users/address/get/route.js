@@ -46,8 +46,7 @@ export async function GET(request) {
 
       return NextResponse.json({ addresses: userAddresses }, { status: 200 })
     }
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong' },
       { status: 500 }

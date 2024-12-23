@@ -25,8 +25,7 @@ const page = () => {
         withCredentials: true,
       })
       setStatus(response.data.status)
-    } catch (error) {
-      console.log(error)
+    } catch {
       enqueueSnackbar('Something went wrong, try again', { variant: 'error' })
     }
   }
@@ -37,8 +36,7 @@ const page = () => {
         withCredentials: true,
       })
       setRecentOrders(response.data)
-    } catch (error) {
-      console.log(error)
+    } catch {
       enqueueSnackbar('Something went wrong, try again', { variant: 'error' })
     }
   }
@@ -51,8 +49,8 @@ const page = () => {
       if (isAuth) {
         try {
           await Promise.all([fetchOverallStatus(), fetchRecentOrders()])
-        } catch (error) {
-          console.error('Error while fetching dashboard data:', error)
+        } catch {
+          enqueueSnackbar('Internal server error!')
         }
       }
     }

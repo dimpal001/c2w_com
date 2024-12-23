@@ -46,7 +46,6 @@ const EditModal = ({
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -70,19 +69,15 @@ const EditModal = ({
       }
 
       if (imageUrl) {
-        const response = await axios.patch(
-          '/api/customs/exclusive-collections/update',
-          {
-            id: selectedECProduct.id,
-            imageUrl: imageUrl,
-            hyperLink: newECProduct.hyperLink,
-            categoryHyperLink: newECProduct.categoryHyperLink,
-            mrp: parseFloat(newECProduct.mrp),
-            price: parseFloat(newECProduct.price),
-          }
-        )
+        await axios.patch('/api/customs/exclusive-collections/update', {
+          id: selectedECProduct.id,
+          imageUrl: imageUrl,
+          hyperLink: newECProduct.hyperLink,
+          categoryHyperLink: newECProduct.categoryHyperLink,
+          mrp: parseFloat(newECProduct.mrp),
+          price: parseFloat(newECProduct.price),
+        })
         setNewECProduct({ title: '', imageUrl: '', hyperLink: '' })
-        console.log(response)
         fetchExclusiveCollections()
         onClose()
       }

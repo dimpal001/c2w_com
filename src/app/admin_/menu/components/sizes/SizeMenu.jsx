@@ -22,7 +22,9 @@ const SizeMenu = () => {
       const response = await axios.get('/api/admin/menu?type=sizes')
       setFetchedItems(response.data)
     } catch (error) {
-      console.error('Error fetching data:', error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
   useEffect(() => {
@@ -39,7 +41,6 @@ const SizeMenu = () => {
       fetchData()
       setShowDeleteModal(false)
     } catch (error) {
-      console.error('Error deleting item:', error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     }
   }

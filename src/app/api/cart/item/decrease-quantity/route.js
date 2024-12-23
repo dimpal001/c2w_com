@@ -44,8 +44,7 @@ export async function POST(request) {
     }
 
     return NextResponse.json(updatedCartItem, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

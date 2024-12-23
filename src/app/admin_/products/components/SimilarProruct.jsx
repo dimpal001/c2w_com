@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import { CircleCheckBig, X } from 'lucide-react'
 import { cdnPath } from '@/app/Components/cdnPath'
+import { enqueueSnackbar } from 'notistack'
 
 const SimilarProruct = ({
   formData,
@@ -41,7 +42,9 @@ const SimilarProruct = ({
       const response = await axios.get(`/api/products/get/filter`, { params })
       setProducts(response.data.products)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

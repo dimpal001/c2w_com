@@ -7,6 +7,7 @@ import Loading from '../components/Loading'
 import Button from '../components/Button'
 import { useRouter } from 'next/navigation'
 import { CornerRightUp, IndianRupee, ShoppingCart, Users } from 'lucide-react'
+import { enqueueSnackbar } from 'notistack'
 
 const ThisMonthOverview = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1)
@@ -57,7 +58,9 @@ const ThisMonthOverview = () => {
       )
       setData(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setLoading(false)
     }

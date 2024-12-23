@@ -29,8 +29,7 @@ export async function PATCH(request) {
     })
 
     return NextResponse.json(updatedNotification, { status: 200 })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       {
         message: 'Something went wrong while marking the notification as read',

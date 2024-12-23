@@ -65,13 +65,9 @@ const page = () => {
           axios.get('/api/admin/menu?type=colors'),
         ])
 
-        console.log('Colors Response:', colorsRes.data)
-        console.log('Categories Response:', categoriesRes.data)
-
         setColors(colorsRes.data)
         setAllCategories(categoriesRes.data)
       } catch (error) {
-        console.error('Error fetching menu data', error)
         setError(error.message || 'An unexpected error occured!')
       }
     }
@@ -125,7 +121,6 @@ const page = () => {
       setCurrentPage(parseInt(response.data.currentPage))
       setTotalPages(parseInt(response.data.totalPages))
     } catch (error) {
-      console.log(error)
       setError(error.message || 'An unexpected error occured!')
     } finally {
       setFetching(false)
@@ -164,7 +159,6 @@ const page = () => {
     try {
       await Promise.all(
         selectedProduct.images.map(async (image) => {
-          // console.log(image.imageUrl)
           await deleteImageFromCDN(image.imageUrl)
         })
       )
@@ -178,7 +172,6 @@ const page = () => {
       setDeleteModalOpen(false)
       enqueueSnackbar(response.data.message, { variant: 'success' })
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     }
   }
@@ -375,9 +368,6 @@ const page = () => {
                                 .then(() => {
                                   setCopiedIndex(index)
                                   setTimeout(() => setCopiedIndex(null), 5000)
-                                })
-                                .catch((err) => {
-                                  console.error('Failed to copy: ', err)
                                 })
                             }}
                             className={`${

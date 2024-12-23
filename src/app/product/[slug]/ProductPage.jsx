@@ -29,8 +29,8 @@ const ProductPage = ({ product }) => {
         `/api/product/category?id=${product?.categories[0].id}`
       )
       setCategoryProducts(response.data.products)
-    } catch (error) {
-      console.log(error)
+    } catch {
+      // Empty
     } finally {
       setFetching(false)
     }

@@ -39,7 +39,6 @@ const EditModal = ({ isOpen, onClose, selectedECProduct, refresh }) => {
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -63,7 +62,7 @@ const EditModal = ({ isOpen, onClose, selectedECProduct, refresh }) => {
       }
 
       if (imageUrl) {
-        const response = await axios.patch('/api/customs/quotes', {
+        await axios.patch('/api/customs/quotes', {
           id: selectedECProduct.id,
           imageUrl: imageUrl,
           hyperLink: newECProduct.hyperLink,
@@ -74,13 +73,11 @@ const EditModal = ({ isOpen, onClose, selectedECProduct, refresh }) => {
           imageUrl: '',
           hyperLink: '',
         })
-        console.log(response)
         refresh()
         onClose()
       }
     } catch (error) {
-      console.log(error)
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+      enqueueSnackbar(error?.response?.data?.message)
     } finally {
       setSubmitting(false)
     }

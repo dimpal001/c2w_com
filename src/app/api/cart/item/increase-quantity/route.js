@@ -22,8 +22,6 @@ export async function POST(request) {
       },
     })
 
-    console.log(existingCartItem)
-
     let updatedCartItem
 
     updatedCartItem = await prisma.cartItem.update({
@@ -32,8 +30,7 @@ export async function POST(request) {
     })
 
     return NextResponse.json(updatedCartItem, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Server is not responding.' },
       { status: 500 }

@@ -20,6 +20,7 @@ import Button from '@/app/admin_/components/Button'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { cdnPath } from '@/app/Components/cdnPath'
+import { enqueueSnackbar } from 'notistack'
 
 // eslint-disable-next-line react/prop-types
 const UserDetailsPage = ({ params }) => {
@@ -38,7 +39,9 @@ const UserDetailsPage = ({ params }) => {
       const response = await axios.get(`/api/users/get/single-user?id=${id}`)
       setUserDetails(response.data.user)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setFetching(false)
     }

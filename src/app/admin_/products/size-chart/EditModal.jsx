@@ -38,7 +38,6 @@ const EditModal = ({ isOpen, onClose, selectedItem, fetchItems }) => {
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -62,13 +61,12 @@ const EditModal = ({ isOpen, onClose, selectedItem, fetchItems }) => {
       }
 
       if (imageUrl) {
-        const response = await axios.patch('/api/products/size-chart/update', {
+        await axios.patch('/api/products/size-chart/update', {
           id: selectedItem.id,
           title: newItem.title,
           imageUrl: imageUrl,
         })
         setNewItem({ title: '', imageUrl: '' })
-        console.log(response)
         fetchItems()
         onClose()
       }

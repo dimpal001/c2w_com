@@ -10,8 +10,7 @@ const page = async ({ params }) => {
         <InvoicePage orderId={orderId} />
       </div>
     )
-  } catch (error) {
-    console.log('Error fetching data:', error)
+  } catch {
     return <div>Error loading data.</div>
   }
 }

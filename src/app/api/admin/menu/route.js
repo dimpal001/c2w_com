@@ -32,8 +32,7 @@ export async function GET(request) {
       })
       return NextResponse.json(types, { status: 200 })
     }
-  } catch (error) {
-    console.error('Error fetching colors:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error fetching colors' },
       { status: 500 }

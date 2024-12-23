@@ -63,16 +63,12 @@ const EditModal = ({
       let videoUrl
       let avatarUrl
 
-      console.log(fileName)
-
       if (fileName !== null) {
         await deleteImageFromCDN(selectedTrendingProducts.videoUrl)
         videoUrl = await uploadImageToCDN(video, fileName)
       } else {
         videoUrl = selectedTrendingProducts.videoUrl
       }
-
-      console.log(image.fileName)
 
       if (image.fileName !== null) {
         await deleteImageFromCDN(selectedTrendingProducts.avatarUrl)
@@ -82,7 +78,7 @@ const EditModal = ({
       }
 
       if (videoUrl) {
-        const response = await axios.patch('/api/customs/trending/update', {
+        await axios.patch('/api/customs/trending/update', {
           id: selectedTrendingProducts.id,
           title: newTrendingProduct.title,
           videoUrl: videoUrl,
@@ -98,7 +94,6 @@ const EditModal = ({
           avatarUrl: '',
         })
 
-        console.log(response?.message)
         fetchTrendingProducts()
         onClose()
       }

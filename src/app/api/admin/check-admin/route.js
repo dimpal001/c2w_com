@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request) {
   const token = request.cookies.get('token')
-  console.log(token)
 
   if (!token) {
     return NextResponse.json(
@@ -29,8 +28,6 @@ export async function POST(request) {
     // If everything is valid, grant access
     return NextResponse.json({ message: 'Access granted' }, { status: 200 })
   } catch (error) {
-    console.log(error)
-
     // Check if the error is because of expired token
     if (error instanceof jwt.TokenExpiredError) {
       return NextResponse.json({ message: 'Session expired' }, { status: 401 })

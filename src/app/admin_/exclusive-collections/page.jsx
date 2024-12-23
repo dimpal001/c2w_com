@@ -45,12 +45,11 @@ const Page = () => {
       const response = await axios.get('/api/customs/exclusive-collections/get')
       setExclusiveCollections(response.data.exclusiveCollections)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message || 'Failed to load data!')
     }
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -114,7 +113,9 @@ const Page = () => {
         fileName: '',
       })
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -135,10 +136,7 @@ const Page = () => {
       )
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(
-          selectedExclusiveCollections.imageUrl
-        )
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedExclusiveCollections.imageUrl)
       }
 
       setExclusiveCollections((prev) =>
@@ -147,7 +145,9 @@ const Page = () => {
       setShowDeleteModal(false)
       setSelectedExclusiveCollections(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

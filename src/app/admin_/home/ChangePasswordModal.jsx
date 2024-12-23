@@ -51,8 +51,7 @@ const ChangePasswordModal = ({ isOpen, onClose }) => {
       enqueueSnackbar(response.data.message, { variant: 'success' })
       onClose()
     } catch (error) {
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
-      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message)
     } finally {
       setSubmitting(false)
     }

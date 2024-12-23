@@ -49,12 +49,13 @@ const Page = () => {
       const response = await axios.get('/api/customs/new-arrivals/get')
       setNewArrivals(response.data.newArrivals)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -102,7 +103,6 @@ const Page = () => {
       setImage(null)
       setShowForm(false)
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -116,10 +116,7 @@ const Page = () => {
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(
-          selectedNewArrival.imageUrl
-        )
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedNewArrival.imageUrl)
       }
 
       setNewArrivals((prev) =>
@@ -128,7 +125,9 @@ const Page = () => {
       setShowDeleteModal(false)
       setSelectedNewArrivals(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

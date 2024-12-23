@@ -2,20 +2,36 @@
 
 /* eslint-disable react/prop-types */
 import CategoryBar from '@/app/Components/CategoryBar'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from './Sidebar'
 import ProductCard1 from '@/app/Components/ProductCard1'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import axios from 'axios'
-import { Frown, Loader } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Frown, Loader } from 'lucide-react'
 import { useSearch } from '@/app/context/SearchContext'
 import { useUserContext } from '@/app/context/UserContext'
 import Skeleton from '@/app/Components/Skeleton'
+import { enqueueSnackbar } from 'notistack'
+import { useCategories } from '@/app/context/CategoryContext'
+import SubCategoryCard from './SubCategoryCard'
 
 const CategoryPage = ({ slug }) => {
+  const scrollContainerRef = useRef(null)
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [sortDrawerOpen, setSortDrawerOpen] = useState(false)
+  const [subCategoryProducts, setSubCategoryProducts] = useState(false)
+
+  const fetchSubCategoryProducts = async () => {
+    try {
+      const response = await axios.get(
+        `/api/products/get/sub-category-wise?categorySlug=${slug}`
+      )
+      setSubCategoryProducts(response.data.products)
+    } catch {
+      // Empty
+    }
+  }
 
   const [isEmptyProduct, setIsEmptyProduct] = useState(false)
   const [fetching, setFetching] = useState(true)
@@ -26,6 +42,7 @@ const CategoryPage = ({ slug }) => {
 
   const { searchQuery } = useSearch()
   const { user } = useUserContext()
+  const { categories } = useCategories()
 
   const [products, setProducts] = useState([])
 
@@ -36,6 +53,10 @@ const CategoryPage = ({ slug }) => {
   const toggleSortDrawer = () => {
     setSortDrawerOpen((prevState) => !prevState)
   }
+
+  useEffect(() => {
+    fetchSubCategoryProducts()
+  }, [categories, slug])
 
   useEffect(() => {
     fetchFilterData(1)
@@ -98,10 +119,23 @@ const CategoryPage = ({ slug }) => {
         setIsEmptyProduct(true)
       }
     } catch (error) {
-      console.log('Error:', error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setFetching(false)
       setLoadingMore(false)
+    }
+  }
+
+  const handleScroll = (direction) => {
+    const container = scrollContainerRef.current
+    if (container) {
+      const scrollAmount = container.offsetWidth / 2
+      container.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      })
     }
   }
 
@@ -109,6 +143,28 @@ const CategoryPage = ({ slug }) => {
     <div>
       <div className='max-sm:hidden'>
         <CategoryBar />
+      </div>
+
+      <div className='p-3 w-full flex justify-between gap-2 items-center'>
+        <ChevronLeft
+          onClick={() => handleScroll('left')}
+          className='cursor-pointer w-8 h-8 max-sm:hidden hover:text-pink-500'
+        />
+        <div
+          ref={scrollContainerRef}
+          className='flex justify-start w-full gap-7 max-sm:gap-2 md:mt-2 overflow-scroll scrollbar-hide py-2 items-start'
+        >
+          {subCategoryProducts.length > 0 &&
+            subCategoryProducts
+              .filter((item) => item?.product)
+              .map((item, index) => (
+                <SubCategoryCard key={index} subCategory={item} />
+              ))}
+        </div>
+        <ChevronRight
+          onClick={() => handleScroll('right')}
+          className='cursor-pointer w-8 h-8 max-sm:hidden hover:text-pink-500'
+        />
       </div>
 
       <div className='p-3 flex md:gap-10 gap-2 items-start max-md:flex-col'>
@@ -204,7 +260,6 @@ const CategoryPage = ({ slug }) => {
         <div className='w-full'>
           {fetching ? (
             <div className='flex gap-6 mt-5 h-full flex-wrap max-sm:grid grid-cols-2 max-sm:gap-2'>
-              {/* <Loader className='animate-spin' /> */}
               {Array.from({ length: 12 }, (_, index) => (
                 <Skeleton
                   key={index}
@@ -216,8 +271,6 @@ const CategoryPage = ({ slug }) => {
             </div>
           ) : (
             <div className='max-sm:min-h-[600px]'>
-              <div></div>
-
               {products?.length > 0 && (
                 <p className='max-sm:hidden py-2 max-sm:text-sm text-zinc-400'>
                   {products?.length} products found

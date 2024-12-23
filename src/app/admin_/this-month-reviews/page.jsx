@@ -78,7 +78,9 @@ const ThisMonthOverview = () => {
       )
       setData(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setLoading(false)
     }

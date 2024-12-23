@@ -30,8 +30,7 @@ export async function GET(request) {
     })
 
     return NextResponse.json(notifications, { status: 200 })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong while fetching notifications' },
       { status: 500 }

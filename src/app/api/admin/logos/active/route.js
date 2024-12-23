@@ -9,8 +9,7 @@ export async function GET() {
     const logo = await prisma.logos.findFirst({ where: { isActive: true } })
 
     return NextResponse.json(logo, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -20,7 +19,6 @@ export async function GET() {
 
 export async function PATCH(request) {
   const { searchParams } = new URL(request.url)
-  console.log(searchParams)
   const id = searchParams.get('id')
   try {
     if (!isAdmin(request)) {
@@ -47,8 +45,7 @@ export async function PATCH(request) {
       { message: 'Logo has been activated.' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

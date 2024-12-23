@@ -8,8 +8,7 @@ export async function GET() {
     const trendingProducts = await prisma.trending.findMany()
 
     return NextResponse.json({ trendingProducts }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

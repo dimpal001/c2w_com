@@ -51,11 +51,8 @@ export async function PUT(request) {
       data: { quantity: newQuantity },
     })
 
-    console.log(updatedCartItem)
-
     return NextResponse.json({ cartItem: updatedCartItem }, { status: 200 })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

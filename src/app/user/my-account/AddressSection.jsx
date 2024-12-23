@@ -22,7 +22,6 @@ const AddressSection = ({ userDetails, refresh }) => {
       enqueueSnackbar(response?.data?.message, { variant: 'success' })
       refresh()
     } catch (error) {
-      console.log(error)
       const errorMessage =
         error?.response?.data?.message || 'An error occurred.'
       enqueueSnackbar(errorMessage, { variant: 'error' })

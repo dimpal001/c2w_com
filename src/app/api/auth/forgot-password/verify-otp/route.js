@@ -69,8 +69,7 @@ export async function POST(request) {
     })
 
     return response
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Somethin gis wrong, try again!' },
       { status: 500 }

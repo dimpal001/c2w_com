@@ -41,12 +41,13 @@ const Page = () => {
       const response = await axios.get('/api/customs/social-links')
       setItems(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -86,7 +87,6 @@ const Page = () => {
         fileName: '',
       })
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -104,15 +104,16 @@ const Page = () => {
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedItem.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedItem.imageUrl)
       }
 
       setItems((prev) => prev.filter((item) => item.id !== selectedItem.id))
       setShowDeleteModal(false)
       setSelectedItem(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

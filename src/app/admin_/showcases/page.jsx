@@ -42,7 +42,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/showcases/get')
       setShowcases(response.data.showcases)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -51,7 +53,6 @@ const Page = () => {
   }, [])
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -87,7 +88,6 @@ const Page = () => {
       }
       setShowForm(false)
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -101,8 +101,7 @@ const Page = () => {
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedShowcase.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedShowcase.imageUrl)
       }
 
       setShowcases((prev) =>
@@ -111,7 +110,9 @@ const Page = () => {
       setShowDeleteModal(false)
       setSelectedShowcase(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

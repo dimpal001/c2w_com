@@ -39,7 +39,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/shop-by-season/get')
       setSeasons(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setLoading(false)
     }
@@ -91,8 +93,7 @@ const Page = () => {
       )
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedProduct.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedProduct.imageUrl)
       }
 
       fetchSeasons()
@@ -101,7 +102,9 @@ const Page = () => {
       setSelectedSeason(null)
       setSelectedProduct(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -115,8 +118,7 @@ const Page = () => {
       )
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedSeason.videoUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedSeason.videoUrl)
       }
 
       setShowDeleteSeasonModal(false)
@@ -124,7 +126,9 @@ const Page = () => {
       setSelectedSeason(null)
       setSelectedProduct(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

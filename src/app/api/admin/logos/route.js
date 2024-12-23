@@ -26,8 +26,7 @@ export async function POST(request) {
       { message: 'Logo has been uoloaded.', logo },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Somethings went wrong, try again!' },
       { status: 500 }
@@ -40,8 +39,7 @@ export async function GET() {
     const logos = await prisma.logos.findMany()
 
     return NextResponse.json(logos, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -76,8 +74,7 @@ export async function PATCH(request) {
       { message: 'Logo has been updated.', logo },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -108,8 +105,7 @@ export async function DELETE(request) {
       { message: 'Logo deleted successfully.', logo },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again.' },
       { status: 500 }

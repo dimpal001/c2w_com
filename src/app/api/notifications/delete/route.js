@@ -31,8 +31,7 @@ export async function DELETE(request) {
       { message: 'Notification deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong while deleting the notification' },
       { status: 500 }

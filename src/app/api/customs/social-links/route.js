@@ -29,8 +29,7 @@ export async function POST(request) {
       { message: 'Social Links added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding Social Links:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -53,8 +52,7 @@ export async function GET(request) {
 
     const socialLinks = await prisma.socialLinks.findMany()
     return NextResponse.json(socialLinks, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching social links:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -90,8 +88,7 @@ export async function PATCH(request) {
       { message: 'Social Link updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding social link:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -119,8 +116,7 @@ export async function DELETE(request) {
       { message: 'Social link deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Social link:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

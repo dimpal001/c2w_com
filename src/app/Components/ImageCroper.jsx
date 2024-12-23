@@ -103,7 +103,6 @@ export default function ImageCroper({
     })
 
     const croppedImageUrl = URL.createObjectURL(blob)
-    console.log(croppedImageUrl)
     onCropComplete(blob, croppedImageUrl, fileName, imageAltText)
     onClose()
   }

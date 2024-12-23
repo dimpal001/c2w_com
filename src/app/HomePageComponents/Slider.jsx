@@ -79,16 +79,16 @@ const Slider = ({
       {showArrows && (
         <>
           <button
-            className='absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-[4px] rounded-full hover:bg-gray-700'
+            className='absolute left-2 z-30 top-1/2 transform -translate-y-1/2 bg-pink-500 text-white p-[4px] rounded-full hover:bg-pink-600'
             onClick={handlePrev}
           >
-            <ChevronLeft size={15} />
+            <ChevronLeft size={15} className='max-sm:w-6 max-sm:h-6' />
           </button>
           <button
-            className='absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-[4px] rounded-full hover:bg-gray-700'
+            className='absolute right-2 z-30 top-1/2 transform -translate-y-1/2 bg-pink-500 text-white p-[4px] rounded-full hover:bg-pink-600'
             onClick={handleNext}
           >
-            <ChevronRight size={15} />
+            <ChevronRight size={15} className='max-sm:w-6 max-sm:h-6' />
           </button>
         </>
       )}

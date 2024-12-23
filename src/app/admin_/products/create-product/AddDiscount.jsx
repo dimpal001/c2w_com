@@ -15,7 +15,9 @@ const AddDiscount = ({ formData, setFormData }) => {
       const response = await axios.get('/api/customs/discounts/get')
       setDiscounts(response.data.discounts)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

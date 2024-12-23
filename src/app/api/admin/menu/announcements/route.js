@@ -28,8 +28,7 @@ export async function POST(request) {
       { message: 'Announcement added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding announcement:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -52,8 +51,7 @@ export async function GET(request) {
 
     const announcements = await prisma.announcements.findMany()
     return NextResponse.json(announcements, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching announcements:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -88,8 +86,7 @@ export async function PATCH(request) {
       { message: 'Announcement updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding announcement:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -117,8 +114,7 @@ export async function DELETE(request) {
       { message: 'Announcement deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Announcement:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

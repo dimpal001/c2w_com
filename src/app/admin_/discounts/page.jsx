@@ -40,7 +40,7 @@ const Page = () => {
       const response = await axios.get('/api/customs/discounts/get')
       setDiscounts(response.data.discounts)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message)
     }
   }
 
@@ -103,7 +103,7 @@ const Page = () => {
       setShowForm(false)
       enqueueSnackbar('Discount added successfully', { variant: 'success' })
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(error?.response?.data?.message)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -171,8 +171,7 @@ const Page = () => {
       enqueueSnackbar('Discount added successfully', { variant: 'success' })
       setEditMode(false)
     } catch (error) {
-      console.log(error)
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+      enqueueSnackbar(error?.response?.data?.message)
     } finally {
       setSaving(false)
     }
@@ -191,8 +190,7 @@ const Page = () => {
       setSelectedDiscount(null)
       enqueueSnackbar('Discount deleted successfully', { variant: 'success' })
     } catch (error) {
-      console.log(error)
-      enqueueSnackbar('Failed to delete discount', { variant: 'error' })
+      enqueueSnackbar(error?.response?.data?.message)
     }
   }
 

@@ -9,8 +9,6 @@ export async function POST(request) {
   const token = request.cookies.get('full_name_token')
   const { email, firstName, lastName } = await request.json()
 
-  console.log(token)
-
   if (!token) {
     return NextResponse.json(
       { message: 'Unauthorised access!.' },
@@ -51,8 +49,7 @@ export async function POST(request) {
     })
 
     return response
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Invalid or expired token.' },
       { status: 500 }

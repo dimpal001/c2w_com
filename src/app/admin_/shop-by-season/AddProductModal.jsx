@@ -72,7 +72,9 @@ const AddProductModal = ({
         onClose()
       }
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setSubmitting(false)
     }
@@ -84,7 +86,6 @@ const AddProductModal = ({
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,

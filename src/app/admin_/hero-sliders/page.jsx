@@ -43,7 +43,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/hero-sliders/get')
       setHeroSliders(response.data.heroSliders)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setFetching(false)
     }
@@ -54,7 +56,6 @@ const Page = () => {
   }, [])
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -85,8 +86,9 @@ const Page = () => {
       }
       setShowForm(false)
     } catch (error) {
-      console.log(error)
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setSaving(false)
     }
@@ -99,8 +101,7 @@ const Page = () => {
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedSlider.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedSlider.imageUrl)
       }
 
       setHeroSliders((prev) =>
@@ -109,7 +110,9 @@ const Page = () => {
       setShowDeleteModal(false)
       setSelectedSlider(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

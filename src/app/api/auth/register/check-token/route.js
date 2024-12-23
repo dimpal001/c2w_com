@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 
 export async function POST(request) {
   const token = request.cookies.get('full_name_token')
-  console.log(token)
 
   if (!token) {
     return NextResponse.json(
@@ -14,8 +13,7 @@ export async function POST(request) {
   }
 
   try {
-    const decoded = jwt.verify(token.value, process.env.JWT_SECRET)
-    console.log(decoded)
+    jwt.verify(token.value, process.env.JWT_SECRET)
 
     return NextResponse.json(
       {
@@ -23,8 +21,7 @@ export async function POST(request) {
       },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Invalid or expired token.' },
       { status: 401 }

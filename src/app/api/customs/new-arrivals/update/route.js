@@ -35,8 +35,7 @@ export async function PATCH(request) {
       { message: 'New arrival has been updated.', newArrivals },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

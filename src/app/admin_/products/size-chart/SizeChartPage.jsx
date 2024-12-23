@@ -41,7 +41,9 @@ const SizeChatPage = () => {
       const response = await axios.get('/api/products/size-chart/get')
       setItems(response.data.sizeCharts)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -50,7 +52,6 @@ const SizeChatPage = () => {
   }, [])
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -86,7 +87,6 @@ const SizeChatPage = () => {
       }
       setShowForm(false)
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSaving(false)
@@ -100,15 +100,16 @@ const SizeChatPage = () => {
       })
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedItem.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedItem.imageUrl)
       }
 
       setItems((prev) => prev.filter((item) => item.id !== selectedItem.id))
       setShowDeleteModal(false)
       setSelectedItem(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

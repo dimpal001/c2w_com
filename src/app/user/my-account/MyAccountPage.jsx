@@ -42,7 +42,6 @@ export default function MyAccountPage() {
       setFetching(true)
       setFetching(false)
     } catch (error) {
-      console.log(error)
       if (error.response.status === 401) {
         setUser(null)
         localStorage.removeItem('user')

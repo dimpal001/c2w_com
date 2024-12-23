@@ -7,6 +7,7 @@ import { useUserContext } from '@/app/context/UserContext'
 import axios from 'axios'
 import UpdateProfileModal from './UpdateProfileModal'
 import ChangePasswordModal from './ChangePasswordModal'
+import { enqueueSnackbar } from 'notistack'
 
 export default function page() {
   const [showProfileModal, setShowProfileModal] = useState(false)
@@ -21,7 +22,9 @@ export default function page() {
       const response = await axios.get('/api/privileges')
       setPrivileges(response.data.privileges)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

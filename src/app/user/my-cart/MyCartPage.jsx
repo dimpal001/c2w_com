@@ -51,14 +51,12 @@ export default function MyCartPage() {
       })
       setProducts(cartItems)
       setFetching(false)
-    } catch (error) {
-      console.error(error)
+    } catch {
       router.push('/')
     }
   }
 
   const updateTotalAmount = () => {
-    console.log(products)
     const total = products.reduce((acc, item) => {
       const inventory = item.product.inventory.find(
         (inv) => inv.size.id === item.selectedSizeId
@@ -123,8 +121,6 @@ export default function MyCartPage() {
         }),
       }
 
-      console.log(totalAmount)
-
       const response = await axios.post('/api/orders/create', {
         userId: user.id,
         totalPrice: totalAmount,
@@ -135,8 +131,8 @@ export default function MyCartPage() {
         const orderId = response.data.orderId
         router.push(`/checkout?id=${orderId}`)
       }
-    } catch (error) {
-      console.error('Error during checkout:', error.message)
+    } catch {
+      // Empty
     }
   }
 
@@ -243,11 +239,8 @@ const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
   }
 
   const handleQuantityChange = async (operation) => {
-    console.log(selectedInventory.minQuantity)
-
     if (operation === 'decrease') {
       if (selectedQuantity === selectedInventory.minQuantity) {
-        console.log('Its calling')
         return
       }
     }
@@ -266,15 +259,9 @@ const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
       })
 
       if (response.status === 200) {
-        console.log('Quantity updated successfully:', response.data)
-
         setSelectedQuantity(response.data.cartItem.quantity)
-      } else {
-        console.error('Unexpected response:', response)
       }
-    } catch (error) {
-      console.error('Failed to update quantity:', error.message)
-
+    } catch {
       setSelectedQuantity(
         operation === 'increase' ? selectedQuantity - 1 : selectedQuantity + 1
       )

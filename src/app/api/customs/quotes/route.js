@@ -30,8 +30,7 @@ export async function POST(request) {
       { message: 'Quote added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding quote:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -55,8 +54,7 @@ export async function GET(request) {
     const quotes = await prisma.quotes.findMany()
 
     return NextResponse.json(quotes, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching quotes:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -93,8 +91,7 @@ export async function PATCH(request) {
       { message: 'Quote updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding quote:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -122,8 +119,7 @@ export async function DELETE(request) {
       { message: 'Quote deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting quote:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }

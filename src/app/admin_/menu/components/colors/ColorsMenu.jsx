@@ -22,7 +22,9 @@ const ColorsMenu = () => {
       const response = await axios.get('/api/admin/menu?type=colors')
       setFetchedItems(response.data)
     } catch (error) {
-      console.error('Error fetching data:', error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
   useEffect(() => {
@@ -39,8 +41,7 @@ const ColorsMenu = () => {
       fetchData()
       setShowDeleteModal(false)
     } catch (error) {
-      console.error('Error deleting item:', error)
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+      enqueueSnackbar(error?.response?.data?.message)
     }
   }
 

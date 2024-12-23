@@ -46,8 +46,7 @@ export async function POST(request) {
       { message: 'Category added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding category:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding category' },
       { status: 500 }
@@ -61,8 +60,6 @@ export async function GET(request) {
 
   const id = searchParams.get('id')
   try {
-    console.log(id)
-
     if (id) {
       const category = await prisma.productCategory.findUnique({
         where: { id },
@@ -79,8 +76,7 @@ export async function GET(request) {
       },
     })
     return NextResponse.json(categories, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching categories:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -132,8 +128,7 @@ export async function PATCH(request) {
       { message: 'Cateogry updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding category:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding category' },
       { status: 500 }
@@ -163,8 +158,7 @@ export async function DELETE(request) {
       { message: 'Category deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Category:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error deleting Category' },
       { status: 500 }

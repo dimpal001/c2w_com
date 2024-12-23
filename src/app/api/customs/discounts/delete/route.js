@@ -24,15 +24,12 @@ export async function DELETE(request) {
       )
     }
 
-    const discount = await prisma.discount.delete({
+    await prisma.discount.delete({
       where: { id },
     })
 
-    console.log(discount)
-
     return NextResponse.json({ message: 'Discount deleted' }, { status: 200 })
-  } catch (error) {
-    console.error(error)
+  } catch {
     return NextResponse.json(
       { message: 'Server is not responding!' },
       { status: 500 }

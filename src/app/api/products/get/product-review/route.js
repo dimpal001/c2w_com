@@ -40,8 +40,7 @@ export async function GET(request) {
     }
 
     return NextResponse.json(productReviews, { status: 200 })
-  } catch (error) {
-    console.error('Error querying products:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Internal Server Error' },
       { status: 500 }
@@ -66,8 +65,7 @@ export async function DELETE(request) {
     await prisma.productReview.delete({ where: { id } })
 
     return NextResponse.json({ message: 'Review deleted' }, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

@@ -38,7 +38,6 @@ const EditModal = ({ isOpen, onClose, selectedHeroSlide, fetchHeroSlides }) => {
   }
 
   const handleFile = (blob, croppedImageUrl, fileName) => {
-    console.log(blob, croppedImageUrl, fileName)
     setImage({
       blob: blob,
       imageUrl: croppedImageUrl,
@@ -66,13 +65,12 @@ const EditModal = ({ isOpen, onClose, selectedHeroSlide, fetchHeroSlides }) => {
       }
 
       if (imageUrl) {
-        const response = await axios.patch('/api/customs/hero-sliders/update', {
+        await axios.patch('/api/customs/hero-sliders/update', {
           id: selectedHeroSlide.id,
           imageUrl: imageUrl,
           hyperLink: newHeroSlide.hyperLink,
         })
         setNewHeroSlide({ imageUrl: '', hyperLink: '' })
-        console.log(response)
         fetchHeroSlides()
         onClose()
       }

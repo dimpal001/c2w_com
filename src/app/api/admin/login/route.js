@@ -78,8 +78,7 @@ export async function POST(request) {
     })
 
     return response
-  } catch (error) {
-    console.error('Error during admin login:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Internal server error' },
       { status: 500 }

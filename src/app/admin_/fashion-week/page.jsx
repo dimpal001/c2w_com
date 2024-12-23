@@ -10,6 +10,7 @@ import AddEditProductWeek from './AddEditProductWeek'
 import AddEditImageWeek from './AddEditImageWeek'
 import { FilePen, Trash2 } from 'lucide-react'
 import { cdnPath } from '@/app/Components/cdnPath'
+import { enqueueSnackbar } from 'notistack'
 
 const Page = () => {
   const [products, setProducts] = useState([])
@@ -32,7 +33,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/fashion-week/product-week')
       setProducts(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setSelectedItem(null)
       setEditMode(false)
@@ -44,7 +47,9 @@ const Page = () => {
       const response = await axios.get('/api/customs/fashion-week/image-week')
       setImageProducts(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setSelectedItem(null)
       setEditMode(false)
@@ -65,15 +70,16 @@ const Page = () => {
       )
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedItem.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedItem.imageUrl)
       }
 
       setProducts((prev) => prev.filter((item) => item.id !== selectedItem.id))
       setShowDeleteModal(false)
       setSelectedItem(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -87,8 +93,7 @@ const Page = () => {
       )
 
       if (response.status === 200) {
-        const deleteImage = await deleteImageFromCDN(selectedItem.imageUrl)
-        console.log(deleteImage)
+        await deleteImageFromCDN(selectedItem.imageUrl)
       }
 
       setImageProducts((prev) =>
@@ -97,7 +102,9 @@ const Page = () => {
       setShowDeleteImageWeekModal(false)
       setSelectedItem(null)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

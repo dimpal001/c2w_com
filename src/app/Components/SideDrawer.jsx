@@ -20,7 +20,6 @@ const SideDrawer = () => {
     axios
       .get('/api/admin/menu/categories')
       .then((response) => setCategories(response.data))
-      .catch((error) => console.error('Error fetching categories:', error))
   }, [])
 
   return (

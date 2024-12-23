@@ -26,8 +26,7 @@ export async function POST(request) {
       { message: 'Occasion has been added.', occasion },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Somethings went wrong, try again!' },
       { status: 500 }
@@ -42,8 +41,7 @@ export async function GET() {
     })
 
     return NextResponse.json(occasions, { status: 200 })
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -78,8 +76,7 @@ export async function PATCH(request) {
       { message: 'Occasion has been updated.' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again' },
       { status: 500 }
@@ -114,8 +111,7 @@ export async function DELETE(request) {
       { message: 'Occasion deleted successfully.', occasion },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again.' },
       { status: 500 }

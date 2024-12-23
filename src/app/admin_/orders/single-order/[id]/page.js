@@ -23,9 +23,10 @@ const page = ({ params }) => {
     try {
       const response = await axios.get(`/api/orders/get?id=${id}`)
       setOrderDetails(response.data.orders[0])
-      console.log(orderDetails)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

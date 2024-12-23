@@ -98,8 +98,7 @@ export async function POST(request) {
       },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error creating order:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

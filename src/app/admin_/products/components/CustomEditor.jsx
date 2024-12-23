@@ -15,6 +15,7 @@ import BulletList from '@tiptap/extension-bullet-list'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
+import { enqueueSnackbar } from 'notistack'
 
 const MenuBar = ({ editor }) => {
   // const fileInputRef = useRef(null)
@@ -48,7 +49,6 @@ const MenuBar = ({ editor }) => {
   //       enqueueSnackbar('Error uploading image, try again')
   //     }
   //   } catch (error) {
-  //     console.log(error)
   //   }
   // }
 
@@ -313,7 +313,7 @@ const CustomEditor = ({ value, onChange, images, label, name }) => {
         setSelectedImage(null)
         setIsDialogOpen(false)
       } else {
-        console.warn('Image not found in the document.')
+        enqueueSnackbar('Image not found in the document.')
       }
     }
   }

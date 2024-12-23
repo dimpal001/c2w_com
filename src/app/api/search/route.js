@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 export async function GET(request) {
   const url = new URL(request.url)
   const slug = url.searchParams.get('categorySlug')
+  const subCategorySlug = url.searchParams.get('subCategorySlug')
   const userId = url.searchParams.get('userId')
   const colorsParam = JSON.parse(url.searchParams.get('colors') || '[]')
   const sizesParam = JSON.parse(url.searchParams.get('sizes') || '[]')
@@ -13,8 +14,6 @@ export async function GET(request) {
   const page = parseInt(url.searchParams.get('page')) || 1
   const pageSize = parseInt(url.searchParams.get('pageSize')) || 16
   const searchQuery = url.searchParams.get('searchQuery') || ''
-
-  console.log('Search calling...')
 
   try {
     const whereConditions = {
@@ -57,6 +56,24 @@ export async function GET(request) {
             },
           },
           {
+            subcategories: {
+              some: {
+                OR: [
+                  {
+                    slug: {
+                      contains: searchQuery,
+                    },
+                  },
+                  {
+                    name: {
+                      contains: searchQuery,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+          {
             tags: {
               array_contains: searchQuery,
             },
@@ -70,6 +87,17 @@ export async function GET(request) {
         categories: {
           some: {
             slug: slug,
+          },
+        },
+      })
+    }
+
+    if (subCategorySlug) {
+      console.log(subCategorySlug)
+      whereConditions.AND.push({
+        subcategories: {
+          some: {
+            slug: subCategorySlug,
           },
         },
       })
@@ -116,6 +144,8 @@ export async function GET(request) {
       isActive: true,
     })
 
+    console.log(whereConditions)
+
     const totalProducts = await prisma.product.count({
       where: whereConditions.AND.length > 0 ? whereConditions : undefined,
     })
@@ -130,8 +160,11 @@ export async function GET(request) {
       include: {
         categories: true,
         discounts: true,
+        subcategories: true,
       },
     })
+
+    console.log(products)
 
     return new Response(
       JSON.stringify({
@@ -147,8 +180,7 @@ export async function GET(request) {
         },
       }
     )
-  } catch (error) {
-    console.error(error)
+  } catch {
     return new Response('Error occurred while fetching products.', {
       status: 500,
     })

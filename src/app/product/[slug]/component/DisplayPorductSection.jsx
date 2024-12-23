@@ -33,8 +33,6 @@ const DisplayPorductSection = ({ product }) => {
     product?.inventory[0].minQuantity
   )
 
-  console.log(product)
-
   const [addingCart, setAddingCart] = useState(false)
   const [addingWishList, setAddingWishList] = useState(false)
   const [showFull, setShowFull] = useState(false)
@@ -72,7 +70,6 @@ const DisplayPorductSection = ({ product }) => {
         router.push(`/checkout?id=${response.data.orderId}`)
       }
     } catch (error) {
-      console.log(error)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)
@@ -188,12 +185,19 @@ const DisplayPorductSection = ({ product }) => {
 
       <div className='w-full sm:hidden flex gap-2 items-center'>
         {product?.images.length > 0 &&
-          product?.images.map((item, index) => (
+          Array.from(
+            new Set(product.images.map((item) => item?.color?.code))
+          ).map((color, index) => (
             <span
-              onClick={() => setThumbnailUrl(item?.imageUrl)}
+              onClick={() => {
+                const selectedImage = product.images.find(
+                  (item) => item.color.code === color
+                )
+                setThumbnailUrl(selectedImage?.imageUrl)
+              }}
               key={index}
               style={{
-                background: `${item?.color?.code}`,
+                background: `${color}`,
               }}
               className='rounded-lg w-11 h-11 border-2 cursor-pointer'
             ></span>
@@ -385,7 +389,7 @@ const ProductImage = ({ image, onClick }) => {
       <img
         src={cdnPath + image.imageUrl}
         alt={image.altText}
-        className='w-[130px] h-[160px] border max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
+        className='w-[130px] h-[160px] object-cover border max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
       />
     </div>
   )

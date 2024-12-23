@@ -46,8 +46,7 @@ export async function POST(request) {
       { message: 'Customer type added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding customer type:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding customer type' },
       { status: 500 }
@@ -60,8 +59,7 @@ export async function GET() {
   try {
     const customerType = await prisma.customerType.findMany()
     return NextResponse.json(customerType, { status: 200 })
-  } catch (error) {
-    console.error('Error fetching customer type:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error fetching customer type' },
       { status: 500 }
@@ -113,8 +111,7 @@ export async function PATCH(request) {
       { message: 'Size updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error adding size:', error)
+  } catch {
     return NextResponse.json({ message: 'Error adding size' }, { status: 500 })
   }
 }
@@ -139,8 +136,7 @@ export async function DELETE(request) {
       { message: 'Customer type deleted successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.error('Error deleting Customer type:', error)
+  } catch {
     return NextResponse.json(
       { message: 'Error deleting Customer type' },
       { status: 500 }

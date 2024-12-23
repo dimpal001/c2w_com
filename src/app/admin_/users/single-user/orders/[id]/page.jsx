@@ -6,6 +6,7 @@ import Loading from '@/app/admin_/components/Loading'
 import Pagination from '@/app/admin_/components/Pagination'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { enqueueSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
 import { use } from 'react'
 
@@ -37,7 +38,9 @@ const page = ({ params }) => {
       setTotalPages(response.data.totalPages)
       setTotalItems(response.data.totalItems)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     } finally {
       setLoading(false)
     }

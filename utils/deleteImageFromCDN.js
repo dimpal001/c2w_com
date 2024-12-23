@@ -19,11 +19,9 @@ export const deleteImageFromCDN = async (imageUrl) => {
   }
   try {
     const data = await s3Client.send(new DeleteObjectCommand(deleteParams))
-    console.log(data)
 
     return data
-  } catch (error) {
-    console.error('Error deleting image from CDN', error)
+  } catch {
     throw new Error('Image deletion failed')
   }
 }

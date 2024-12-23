@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import axios from 'axios'
+import { enqueueSnackbar } from 'notistack'
 
 const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   const [sizes, setSizes] = useState([])
@@ -59,7 +60,9 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
       const response = await axios.get('/api/admin/menu/sizes')
       setSizes(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 
@@ -68,7 +71,9 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
       const response = await axios.get('/api/admin/menu/colors')
       setColors(response.data)
     } catch (error) {
-      console.log(error)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!'
+      )
     }
   }
 

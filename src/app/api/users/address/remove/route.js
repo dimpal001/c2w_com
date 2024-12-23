@@ -58,8 +58,7 @@ export async function POST(request) {
       { message: 'Address has been deleted' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

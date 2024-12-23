@@ -168,8 +168,7 @@ export async function PATCH(request) {
       { message: 'Product updated successfully!' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error.message || 'Something went wrong')
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
