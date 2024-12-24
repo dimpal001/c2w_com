@@ -8,15 +8,15 @@ import ProductCard1 from '@/app/Components/ProductCard1'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import axios from 'axios'
-import { ChevronLeft, ChevronRight, Frown, Loader } from 'lucide-react'
+import { Frown, Loader } from 'lucide-react'
 import { useSearch } from '@/app/context/SearchContext'
 import { useUserContext } from '@/app/context/UserContext'
 import Skeleton from '@/app/Components/Skeleton'
 import { enqueueSnackbar } from 'notistack'
 import { useCategories } from '@/app/context/CategoryContext'
-import SubCategoryCard from './SubCategoryCard'
+import SubCategoryBar from './SubCategoryBar'
 
-const CategoryPage = ({ slug }) => {
+const CategoryPage = ({ slug, subCategorySlug }) => {
   const scrollContainerRef = useRef(null)
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [sortDrawerOpen, setSortDrawerOpen] = useState(false)
@@ -102,6 +102,7 @@ const CategoryPage = ({ slug }) => {
         categorySlug: slug || null,
         page: page,
         userId: user?.id || null,
+        subCategorySlug: subCategorySlug || null,
       }
 
       const response = await axios.get('/api/search', { params })
@@ -145,27 +146,15 @@ const CategoryPage = ({ slug }) => {
         <CategoryBar />
       </div>
 
-      <div className='p-3 w-full flex justify-between gap-2 items-center'>
-        <ChevronLeft
-          onClick={() => handleScroll('left')}
-          className='cursor-pointer w-8 h-8 max-sm:hidden hover:text-pink-500'
+      {subCategoryProducts?.length > 0 && (
+        <SubCategoryBar
+          handleScroll={handleScroll}
+          scrollContainerRef={scrollContainerRef}
+          subCategoryProducts={subCategoryProducts}
+          slug={slug}
+          subCategorySlug={subCategorySlug}
         />
-        <div
-          ref={scrollContainerRef}
-          className='flex justify-start w-full gap-7 max-sm:gap-2 md:mt-2 overflow-scroll scrollbar-hide py-2 items-start'
-        >
-          {subCategoryProducts.length > 0 &&
-            subCategoryProducts
-              .filter((item) => item?.product)
-              .map((item, index) => (
-                <SubCategoryCard key={index} subCategory={item} />
-              ))}
-        </div>
-        <ChevronRight
-          onClick={() => handleScroll('right')}
-          className='cursor-pointer w-8 h-8 max-sm:hidden hover:text-pink-500'
-        />
-      </div>
+      )}
 
       <div className='p-3 flex md:gap-10 gap-2 items-start max-md:flex-col'>
         {/* Filter */}

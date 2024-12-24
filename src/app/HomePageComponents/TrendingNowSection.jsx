@@ -1,10 +1,30 @@
+'use client'
+
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Skeleton from '../Components/Skeleton'
 import RightArrowIcon from './RightArrowIcon'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
 
-const TrendingNowSection = ({ products }) => {
+const TrendingNowSection = () => {
+  const [products, setProducts] = useState([])
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('/api/customs/trending/get')
+      setProducts(response.data.trendingProducts)
+    } catch {
+      // Empty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchProducts()
+    }, 200)
+  }, [])
+
   return (
     <div className='container mx-auto py-10 max-sm:p-0'>
       {/* label  */}
@@ -29,7 +49,7 @@ const TrendingNowSection = ({ products }) => {
             <TrendingNowCard key={index} product={product} />
           ))}
 
-        {!products &&
+        {products.length === 0 &&
           Array.from({ length: 5 }, (_, index) => (
             <Skeleton
               key={index}

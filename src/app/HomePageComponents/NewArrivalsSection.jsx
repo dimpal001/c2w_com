@@ -1,11 +1,31 @@
+'use client'
+
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
 
-const NewArrivalsSection = ({ products }) => {
+const NewArrivalsSection = () => {
+  const [products, setProducts] = useState([])
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('/api/customs/new-arrivals/get')
+      setProducts(response.data.newArrivals)
+    } catch {
+      // Empty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchProducts()
+    }, 500)
+  }, [])
+
   return (
     <div className='container mx-auto pb-10 md:px-3 max-sm:p-5'>
       <div>
@@ -35,7 +55,7 @@ const NewArrivalsSection = ({ products }) => {
         </div>
       </div>
 
-      {!products && (
+      {products.length === 0 && (
         <Skeleton className={'w-full h-[390px] max-sm:h-[270px]'} />
       )}
     </div>

@@ -1,10 +1,30 @@
+'use client'
+
 /* eslint-disable react/prop-types */
 import { ArrowRight } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
+import Skeleton from '../Components/Skeleton'
 
-const SocialLinkSection = ({ socialLinks }) => {
-  console.log(socialLinks[0])
+const SocialLinkSection = () => {
+  const [socialLinks, setSocialLinks] = useState([])
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/customs/social-links')
+      setSocialLinks(response.data)
+    } catch {
+      // Empty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchData()
+    }, 1300)
+  }, [])
+
   return (
     <div className='container mx-auto'>
       <div>
@@ -50,6 +70,9 @@ const SocialLinkSection = ({ socialLinks }) => {
               </a>
             ))}
         </div>
+        {socialLinks.length === 0 && (
+          <Skeleton className={'w-full h-[390px] max-sm:h-[270px]'} />
+        )}
       </div>
     </div>
   )

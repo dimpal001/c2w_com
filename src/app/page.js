@@ -70,61 +70,16 @@ export const metadata = {
 
 const HomePage = async () => {
   try {
-    const [
-      showcasesRes,
-      heroSlidersRes,
-      trendingProductsRes,
-      newArrivalsRes,
-      occasionProductsRes,
-      exclusiveCollectionRes,
-      productWeekRes,
-      randomProductsRes,
-      seasonsRes,
-      socialLinksRes,
-      blogsRes,
-    ] = await Promise.all([
+    const [showcasesRes, heroSlidersRes] = await Promise.all([
       axios.get(`${api}/api/customs/showcases/get`),
       axios.get(`${api}/api/customs/hero-sliders/get`),
-      axios.get(`${api}/api/customs/trending/get`),
-      axios.get(`${api}/api/customs/new-arrivals/get`),
-      axios.get(`${api}/api/customs/shop-by-occasion/occasion`),
-      axios.get(`${api}/api/customs/exclusive-collections/get`),
-      axios.get(`${api}/api/customs/fashion-week/product-week`),
-      axios.get(
-        `${api}/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1`
-      ),
-      axios.get(`${api}/api/customs/shop-by-season/get`),
-      axios.get(`${api}/api/customs/social-links`),
-      axios.get(`${api}/api/customs/blogs`),
     ])
 
     const showcases = showcasesRes.data.showcases || []
     const heroSliders = heroSlidersRes.data.heroSliders || []
-    const trendingProducts = trendingProductsRes.data.trendingProducts || []
-    const newArrivalsProducts = newArrivalsRes.data.newArrivals || []
-    const occasionProducts = occasionProductsRes.data || []
-    const exclusiveCollections =
-      exclusiveCollectionRes.data.exclusiveCollections || []
-    const productWeekProducts = productWeekRes.data || []
-    const randomProducts = randomProductsRes.data.products || []
-    const seasons = seasonsRes.data || []
-    const socialLinks = socialLinksRes.data || []
-    const blogs = blogsRes.data || []
     return (
       <>
-        <MainPage
-          showcases={showcases}
-          heroSliders={heroSliders}
-          trendingProducts={trendingProducts}
-          newArrivalsProducts={newArrivalsProducts}
-          occasionProducts={occasionProducts}
-          exclusiveCollections={exclusiveCollections}
-          productWeekProducts={productWeekProducts}
-          randomProducts={randomProducts}
-          seasons={seasons}
-          socialLinks={socialLinks}
-          blogs={blogs}
-        />
+        <MainPage showcases={showcases} heroSliders={heroSliders} />
       </>
     )
   } catch {

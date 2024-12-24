@@ -1,9 +1,29 @@
+'use client'
+
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
 
-const BlogSection = ({ blogs }) => {
+const BlogSection = () => {
+  const [blogs, setBlogs] = useState([])
+
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get('/api/customs/blogs')
+      setBlogs(response.data)
+    } catch {
+      // Empty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchBlogs()
+    }, 1400)
+  }, [])
+
   return (
     <div>
       <div className='flex py-7 max-sm:flex-col max-sm:gap-4'>

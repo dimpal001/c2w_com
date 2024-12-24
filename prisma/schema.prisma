@@ -215,6 +215,7 @@ model SubCategory {
   id         String          @id @default(uuid())
   name       String
   slug       String
+  imageUrl   String?
   categoryId String
   category   ProductCategory @relation(fields: [categoryId], references: [id])
   products   Product[]       @relation("SubcategoryProducts")

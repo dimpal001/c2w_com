@@ -17,7 +17,13 @@ export async function POST(request) {
 
     const { categoryId, name } = await request.json()
 
-    // Generate slug
+    if (name?.trim() === '') {
+      return NextResponse.json(
+        { message: 'Please privide a valid name' },
+        { status: 400 }
+      )
+    }
+
     const slug = slugify(name, { lower: true })
 
     const isExist = await prisma.subCategory.findFirst({
@@ -35,7 +41,7 @@ export async function POST(request) {
     }
 
     // Add the new sub Category to the database
-    const category = await prisma.subCategory.create({
+    await prisma.subCategory.create({
       data: {
         categoryId,
         name,
@@ -44,7 +50,6 @@ export async function POST(request) {
     })
 
     return NextResponse.json(
-      category,
       { message: 'Sub ategory added successfully' },
       { status: 200 }
     )
@@ -79,38 +84,31 @@ export async function PATCH(request) {
       )
     }
 
-    const { categoryId, id, name } = await request.json()
+    const { id, name, imageUrl } = await request.json()
+
+    if (name?.trim() === '') {
+      return NextResponse.json(
+        { message: 'Please privide a valid name' },
+        { status: 400 }
+      )
+    }
 
     // Generate slug
     const slug = slugify(name, { lower: true })
 
-    const isExist = await prisma.subCategory.findFirst({
-      where: {
-        slug,
-        categoryId,
-      },
-    })
-
-    if (isExist) {
-      return NextResponse.json(
-        { message: 'Sub Category already exist' },
-        { status: 409 }
-      )
-    }
-
     // Add the new sub category to the database
-    const size = await prisma.subCategory.update({
+    await prisma.subCategory.update({
       where: {
         id,
       },
       data: {
         name,
         slug,
+        imageUrl,
       },
     })
 
     return NextResponse.json(
-      size,
       { message: 'Cateogry updated successfully' },
       { status: 200 }
     )

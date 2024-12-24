@@ -1,13 +1,44 @@
 'use client'
 
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
 
-const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
+const ExclusiveCollectionsSection = () => {
+  const [products, setProducts] = useState([])
+  const [randomProducts, setRandomProducts] = useState([])
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('/api/customs/exclusive-collections/get')
+      setProducts(response.data.exclusiveCollections)
+    } catch {
+      // Enpty
+    }
+  }
+
+  const fetchRandomProducts = async () => {
+    try {
+      const response = await axios.get(
+        '/api/products/get/filter?searchQuery=&categoryId=&customerTypeId=&minPrice=&maxPrice=&color=&page=1'
+      )
+      setRandomProducts(response.data.products)
+    } catch {
+      // Enpty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchProducts()
+      fetchRandomProducts()
+    }, 800)
+  }, [])
+
   return (
     <div className='container mx-auto py-10 max-sm:py-3 max-sm:p-0'>
       {/* label  */}
@@ -63,7 +94,7 @@ const ExclusiveCollectionsSection = ({ products, randomProducts }) => {
               <ProductCard2 key={index} product={product} />
             ))}
 
-        {!products &&
+        {products === 0 &&
           Array.from({ length: 5 }, (_, index) => (
             <Skeleton
               key={index}
@@ -108,12 +139,12 @@ const ProductCard1 = ({ product }) => {
         <p className='text-2xl max-sm:text-xl font-bold text-white'>
           {product.title.slice(0, 50)}
         </p>
-        <p className='text-sm max-sm:text-xs text-white'>
+        <div className='text-sm max-sm:text-xs text-white'>
           <div
             dangerouslySetInnerHTML={{ __html: product.summary.slice(0, 160) }}
           />
           {/* {(product.summary.slice(0, 160))}... */}
-        </p>
+        </div>
         <p className='font-bold text-3xl max-sm:text-2xl text-white'>
           ₹{product.displayPrice}/-
         </p>

@@ -1,13 +1,33 @@
+'use client'
+
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import 'animate.css'
 import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
 
-const ShopByOccasion = ({ occasions }) => {
+const ShopByOccasion = () => {
+  const [occasions, setOccations] = useState([])
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('/api/customs/shop-by-occasion/occasion')
+      setOccations(response.data)
+    } catch {
+      // Empty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchProducts()
+    }, 800)
+  }, [])
+
   return (
     <div>
       {/* Heading  */}
@@ -50,7 +70,7 @@ const ShopByOccasion = ({ occasions }) => {
         </Slider>
       </div>
 
-      {!occasions && <Skeleton className={'w-full h-[350px]'} />}
+      {occasions.length === 0 && <Skeleton className={'w-full h-[350px]'} />}
     </div>
   )
 }

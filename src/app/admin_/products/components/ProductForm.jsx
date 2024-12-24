@@ -33,8 +33,8 @@ const ProductForm = ({
     size: { id: '', name: '' },
     mrp: 0,
     price: 0,
-    stock: 0,
-    discount: 10,
+    stock: 1,
+    discount: 40,
     minQuantity: 1,
   })
   const router = useRouter()
@@ -171,7 +171,21 @@ const ProductForm = ({
       return
     }
 
-    if (inventory.mrp < 0 || inventory.price < 0 || inventory.stock < 0) {
+    if (inventory.stock === 0) {
+      enqueueSnackbar('Enter a valid stock.', {
+        variant: 'error',
+      })
+      return
+    }
+
+    if (inventory.minQuantity === 0) {
+      enqueueSnackbar('Enter a valid minimum quantity.', {
+        variant: 'error',
+      })
+      return
+    }
+
+    if (inventory.mrp <= 0 || inventory.price <= 0 || inventory.stock < 0) {
       enqueueSnackbar('MRP, Price, and Stock cannot be negative values.', {
         variant: 'error',
       })
@@ -188,7 +202,14 @@ const ProductForm = ({
       inventory: [...prevData.inventory, inventoryWithSizeId],
     }))
 
-    setInventory({ size: { id: '', name: '' }, mrp: 0, price: 0, stock: 0 })
+    setInventory({
+      size: { id: '', name: '' },
+      mrp: 0,
+      price: 0,
+      stock: 1,
+      discount: 40,
+      minQuantity: 1,
+    })
   }
 
   const removeInventory = (indexToRemove) => {
@@ -631,16 +652,16 @@ const ProductForm = ({
                         : sizes.find((size) => size.id === item.size)?.name}
                     </td>
                     <td className='p-2 border text-center border-gray-300'>
-                      {item.mrp}
+                      {parseInt(item?.mrp)?.toFixed(2)}
                     </td>
                     <td className='p-2 border text-center border-gray-300'>
-                      {item.price}
+                      {parseInt(item?.price)}
                     </td>
                     <td className='p-2 border text-center border-gray-300'>
-                      {item.stock}
+                      {item?.stock}
                     </td>
                     <td className='p-2 border text-center border-gray-300'>
-                      {item.minQuantity}
+                      {item?.minQuantity}
                     </td>
                     <td className={`p-2 border border-gray-300 text-center`}>
                       <div className='flex justify-center items-center gap-3'>

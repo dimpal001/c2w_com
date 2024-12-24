@@ -16,19 +16,7 @@ import BlogSection from './BlogSection'
 import BestSellerSection from './BestSellerSection'
 import Footer from '../Components/Footer'
 
-const MainPage = ({
-  showcases,
-  heroSliders,
-  trendingProducts,
-  newArrivalsProducts,
-  occasionProducts,
-  exclusiveCollections,
-  productWeekProducts,
-  randomProducts,
-  seasons,
-  socialLinks,
-  blogs,
-}) => {
+const MainPage = ({ showcases, heroSliders }) => {
   return (
     <div>
       <TopSlider />
@@ -36,17 +24,14 @@ const MainPage = ({
       <CategoryBar />
       <ShowcaseSection showcases={showcases} />
       <HeroSliderSection heroSliders={heroSliders} />
-      <TrendingNowSection products={trendingProducts} />
-      <NewArrivalsSection products={newArrivalsProducts} />
-      <ShopByOccasion occasions={occasionProducts} />
-      <ExclusiveCollectionsSection
-        products={exclusiveCollections}
-        randomProducts={randomProducts}
-      />
-      <ShopBySeasonSection seasons={seasons} />
-      <FashionWeekSection products={productWeekProducts} />
-      <SocialLinkSection socialLinks={socialLinks} />
-      <BlogSection blogs={blogs} />
+      <TrendingNowSection />
+      <NewArrivalsSection />
+      <ShopByOccasion />
+      <ExclusiveCollectionsSection />
+      <ShopBySeasonSection />
+      <FashionWeekSection />
+      <SocialLinkSection />
+      <BlogSection />
       <BestSellerSection />
       <Footer />
     </div>

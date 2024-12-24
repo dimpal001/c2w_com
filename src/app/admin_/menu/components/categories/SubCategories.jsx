@@ -12,12 +12,18 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
+import { uploadImageToCDN } from '../../../../../../utils/uploadImageToCDN'
+import ImageCroper from '@/app/Components/ImageCroper'
+import { deleteImageFromCDN } from '../../../../../../utils/deleteImageFromCDN'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const SubCategories = ({ isOpen, onClose, item, category }) => {
   const [name, setName] = useState(item?.name || '')
   const [submitting, setSubmitting] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showImageCroper, setShowImageCroper] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
   const [data, setData] = useState(null)
 
@@ -33,6 +39,34 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
       setData(response.data)
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+    }
+  }
+
+  const handleImageUpload = async (blob, croppedImageUrl, imageFileName) => {
+    try {
+      setUploadingImage(true)
+      if (selectedItem?.imageUrl) {
+        await deleteImageFromCDN(data?.imageUrl)
+      }
+      const imageUrl = await uploadImageToCDN(blob, imageFileName)
+      const response = await axios.patch('/api/admin/menu/sub-categories', {
+        categoryId: category.id,
+        id: selectedItem.id,
+        imageUrl: imageUrl,
+        name: selectedItem.name,
+      })
+      fetchData()
+
+      enqueueSnackbar(response?.data?.message, { variant: 'success' })
+      setSelectedItem(null)
+    } catch (error) {
+      console.log(error.message)
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to upload image.',
+        { variant: 'error' }
+      )
+    } finally {
+      setUploadingImage(false)
     }
   }
 
@@ -56,9 +90,10 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
       setIsEditMode(false)
       fetchData()
       setName('')
-      selectedItem(null)
-      enqueueSnackbar(response.data.message, { variant: 'success' })
+      setSelectedItem(null)
+      enqueueSnackbar(response?.data?.message, { variant: 'success' })
     } catch (error) {
+      console.log(error?.message)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)
@@ -68,6 +103,9 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
   const onDelete = async () => {
     try {
       setShowDeleteModal(false)
+
+      await deleteImageFromCDN(selectedItem?.imageUrl)
+
       await axios.delete('/api/admin/menu/sub-categories', {
         params: { id: selectedItem.id },
       })
@@ -80,7 +118,7 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
   }
 
   return (
-    <Modal size={'md'} isOpen={isOpen}>
+    <Modal size={'xl'} isOpen={isOpen}>
       <ModalContent>
         <ModalHeader>
           Sub Categories of <span className='capitalize'>{category.name}</span>{' '}
@@ -121,6 +159,25 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
                         </td>
                         <td className='border px-4 py-2 capitalize'>
                           <div className='flex gap-2 justify-center'>
+                            {subItem?.imageUrl && (
+                              <img
+                                src={cdnPath + subItem?.imageUrl}
+                                className='w-8 h-8 object-cover'
+                                alt=''
+                              />
+                            )}
+                            <Button
+                              onClick={() => {
+                                setSelectedItem(subItem)
+                                setShowImageCroper(true)
+                              }}
+                              loading={
+                                selectedItem?.id === subItem.id
+                                  ? uploadingImage
+                                  : false
+                              }
+                              label={'Upload Image'}
+                            />
                             <Button
                               onClick={() => {
                                 setSelectedItem(subItem)
@@ -164,6 +221,14 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
           isOpen={true}
           onClose={() => setShowDeleteModal(false)}
           onDelete={onDelete}
+        />
+      )}
+      {showImageCroper && (
+        <ImageCroper
+          isOpen={true}
+          onClose={() => setShowImageCroper(false)}
+          aspectRatio={5 / 5}
+          onCropComplete={handleImageUpload}
         />
       )}
     </Modal>

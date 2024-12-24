@@ -1,12 +1,30 @@
 'use client'
 
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Skeleton from '../Components/Skeleton'
 import { SlideItem, Slider } from './Slider'
 import { cdnPath } from '../Components/cdnPath'
+import axios from 'axios'
 
-const ShopBySeasonSection = ({ seasons }) => {
+const ShopBySeasonSection = () => {
+  const [seasons, setSeasons] = useState([])
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('/api/customs/shop-by-season/get')
+      setSeasons(response.data)
+    } catch {
+      // Enpty
+    }
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchProducts()
+    }, 1000)
+  }, [])
+
   return (
     <div className='mb-10'>
       {seasons.length > 0 &&
@@ -14,7 +32,7 @@ const ShopBySeasonSection = ({ seasons }) => {
           <SeasonCard key={index} season={season} />
         ))}
 
-      {!seasons && <Skeleton className={'w-full h-[400px]'} />}
+      {seasons === 0 && <Skeleton className={'w-full h-[400px]'} />}
     </div>
   )
 }
