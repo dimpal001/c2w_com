@@ -1026,6 +1026,7 @@ const ProductForm = ({
 
       {showImageCropper && (
         <ImageCroper
+          aspectRatio={9 / 18}
           isOpen={true}
           onClose={() => setShowImageCropper(false)}
           onCropComplete={handleFileChange}
