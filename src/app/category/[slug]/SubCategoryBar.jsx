@@ -7,11 +7,12 @@ import { useRouter } from 'next/navigation'
 const SubCategoryBar = ({
   handleScroll,
   scrollContainerRef,
-  subCategoryProducts,
+  subCategories,
   slug,
   subCategorySlug,
 }) => {
   const router = useRouter()
+  console.log(subCategories)
   return (
     <div className='p-3 w-full flex justify-between gap-2 items-center'>
       <ChevronLeft
@@ -22,8 +23,8 @@ const SubCategoryBar = ({
         ref={scrollContainerRef}
         className='flex justify-start w-full gap-7 max-sm:gap-2 md:mt-2 overflow-scroll scrollbar-hide py-2 items-start'
       >
-        {subCategoryProducts.length > 0 &&
-          subCategoryProducts
+        {subCategories.length > 0 &&
+          subCategories
             .filter((item) => item?.product)
             .map((item, index) => (
               <SubCategoryCard
@@ -31,7 +32,7 @@ const SubCategoryBar = ({
                   router.push(`/category/${slug}/${item?.subcategory?.slug}`)
                 }
                 key={index}
-                subCategory={item}
+                subCategory={item.subcategory}
                 subCategorySlug={subCategorySlug}
               />
             ))}

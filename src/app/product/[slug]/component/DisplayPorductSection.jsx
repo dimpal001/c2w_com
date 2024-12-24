@@ -496,6 +496,7 @@ const SimilarProductImage = ({ product, onClick }) => {
 const ThumbnailImage = ({ image }) => {
   return (
     <Zoom>
+      {/* <ImageMagnifier imageUrl={cdnPath + image} /> */}
       <img
         src={cdnPath + image}
         alt={image.altText}

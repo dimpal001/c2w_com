@@ -47,6 +47,7 @@ export async function GET(request) {
           id: subcategory.id,
           name: subcategory.name,
           slug: subcategory.slug,
+          imageUrl: subcategory.imageUrl,
         },
         product:
           subcategory.products.length > 0 ? subcategory.products[0] : null,

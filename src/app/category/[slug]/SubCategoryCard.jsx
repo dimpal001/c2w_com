@@ -3,24 +3,25 @@ import { cdnPath } from '@/app/Components/cdnPath'
 import React from 'react'
 
 const SubCategoryCard = ({ subCategory, onClick, subCategorySlug }) => {
+  console.log(subCategory)
   return (
     <div
       onClick={onClick}
       className='flex group cursor-pointer p-2 flex-col items-center justify-between gap-1 '
     >
       <img
-        src={cdnPath + subCategory?.product?.thumbnailUrl}
+        src={cdnPath + subCategory?.imageUrl}
         className='border-2 md:border-3 border-pink-600 object-cover rounded-full w-[120px] max-sm:w-[90px] h-[120px] max-sm:h-[90px] max-sm:min-w-[90px] '
         alt={subCategory?.product?.title}
       />
       <p
         className={`text-nowrap ${
           subCategorySlug &&
-          subCategorySlug === subCategory?.subcategory?.slug &&
+          subCategorySlug === subCategory?.slug &&
           'text-pink-600'
         } capitalize max-sm:text-wrap max-sm: text-center group-hover:text-pink-600 max-sm:text-xs`}
       >
-        {subCategory?.subcategory?.name}
+        {subCategory?.name}
       </p>
     </div>
   )

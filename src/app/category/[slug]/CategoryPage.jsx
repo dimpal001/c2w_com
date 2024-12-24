@@ -20,14 +20,14 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
   const scrollContainerRef = useRef(null)
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
   const [sortDrawerOpen, setSortDrawerOpen] = useState(false)
-  const [subCategoryProducts, setSubCategoryProducts] = useState(false)
+  const [subCategories, setSubCategories] = useState(false)
 
   const fetchSubCategoryProducts = async () => {
     try {
       const response = await axios.get(
         `/api/products/get/sub-category-wise?categorySlug=${slug}`
       )
-      setSubCategoryProducts(response.data.products)
+      setSubCategories(response.data.products)
     } catch {
       // Empty
     }
@@ -146,11 +146,11 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
         <CategoryBar />
       </div>
 
-      {subCategoryProducts?.length > 0 && (
+      {subCategories?.length > 0 && (
         <SubCategoryBar
           handleScroll={handleScroll}
           scrollContainerRef={scrollContainerRef}
-          subCategoryProducts={subCategoryProducts}
+          subCategories={subCategories}
           slug={slug}
           subCategorySlug={subCategorySlug}
         />

@@ -199,9 +199,7 @@ const Page = () => {
                 />
               </div>
               <div className='mb-2'>
-                <label className='block font-semibold'>
-                  Category Hyper Link
-                </label>
+                <label className='block font-semibold'>Title</label>
                 <input
                   type='text'
                   name='categoryHyperLink'
@@ -276,9 +274,7 @@ const Page = () => {
               <th className='border px-4 py-2 text-left'>Product Price</th>
               <th className='border px-4 py-2 text-left'>Discount Price</th>
               <th className='border px-4 py-2 text-left'>Hyper Link</th>
-              <th className='border px-4 py-2 text-left'>
-                Category Hyper Link
-              </th>
+              <th className='border px-4 py-2 text-left'>Title</th>
               <th className='border px-4 py-2 text-center'>Action</th>
             </tr>
           </thead>
