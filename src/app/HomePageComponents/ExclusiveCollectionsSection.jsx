@@ -7,6 +7,7 @@ import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
 import axios from 'axios'
+import sanitizeHtml from 'sanitize-html'
 
 const ExclusiveCollectionsSection = () => {
   const [products, setProducts] = useState([])
@@ -109,11 +110,9 @@ const ExclusiveCollectionsSection = () => {
 }
 
 const ProductCard1 = ({ product }) => {
-  // const stripHtml = (html) => {
-  //   const tempDiv = document.createElement('div')
-  //   tempDiv.innerHTML = html
-  //   return tempDiv.textContent || tempDiv.innerText || ''
-  // }
+  const stripHtml = (html) => {
+    return sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} })
+  }
 
   return (
     <a
@@ -140,10 +139,7 @@ const ProductCard1 = ({ product }) => {
           {product.title.slice(0, 50)}
         </p>
         <div className='text-sm max-sm:text-xs text-white'>
-          <div
-            dangerouslySetInnerHTML={{ __html: product.summary.slice(0, 160) }}
-          />
-          {/* {(product.summary.slice(0, 160))}... */}
+          {stripHtml(product?.summary?.slice(0, 170))}
         </div>
         <p className='font-bold text-3xl max-sm:text-2xl text-white'>
           ₹{product.displayPrice}/-

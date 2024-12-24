@@ -27,6 +27,7 @@ import ProductInfo from './ProductInfo'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import ImageMagnifier from './ImageMagnifier'
+import sanitizeHtml from 'sanitize-html'
 
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
@@ -159,6 +160,10 @@ const DisplayPorductSection = ({ product }) => {
     }
   }
 
+  const stripHtml = (html) => {
+    return sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} })
+  }
+
   return (
     <div className='flex max-sm:flex-col gap-3'>
       {/* Image Section  */}
@@ -209,15 +214,14 @@ const DisplayPorductSection = ({ product }) => {
       <div className='py-5 md:w-[46%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
         <p className='text-sm text-neutral-600'>
-          <span
-            className='text-sm'
-            dangerouslySetInnerHTML={{
-              __html: showFull
-                ? product?.summary
-                : product?.summary.slice(0, 120),
-            }}
-          />
-          {/* {showFull ? product?.summary : product?.summary.slice(0, 200)}{' '} */}
+          {showFull ? (
+            <span
+              className='text-sm'
+              dangerouslySetInnerHTML={{ __html: product?.summary }}
+            />
+          ) : (
+            <span>{stripHtml(product?.summary.slice(0, 120))}</span>
+          )}
           <span
             onClick={() => setShowFull(!showFull)}
             className='font-semibold text-pink-500 cursor-pointer'

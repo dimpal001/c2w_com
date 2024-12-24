@@ -121,9 +121,7 @@ const EditModal = ({
                   />
                 </div>
                 <div className='mb-2'>
-                  <label className='block font-semibold'>
-                    Category Hyper Link
-                  </label>
+                  <label className='block font-semibold'>Title</label>
                   <input
                     type='text'
                     name='categoryHyperLink'

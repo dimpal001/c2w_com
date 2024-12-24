@@ -310,16 +310,7 @@ const Page = () => {
                       {item.hyperLink}
                     </a>
                   </td>
-                  <td className='border px-4 py-2'>
-                    <a
-                      href={item.hyperLink}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='text-blue-500 underline'
-                    >
-                      {item.categoryHyperLink}
-                    </a>
-                  </td>
+                  <td className='border px-4 py-2'>{item.categoryHyperLink}</td>
                   <td className='border px-2 text-center py-2'>
                     <div className='flex flex-col justify-between items-center gap-2'>
                       <FilePen
