@@ -11,6 +11,7 @@ export async function GET(request) {
   const minPrice = searchParams.get('minPrice')
   const maxPrice = searchParams.get('maxPrice')
   const color = searchParams.get('color')
+  const sortOption = searchParams.get('sortOption')
   const page = searchParams.get('page')
   try {
     // Pagination settings
@@ -64,6 +65,24 @@ export async function GET(request) {
       }
     }
 
+    const orderBy = []
+
+    if (sortOption) {
+      switch (sortOption) {
+        case 'alphabet':
+          orderBy.push({ title: 'asc' })
+          break
+        case 'newest':
+          orderBy.push({ updatedAt: 'desc' })
+          break
+        case 'oldest':
+          orderBy.push({ updatedAt: 'asc' })
+          break
+        default:
+          break
+      }
+    }
+
     const totalProducts = await prisma.product.count({
       where: {
         ...where,
@@ -84,6 +103,7 @@ export async function GET(request) {
       },
       skip,
       take: itemsPerPage,
+      orderBy,
       select: {
         id: true,
         slug: true,

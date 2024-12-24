@@ -141,6 +141,8 @@ export async function POST(request) {
     const styleId = await generateUniqueStyleId()
     const affiliateId = await generateUniqueAffiliateId()
 
+    console.log(images)
+
     const thumbnailUrl = images.length > 0 ? images[0].imageUrl : ''
 
     const newProduct = await prisma.product.create({

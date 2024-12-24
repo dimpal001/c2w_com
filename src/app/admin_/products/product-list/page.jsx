@@ -49,6 +49,8 @@ const page = () => {
   const [debouncedMinPrice, setDebouncedMinPrice] = useState('')
   const [debouncedMaxPrice, setDebouncedMaxPrice] = useState('')
   const [filteredSubCategories, setFilteredSubCategories] = useState([])
+  const [sortOption, setSortOption] = useState('newest')
+
   const router = useRouter()
 
   const [error, setError] = useState(null)
@@ -114,6 +116,7 @@ const page = () => {
         minPrice,
         maxPrice,
         color,
+        sortOption,
         page: page || 1,
       }
       const response = await axios.get(`/api/products/get/filter`, { params })
@@ -185,6 +188,7 @@ const page = () => {
     debouncedMinPrice,
     debouncedMaxPrice,
     color,
+    sortOption,
   ])
 
   useEffect(() => {
@@ -294,6 +298,18 @@ const page = () => {
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
             />
+
+            <Select
+              value={sortOption}
+              className='w-full'
+              onChange={(e) => setSortOption(e.target.value)}
+              name='sort'
+            >
+              <option value=''>Sort By</option>
+              <option value='alphabet'>Alphabet (A-Z)</option>
+              <option value='newest'>Newest</option>
+              <option value='oldest'>Oldest</option>
+            </Select>
           </div>
 
           {/* Orders Table */}

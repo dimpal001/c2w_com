@@ -26,6 +26,7 @@ import React, { useState } from 'react'
 import ProductInfo from './ProductInfo'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import ImageMagnifier from './ImageMagnifier'
 
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
@@ -496,12 +497,12 @@ const SimilarProductImage = ({ product, onClick }) => {
 const ThumbnailImage = ({ image }) => {
   return (
     <Zoom>
-      {/* <ImageMagnifier imageUrl={cdnPath + image} /> */}
-      <img
+      <ImageMagnifier imageUrl={cdnPath + image} />
+      {/* <img
         src={cdnPath + image}
         alt={image.altText}
         className='md:w-[500px] border object-cover rounded-lg md:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
-      />
+      /> */}
     </Zoom>
   )
 }

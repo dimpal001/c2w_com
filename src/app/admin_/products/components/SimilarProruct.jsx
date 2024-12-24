@@ -292,11 +292,19 @@ export const Input = ({
   )
 }
 
-export const Select = ({ label, onChange, name, children, className }) => {
+export const Select = ({
+  label,
+  onChange,
+  name,
+  children,
+  className,
+  value,
+}) => {
   return (
     <div className='flex flex-col gap-1'>
       <label htmlFor={label}>{label}</label>
       <select
+        value={value}
         className={`${className} px-3 py-[7px] text-blue-800 border bg-white focus:outline-none focus:border-blue-800 border-slate-500 rounded-sm `}
         name={name}
         id={label}
