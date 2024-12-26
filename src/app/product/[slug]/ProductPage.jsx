@@ -46,7 +46,7 @@ const ProductPage = ({ product }) => {
   }, [])
 
   return (
-    <div className='container mx-auto p-5 md:px-10 flex flex-col relative max-sm:mb-14'>
+    <div className='container mx-auto p-5 md:px-16 flex flex-col relative max-sm:mb-14'>
       <div>{/* <CouponSecion /> */}</div>
       <div ref={displayProductRef} className='py-1'></div>
       <div>

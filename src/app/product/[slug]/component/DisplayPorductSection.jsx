@@ -200,16 +200,10 @@ const DisplayPorductSection = ({ product }) => {
   }
 
   return (
-    <div className='flex max-sm:flex-col gap-3'>
+    <div className='flex max-sm:flex-col gap-3 lg:gap-8'>
       {/* Image Section  */}
       <div className='flex max-sm:flex-col-reverse md:pl-10 gap-8 max-sm:gap-2 md:w-[54%]'>
-        <div
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-          className='flex max-sm:flex-row flex-col gap-3 max-sm:gap-2 md:max-h-[600px] scrollbar-hide overflow-scroll'
-        >
+        <div className='flex max-sm:flex-row flex-col gap-3 max-sm:gap-2 md:max-h-[900px] scrollbar-hide overflow-scroll'>
           {product?.images?.length > 0 &&
             product?.images?.map((image, index) => (
               <ProductImage
@@ -285,40 +279,6 @@ const DisplayPorductSection = ({ product }) => {
               ).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}
             </p>
           </div>
-          <div className='h-full flex flex-col justify-between'>
-            {addingWishList ? (
-              <Loader2 size={27} className='text-pink-600 animate-spin' />
-            ) : (
-              <Heart
-                onClick={handleAddWishList}
-                className={`text-pink-500 cursor-pointer ${
-                  user?.wishlistItem?.some(
-                    (item) => item.productId === product.id
-                  ) && 'fill-pink-500'
-                }`}
-                size={27}
-              />
-            )}
-            <Dropdown>
-              <DropdownTrigger>
-                <Forward className='text-pink-500 cursor-pointer' size={27} />
-              </DropdownTrigger>
-              <DropdownMenu className='p-3' aria-label='Static Actions'>
-                <DropdownItem>
-                  <div
-                    onClick={() => {
-                      const linkToCopy = `${api}/p/${product?.affiliateId}`
-                      navigator.clipboard.writeText(linkToCopy)
-                    }}
-                    className='flex items-center gap-2'
-                  >
-                    <Link size={15} />
-                    <p>Copy Link</p>
-                  </div>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
         </div>
 
         <div className='w-full max-sm:hidden flex gap-2 items-center'>
@@ -345,6 +305,44 @@ const DisplayPorductSection = ({ product }) => {
         {/* Buy button  */}
         <div className='py-3 w-full max-sm:fixed z-30 max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
           <button
+            className={` p-2 rounded-lg max-sm:px-3 max-sm:p-1 px-4 bg-pink-200`}
+          >
+            {addingWishList ? (
+              <Loader2 size={27} className='text-pink-600 animate-spin' />
+            ) : (
+              <Heart
+                onClick={handleAddWishList}
+                className={`text-pink-500 fill-white cursor-pointer ${
+                  user?.wishlistItem?.some(
+                    (item) => item.productId === product.id
+                  ) && 'fill-pink-500'
+                }`}
+                size={27}
+              />
+            )}
+          </button>
+          <Dropdown>
+            <DropdownTrigger>
+              <button className='p-2 px-4 max-sm:p-1 bg-pink-200 rounded-lg'>
+                <Forward className='text-pink-500 cursor-pointer' size={27} />
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu className='p-3' aria-label='Static Actions'>
+              <DropdownItem>
+                <div
+                  onClick={() => {
+                    const linkToCopy = `${api}/p/${product?.affiliateId}`
+                    navigator.clipboard.writeText(linkToCopy)
+                  }}
+                  className='flex items-center gap-2'
+                >
+                  <Link size={15} />
+                  <p>Copy Link</p>
+                </div>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <button
             disabled={
               addingCart ||
               user?.cartItems?.some((item) => item.productId === product.id)
@@ -352,7 +350,7 @@ const DisplayPorductSection = ({ product }) => {
             onClick={handleAddToCart}
             className={`rounded-lg ${
               addingCart && 'opacity-60'
-            } py-2 w-full font-semibold bg-pink-200`}
+            } py-2 w-full max-sm:p-1 font-semibold bg-pink-200`}
           >
             {addingCart
               ? 'Adding...'
@@ -365,7 +363,7 @@ const DisplayPorductSection = ({ product }) => {
             onClick={handleBuyNowClick}
             className={`rounded-lg ${
               submitting && 'opacity-60'
-            } py-2 w-full flex justify-center items-center font-semibold bg-pink-400 uppercase`}
+            } py-2 max-sm:p-1 w-full flex justify-center items-center font-semibold bg-pink-400 uppercase`}
           >
             {submitting ? (
               <Loader2 className='text-white animate-spin' />
@@ -404,7 +402,7 @@ const DisplayPorductSection = ({ product }) => {
           />
           <ProductInfo
             isDangerouslySetInnerHTML={true}
-            title={'Product description'}
+            title={'Product Description'}
             data={product.description}
           />
           <ProductInfo
@@ -426,11 +424,14 @@ const DisplayPorductSection = ({ product }) => {
 
 const ProductImage = ({ image, onClick }) => {
   return (
-    <div onClick={onClick} className='cursor-pointer'>
+    <div
+      onClick={onClick}
+      className='cursor-pointer w-[130px] h-[180px] max-sm:w-[50px] max-sm:h-[70px]'
+    >
       <img
         src={cdnPath + image.imageUrl}
         alt={image.altText}
-        className='w-[130px] h-[160px] object-cover border max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
+        className='w-[130px] h-[180px] object-cover border max-sm:w-[50px] max-sm:h-[70px] rounded-lg'
       />
     </div>
   )
@@ -540,14 +541,16 @@ const SimilarProductImage = ({ product, onClick }) => {
 
 const ThumbnailImage = ({ image }) => {
   return (
-    <Zoom>
-      <ImageMagnifier imageUrl={cdnPath + image} />
-      {/* <img
+    <div className='md:w-[550px] md:h-[900px]  max-sm:w-[353px] max-sm:h-[500px]'>
+      <Zoom>
+        <ImageMagnifier imageUrl={cdnPath + image} />
+        {/* <img
         src={cdnPath + image}
         alt={image.altText}
         className='md:w-[500px] border object-cover rounded-lg md:h-[600px] max-sm:w-[353px] max-sm:h-[420px]'
       /> */}
-    </Zoom>
+      </Zoom>
+    </div>
   )
 }
 

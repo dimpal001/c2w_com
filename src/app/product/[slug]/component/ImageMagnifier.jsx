@@ -21,7 +21,7 @@ const ImageMagnifier = ({ imageUrl }) => {
       <img
         src={imageUrl}
         alt='Magnifiable'
-        className='w-full rounded-xl h-auto'
+        className='w-full rounded-xl h-auto md:w-[550px] md:h-[900px] object-cover'
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
