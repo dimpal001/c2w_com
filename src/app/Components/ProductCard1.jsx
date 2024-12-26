@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowRight, Heart, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { cdnPath } from './cdnPath'
@@ -11,6 +11,18 @@ import Sale from './Sale'
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
   const [addingWishList, setAddingWishList] = useState(false)
+  const [discount, setDiscount] = useState('')
+
+  useEffect(() => {
+    console.log(product)
+    const mrp = product?.inventory[0]?.mrp
+    const price = product?.inventory[0]?.price
+
+    if (mrp && price) {
+      const discount = ((mrp - price) / mrp) * 100
+      setDiscount(discount)
+    }
+  }, [product])
 
   const { user, setUser } = useUserContext()
 
@@ -67,7 +79,7 @@ const ProductCard1 = ({ product }) => {
       {/* Product Image */}
       <div
         onClick={() => router.push(`/product/${product?.slug}`)}
-        className='h-72 max-sm:h-52 max-sm:w-full bg-stone-200 rounded-lg'
+        className='h-[350px] max-sm:h-56 max-sm:w-full bg-stone-200 rounded-lg'
       >
         <img
           src={cdnPath + product.thumbnailUrl}
@@ -113,15 +125,16 @@ const ProductCard1 = ({ product }) => {
       </div>
 
       {/* discount label  */}
-      {product?.discounts.length > 0 && (
+      {discount && (
         <div className='absolute top-0 left-5'>
           <div className='relative'>
             <Sale className={''} />
             <p className='text-[13px] max-sm:text-[11px] max-sm:leading-3 font-semibold leading-4 p-2 pb-4 text-white absolute inset-0 self-center text-center text-wrap'>
-              {product?.discounts[0]?.description
+              {discount}
+              {/* {product?.discounts[0]?.description
                 ?.split(' ')
                 .slice(0, 2)
-                .join(' ')}
+                .join(' ')} */}
             </p>
           </div>
         </div>

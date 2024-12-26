@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { useUserContext } from '../context/UserContext'
 import { useSearch } from '../context/SearchContext'
 import { enqueueSnackbar } from 'notistack'
+import { TypeAnimation } from 'react-type-animation'
 
 const Header = ({ sticky = true }) => {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
@@ -83,14 +84,31 @@ const Header = ({ sticky = true }) => {
         <div className='md:w-[70%] max-sm:hidden'>
           <div className='p-2 px-4 rounded-full bg-neutral-100 flex items-center gap-2'>
             <Camera size={20} />
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='relative'>
               <input
-                placeholder='Search here...'
+                // placeholder='Search here...'
                 type='text'
                 className='w-full text-sm focus:outline-none bg-transparent'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
+
+              {query === '' && (
+                <TypeAnimation
+                  sequence={[
+                    'Search for Salwar',
+                    1000,
+                    'Search for Lehenga',
+                    1500,
+                    'Search for Saree',
+                    1500,
+                  ]}
+                  wrapper='span'
+                  speed={30}
+                  className='text-sm text-gray-600 absolute top-1 left-1'
+                  repeat={Infinity}
+                />
+              )}
             </form>
             <Search size={20} className='cursor-pointer' />
           </div>

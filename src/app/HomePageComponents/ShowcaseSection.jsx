@@ -4,7 +4,7 @@
 import React, { useRef } from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
-import { CircleArrowLeft, CircleArrowRight } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 const ShowcaseSection = ({ showcases }) => {
   const scrollContainerRef = useRef(null)
@@ -22,7 +22,7 @@ const ShowcaseSection = ({ showcases }) => {
   return (
     <div className='relative'>
       {/* Left Arrow Button */}
-      <CircleArrowLeft
+      <ChevronsLeft
         onClick={() => handleScroll('left')}
         className='absolute w-9 h-9 max-sm:hidden bg-white rounded-full text-pink-500 cursor-pointer left-2 top-1/2 transform -translate-y-1/2 z-30'
       />
@@ -49,7 +49,7 @@ const ShowcaseSection = ({ showcases }) => {
       </div>
 
       {/* Right Arrow Button */}
-      <CircleArrowRight
+      <ChevronsRight
         onClick={() => handleScroll('right')}
         className='absolute w-9 h-9 max-sm:hidden bg-white rounded-full text-pink-500 cursor-pointer right-2 top-1/2 transform -translate-y-1/2 z-30'
       />

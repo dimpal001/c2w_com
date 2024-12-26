@@ -60,7 +60,6 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
       enqueueSnackbar(response?.data?.message, { variant: 'success' })
       setSelectedItem(null)
     } catch (error) {
-      console.log(error.message)
       enqueueSnackbar(
         error?.response?.data?.message || 'Failed to upload image.',
         { variant: 'error' }
@@ -93,7 +92,6 @@ const SubCategories = ({ isOpen, onClose, item, category }) => {
       setSelectedItem(null)
       enqueueSnackbar(response?.data?.message, { variant: 'success' })
     } catch (error) {
-      console.log(error?.message)
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
     } finally {
       setSubmitting(false)

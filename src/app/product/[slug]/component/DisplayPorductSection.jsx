@@ -27,17 +27,56 @@ import ProductInfo from './ProductInfo'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import ImageMagnifier from './ImageMagnifier'
-import sanitizeHtml from 'sanitize-html'
+
+const faqs = `<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">What is the return policy?</strong>
+        <p style="padding: 10px;  color: #555;">Our return policy allows returns within 30 days of purchase. Items must be in original condition with all tags attached.</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">How can I track my order?</strong>
+        <p style="padding: 10px;  color: #555;">Once your order has shipped, you will receive a tracking number via email or SMS. You can track your order through the link provided.</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">Do you offer free shipping?</strong>
+        <p style="padding: 10px;  color: #555;">We offer free shipping on orders over $50 within the United States. International shipping fees apply.</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">Can I change my order after placing it?</strong>
+        <p style="padding: 10px;  color: #555;">We process orders quickly, so once placed, it’s difficult to make changes. However, you can contact our customer service team as soon as possible, and we will try our best to assist you.</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">What payment methods do you accept?</strong>
+        <p style="padding: 10px;  color: #555;">We accept credit/debit cards (Visa, MasterCard, American Express), PayPal, and Apple Pay.</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">How do I return an item?</strong>
+        <p style="padding: 10px;  color: #555;">To return an item, please visit our Returns Center on the website, or contact our customer service team for assistance.</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="font-size: 18px;">Are your products genuine?</strong>
+        <p style="padding: 10px;  color: #555;">Yes, all our products are 100% genuine and come directly from authorized suppliers and manufacturers.</p>
+    </div>
+</div>
+`
 
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
+  // const [selectedSize, setSelectedSize] = useState(product?.inventory[0].sizeId)
+  // const [selectedColor, setSelectedColor] = useState(product?.images[0].colorId)
   const [selectedQuantity, setSelectedQuantity] = useState(
     product?.inventory[0].minQuantity
   )
 
   const [addingCart, setAddingCart] = useState(false)
   const [addingWishList, setAddingWishList] = useState(false)
-  const [showFull, setShowFull] = useState(false)
 
   const { user, setUser } = useUserContext()
   const router = useRouter()
@@ -160,10 +199,6 @@ const DisplayPorductSection = ({ product }) => {
     }
   }
 
-  const stripHtml = (html) => {
-    return sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} })
-  }
-
   return (
     <div className='flex max-sm:flex-col gap-3'>
       {/* Image Section  */}
@@ -213,21 +248,8 @@ const DisplayPorductSection = ({ product }) => {
       {/* Data Section  */}
       <div className='py-5 md:w-[46%] flex-col flex gap-3 justify-start'>
         <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
-        <p className='text-sm text-neutral-600'>
-          {showFull ? (
-            <span
-              className='text-sm'
-              dangerouslySetInnerHTML={{ __html: product?.summary }}
-            />
-          ) : (
-            <span>{stripHtml(product?.summary.slice(0, 120))}</span>
-          )}
-          <span
-            onClick={() => setShowFull(!showFull)}
-            className='font-semibold text-pink-500 cursor-pointer'
-          >
-            {showFull ? ' show less' : ' ...show full'}
-          </span>
+        <p className='text-base'>
+          Seller Code. <strong>{product?.sellerCode}</strong>
         </p>
         <p className='text-base'>
           Style No. <strong>{product?.styleId}</strong>
@@ -320,6 +342,11 @@ const DisplayPorductSection = ({ product }) => {
         <div className='mb-1 flex flex-col gap-2'>
           <ProductInfo
             isDangerouslySetInnerHTML={true}
+            title={'Product Specification'}
+            data={product.summary}
+          />
+          <ProductInfo
+            isDangerouslySetInnerHTML={true}
             title={'Product description'}
             data={product.description}
           />
@@ -327,6 +354,12 @@ const DisplayPorductSection = ({ product }) => {
             title={'Return Policy'}
             isDangerouslySetInnerHTML={true}
             data={product.returnPolicy}
+          />
+
+          <ProductInfo
+            title={'FAQs'}
+            isDangerouslySetInnerHTML={true}
+            data={faqs}
           />
         </div>
 

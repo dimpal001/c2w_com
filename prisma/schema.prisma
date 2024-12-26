@@ -238,11 +238,12 @@ model ProductInventory {
 }
 
 model ProductColor {
-  id     String         @id @default(uuid())
-  name   String
-  code   String
-  slug   String         @unique
-  images ProductImage[]
+  id        String         @id @default(uuid())
+  name      String
+  code      String
+  slug      String         @unique
+  images    ProductImage[]
+  OrderItem OrderItem[]
 }
 
 model ProductSize {
@@ -306,6 +307,8 @@ model CartItem {
   id        String   @id @default(uuid())
   userId    String
   productId String
+  sizeId    String?
+  colorId   String?  @default("")
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -352,6 +355,7 @@ model OrderItem {
   productId String
   quantity  Int
   sizeId    String?
+  colorId   String?
   price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -359,6 +363,7 @@ model OrderItem {
   order         OrderDetails    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product       Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   size          ProductSize?    @relation(fields: [sizeId], references: [id], onDelete: SetNull)
+  color         ProductColor?   @relation(fields: [colorId], references: [id], onDelete: SetNull)
   returnRequest ReturnRequest[]
 }
 

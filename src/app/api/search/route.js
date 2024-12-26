@@ -161,6 +161,7 @@ export async function GET(request) {
         categories: true,
         discounts: true,
         subcategories: true,
+        inventory: true,
       },
     })
 

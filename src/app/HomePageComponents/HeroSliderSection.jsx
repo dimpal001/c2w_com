@@ -7,7 +7,7 @@ import { cdnPath } from '../Components/cdnPath'
 const HeroSliderSection = ({ heroSliders }) => {
   return (
     <div className='w-full flex items-center gap-6 md:h-[582px] '>
-      <Slider showArrows={false} showIndicators={false} slideInterval={8000}>
+      <Slider showArrows={false} showIndicators={true} slideInterval={6000}>
         {heroSliders.length > 0 &&
           heroSliders.map((slider, index) => (
             <SlideItem key={index}>

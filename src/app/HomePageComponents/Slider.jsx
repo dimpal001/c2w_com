@@ -49,8 +49,8 @@ const Slider = ({
   }, [currentIndex, autoSlide, slideInterval])
 
   return (
-    <div className={`relative overflow-hidden w-full h-full ${className}`}>
-      <div className='relative flex w-full h-full'>
+    <div className={`relative w-full h-full ${className}`}>
+      <div className='relative overflow-hidden flex w-full h-full'>
         <motion.div
           key={currentIndex}
           initial={{
@@ -95,7 +95,7 @@ const Slider = ({
 
       {/* Indicators */}
       {showIndicators && (
-        <div className='absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2'>
+        <div className='p-2 justify-center items-center flex space-x-2'>
           {slides.map((_, index) => (
             <button
               key={index}

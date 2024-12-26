@@ -34,7 +34,7 @@ const ProductForm = ({
     mrp: 0,
     price: 0,
     stock: 1,
-    discount: 40,
+    discount: 0,
     minQuantity: 1,
   })
   const router = useRouter()
@@ -100,10 +100,16 @@ const ProductForm = ({
 
     const normalizeNumber = (val) => (isNaN(val) ? val : String(Number(val)))
 
-    const calculateDiscountFromPrice = (discount, price) => {
-      if (discount && price) {
-        const discountPrice = (price / 100) * discount
-        return parseFloat(price) + parseFloat(discountPrice)
+    const calculateDiscountFromPrice = (mrp, price) => {
+      if (mrp && price) {
+        const discountPrice = (price / mrp) * 100
+
+        const roundedDiscount =
+          discountPrice % 1 >= 0.5
+            ? Math.ceil(discountPrice)
+            : Math.floor(discountPrice)
+
+        return 100 - roundedDiscount
       }
       return 0
     }
@@ -121,19 +127,22 @@ const ProductForm = ({
       if (name === 'size') {
         const selectedSize = sizes.find((size) => size.id === value)
         setInventory((prev) => ({ ...prev, size: selectedSize }))
-      } else if (name === 'discount') {
-        const updatedPrice = calculateDiscountFromPrice(value, inventory.price)
+      } else if (name === 'mrp') {
+        const updatedDiscount = calculateDiscountFromPrice(
+          value,
+          inventory.price
+        )
         setInventory((prev) => ({
           ...prev,
           [name]: [value],
-          mrp: updatedPrice,
+          discount: updatedDiscount,
         }))
       } else if (name === 'price') {
-        const updatedMrp = calculateDiscountFromPrice(inventory.discount, value)
+        const updatedDiscount = calculateDiscountFromPrice(inventory.mrp, value)
         setInventory((prev) => ({
           ...prev,
           [name]: normalizeNumber(value),
-          mrp: updatedMrp,
+          discount: updatedDiscount,
         }))
       } else {
         setInventory((prev) => ({ ...prev, [name]: normalizeNumber(value) }))
@@ -309,8 +318,6 @@ const ProductForm = ({
       return
     }
 
-    // enqueueSnackbar('Submitted')
-    // if (formData) return null
     try {
       setSaving(true)
       const uploadedImages = await Promise.all(
@@ -695,9 +702,8 @@ const ProductForm = ({
             label='Enter MRP'
             type='number'
             placeholder='Enter MRP'
-            disabled={true}
             name='mrp'
-            value={inventory.mrp.toFixed(2)}
+            value={inventory.mrp}
             onChange={handleChange}
           />
           <Input
@@ -711,9 +717,10 @@ const ProductForm = ({
           <Input
             label='Enter Discount Price (%)'
             type='number'
-            placeholder='Enter Price'
+            placeholder='Discount'
             name='discount'
             value={inventory.discount}
+            disabled={true}
             onChange={handleChange}
           />
           <Input

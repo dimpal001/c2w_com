@@ -12,7 +12,6 @@ const SubCategoryBar = ({
   subCategorySlug,
 }) => {
   const router = useRouter()
-  console.log(subCategories)
   return (
     <div className='p-3 w-full flex justify-between gap-2 items-center'>
       <ChevronLeft

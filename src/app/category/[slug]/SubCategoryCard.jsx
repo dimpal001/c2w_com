@@ -3,7 +3,6 @@ import { cdnPath } from '@/app/Components/cdnPath'
 import React from 'react'
 
 const SubCategoryCard = ({ subCategory, onClick, subCategorySlug }) => {
-  console.log(subCategory)
   return (
     <div
       onClick={onClick}
