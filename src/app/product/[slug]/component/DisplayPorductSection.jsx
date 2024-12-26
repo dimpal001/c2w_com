@@ -246,14 +246,18 @@ const DisplayPorductSection = ({ product }) => {
       </div>
 
       {/* Data Section  */}
-      <div className='py-5 md:w-[46%] flex-col flex gap-3 justify-start'>
-        <h1 className='font-bold text-2xl max-sm:text-xl'>{product?.title}</h1>
-        <p className='text-base'>
-          Seller Code. <strong>{product?.sellerCode}</strong>
-        </p>
-        <p className='text-base'>
-          Style No. <strong>{product?.styleId}</strong>
-        </p>
+      <div className='py-5 max-sm:py-2 md:w-[46%] flex-col flex gap-3 justify-start'>
+        <div className='flex flex-col gap-1 lg:gap-2'>
+          <h1 className='font-bold text-2xl leading-[27px] max-sm:leading-[20px] max-sm:text-lg'>
+            {product?.title}
+          </h1>
+          <p className='text-base max-sm:text-sm'>
+            Seller Code. <strong>{product?.sellerCode}</strong>
+          </p>
+          <p className='text-base max-sm:text-sm'>
+            Style No. <strong>{product?.styleId}</strong>
+          </p>
+        </div>
         <div>
           <button className='rounded-md cursor-default p-1 text-sm px-4 bg-pink-300 font-semibold'>
             Best Seller
@@ -338,49 +342,8 @@ const DisplayPorductSection = ({ product }) => {
             ))}
         </div>
 
-        {/* Product info collapsible card */}
-        <div className='mb-1 flex flex-col gap-2'>
-          <ProductInfo
-            isDangerouslySetInnerHTML={true}
-            title={'Product Specification'}
-            data={product.summary}
-          />
-          <ProductInfo
-            isDangerouslySetInnerHTML={true}
-            title={'Product description'}
-            data={product.description}
-          />
-          <ProductInfo
-            title={'Return Policy'}
-            isDangerouslySetInnerHTML={true}
-            data={product.returnPolicy}
-          />
-
-          <ProductInfo
-            title={'FAQs'}
-            isDangerouslySetInnerHTML={true}
-            data={faqs}
-          />
-        </div>
-
-        {/* Similar Product  */}
-        <div>
-          {/* <p className='text-xl font-semibold'>Similar Product</p> */}
-          <div className='flex gap-4 py-2 flex-wrap'>
-            {product?.similarProducts?.length > 0 &&
-              product?.similarProducts?.map((product, index) => (
-                <SimilarProductImage
-                  key={index}
-                  product={product}
-                  onClick={() => router.push(`/product/${product.slug}`)}
-                />
-              ))}
-          </div>
-        </div>
-
         {/* Buy button  */}
-
-        <div className='py-3 w-[90%] max-sm:fixed z-30 max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
+        <div className='py-3 w-full max-sm:fixed z-30 max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
           <button
             disabled={
               addingCart ||
@@ -415,6 +378,46 @@ const DisplayPorductSection = ({ product }) => {
               </div>
             )}
           </button>
+        </div>
+
+        {/* Similar Product  */}
+        <div>
+          {/* <p className='text-xl font-semibold'>Similar Product</p> */}
+          <div className='flex gap-4 py-2 flex-wrap'>
+            {product?.similarProducts?.length > 0 &&
+              product?.similarProducts?.map((product, index) => (
+                <SimilarProductImage
+                  key={index}
+                  product={product}
+                  onClick={() => router.push(`/product/${product.slug}`)}
+                />
+              ))}
+          </div>
+        </div>
+
+        {/* Product info collapsible card */}
+        <div className='mb-1 flex flex-col gap-2'>
+          <ProductInfo
+            isDangerouslySetInnerHTML={true}
+            title={'Product Specification'}
+            data={product.summary}
+          />
+          <ProductInfo
+            isDangerouslySetInnerHTML={true}
+            title={'Product description'}
+            data={product.description}
+          />
+          <ProductInfo
+            title={'Return Policy'}
+            isDangerouslySetInnerHTML={true}
+            data={product.returnPolicy}
+          />
+
+          <ProductInfo
+            title={'FAQs'}
+            isDangerouslySetInnerHTML={true}
+            data={faqs}
+          />
         </div>
       </div>
     </div>
@@ -507,8 +510,12 @@ const ProductInventorySection = ({
           </div>
         </div>
 
-        <div className='flex gap-8 items-center'>
-          <strike className='text-2xl strik'>₹{selectedInventory.mrp}/-</strike>
+        <div className='flex gap-8 py-2 items-center'>
+          {selectedInventory?.price !== selectedInventory?.mrp && (
+            <strike className='text-2xl italic strik'>
+              ₹{selectedInventory.mrp}/-
+            </strike>
+          )}
           <span className='text-3xl font-semibold'>
             {' '}
             ₹{selectedInventory.price}/-

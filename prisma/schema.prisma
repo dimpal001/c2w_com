@@ -159,6 +159,8 @@ model Product {
   userId               String
   estimatedDeliveryDay Int?
   sizeChartId          String?
+  fabricId             String?
+  fabric               ProductFabric?    @relation(fields: [fabricId], references: [id])
   sizeChart            SizeChart?        @relation(fields: [sizeChartId], references: [id])
   categories           ProductCategory[] @relation("ProductCategories")
   subcategories        SubCategory[]     @relation("SubcategoryProducts")
@@ -244,6 +246,13 @@ model ProductColor {
   slug      String         @unique
   images    ProductImage[]
   OrderItem OrderItem[]
+}
+
+model ProductFabric {
+  id      String    @id @default(uuid())
+  name    String
+  slug    String    @unique
+  Product Product[]
 }
 
 model ProductSize {

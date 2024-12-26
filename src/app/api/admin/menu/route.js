@@ -18,6 +18,11 @@ export async function GET(request) {
         orderBy: { name: 'asc' },
       })
       return NextResponse.json(sizes, { status: 200 })
+    } else if (type === 'fabrics') {
+      const sizes = await prisma.productFabric.findMany({
+        orderBy: { name: 'asc' },
+      })
+      return NextResponse.json(sizes, { status: 200 })
     } else if (type === 'categories') {
       const categories = await prisma.productCategory.findMany({
         include: {

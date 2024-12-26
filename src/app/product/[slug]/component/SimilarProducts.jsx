@@ -45,11 +45,13 @@ const ProductCard = ({ product, onClick }) => {
       <img
         src={cdnPath + product.thumbnailUrl}
         alt={product?.title || 'clothes2wear'}
-        className='w-[182px] max-sm:w-full h-[220px] rounded-lg'
+        className='w-[182px] max-sm:w-full h-[220px] object-cover rounded-lg'
       />
       <div className='absolute bg-gradient-to-b from-transparent to-black rounded-lg h-[90%] bottom-0 left-0 right-0'>
         <div className='flex flex-col justify-end text-white inset-0 w-full h-full p-3'>
-          <p className='font-semibold text-xs mb-1'>{product?.title}</p>
+          <p className='font-semibold text-xs mb-1'>
+            {product?.title.slice(0, 40)}..
+          </p>
           <div className='flex justify-between'>
             <p className='font-semibold'>₹{product?.displayPrice}/-</p>
             <ChevronRight className='text-white opacity-0 group-hover:opacity-100 transition-all duration-300' />

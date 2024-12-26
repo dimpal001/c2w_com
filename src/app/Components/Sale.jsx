@@ -4,7 +4,7 @@ import React from 'react'
 const Sale = ({ className }) => {
   return (
     <svg
-      className={`w-[67px] ${className}`}
+      className={`w-[67px] max-sm:w-[59px] ${className}`}
       id='Layer_2'
       data-name='Layer 2'
       xmlns='http://www.w3.org/2000/svg'

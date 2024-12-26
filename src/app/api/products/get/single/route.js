@@ -60,6 +60,7 @@ export async function GET(request) {
             user: true,
           },
         },
+        fabric: true,
         user: {
           select: {
             id: true,

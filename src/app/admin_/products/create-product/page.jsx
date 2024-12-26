@@ -13,6 +13,7 @@ const Page = ({ productId }) => {
     customerTypeId: '',
     sellerCode: '',
     sizeChartId: '',
+    fabricId: '',
     longTailKeyword: '',
     categories: [],
     subcategories: [],

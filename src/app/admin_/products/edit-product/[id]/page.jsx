@@ -20,6 +20,7 @@ const Page = ({ params }) => {
     customerTypeId: '',
     sellerCode: '',
     sizeChartId: '',
+    fabricId: '',
     longTailKeyword: '',
     categories: [],
     subcategories: [],
@@ -90,6 +91,7 @@ const Page = ({ params }) => {
         longTailKeyword: productDetails.longTailKeyword,
         sellerCode: productDetails.sellerCode,
         sizeChartId: productDetails.sizeChartId,
+        fabricId: productDetails.fabricId,
       })
     }
 

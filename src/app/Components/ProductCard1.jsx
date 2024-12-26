@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ArrowRight, Heart, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { cdnPath } from './cdnPath'
@@ -11,18 +11,6 @@ import Sale from './Sale'
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
   const [addingWishList, setAddingWishList] = useState(false)
-  const [discount, setDiscount] = useState('')
-
-  useEffect(() => {
-    console.log(product)
-    const mrp = product?.inventory[0]?.mrp
-    const price = product?.inventory[0]?.price
-
-    if (mrp && price) {
-      const discount = ((mrp - price) / mrp) * 100
-      setDiscount(discount)
-    }
-  }, [product])
 
   const { user, setUser } = useUserContext()
 
@@ -125,20 +113,20 @@ const ProductCard1 = ({ product }) => {
       </div>
 
       {/* discount label  */}
-      {discount && (
-        <div className='absolute top-0 left-5'>
-          <div className='relative'>
-            <Sale className={''} />
-            <p className='text-[13px] max-sm:text-[11px] max-sm:leading-3 font-semibold leading-4 p-2 pb-4 text-white absolute inset-0 self-center text-center text-wrap'>
-              {discount}
-              {/* {product?.discounts[0]?.description
-                ?.split(' ')
-                .slice(0, 2)
-                .join(' ')} */}
-            </p>
+      {product?.inventory?.length > 0 &&
+        product?.inventory[0]?.discount > 0 &&
+        product?.inventory[0]?.discount < 100 && (
+          <div className='absolute top-[1px] left-5 max-sm:left-3'>
+            <div className='relative'>
+              <Sale className={''} />
+              <p className='text-[11px] max-sm:text-[10px] max-sm:leading-3 leading-3 p-2 pb-4 text-white absolute inset-0 self-center text-center text-wrap'>
+                {/* {discount} */}
+                <strong className='text-[13px]'>{`${product?.inventory[0]?.discount}% `}</strong>
+                {`Discount`}
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   )
 }

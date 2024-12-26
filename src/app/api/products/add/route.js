@@ -70,6 +70,7 @@ export async function POST(request) {
     tags,
     similarProducts,
     sizeChartId,
+    fabricId,
   } = await request.json()
 
   if (!isAdmin(request)) {
@@ -141,8 +142,6 @@ export async function POST(request) {
     const styleId = await generateUniqueStyleId()
     const affiliateId = await generateUniqueAffiliateId()
 
-    console.log(images)
-
     const thumbnailUrl = images.length > 0 ? images[0].imageUrl : ''
 
     const newProduct = await prisma.product.create({
@@ -160,6 +159,7 @@ export async function POST(request) {
         displayPrice: parseFloat(displayPrice),
         summary,
         sellerCode,
+        fabricId,
         sizeChartId: sizeChartId ? sizeChartId : null,
         customerTypeId,
         returnPolicy: staticReturnPolicy,
@@ -177,6 +177,9 @@ export async function POST(request) {
             : undefined,
         categories: {
           connect: categories.map((category) => ({ id: category.id })),
+        },
+        fabric: {
+          connect: { id: fabricId },
         },
         subcategories: {
           connect: subcategories.map((subcategory) => ({ id: subcategory.id })),
@@ -206,7 +209,8 @@ export async function POST(request) {
       { product: newProduct, message: 'The product has been added.' },
       { status: 201 }
     )
-  } catch {
+  } catch (error) {
+    console.log(error.message)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

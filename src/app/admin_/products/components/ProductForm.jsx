@@ -47,6 +47,7 @@ const ProductForm = ({
     color: '',
   })
   const [sizes, setSizes] = useState([])
+  const [fabrics, setFabrics] = useState([])
   const [imagesToDelete, setImagesToDelete] = useState([])
   const [allCategories, setAllCategories] = useState([])
   const [allSubCategories, setAllSubCategories] = useState([])
@@ -59,14 +60,21 @@ const ProductForm = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [sizesRes, categoriesRes, colorsRes, customerTypesRes] =
-          await Promise.all([
-            axios.get('/api/admin/menu?type=sizes'),
-            axios.get('/api/admin/menu?type=categories'),
-            axios.get('/api/admin/menu?type=colors'),
-            axios.get('/api/admin/menu?type=customer-types'),
-          ])
+        const [
+          sizesRes,
+          fabricsRes,
+          categoriesRes,
+          colorsRes,
+          customerTypesRes,
+        ] = await Promise.all([
+          axios.get('/api/admin/menu?type=sizes'),
+          axios.get('/api/admin/menu?type=fabrics'),
+          axios.get('/api/admin/menu?type=categories'),
+          axios.get('/api/admin/menu?type=colors'),
+          axios.get('/api/admin/menu?type=customer-types'),
+        ])
         setSizes(sizesRes.data)
+        setFabrics(fabricsRes.data)
         setAllCategories(categoriesRes.data)
         setColors(colorsRes.data)
         setCustomerTypes(customerTypesRes.data)
@@ -340,6 +348,7 @@ const ProductForm = ({
   }
 
   const handlEditSubmit = async () => {
+    console.log(formData)
     if (formData.title === '') {
       enqueueSnackbar('Add the title', { variant: 'error' })
       return
@@ -526,6 +535,20 @@ const ProductForm = ({
       <Section className={'rounded-sm bg-stone-300 p-5'}>
         <div>
           <div className='flex items-center gap-5'>
+            <Select
+              label='Select A Fabric '
+              name='fabricId'
+              defaultValue={formData.fabricId}
+              value={formData.fabricId}
+              onChange={handleChange}
+            >
+              <option value=''>Select A Fabric</option>
+              {fabrics.map((fabric) => (
+                <option key={fabric.id} value={fabric.id}>
+                  {fabric?.name}
+                </option>
+              ))}
+            </Select>
             <Select
               label='Select Customer Type'
               name='customerTypeId'

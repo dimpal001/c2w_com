@@ -145,6 +145,9 @@ const ProductDetailsPage = ({ params }) => {
                           <th className='p-2 text-center border-r w-[27%] border-white'>
                             Customer Type
                           </th>
+                          <th className='p-2 text-center border-r w-[27%] border-white'>
+                            Fabric
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -184,6 +187,9 @@ const ProductDetailsPage = ({ params }) => {
                                 (item) =>
                                   item.id === productDetails?.customerTypeId
                               )?.name}
+                          </td>
+                          <td className='p-3 border text-center'>
+                            {productDetails?.fabric?.name}
                           </td>
                         </tr>
                       </tbody>

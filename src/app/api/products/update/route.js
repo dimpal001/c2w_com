@@ -24,6 +24,7 @@ export async function PATCH(request) {
     tags,
     similarProducts,
     sizeChartId,
+    fabricId,
   } = await request.json()
 
   try {
@@ -127,6 +128,7 @@ export async function PATCH(request) {
           customerTypeId,
           userId,
           sellerCode,
+          fabricId,
           returnPolicy: staticReturnPolicy,
           sizeChartId: sizeChartId ? sizeChartId : null,
           tags,
@@ -143,6 +145,9 @@ export async function PATCH(request) {
           categories: {
             connect: categories.map((category) => ({ id: category.id })),
           },
+          // fabric: {
+          //   connect: { id: fabricId },
+          // },
           subcategories: {
             connect: subcategories.map((subcategory) => ({
               id: subcategory.id,
@@ -168,7 +173,8 @@ export async function PATCH(request) {
       { message: 'Product updated successfully!' },
       { status: 200 }
     )
-  } catch {
+  } catch (error) {
+    console.log(error.message)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
