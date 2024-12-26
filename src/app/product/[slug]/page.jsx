@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
       name: product.title,
       description:
         product.summary || 'Discover the latest trends with Clothes2Wear.',
-      image: product.thumbnailUrl || '/default-image.jpg',
+      image: product.ogImage || '/default-image.jpg',
       brand: {
         '@type': 'Brand',
         name: 'Clothes2Wear',
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }) {
           product.summary || 'Discover the latest trends with Clothes2Wear.',
         images: [
           {
-            url: product.thumbnailUrl || '/default-image.jpg',
+            url: product.ogImage || '/default-image.jpg',
             width: 1600,
             height: 1000,
             alt: product.title || 'Product Image',

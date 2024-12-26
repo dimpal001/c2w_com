@@ -303,28 +303,27 @@ const DisplayPorductSection = ({ product }) => {
         </div>
 
         {/* Buy button  */}
-        <div className='py-3 w-full max-sm:fixed z-30 max-sm:px-5 max-sm:gap-3 max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
+        <div className='py-3 w-full max-sm:fixed z-30 max-sm:px-5 max-sm:gap-2 max-sm:text-sm max-sm:bg-white max-sm:w-full bottom-0 left-0 right-0 flex justify-between gap-4'>
           <button
             className={` p-2 rounded-lg max-sm:px-3 max-sm:p-1 px-4 bg-pink-200`}
           >
             {addingWishList ? (
-              <Loader2 size={27} className='text-pink-600 animate-spin' />
+              <Loader2 className='text-pink-600 w-16 h-16 max-sm:w-8 max-sm:h-8 animate-spin' />
             ) : (
               <Heart
                 onClick={handleAddWishList}
                 className={`text-pink-500 fill-white cursor-pointer ${
                   user?.wishlistItem?.some(
                     (item) => item.productId === product.id
-                  ) && 'fill-pink-500'
+                  ) && 'fill-pink-500 h-16 w-16 max-sm:w-8 max-sm:h-8'
                 }`}
-                size={27}
               />
             )}
           </button>
           <Dropdown>
             <DropdownTrigger>
               <button className='p-2 px-4 max-sm:p-1 bg-pink-200 rounded-lg'>
-                <Forward className='text-pink-500 cursor-pointer' size={27} />
+                <Forward className='text-pink-500 cursor-pointer w-16 h-16 max-sm:w-7 max-sm:h-7' />
               </button>
             </DropdownTrigger>
             <DropdownMenu className='p-3' aria-label='Static Actions'>
@@ -363,14 +362,14 @@ const DisplayPorductSection = ({ product }) => {
             onClick={handleBuyNowClick}
             className={`rounded-lg ${
               submitting && 'opacity-60'
-            } py-2 max-sm:p-1 w-full flex justify-center items-center font-semibold bg-pink-400 uppercase`}
+            } py-2 max-sm:p-2 w-full flex justify-center items-center font-semibold bg-pink-400 uppercase`}
           >
             {submitting ? (
               <Loader2 className='text-white animate-spin' />
             ) : (
               <div className='flex justify-center items-center gap-5'>
                 buy now
-                <div className='bg-white  px-3 py-1 rounded-lg'>
+                <div className='bg-white max-sm:hidden px-3 py-1 rounded-lg'>
                   <ArrowRight className='rounded-lg text-pink-600' />
                 </div>
               </div>
@@ -541,7 +540,7 @@ const SimilarProductImage = ({ product, onClick }) => {
 
 const ThumbnailImage = ({ image }) => {
   return (
-    <div className='md:w-[550px] md:h-[900px]  max-sm:w-[353px] max-sm:h-[500px]'>
+    <div className='md:w-[550px] md:h-[900px] max-sm:w-[353px] max-sm:h-[600px]'>
       <Zoom>
         <ImageMagnifier imageUrl={cdnPath + image} />
         {/* <img
