@@ -85,6 +85,8 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
     const storedColors =
       JSON.parse(localStorage.getItem('selectedColors')) || []
     const storedSizes = JSON.parse(localStorage.getItem('selectedSizes')) || []
+    const storedFabrics =
+      JSON.parse(localStorage.getItem('selectedFabrics')) || []
     const storedMinPrice = localStorage.getItem('selectedMinPrice') || 100
     const storedMaxPrice = localStorage.getItem('selectedMaxPrice') || 40000
 
@@ -97,6 +99,8 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
         colors:
           storedColors.length > 0 ? JSON.stringify(storedColors) : undefined,
         sizes: storedSizes.length > 0 ? JSON.stringify(storedSizes) : undefined,
+        fabrics:
+          storedFabrics.length > 0 ? JSON.stringify(storedFabrics) : undefined,
         minPrice: storedMinPrice,
         maxPrice: storedMaxPrice,
         categorySlug: slug || null,

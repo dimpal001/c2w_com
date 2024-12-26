@@ -3,17 +3,23 @@ import React, { useEffect, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
+import { usePathname } from 'next/navigation'
 
 const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   const [sizes, setSizes] = useState([])
+  const [fabrics, setFabrics] = useState([])
   const [colors, setColors] = useState([])
   const [minPrice, setMinPrice] = useState(100)
   const [maxPrice, setMaxPrice] = useState(40000)
   const minGap = 1000
   const maxRange = 40000
 
+  const pathname = usePathname()
+  const currentPath = pathname.split('/')[2]
+
   const [selectedColors, setSelectedColors] = useState([])
   const [selectedSizes, setSelectedSizes] = useState([])
+  const [selectedFabrics, setSelectedFabrics] = useState([])
   const [selectedMinPrice, setSelectedMinPrice] = useState('')
   const [selectedMaxPrice, setSelectedMaxPrice] = useState('')
 
@@ -23,6 +29,7 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   useEffect(() => {
     fetchSizes()
     fetchColors()
+    fetchFebrics()
   }, [])
 
   useEffect(() => {
@@ -58,10 +65,41 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   const fetchSizes = async () => {
     try {
       const response = await axios.get('/api/admin/menu/sizes')
-      setSizes(response.data)
+      const allSizes = response.data
+
+      if (currentPath === 'kids-wear') {
+        const newSizes = allSizes.filter((size) => size?.name?.length > 4)
+        setSizes(newSizes)
+      } else if (currentPath === 'accessories') {
+        // Exclude sizes that include 'x', 'xl', 's', 'm'
+        const newSizes = allSizes.filter(
+          (size) =>
+            !['x', 'l', 's', 'm'].some((substring) =>
+              size?.slug?.toLowerCase().includes(substring)
+            )
+        )
+        setSizes(newSizes)
+      } else {
+        setSizes(allSizes)
+      }
     } catch (error) {
       enqueueSnackbar(
-        error?.response?.data?.message || 'Failed to handle task!'
+        error?.response?.data?.message || 'Failed to handle task!',
+        { variant: 'error' }
+      )
+    }
+  }
+
+  const fetchFebrics = async () => {
+    try {
+      const response = await axios.get('/api/admin/menu/fabrics')
+      const allFabrics = response.data
+
+      setFabrics(allFabrics)
+    } catch (error) {
+      enqueueSnackbar(
+        error?.response?.data?.message || 'Failed to handle task!',
+        { variant: 'error' }
       )
     }
   }
@@ -91,6 +129,20 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
     }
   }
 
+  const handleFabricChange = (e, fabric) => {
+    const { checked } = e.target
+    if (checked) {
+      setSelectedFabrics((prev) => {
+        if (!prev.some((s) => s.id === fabric.id)) {
+          return [...prev, fabric]
+        }
+        return prev
+      })
+    } else {
+      setSelectedFabrics((prev) => prev.filter((s) => s.id !== fabric.id))
+    }
+  }
+
   const handleColorChange = (e, color) => {
     const { checked } = e.target
 
@@ -107,11 +159,13 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
   }
 
   const [showSizeFilter, setShowSizeFilter] = useState(true)
+  const [showFabricFilter, setShowFabricFilter] = useState(true)
   const [showColorFilter, setShowColorFilter] = useState(true)
 
   const handleApplyFilters = () => {
     localStorage.setItem('selectedColors', JSON.stringify(selectedColors))
     localStorage.setItem('selectedSizes', JSON.stringify(selectedSizes))
+    localStorage.setItem('selectedFabrics', JSON.stringify(selectedFabrics))
     localStorage.setItem('selectedMinPrice', selectedMinPrice)
     localStorage.setItem('selectedMaxPrice', selectedMaxPrice)
     onHandleFilter()
@@ -193,6 +247,40 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
                     className='accent-pink-500'
                   />
                   <span className='text-gray-700 uppercase'>{size.name}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Size Filter */}
+        <div className='mb-4 bg-neutral-200 p-3 rounded-md'>
+          <div
+            className='flex items-center justify-between cursor-pointer'
+            onClick={() => setShowFabricFilter(!showFabricFilter)}
+          >
+            <h3 className='text-lg font-medium text-gray-700'>Fabric</h3>
+            {showFabricFilter ? (
+              <ChevronUp className='w-5 h-5 text-gray-600' />
+            ) : (
+              <ChevronDown className='w-5 h-5 text-gray-600' />
+            )}
+          </div>
+          {showFabricFilter && (
+            <div className='mt-2'>
+              {fabrics.map((fabric) => (
+                <label
+                  key={fabric.id}
+                  className='flex items-center space-x-2 mb-2'
+                >
+                  <input
+                    type='checkbox'
+                    onChange={(e) => handleFabricChange(e, fabric)}
+                    className='accent-pink-500'
+                  />
+                  <span className='text-gray-700 capitalize'>
+                    {fabric.name}
+                  </span>
                 </label>
               ))}
             </div>

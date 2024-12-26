@@ -178,9 +178,6 @@ export async function POST(request) {
         categories: {
           connect: categories.map((category) => ({ id: category.id })),
         },
-        fabric: {
-          connect: { id: fabricId },
-        },
         subcategories: {
           connect: subcategories.map((subcategory) => ({ id: subcategory.id })),
         },

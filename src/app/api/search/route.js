@@ -9,6 +9,7 @@ export async function GET(request) {
   const userId = url.searchParams.get('userId')
   const colorsParam = JSON.parse(url.searchParams.get('colors') || '[]')
   const sizesParam = JSON.parse(url.searchParams.get('sizes') || '[]')
+  const fabricsParam = JSON.parse(url.searchParams.get('fabrics') || '[]')
   const minPrice = parseFloat(url.searchParams.get('minPrice')) || 0
   const maxPrice = parseFloat(url.searchParams.get('maxPrice')) || 0
   const page = parseInt(url.searchParams.get('page')) || 1
@@ -136,6 +137,14 @@ export async function GET(request) {
               },
             },
           },
+        },
+      })
+    }
+
+    if (fabricsParam.length > 0) {
+      whereConditions.AND.push({
+        fabricId: {
+          in: fabricsParam.map((fabric) => fabric.id),
         },
       })
     }

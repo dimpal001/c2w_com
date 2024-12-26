@@ -104,7 +104,7 @@ export async function PATCH(request) {
         stock: parseFloat(stock),
         discount: parseFloat(discount),
         minQuantity: parseInt(minQuantity),
-        sizeId: size.id,
+        sizeId: size?.id,
       })
     )
 
@@ -128,7 +128,7 @@ export async function PATCH(request) {
           customerTypeId,
           userId,
           sellerCode,
-          fabricId,
+          fabricId: fabricId ? fabricId : null,
           returnPolicy: staticReturnPolicy,
           sizeChartId: sizeChartId ? sizeChartId : null,
           tags,
@@ -145,9 +145,6 @@ export async function PATCH(request) {
           categories: {
             connect: categories.map((category) => ({ id: category.id })),
           },
-          // fabric: {
-          //   connect: { id: fabricId },
-          // },
           subcategories: {
             connect: subcategories.map((subcategory) => ({
               id: subcategory.id,
@@ -174,7 +171,7 @@ export async function PATCH(request) {
       { status: 200 }
     )
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
