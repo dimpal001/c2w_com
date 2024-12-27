@@ -210,7 +210,7 @@ export default function ImageCroper({
         )}
         {fileName && (
           <input
-            className='px-2 py-[4px] border border-neutral-400'
+            className='px-2 py-[4px] border text-black border-neutral-400'
             type='text'
             placeholder='Image alt text'
             value={imageAltText}

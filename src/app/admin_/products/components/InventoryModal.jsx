@@ -16,6 +16,7 @@ const InventoryModal = ({
   onClose,
   sizes,
   setFormData,
+  formData,
   isEditMode,
   inventoryData,
 }) => {
@@ -94,6 +95,17 @@ const InventoryModal = ({
   const handleSubmit = () => {
     if (inventory.size.name === '') {
       enqueueSnackbar('Select a valid size', { variant: 'error' })
+      return
+    }
+
+    // Check if the selected size already exists in the inventory
+    const sizeExists = formData.inventory.some(
+      (item) => item.size.id === inventory.size.id && item.id !== inventory.id
+    )
+    if (sizeExists) {
+      enqueueSnackbar('This size is already in the inventory.', {
+        variant: 'error',
+      })
       return
     }
 

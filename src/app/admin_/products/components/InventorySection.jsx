@@ -106,6 +106,7 @@ const InventorySection = ({ formData, setFormData, sizes }) => {
           setFormData={setFormData}
           inventoryData={selectedInventory}
           isEditMode={isEditMode}
+          formData={formData}
         />
       )}
     </div>
