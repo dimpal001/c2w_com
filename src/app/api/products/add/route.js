@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import slugify from 'slugify'
 import { isAdmin } from '../../middleware/adminAuth'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const prisma = new PrismaClient()
 
@@ -156,10 +157,11 @@ export async function POST(request) {
         isActive: false,
         isReturnable,
         description,
+        ogImage: cdnPath + thumbnailUrl,
         displayPrice: parseFloat(displayPrice),
         summary,
-        sellerCode,
-        fabricId,
+        sellerCode: sellerCode ? sellerCode : null,
+        fabricId: fabricId ? fabricId : null,
         sizeChartId: sizeChartId ? sizeChartId : null,
         customerTypeId,
         returnPolicy: staticReturnPolicy,

@@ -229,3 +229,6 @@
 
 # curl -X GET "http://localhost:3000/api/vides" \
 # -H "Content-Type: application/json"
+
+
+curl -X GET "http://localhost:3000/api/search?searchQuery=saree&minPrice=2000&maxPrice=3000"

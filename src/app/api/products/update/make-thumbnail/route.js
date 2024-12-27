@@ -1,4 +1,5 @@
 import { isAdmin } from '@/app/api/middleware/adminAuth'
+import { cdnPath } from '@/app/Components/cdnPath'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
@@ -21,7 +22,7 @@ export async function PATCH(request) {
 
     await prisma.product.update({
       where: { id },
-      data: { thumbnailUrl: imageUrl },
+      data: { thumbnailUrl: imageUrl, ogImage: cdnPath + imageUrl },
     })
 
     return NextResponse.json(

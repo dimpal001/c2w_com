@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 const prisma = new PrismaClient()
 
@@ -125,9 +126,10 @@ export async function PATCH(request) {
           description,
           displayPrice: parseFloat(displayPrice),
           summary,
+          ogImage: cdnPath + images[0].imageUrl,
           customerTypeId,
           userId,
-          sellerCode,
+          sellerCode: sellerCode ? sellerCode : null,
           fabricId: fabricId ? fabricId : null,
           returnPolicy: staticReturnPolicy,
           sizeChartId: sizeChartId ? sizeChartId : null,
