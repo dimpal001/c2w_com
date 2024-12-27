@@ -55,8 +55,9 @@ const CategoryBar = () => {
                 hoveredCategory.subcategories.map((subItem, subIndex) => (
                   <div
                     onClick={() =>
-                      router.push(
-                        `/category/${hoveredCategory.slug}/${subItem?.slug}`
+                      window.open(
+                        `/category/${hoveredCategory.slug}/${subItem?.slug}`,
+                        '_blank'
                       )
                     }
                     className='capitalize hover:underline text-[16px] font-medium'

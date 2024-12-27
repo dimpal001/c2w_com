@@ -66,7 +66,7 @@ const ProductCard1 = ({ product }) => {
     <div className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'>
       {/* Product Image */}
       <div
-        onClick={() => router.push(`/product/${product?.slug}`)}
+        onClick={() => window.open(`/product/${product?.slug}`, '_blank')}
         className='h-[350px] max-sm:h-56 max-sm:w-full bg-stone-200 rounded-lg'
       >
         <img
@@ -80,7 +80,7 @@ const ProductCard1 = ({ product }) => {
       <div className='p-2 max-sm:p-[3px] relative'>
         {/* Title */}
         <h2
-          onClick={() => router.push(`/product/${product?.slug}`)}
+          onClick={() => window.open(`/product/${product?.slug}`, '_blank')}
           className='text-sm max-sm:text-[12px] hover:text-pink-600 hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'
         >
           {product.title.slice(0, 45)} ..{' '}
