@@ -44,7 +44,7 @@ const CategoryBar = () => {
       {/* Hovered Category Card */}
       {hoveredCategory && (
         <div
-          className='absolute z-10 w-full flex mx-auto top-[60px] min-h-[150px] bg-white shadow-md p-8'
+          className='absolute z-10 w-full flex mx-auto top-[58px] border-t border-pink-200 min-h-[150px] bg-white shadow-md p-8'
           onMouseEnter={() => setHoveredCategory(hoveredCategory)}
           onMouseLeave={handleMouseLeave}
         >

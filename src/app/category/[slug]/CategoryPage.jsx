@@ -150,15 +150,16 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
         <CategoryBar />
       </div>
 
-      {subCategories?.length > 0 && (
-        <SubCategoryBar
-          handleScroll={handleScroll}
-          scrollContainerRef={scrollContainerRef}
-          subCategories={subCategories}
-          slug={slug}
-          subCategorySlug={subCategorySlug}
-        />
-      )}
+      {subCategories?.length > 0 &&
+        subCategories?.filter((item) => item?.product)?.length > 0 && (
+          <SubCategoryBar
+            handleScroll={handleScroll}
+            scrollContainerRef={scrollContainerRef}
+            subCategories={subCategories}
+            slug={slug}
+            subCategorySlug={subCategorySlug}
+          />
+        )}
 
       <div className='p-3 flex md:gap-10 gap-2 items-start max-md:flex-col'>
         {/* Filter */}
