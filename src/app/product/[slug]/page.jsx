@@ -6,6 +6,7 @@ import axios from 'axios'
 import { api } from '@/app/Components/api'
 import Footer from '@/app/Components/Footer'
 import CategoryBar from '@/app/Components/CategoryBar'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 export async function generateMetadata({ params }) {
   const { slug } = await params
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }) {
     // Fetch the product data
     const response = await axios.get(`${api}/api/product?slug=${slug}`)
     const product = response.data
+    console.log(product)
 
     const keywords = product.tags
       ? product.tags.join(', ')
@@ -25,7 +27,10 @@ export async function generateMetadata({ params }) {
       name: product.title,
       description:
         product.summary || 'Discover the latest trends with Clothes2Wear.',
-      image: product.ogImage || '/default-image.jpg',
+      image:
+        product.ogImage ||
+        cdnPath + product.thumbnailUrl ||
+        '/default-image.jpg',
       brand: {
         '@type': 'Brand',
         name: 'Clothes2Wear',
@@ -50,7 +55,10 @@ export async function generateMetadata({ params }) {
           product.summary || 'Discover the latest trends with Clothes2Wear.',
         images: [
           {
-            url: product.ogImage || '/default-image.jpg',
+            url:
+              product.ogImage ||
+              cdnPath + product.thumbnailUrl ||
+              '/default-image.jpg',
             width: 1600,
             height: 1000,
             alt: product.title || 'Product Image',
@@ -66,7 +74,10 @@ export async function generateMetadata({ params }) {
         title: product.title,
         description:
           product.summary || 'Discover the latest trends with Clothes2Wear.',
-        image: product.ogImage || '/default-image.jpg',
+        image:
+          product.ogImage ||
+          cdnPath + product.thumbnailUrl ||
+          '/default-image.jpg',
       },
       structuredData: schemaData,
     }
