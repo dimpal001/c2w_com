@@ -8,6 +8,7 @@ import axios from 'axios'
 import UpdateProfileModal from './UpdateProfileModal'
 import ChangePasswordModal from './ChangePasswordModal'
 import { enqueueSnackbar } from 'notistack'
+import Notification from '../dashboard/Notification'
 
 export default function page() {
   const [showProfileModal, setShowProfileModal] = useState(false)
@@ -37,6 +38,9 @@ export default function page() {
     <div>
       <Layout hideSidebar={user?.role === 'STAFF' && true}>
         <div className='min-h-screen bg-gray-100 p-8'>
+          <div className='mb-5'>
+            <Notification />
+          </div>
           <div className='max-w-7xl mx-auto'>
             {/* Header */}
             <div className='mb-6'>

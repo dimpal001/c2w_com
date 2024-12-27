@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import Loading from '../components/Loading'
 import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
+import Notification from './Notification'
 
 const page = () => {
   const router = useRouter()
@@ -65,6 +66,9 @@ const page = () => {
   return (
     <div className='min-h-screen flex flex-col'>
       <Layout>
+        <div className='px-6 p-3'>
+          <Notification />
+        </div>
         {/* Dashboard Main Section */}
         <div className='flex flex-1 p-6'>
           {/* Main Content Area */}
