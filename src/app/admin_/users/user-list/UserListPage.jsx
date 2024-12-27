@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import axios from 'axios'
 import Loading from '../../components/Loading'
 import { enqueueSnackbar } from 'notistack'
@@ -30,8 +30,10 @@ import Layout from '../../components/Layout'
 import ErrorComponent from '../../components/ErrorComponent'
 
 const page = () => {
+  const searchParams = useSearchParams()
+  const role = searchParams.get('role')
   const [searchQuery, setSearchQuery] = useState('')
-  const [userRole, setUserRole] = useState('')
+  const [userRole, setUserRole] = useState(role || '')
   const [userList, setUserList] = useState([])
   const [fetching, setFetching] = useState(false)
   const [currentPage, setCurrentPage] = useState(null)
@@ -57,6 +59,7 @@ const page = () => {
   }, [searchQuery])
 
   const fetchUserList = async (page) => {
+    console.log(userRole)
     try {
       setFetching(true)
       const params = {
@@ -119,6 +122,7 @@ const page = () => {
   }
 
   useEffect(() => {
+    console.log(userRole)
     fetchUserList()
   }, [debouncedQuery, userRole])
 

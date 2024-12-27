@@ -98,7 +98,7 @@ const SimilarProruct = ({
         <div className='py-2'>
           <p>You can add upto 6 products.</p>
         </div>
-        <div className=' grid grid-cols-5 gap-2'>
+        <div className=' grid grid-cols-6 gap-2'>
           {formData.similarProducts.length > 0 &&
             formData.similarProducts.map((product) => (
               <SimilarProductCard
@@ -127,6 +127,7 @@ const SimilarProruct = ({
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <Select
+                    value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
                     name='category'
                   >
@@ -138,6 +139,7 @@ const SimilarProruct = ({
                     ))}
                   </Select>
                   <Select
+                    value={customerTypeId}
                     onChange={(e) => setCustomerTypeId(e.target.value)}
                     name='customerType'
                   >
@@ -149,6 +151,7 @@ const SimilarProruct = ({
                     ))}
                   </Select>
                   <Select
+                    value={color}
                     onChange={(e) => setColor(e.target.value)}
                     name='color'
                   >

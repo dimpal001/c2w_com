@@ -20,6 +20,7 @@ import TextArea from './TextArea'
 import Input from './Input'
 import SizeChartSection from './SizeChartSection'
 import CustomEditor from './CustomEditor'
+import InventorySection from './InventorySection'
 
 const ProductForm = ({
   formData,
@@ -29,14 +30,6 @@ const ProductForm = ({
   handleSetThumbnail,
   imageSetting,
 }) => {
-  const [inventory, setInventory] = useState({
-    size: { id: '', name: '' },
-    mrp: 0,
-    price: 0,
-    stock: 1,
-    discount: 0,
-    minQuantity: 1,
-  })
   const router = useRouter()
   const [images, setImages] = useState([])
   const [currentImage, setCurrentImage] = useState({
@@ -106,55 +99,11 @@ const ProductForm = ({
 
     const normalizedValue = name === 'isReturnable' ? value === 'true' : value
 
-    const normalizeNumber = (val) => (isNaN(val) ? val : String(Number(val)))
-
-    const calculateDiscountFromPrice = (mrp, price) => {
-      if (mrp && price) {
-        const discountPrice = (price / mrp) * 100
-
-        const roundedDiscount =
-          discountPrice % 1 >= 0.5
-            ? Math.ceil(discountPrice)
-            : Math.floor(discountPrice)
-
-        return 100 - roundedDiscount
-      }
-      return 0
-    }
-
     if (name === 'customerTypeId') {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }))
-    } else if (
-      ['size', 'mrp', 'price', 'discount', 'stock', 'minQuantity'].includes(
-        name
-      )
-    ) {
-      if (name === 'size') {
-        const selectedSize = sizes.find((size) => size.id === value)
-        setInventory((prev) => ({ ...prev, size: selectedSize }))
-      } else if (name === 'mrp') {
-        const updatedDiscount = calculateDiscountFromPrice(
-          value,
-          inventory.price
-        )
-        setInventory((prev) => ({
-          ...prev,
-          [name]: [value],
-          discount: updatedDiscount,
-        }))
-      } else if (name === 'price') {
-        const updatedDiscount = calculateDiscountFromPrice(inventory.mrp, value)
-        setInventory((prev) => ({
-          ...prev,
-          [name]: normalizeNumber(value),
-          discount: updatedDiscount,
-        }))
-      } else {
-        setInventory((prev) => ({ ...prev, [name]: normalizeNumber(value) }))
-      }
     } else if (name === 'color') {
       setCurrentImage((prev) => ({ ...prev, color: value }))
     } else {
@@ -180,62 +129,6 @@ const ProductForm = ({
           : prevProduct.subcategories,
       }
     })
-  }
-
-  const addInventory = () => {
-    if (inventory.size.name === '') {
-      enqueueSnackbar('Select a valid size', { variant: 'error' })
-      return
-    }
-
-    if (inventory.stock === 0) {
-      enqueueSnackbar('Enter a valid stock.', {
-        variant: 'error',
-      })
-      return
-    }
-
-    if (inventory.minQuantity === 0) {
-      enqueueSnackbar('Enter a valid minimum quantity.', {
-        variant: 'error',
-      })
-      return
-    }
-
-    if (inventory.mrp <= 0 || inventory.price <= 0 || inventory.stock < 0) {
-      enqueueSnackbar('MRP, Price, and Stock cannot be negative values.', {
-        variant: 'error',
-      })
-      return
-    }
-
-    const inventoryWithSizeId = {
-      ...inventory,
-      size: inventory.size,
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      inventory: [...prevData.inventory, inventoryWithSizeId],
-    }))
-
-    setInventory({
-      size: { id: '', name: '' },
-      mrp: 0,
-      price: 0,
-      stock: 1,
-      discount: 40,
-      minQuantity: 1,
-    })
-  }
-
-  const removeInventory = (indexToRemove) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      inventory: prevData.inventory.filter(
-        (_, index) => index !== indexToRemove
-      ),
-    }))
   }
 
   const handleFileChange = (blob, croppedImageUrl, name, imageAltText) => {
@@ -348,7 +241,6 @@ const ProductForm = ({
   }
 
   const handlEditSubmit = async () => {
-    console.log(formData)
     if (formData.title === '') {
       enqueueSnackbar('Add the title', { variant: 'error' })
       return
@@ -407,11 +299,10 @@ const ProductForm = ({
         await deleteImageFromCDN(image)
       })
     )
-    // if (formData) return null
+
     try {
       setSaving(true)
 
-      // Upload new images
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
           const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
@@ -450,7 +341,6 @@ const ProductForm = ({
     if (e.key === 'Enter' && tagInputValue.trim() !== '') {
       const newTag = tagInputValue.toLowerCase()
 
-      // Update the formData.tags array
       setFormData((prevFormData) => ({
         ...prevFormData,
         tags: [...(prevFormData.tags || []), newTag],
@@ -482,7 +372,6 @@ const ProductForm = ({
         ),
       }))
     } else {
-      // Select subcategory
       setFormData((prev) => ({
         ...prev,
         subcategories: [...prev.subcategories, subcategory],
@@ -648,131 +537,11 @@ const ProductForm = ({
 
       <Devider />
 
-      <div className='rounded-sm p-5 bg-stone-300'>
-        <div className='mb-3'>
-          {formData.inventory.length > 0 && (
-            <table className='w-full border-collapse shadow-lg'>
-              <thead>
-                <tr className='bg-blue-800 text-white'>
-                  <th className='p-2 border border-gray-300'>SL</th>
-                  <th className='p-2 border border-gray-300'>Size</th>
-                  <th className='p-2 border border-gray-300'>MRP</th>
-                  <th className='p-2 border border-gray-300'>Price</th>
-                  <th className='p-2 border border-gray-300'>Stock</th>
-                  <th className='p-2 border border-gray-300 w-40'>
-                    Minimum Quantity
-                  </th>
-                  <th className='p-2 border border-gray-300'>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {formData.inventory.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={`${
-                      index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
-                    }`}
-                  >
-                    <td className='p-2 border text-center uppercase border-gray-300'>
-                      {index + 1}
-                    </td>
-                    <td className='p-2 border text-center uppercase border-gray-300'>
-                      {item?.size?.name
-                        ? item?.size?.name
-                        : sizes.find((size) => size.id === item.size)?.name}
-                    </td>
-                    <td className='p-2 border text-center border-gray-300'>
-                      {parseInt(item?.mrp)?.toFixed(2)}
-                    </td>
-                    <td className='p-2 border text-center border-gray-300'>
-                      {parseInt(item?.price)}
-                    </td>
-                    <td className='p-2 border text-center border-gray-300'>
-                      {item?.stock}
-                    </td>
-                    <td className='p-2 border text-center border-gray-300'>
-                      {item?.minQuantity}
-                    </td>
-                    <td className={`p-2 border border-gray-300 text-center`}>
-                      <div className='flex justify-center items-center gap-3'>
-                        <X
-                          onClick={() => removeInventory(index)}
-                          className='text-red-600 cursor-pointer'
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-        <Section className={'grid grid-cols-4'}>
-          <Select
-            label='Select size'
-            name='size'
-            value={inventory.size.id}
-            onChange={handleChange}
-          >
-            <option value=''>Select size</option>
-            {sizes.map((size) => (
-              <option key={size.id} value={size.id}>
-                {uppercaseText(size.name)}
-              </option>
-            ))}
-          </Select>
-          <Input
-            label='Enter MRP'
-            type='number'
-            placeholder='Enter MRP'
-            name='mrp'
-            value={inventory.mrp}
-            onChange={handleChange}
-          />
-          <Input
-            label='Enter Price'
-            type='number'
-            placeholder='Enter Price'
-            name='price'
-            value={inventory.price}
-            onChange={handleChange}
-          />
-          <Input
-            label='Enter Discount Price (%)'
-            type='number'
-            placeholder='Discount'
-            name='discount'
-            value={inventory.discount}
-            disabled={true}
-            onChange={handleChange}
-          />
-          <Input
-            label='Enter Stock'
-            type='number'
-            placeholder='Enter Stock'
-            name='stock'
-            value={inventory.stock}
-            onChange={handleChange}
-          />
-          <Input
-            label='Enter Minimum Qiantity'
-            type='number'
-            placeholder='Enter number'
-            name='minQuantity'
-            value={inventory.minQuantity}
-            onChange={handleChange}
-          />
-          <div className='flex items-center'>
-            <button
-              onClick={addInventory}
-              className='p-[7px] px-5 bg-blue-800 rounded-sm text-white'
-            >
-              Add
-            </button>
-            {/* <Button label='Add' onClick={addInventory} /> */}
-          </div>
-        </Section>
-      </div>
+      <InventorySection
+        formData={formData}
+        setFormData={setFormData}
+        sizes={sizes}
+      />
 
       <Devider />
 

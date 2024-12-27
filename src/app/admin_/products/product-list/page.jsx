@@ -244,6 +244,7 @@ const page = () => {
             />
 
             <Select
+              value={categoryId}
               className={'w-full'}
               onChange={(e) => setCategoryId(e.target.value)}
               name='category'
@@ -257,6 +258,7 @@ const page = () => {
             </Select>
 
             <Select
+              value={subCategoryId}
               className={'w-full'}
               onChange={(e) => setSubCategoryId(e.target.value)}
               name='subcategories'
@@ -271,6 +273,7 @@ const page = () => {
             </Select>
 
             <Select
+              value={color}
               className={'w-full'}
               onChange={(e) => setColor(e.target.value)}
               name='color'

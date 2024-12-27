@@ -103,7 +103,9 @@ const page = () => {
                 </div>
               </div>
               <div
-                onClick={() => router.push('/admin_/users/user-list')}
+                onClick={() =>
+                  router.push('/admin_/users/user-list?role=BUYER')
+                }
                 className='bg-blue-50 p-6 group cursor-pointer rounded-xl shadow-md text-blue-800 flex items-center space-x-4'
               >
                 <Users size={32} />

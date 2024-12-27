@@ -461,19 +461,22 @@ const ProductDetailsPage = ({ params }) => {
                     <table className='w-full'>
                       <thead>
                         <tr className='p-2 bg-blue-800 border border-blue-800 text-white'>
-                          <th className='p-2 text-left border-r border-white'>
+                          <th className='p-2 text-center border-r border-white'>
                             Size
                           </th>
-                          <th className='p-2 text-left border-r border-white'>
+                          <th className='p-2 text-center border-r border-white'>
                             MRP
                           </th>
-                          <th className='p-2 text-left border-r border-white'>
+                          <th className='p-2 text-center border-r border-white'>
                             Price
                           </th>
-                          <th className='p-2 text-left border-r border-white'>
+                          <th className='p-2 text-center border-r border-white'>
+                            Discount
+                          </th>
+                          <th className='p-2 text-center border-r border-white'>
                             Stock
                           </th>
-                          <th className='p-2 text-left border-r border-white w-40'>
+                          <th className='p-2 text-center border-r border-white w-40'>
                             Minimum Quantity
                           </th>
                         </tr>
@@ -481,20 +484,23 @@ const ProductDetailsPage = ({ params }) => {
                       <tbody>
                         {productDetails.inventory.map((item, index) => (
                           <tr key={index}>
-                            <td className='text-left p-3 uppercase border'>
+                            <td className='text-center p-3 uppercase border'>
                               {item?.size?.name}
                             </td>
-                            <td className='text-left p-3 border'>
-                              ₹{item.mrp.toFixed(2)}
+                            <td className='text-center p-3 border'>
+                              ₹{item?.mrp?.toFixed(2)}
                             </td>
-                            <td className='text-left p-3 border'>
-                              ₹{item.price.toFixed(2)}
+                            <td className='text-center p-3 border'>
+                              ₹{item?.price?.toFixed(2)}
                             </td>
-                            <td className='text-left p-3 border'>
-                              {item.stock}
+                            <td className='text-center p-3 border'>
+                              {item?.discount}%
                             </td>
-                            <td className='text-left p-3 border'>
-                              {item.minQuantity}
+                            <td className='text-center p-3 border'>
+                              {item?.stock}
+                            </td>
+                            <td className='text-center p-3 border'>
+                              {item?.minQuantity}
                             </td>
                           </tr>
                         ))}
