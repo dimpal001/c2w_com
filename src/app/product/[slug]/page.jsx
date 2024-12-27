@@ -15,7 +15,6 @@ export async function generateMetadata({ params }) {
     // Fetch the product data
     const response = await axios.get(`${api}/api/product?slug=${slug}`)
     const product = response.data
-    console.log(product)
 
     const keywords = product.tags
       ? product.tags.join(', ')

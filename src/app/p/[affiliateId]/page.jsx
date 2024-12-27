@@ -4,15 +4,14 @@ import Header from '@/app/Components/Header'
 import axios from 'axios'
 import { api } from '@/app/Components/api'
 import ProductPage from '@/app/product/[slug]/ProductPage'
+import { cdnPath } from '@/app/Components/cdnPath'
 
 export async function generateMetadata({ params }) {
-  const { affiliateId } = await params
+  const { slug } = await params
 
   try {
     // Fetch the product data
-    const response = await axios.get(
-      `${api}/api/product/affiliateId?affiliateId=${affiliateId}`
-    )
+    const response = await axios.get(`${api}/api/product?slug=${slug}`)
     const product = response.data
 
     const keywords = product.tags
@@ -25,7 +24,10 @@ export async function generateMetadata({ params }) {
       name: product.title,
       description:
         product.summary || 'Discover the latest trends with Clothes2Wear.',
-      image: product.ogImage || '/default-image.jpg',
+      image:
+        product.ogImage ||
+        cdnPath + product.thumbnailUrl ||
+        '/default-image.jpg',
       brand: {
         '@type': 'Brand',
         name: 'Clothes2Wear',
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }) {
         priceCurrency: 'INR',
         price: product.price || '0.00',
         availability: 'https://schema.org',
-        url: `${api}/product/${affiliateId}`,
+        url: `${api}/product/${slug}`,
       },
     }
 
@@ -50,13 +52,16 @@ export async function generateMetadata({ params }) {
           product.summary || 'Discover the latest trends with Clothes2Wear.',
         images: [
           {
-            url: product.ogImage || '/default-image.jpg',
+            url:
+              product.ogImage ||
+              cdnPath + product.thumbnailUrl ||
+              '/default-image.jpg',
             width: 1600,
             height: 1000,
             alt: product.title || 'Product Image',
           },
         ],
-        url: `${api}/product/${affiliateId}`,
+        url: `${api}/product/${slug}`,
         type: 'website',
         site_name: 'Clothes2Wear',
         locale: 'en_US',
@@ -66,7 +71,10 @@ export async function generateMetadata({ params }) {
         title: product.title,
         description:
           product.summary || 'Discover the latest trends with Clothes2Wear.',
-        image: product.ogImage || '/default-image.jpg',
+        image:
+          product.ogImage ||
+          cdnPath + product.thumbnailUrl ||
+          '/default-image.jpg',
       },
       structuredData: schemaData,
     }
@@ -86,7 +94,7 @@ export async function generateMetadata({ params }) {
             alt: 'Product Image',
           },
         ],
-        url: `${api}/product/${affiliateId}`,
+        url: `${api}/product/${slug}`,
         type: 'website',
         site_name: 'Clothes2Wear',
         locale: 'en_US',
