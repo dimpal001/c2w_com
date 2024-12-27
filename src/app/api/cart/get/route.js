@@ -29,6 +29,7 @@ export async function GET(request) {
       },
       include: {
         product: true,
+        color: true,
       },
     })
 

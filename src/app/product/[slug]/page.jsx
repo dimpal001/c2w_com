@@ -119,12 +119,14 @@ const Page = async ({ params }) => {
     )
   } catch {
     return (
-      <div>
-        <div className='w-screen h-screen flex justify-center flex-col items-center gap-3'>
-          <p>
-            Failed to load data. <strong>Please try again later</strong>.
+      <div className='w-screen bg-gradient-to-br from-green-400 to-blue-500 via-indigo-600 text-white flex justify-center items-center h-screen'>
+        <p className='text-3xl font-semibold animate__animated animate__flip animate__slow'>
+          Hello, world 👋 <br />
+          <p className='text-lg py-3'>
+            Something went wrong <br />
+            Please try again later
           </p>
-        </div>
+        </p>
       </div>
     )
   }

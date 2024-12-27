@@ -246,6 +246,7 @@ model ProductColor {
   slug      String         @unique
   images    ProductImage[]
   OrderItem OrderItem[]
+  CartItem  CartItem[]
 }
 
 model ProductFabric {
@@ -317,13 +318,14 @@ model CartItem {
   userId    String
   productId String
   sizeId    String?
-  colorId   String?  @default("")
+  colorId   String?
   quantity  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User          @relation(fields: [userId], references: [id])
+  product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color   ProductColor? @relation(fields: [colorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 }
 
 model WishlistItem {
@@ -372,7 +374,7 @@ model OrderItem {
   order         OrderDetails    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product       Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   size          ProductSize?    @relation(fields: [sizeId], references: [id], onDelete: SetNull)
-  color         ProductColor?   @relation(fields: [colorId], references: [id], onDelete: SetNull)
+  color         ProductColor?   @relation(fields: [colorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   returnRequest ReturnRequest[]
 }
 

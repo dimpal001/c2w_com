@@ -11,18 +11,10 @@ import {
 } from '@nextui-org/dropdown'
 import axios from 'axios'
 /* eslint-disable react/prop-types */
-import {
-  ArrowRight,
-  Forward,
-  Heart,
-  Link,
-  Loader2,
-  Minus,
-  Plus,
-} from 'lucide-react'
+import { Forward, Heart, Link, Loader2, Minus, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductInfo from './ProductInfo'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
@@ -69,8 +61,9 @@ const faqs = `<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
 
 const DisplayPorductSection = ({ product }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(product?.thumbnailUrl || '')
-  // const [selectedSize, setSelectedSize] = useState(product?.inventory[0].sizeId)
-  // const [selectedColor, setSelectedColor] = useState(product?.images[0].colorId)
+  const [selectedColor, setSelectedColor] = useState(
+    product?.images[0].colorId || ''
+  )
   const [selectedQuantity, setSelectedQuantity] = useState(
     product?.inventory[0].minQuantity
   )
@@ -96,6 +89,7 @@ const DisplayPorductSection = ({ product }) => {
         quantity: selectedQuantity,
         price: totalPrice,
         sizeId: selectedSizeId,
+        colorId: selectedColor,
       },
     ]
 
@@ -129,6 +123,7 @@ const DisplayPorductSection = ({ product }) => {
         userId: user?.id,
         productId: product.id,
         quantity: parseInt(product.inventory[0].minQuantity),
+        colorId: selectedColor,
       })
       const newCartItem = {
         ...response.data.cartItem,
@@ -199,6 +194,11 @@ const DisplayPorductSection = ({ product }) => {
     }
   }
 
+  useEffect(() => {
+    console.log(selectedColor)
+    console.log(product?.images)
+  }, [])
+
   return (
     <div className='flex max-sm:flex-col gap-3 lg:gap-8'>
       {/* Image Section  */}
@@ -228,13 +228,20 @@ const DisplayPorductSection = ({ product }) => {
                 const selectedImage = product.images.find(
                   (item) => item.color.code === color
                 )
+                setSelectedColor(selectedImage?.colorId)
                 setThumbnailUrl(selectedImage?.imageUrl)
               }}
               key={index}
               style={{
                 background: `${color}`,
               }}
-              className='rounded-lg w-11 h-11 border-2 cursor-pointer'
+              className={`rounded-lg ${
+                selectedColor ===
+                product?.images.find((item) => item.color.code === color)
+                  .colorId
+                  ? 'ring-2 ring-black'
+                  : 'ring-0'
+              } w-11 h-11 cursor-pointer`}
             ></span>
           ))}
       </div>
@@ -291,13 +298,20 @@ const DisplayPorductSection = ({ product }) => {
                   const selectedImage = product.images.find(
                     (item) => item.color.code === color
                   )
+                  setSelectedColor(selectedImage?.colorId)
                   setThumbnailUrl(selectedImage?.imageUrl)
                 }}
                 key={index}
                 style={{
                   background: `${color}`,
                 }}
-                className='rounded-lg w-11 h-11 border-2 cursor-pointer'
+                className={`rounded-lg ${
+                  selectedColor ===
+                  product?.images.find((item) => item.color.code === color)
+                    .colorId
+                    ? 'ring-2 ring-black'
+                    : 'ring-0'
+                } w-11 h-11 cursor-pointer`}
               ></span>
             ))}
         </div>
@@ -308,14 +322,14 @@ const DisplayPorductSection = ({ product }) => {
             className={` p-2 rounded-lg max-sm:px-3 max-sm:p-1 px-4 bg-pink-200`}
           >
             {addingWishList ? (
-              <Loader2 className='text-pink-600 w-16 h-16 max-sm:w-8 max-sm:h-8 animate-spin' />
+              <Loader2 className='text-pink-600 w-10 h-10 max-sm:w-8 max-sm:h-8 animate-spin' />
             ) : (
               <Heart
                 onClick={handleAddWishList}
                 className={`text-pink-500 fill-white cursor-pointer ${
                   user?.wishlistItem?.some(
                     (item) => item.productId === product.id
-                  ) && 'fill-pink-500 h-16 w-16 max-sm:w-8 max-sm:h-8'
+                  ) && 'fill-pink-500 h-10 w-10 max-sm:w-8 max-sm:h-8'
                 }`}
               />
             )}
@@ -323,7 +337,7 @@ const DisplayPorductSection = ({ product }) => {
           <Dropdown>
             <DropdownTrigger>
               <button className='p-2 px-4 max-sm:p-1 bg-pink-200 rounded-lg'>
-                <Forward className='text-pink-500 cursor-pointer w-16 h-16 max-sm:w-7 max-sm:h-7' />
+                <Forward className='text-pink-500 cursor-pointer w-8 h-8 max-sm:w-7 max-sm:h-7' />
               </button>
             </DropdownTrigger>
             <DropdownMenu className='p-3' aria-label='Static Actions'>
@@ -369,9 +383,6 @@ const DisplayPorductSection = ({ product }) => {
             ) : (
               <div className='flex justify-center items-center gap-5'>
                 buy now
-                <div className='bg-white max-sm:hidden px-3 py-1 rounded-lg'>
-                  <ArrowRight className='rounded-lg text-pink-600' />
-                </div>
               </div>
             )}
           </button>

@@ -27,6 +27,7 @@ export async function GET(request) {
           select: {
             imageUrl: true,
             color: true,
+            colorId: true,
           },
         },
         similarProducts: true,
@@ -105,7 +106,8 @@ export async function GET(request) {
     }
 
     return NextResponse.json(product)
-  } catch {
+  } catch (error) {
+    console.log(error.message)
     return NextResponse.json(
       { message: 'Something went wrong, please try again.' },
       { status: 500 }

@@ -17,7 +17,7 @@ const OrderPlacedModal = ({ isOpen }) => {
           />
 
           {/* Add a success message */}
-          <h2 className='text-xl font-semibold text-green-600 mb-2'>
+          <h2 className='text-xl font-semibold max-sm:text-lg text-green-600 mb-2'>
             Order Placed Successfully!
           </h2>
 

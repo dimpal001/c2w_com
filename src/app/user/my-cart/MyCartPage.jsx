@@ -222,6 +222,8 @@ const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
 
   const router = useRouter()
 
+  console.log(item.color.name)
+
   useEffect(() => {
     updateProduct({
       ...item,
@@ -286,7 +288,7 @@ const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
           <p className='text-sm text-gray-500'>
             Price: ₹{selectedInventory.price}
           </p>
-          <div className='mt-2'>
+          <div className='mt-2 flex items-center gap-3'>
             <select
               value={selectedInventory.size.id}
               onChange={(e) => handleChangeInventory(e.target.value)}
@@ -298,6 +300,19 @@ const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
                 </option>
               ))}
             </select>
+            {item.color.name && (
+              <div className='flex items-center gap-2'>
+                <span
+                  className='w-9 h-9 rounded-md'
+                  style={{
+                    backgroundColor: item.color.code,
+                  }}
+                ></span>
+                <span className='text-xs text-neutral-600'>
+                  {item?.color.name}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -42,6 +42,7 @@ export async function GET(request) {
               id: true,
               quantity: true,
               updatedAt: true,
+              color: true,
               product: {
                 select: {
                   id: true,

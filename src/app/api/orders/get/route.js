@@ -32,7 +32,7 @@ export async function GET(request) {
       order = await prisma.orderDetails.findUnique({
         where: { orderId: id },
         include: {
-          orderItems: { include: { product: true, size: true } },
+          orderItems: { include: { product: true, size: true, color: true } },
           paymentDetails: true,
           discount: true,
         },

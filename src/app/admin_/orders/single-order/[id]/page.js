@@ -196,21 +196,34 @@ const page = ({ params }) => {
                   key={index}
                   className='grid grid-cols-5 items-center gap-3 p-2 bg-white rounded-sm'
                 >
-                  <Image
-                    src={cdnPath + item.product.thumbnailUrl}
-                    width={32}
-                    height={40}
-                    alt='Image'
-                  />
-                  <p>{item.product.title}</p>
+                  <div className='flex items-center gap-3'>
+                    <Image
+                      src={cdnPath + item.product.thumbnailUrl}
+                      width={40}
+                      height={162}
+                      alt='Image'
+                    />
+                    <p>{item.product.title}</p>
+                  </div>
                   <p>
                     <span className='text-neutral-500'>Quantity :</span>{' '}
                     {item.quantity}
                   </p>
                   <p>
-                    <span className='text-neutral-500'>Price :</span>{' '}
-                    {item?.product.displayPrice}
+                    <span className='text-neutral-500'>Price :</span> ₹
+                    {parseInt(item?.price).toFixed(2)}
                   </p>
+                  <div className='flex items-center gap-2'>
+                    <span
+                      style={{
+                        backgroundColor: item?.color?.code,
+                      }}
+                      className='w-8 h-8 rounded-lg'
+                    ></span>
+                    <span className='text-neutral-600'>
+                      {item?.color?.name}
+                    </span>
+                  </div>
                   <Button
                     onClick={() =>
                       router.push(

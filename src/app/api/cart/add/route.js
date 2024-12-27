@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export async function POST(request) {
-  const { userId, productId, quantity } = await request.json()
+  const { userId, productId, quantity, colorId } = await request.json()
 
   if (!userId || !productId || quantity < 1) {
     return NextResponse.json(
@@ -25,7 +25,7 @@ export async function POST(request) {
       )
     } else {
       const cartItem = await prisma.cartItem.create({
-        data: { userId, productId, quantity },
+        data: { userId, productId, quantity, colorId },
       })
       return NextResponse.json(
         { cartItem, message: 'Item has been added' },

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import { ArrowRight, Heart, Loader2 } from 'lucide-react'
+import { Heart, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { cdnPath } from './cdnPath'
 import { useUserContext } from '../context/UserContext'
@@ -77,38 +77,40 @@ const ProductCard1 = ({ product }) => {
       </div>
 
       {/* Product Details */}
-      <div className='p-2 max-sm:p-2 relative'>
+      <div className='p-2 max-sm:p-[3px] relative'>
         {/* Title */}
         <h2
           onClick={() => router.push(`/product/${product?.slug}`)}
-          className='text-sm hover:text-pink-600 hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'
+          className='text-sm max-sm:text-[12px] hover:text-pink-600 hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'
         >
-          {product.title}
+          {product.title.slice(0, 45)} ..{' '}
         </h2>
 
-        {/* Price */}
-        <p className='text-lg font-bold text-slate-950 mt-2'>
-          ₹{product.displayPrice}
-        </p>
+        <div className='flex justify-between items-center mt-2'>
+          {/* Price */}
+          <div className='flex flex-row-reverse gap-1 items-center'>
+            <p className='text-base lg:text-lg font-bold text-slate-950'>
+              ₹{product.displayPrice}
+            </p>
+            <strike className='text-sm font-bold text-neutral-500'>
+              ₹{product?.inventory[0]?.mrp}
+            </strike>
+          </div>
 
-        {/* Arrow Icon */}
-        <div className='absolute bottom-2 gap-4 right-4 flex items-end'>
-          <div className='flex justify-end'>
+          <div className='flex'>
             {addingWishList ? (
               <Loader2 size={27} className='text-pink-600 animate-spin' />
             ) : (
               <Heart
                 onClick={handleAddWishList}
-                className={`text-pink-500 cursor-pointer ${
+                className={`text-pink-500 w-7 max-sm:w-6 h-7 max-sm:h-6 cursor-pointer ${
                   user?.wishlistItem?.some(
                     (item) => item.productId === product.id
                   ) && 'fill-pink-500'
                 }`}
-                size={27}
               />
             )}
           </div>
-          <ArrowRight strokeWidth={3} className='h-7 text-gray-700' />
         </div>
       </div>
 
