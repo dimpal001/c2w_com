@@ -10,7 +10,6 @@ export const metadata = {
   keywords:
     'Clothes2Wear community, fashion community, style tips, fashion trends, fashion enthusiasts, online fashion group, Clothes2Wear events',
   author: 'Clothes2Wear',
-  viewport: 'width=device-width, initial-scale=1.0',
   robots: 'index, follow',
   charset: 'UTF-8',
 }

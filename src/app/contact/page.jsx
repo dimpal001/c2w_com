@@ -10,7 +10,6 @@ export const metadata = {
   keywords:
     'Contact Clothes2Wear, customer support, fashion inquiries, online shopping help, feedback, Clothes2Wear contact details',
   author: 'Clothes2Wear',
-  viewport: 'width=device-width, initial-scale=1.0',
   robots: 'index, follow',
   charset: 'UTF-8',
 }

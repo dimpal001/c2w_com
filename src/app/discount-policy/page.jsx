@@ -10,7 +10,6 @@ export const metadata = {
   keywords:
     'discount policy, Clothes2Wear discounts, shopping offers, discount terms, promotional offers, eligibility criteria',
   author: 'Clothes2Wear',
-  viewport: 'width=device-width, initial-scale=1.0',
   robots: 'index, follow',
   charset: 'UTF-8',
 }

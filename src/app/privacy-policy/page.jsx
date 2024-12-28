@@ -10,7 +10,6 @@ export const metadata = {
   keywords:
     'privacy policy, Clothes2Wear privacy, data protection, personal information, user privacy, secure shopping',
   author: 'Clothes2Wear',
-  viewport: 'width=device-width, initial-scale=1.0',
   robots: 'index, follow',
   charset: 'UTF-8',
 }

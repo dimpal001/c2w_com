@@ -35,7 +35,6 @@ export const metadata = {
   robots: 'index, follow',
   author: 'Clothes2Wear',
   language: 'en',
-  viewport: 'width=device-width, initial-scale=1',
   structuredData: schemaData,
 
   openGraph: {

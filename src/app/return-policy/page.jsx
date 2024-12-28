@@ -10,7 +10,6 @@ export const metadata = {
   keywords:
     'return policy, Clothes2Wear returns, product returns, return process, return conditions, online shopping returns',
   author: 'Clothes2Wear',
-  viewport: 'width=device-width, initial-scale=1.0',
   robots: 'index, follow',
   charset: 'UTF-8',
 }
