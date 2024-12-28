@@ -23,7 +23,13 @@ export async function GET(request) {
           },
         },
         productReview: true,
-        images: true,
+        images: {
+          select: {
+            imageUrl: true,
+            color: true,
+            colorId: true,
+          },
+        },
         similarProducts: true,
         similarTo: true,
         discounts: true,

@@ -135,7 +135,7 @@ const ProductCard1 = ({ product }) => {
             ))}
       </div>
       <div className='h-[80%] z-10 flex flex-col rounded-2xl justify-end max-sm:p-5 p-8 gap-1 absolute self-end inset-0 bg-gradient-to-t from-25% from-black to-transparent'>
-        <p className='text-2xl max-sm:text-xl font-bold text-white'>
+        <p className='text-2xl max-sm:text-lg font-bold text-white'>
           {product.title.slice(0, 50)}
         </p>
         <div className='text-sm max-sm:text-xs text-white'>
@@ -164,8 +164,10 @@ const ProductCard2 = ({ product }) => {
       />
       <div className='absolute rounded-2xl inset-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>
         <div className='flex flex-col w-full h-full justify-end p-5 max-sm:p-3 text-white'>
-          <p className='text-xs'>{product?.categoryHyperLink}</p>
-          <strike className='text-center'>₹{product?.mrp}/-</strike>
+          <p className='text-xs'>{product?.categoryHyperLink.slice(0, 50)}</p>
+          <strike className='text-center text-neutral-400'>
+            ₹{product?.mrp}/-
+          </strike>
           <p className='font-bold text-xl text-end'>₹{product?.price}/-</p>
         </div>
       </div>

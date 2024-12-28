@@ -42,7 +42,7 @@ const FashionWeekSection = () => {
 
 const ImageWeekSection = ({ products }) => {
   return (
-    <div className='grid grid-cols-3 max-sm:grid-cols-1 py-12 max-sm:py-5'>
+    <div className='grid grid-cols-3 max-sm:grid-cols-1 py-12 max-sm:py-1'>
       {/* First part  */}
       <Link href={products[0]?.hyperLink || '#'}>
         <div className='flex max-sm:flex-col'>
