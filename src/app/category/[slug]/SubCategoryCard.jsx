@@ -10,7 +10,7 @@ const SubCategoryCard = ({ subCategory, onClick, subCategorySlug }) => {
     >
       <img
         src={cdnPath + subCategory?.imageUrl}
-        className='border-2 md:border-3 border-pink-600 object-cover rounded-full w-[120px] max-sm:w-[90px] h-[120px] max-sm:h-[90px] max-sm:min-w-[90px] '
+        className='border-2 md:border-3 border-pink-600 object-cover rounded-full w-[120px] max-w-[120px] max-sm:w-[90px] max-sm:max-w-[90px] max-sm:max-h-[90px] h-[120px] max-h-[120px] max-sm:h-[90px] max-sm:min-w-[90px] '
         alt={subCategory?.product?.title}
       />
       <p

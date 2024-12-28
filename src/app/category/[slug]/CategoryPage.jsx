@@ -59,27 +59,26 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
   }, [categories, slug])
 
   useEffect(() => {
-    fetchFilterData(1)
+    if (searchQuery) {
+      fetchFilterData(1)
+    }
   }, [searchQuery])
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition =
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.scrollHeight
+    fetchFilterData(currentPage)
+    const newPage = currentPage + 1
+    setCurrentPage(newPage)
+  }, [])
 
-      if (scrollPosition && !loadingMore && hasMoreProducts) {
-        setCurrentPage(currentPage + 1)
-        fetchFilterData(currentPage + 1)
-      }
+  useEffect(() => {
+    if (hasMoreProducts) {
+      setTimeout(() => {
+        fetchFilterData(currentPage)
+        const newPage = currentPage + 1
+        setCurrentPage(newPage)
+      }, 2000)
     }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [currentPage, loadingMore, hasMoreProducts])
+  }, [currentPage])
 
   const fetchFilterData = async (page = 1) => {
     const storedColors =
@@ -117,7 +116,7 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
       )
 
       setHasMoreProducts(
-        response.data.totalProducts > products.length ? true : false
+        response.data.totalProducts === products.length ? false : true
       )
 
       if (response.data.products.length === 0) {
