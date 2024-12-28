@@ -49,7 +49,9 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${buttonClass} ${loadingClass} flex items-center justify-center`}
+      className={`${buttonClass} ${loadingClass} ${
+        disabled && 'opacity-60'
+      } flex items-center justify-center`}
       disabled={disabled ? disabled : loading}
     >
       {loading ? (

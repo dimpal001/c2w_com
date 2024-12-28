@@ -79,6 +79,7 @@ export async function GET(request) {
 
 // Delete a Newsletter
 export async function DELETE(request) {
+  const { searchParams } = new URL(request.url)
   if (!isAdmin(request)) {
     return NextResponse.json(
       { message: 'Unauthorised access!' },
@@ -86,7 +87,7 @@ export async function DELETE(request) {
     )
   }
 
-  const { id } = await request.json()
+  const id = searchParams.get('id')
 
   if (!id) {
     return NextResponse.json({ message: 'ID is required!' }, { status: 400 })
@@ -94,7 +95,12 @@ export async function DELETE(request) {
 
   try {
     await prisma.newsletter.delete({ where: { id } })
-  } catch {
+    return NextResponse.json(
+      { message: 'Newsletter has been deleted' },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.log(error.message)
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

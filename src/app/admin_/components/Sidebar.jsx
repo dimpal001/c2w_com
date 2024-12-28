@@ -9,6 +9,7 @@ import {
   Globe,
   Home,
   ImagePlay,
+  Mail,
   PartyPopper,
   Quote,
   ScrollText,
@@ -90,6 +91,11 @@ const Sidebar = ({ isExpanded }) => {
       label: 'Vides',
       icon: FileVideo2,
       path: '/admin_/vides',
+    },
+    {
+      label: 'Newsletter',
+      icon: Mail,
+      path: '/admin_/newsletter',
     },
   ]
 

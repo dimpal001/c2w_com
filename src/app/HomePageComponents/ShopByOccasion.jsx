@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 import RightArrowIcon from './RightArrowIcon'
 import { ArrowRight } from 'lucide-react'
 import 'animate.css'
-import { SlideItem, Slider } from './Slider'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
 import axios from 'axios'
@@ -48,26 +47,11 @@ const ShopByOccasion = () => {
         </div>
       </div>
 
-      <div className='w-full shadow-md shadow-zinc-500'>
-        <Slider slideInterval={6000} showIndicators={false} showArrows={false}>
-          {occasions.map((occasion, index) => (
-            <SlideItem key={index}>
-              <Occasion occasion={occasion} index={index} />
-            </SlideItem>
+      <div className='w-full h-full shadow-md shadow-zinc-500'>
+        {occasions.length > 0 &&
+          occasions.map((occasion, index) => (
+            <Occasion key={index} occasion={occasion} index={index} />
           ))}
-        </Slider>
-        <Slider
-          slideInterval={8000}
-          slideDirection={'slideRight'}
-          showIndicators={false}
-          showArrows={false}
-        >
-          {occasions.map((occasion, index) => (
-            <SlideItem key={index}>
-              <Occasion occasion={occasion} index={index} />
-            </SlideItem>
-          ))}
-        </Slider>
       </div>
 
       {occasions.length === 0 && <Skeleton className={'w-full h-[350px]'} />}
@@ -82,10 +66,10 @@ const Occasion = ({ occasion, index }) => {
         index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
       }`}
     >
-      {occasion.products.map((item, index) => (
+      {occasion.products.slice(0, 5).map((item, index) => (
         <Card key={index} product={item} />
       ))}
-      <div className='md:w-[232px] max-sm:w-[131px] max-sm:h-[147px] md:h-[284px] p-6 flex flex-col justify-center items-start'>
+      <div className='md:w-[232px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] p-6 flex flex-col justify-center items-start'>
         <p className='font-extrabold inter max-sm:leading-5 max-sm:text-lg text-4xl'>
           {occasion.occasionName}
         </p>
@@ -103,11 +87,11 @@ const Card = ({ product }) => {
       rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
-      className='md:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] md:h-[284px]'
+      className='md:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px]'
     >
       <img
         src={cdnPath + product.imageUrl}
-        className='md:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[147px] md:h-[284px] object-cover'
+        className='md:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] object-cover'
         alt={product?.title || 'clothes2wear'}
       />
     </a>

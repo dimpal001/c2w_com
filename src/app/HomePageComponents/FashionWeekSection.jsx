@@ -32,9 +32,9 @@ const FashionWeekSection = () => {
 
   return (
     <div className='container mx-auto pb-10'>
-      <ProductWeekSection products={products} />
+      <ProductWeekSection products={products} start={0} end={4} />
       <ImageWeekSection products={images} />
-      <ProductWeekSection products={products} />
+      <ProductWeekSection products={products} start={5} end={9} />
       {products.length === 0 && <Skeleton className={'w-full h-[450px]'} />}
     </div>
   )
@@ -89,18 +89,7 @@ const ImageWeekSection = ({ products }) => {
       <div className='flex flex-wrap max-sm:grid grid-cols-2'>
         {products?.length > 0 &&
           products
-            ?.slice(0, 3)
-            .map((image, index) => (
-              <img
-                src={cdnPath + image.imageUrl}
-                className='object-cover md:w-[166px] md:h-[201px]'
-                key={index}
-                alt='clothes2wear'
-              />
-            ))}
-        {products?.length > 0 &&
-          products
-            ?.slice(0, 1)
+            ?.slice(3, 9)
             .map((image, index) => (
               <img
                 src={cdnPath + image.imageUrl}
@@ -114,11 +103,11 @@ const ImageWeekSection = ({ products }) => {
   )
 }
 
-const ProductWeekSection = ({ products }) => {
+const ProductWeekSection = ({ products, start, end }) => {
   return (
     <div className='grid grid-cols-4 gap-3 max-sm:grid-cols-2 max-sm:p-3'>
       {products?.length > 0 &&
-        products?.slice(0, 4).map((product, index) => (
+        products?.slice(start, end).map((product, index) => (
           <a
             rel='noreferrer'
             target='_blank'
