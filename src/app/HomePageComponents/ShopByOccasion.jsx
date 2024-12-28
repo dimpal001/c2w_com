@@ -66,7 +66,7 @@ const Occasion = ({ occasion, index }) => {
         index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
       }`}
     >
-      {occasion.products.slice(0, 5).map((item, index) => (
+      {occasion.products.slice(0, 6).map((item, index) => (
         <Card key={index} product={item} />
       ))}
       <div className='md:w-[232px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] p-6 flex flex-col justify-center items-start'>

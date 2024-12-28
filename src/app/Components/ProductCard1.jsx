@@ -7,6 +7,7 @@ import { useUserContext } from '../context/UserContext'
 import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 import Sale from './Sale'
+import Link from 'next/link'
 
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
@@ -65,20 +66,19 @@ const ProductCard1 = ({ product }) => {
   return (
     <div className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'>
       {/* Product Image */}
-      <div
-        onClick={() => window.open(`/product/${product?.slug}`, '_blank')}
-        className='h-[350px] max-sm:h-56 max-sm:w-full bg-stone-200 rounded-lg'
-      >
-        <img
-          src={cdnPath + product.thumbnailUrl}
-          alt={product.title}
-          className='w-full h-full max-sm:w-full rounded-lg object-cover'
-        />
+      <div className='h-[350px] max-sm:h-56 max-sm:w-full bg-stone-200 rounded-lg'>
+        <Link href={`/product/${product?.slug}`}>
+          <img
+            src={cdnPath + product.thumbnailUrl}
+            alt={product.title}
+            className='w-full h-full max-sm:w-full rounded-lg object-cover'
+          />
+        </Link>
       </div>
 
       {/* Product Details */}
+      {/* Title */}
       <div className='p-2 max-sm:p-[3px] relative'>
-        {/* Title */}
         <h2
           onClick={() => window.open(`/product/${product?.slug}`, '_blank')}
           className='text-sm max-sm:text-[12px] hover:text-pink-600 hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'

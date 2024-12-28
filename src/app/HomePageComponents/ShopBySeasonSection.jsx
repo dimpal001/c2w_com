@@ -92,10 +92,10 @@ const ProductCard = ({ product }) => {
       rel='noreferrer'
       href={product.hyperLink}
       target='_blank'
-      className='cursor-pointer md:w-[226px] animate__animated animate__flip md:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'
+      className='cursor-pointer rounded-lg md:w-[226px] animate__animated animate__flip md:h-[323px] max-sm:w-[240px] max-sm:h-[320px]'
     >
       <img
-        className='md:w-[226px] md:h-[323px] max-sm:w-[240px] max-sm:h-[380px] object-cover'
+        className='md:w-[226px] md:h-[323px] rounded-lg max-sm:w-[240px] max-sm:h-[380px] object-cover'
         src={cdnPath + product?.imageUrl}
         alt={product?.title || 'clothes2wear'}
         loading='lazy'
