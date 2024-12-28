@@ -104,7 +104,7 @@ const ExclusiveCollectionsSection = () => {
           ))}
       </div>
 
-      {!products && <Skeleton className={'w-full h-[400px]'} />}
+      {products === 0 && <Skeleton className={'w-full h-[400px]'} />}
     </div>
   )
 }

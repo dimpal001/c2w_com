@@ -50,7 +50,7 @@ const ShopByOccasion = () => {
       <div className='w-full h-full shadow-md shadow-zinc-500'>
         {occasions.length > 0 &&
           occasions.map((occasion, index) => (
-            <Occasion key={index} occasion={occasion} index={index} />
+            <Occasion key={index} occasion={occasion} index={index + 2} />
           ))}
       </div>
 
@@ -60,6 +60,7 @@ const ShopByOccasion = () => {
 }
 
 const Occasion = ({ occasion, index }) => {
+  console.log(index)
   return (
     <div
       className={`w-full max-sm:flex-wrap flex ${

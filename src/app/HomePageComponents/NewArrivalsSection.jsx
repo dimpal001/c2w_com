@@ -45,18 +45,20 @@ const NewArrivalsSection = () => {
       </div>
 
       <div className='md:h-[460px] pt-4'>
-        <div className='bg-zinc-200 scrollbar-hide max-sm:p-4 max-sm:overflow-auto max-sm:gap-5 flex items-center justify-evenly w-full h-full rounded-xl'>
-          {products.length > 0 &&
-            products
-              .slice(0, 4)
-              .map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
-        </div>
+        {products.length > 0 && (
+          <div className='bg-zinc-200 scrollbar-hide max-sm:p-4 max-sm:overflow-auto max-sm:gap-5 flex items-center justify-evenly w-full h-full rounded-xl'>
+            {products.length > 0 &&
+              products
+                .slice(0, 4)
+                .map((product, index) => (
+                  <ProductCard key={index} product={product} />
+                ))}
+          </div>
+        )}
       </div>
 
       {products.length === 0 && (
-        <Skeleton className={'w-full h-[390px] max-sm:h-[270px]'} />
+        <Skeleton className={'w-full rounded-xl h-[390px] max-sm:h-[270px]'} />
       )}
     </div>
   )

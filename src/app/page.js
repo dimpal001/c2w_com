@@ -1,7 +1,6 @@
+/* eslint-disable no-unreachable */
 import React from 'react'
-import axios from 'axios'
 import MainPage from './HomePageComponents/MainPage'
-import { api } from './Components/api'
 
 const schemaData = {
   '@context': 'https://schema.org/',
@@ -69,16 +68,9 @@ export const metadata = {
 
 const HomePage = async () => {
   try {
-    const [showcasesRes, heroSlidersRes] = await Promise.all([
-      axios.get(`${api}/api/customs/showcases/get`),
-      axios.get(`${api}/api/customs/hero-sliders/get`),
-    ])
-
-    const showcases = showcasesRes.data.showcases || []
-    const heroSliders = heroSlidersRes.data.heroSliders || []
     return (
       <>
-        <MainPage showcases={showcases} heroSliders={heroSliders} />
+        <MainPage />
       </>
     )
   } catch {
