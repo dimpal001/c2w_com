@@ -44,7 +44,7 @@ const ImageWeekSection = ({ products }) => {
   return (
     <div className='grid grid-cols-3 max-sm:grid-cols-1 py-12 max-sm:py-1'>
       {/* First part  */}
-      <Link href={products[0]?.hyperLink || '#'}>
+      <Link target='_blank' href={products[0]?.hyperLink || '#'}>
         <div className='flex max-sm:flex-col'>
           <span className='sm:hidden uppercase text-7xl font-[1000] tracking-widest text-center'>
             fashion
@@ -68,7 +68,7 @@ const ImageWeekSection = ({ products }) => {
         <div className='flex max-sm:grid grid-cols-2'>
           {products?.length > 0 &&
             products?.slice(1, 3).map((image, index) => (
-              <Link key={index} href={image.hyperLink || '#'}>
+              <Link key={index} href={image.hyperLink || '#'} target='_blank'>
                 <img
                   className='md:w-[161px] md:h-[200px] object-cover'
                   src={cdnPath + image.imageUrl}
@@ -88,16 +88,15 @@ const ImageWeekSection = ({ products }) => {
 
       <div className='flex flex-wrap max-sm:grid grid-cols-2'>
         {products?.length > 0 &&
-          products
-            ?.slice(3, 9)
-            .map((image, index) => (
+          products?.slice(3, 9).map((image, index) => (
+            <Link key={index} href={image.hyperLink} target='_blank'>
               <img
                 src={cdnPath + image.imageUrl}
                 className='object-cover md:w-[166px] md:h-[201px]'
-                key={index}
                 alt='clothes2wear'
               />
-            ))}
+            </Link>
+          ))}
       </div>
     </div>
   )
