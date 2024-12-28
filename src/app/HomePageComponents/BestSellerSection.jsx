@@ -8,7 +8,7 @@ const BestSellerSection = () => {
           <h3 className='font-semibold text-xl'>
             Clothes2Wear&apos;s Bestseller Ethnic Wear Online in India
           </h3>
-          <p className='text-xs'>
+          <p className='text-xs lg:text-[13px] leading-[17px]'>
             India officially the Republic of India is a country in South Asia.
             India is a country with diverse cultures. The incredible part of
             India is that it has 9 different religions within the country to

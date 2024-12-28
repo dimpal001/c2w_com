@@ -17,6 +17,7 @@ export async function GET(request) {
             id: true,
             mrp: true,
             price: true,
+            discount: true,
             stock: true,
             minQuantity: true,
             size: true,

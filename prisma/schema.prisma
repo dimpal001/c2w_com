@@ -612,3 +612,10 @@ model Quotes {
   imageUrl  String?
   hyperLink String?
 }
+
+model Newsletter {
+  id        String   @id @default(uuid())
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

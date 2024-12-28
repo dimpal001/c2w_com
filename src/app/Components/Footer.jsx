@@ -1,6 +1,50 @@
-import React from 'react'
+'use client'
+
+import axios from 'axios'
+import { Loader2 } from 'lucide-react'
+import { enqueueSnackbar } from 'notistack'
+import React, { useState } from 'react'
 
 const Footer = () => {
+  const [email, setEmail] = useState('')
+  const [sending, setSending] = useState(false)
+
+  const handleSubscribe = async () => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+    if (!emailRegex.test(email)) {
+      enqueueSnackbar('Invalid email format!', { variant: 'error' })
+      return
+    }
+
+    if (email.length < 5) {
+      enqueueSnackbar('Email is too short', { variant: 'error' })
+      return
+    }
+
+    if (email.length > 100) {
+      enqueueSnackbar('Email is too long!', { variant: 'error' })
+      return
+    }
+
+    try {
+      setSending(true)
+      const response = await axios.post('/api/newsletter', {
+        email,
+      })
+
+      setEmail('')
+
+      enqueueSnackbar(response?.data?.message, { variant: 'success' })
+    } catch (error) {
+      enqueueSnackbar(error?.response?.data?.message || 'Unable to subscribe', {
+        variant: 'error',
+      })
+    } finally {
+      setSending(false)
+    }
+  }
+
   return (
     <footer className='bg-gray-900 text-white py-12'>
       {/* Top Decorative Strips */}
@@ -64,12 +108,18 @@ const Footer = () => {
             </p>
             <div className='flex flex-col sm:flex-row items-center gap-4'>
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type='email'
                 placeholder='Enter your email'
                 className='w-full sm:w-[70%] p-3 bg-transparent border-b-2 border-gray-500 text-white focus:outline-none'
               />
-              <button className='mt-3 sm:mt-0 px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600'>
-                Subscribe
+              <button
+                disabled={sending}
+                onClick={handleSubscribe}
+                className='mt-3 sm:mt-0 px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600'
+              >
+                {sending ? <Loader2 className='animate-spin' /> : 'Subscribe'}
               </button>
             </div>
           </div>

@@ -11,7 +11,15 @@ import {
 } from '@nextui-org/dropdown'
 import axios from 'axios'
 /* eslint-disable react/prop-types */
-import { Forward, Heart, Link, Loader2, Minus, Plus } from 'lucide-react'
+import {
+  Forward,
+  Heart,
+  Link,
+  Loader2,
+  Minus,
+  MoveDown,
+  Plus,
+} from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
@@ -531,6 +539,12 @@ const ProductInventorySection = ({
             {' '}
             ₹{selectedInventory.price}/-
           </span>
+          {selectedInventory && selectedInventory?.discount > 0 && (
+            <span className='italic flex items-center -ml-5 font-semibold text-green-500'>
+              <MoveDown />
+              {selectedInventory?.discount}%
+            </span>
+          )}
         </div>
       </div>
     </div>
