@@ -101,7 +101,11 @@ const SideDrawer = () => {
         <p className='text-sm font-semibold text-gray-400 uppercase mb-3'>
           Categories
         </p>
-        <ul className='space-y-3 overflow-scroll h-[430px] scrollbar-hide'>
+        <ul
+          className={`space-y-3 overflow-scroll ${
+            user ? 'h-[450px]' : 'h-[630px]'
+          } scrollbar-hide`}
+        >
           {categories.map((category) => (
             <li
               onClick={() => router.push(`/category/${category.slug}`)}
