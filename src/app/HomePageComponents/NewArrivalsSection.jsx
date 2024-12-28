@@ -44,7 +44,7 @@ const NewArrivalsSection = () => {
         </p>
       </div>
 
-      <div className='md:h-[390px] pt-4'>
+      <div className='md:h-[460px] pt-4'>
         <div className='bg-zinc-200 scrollbar-hide max-sm:p-4 max-sm:overflow-auto max-sm:gap-5 flex items-center justify-evenly w-full h-full rounded-xl'>
           {products.length > 0 &&
             products
@@ -64,13 +64,13 @@ const NewArrivalsSection = () => {
 
 const ProductCard = ({ product }) => {
   return (
-    <div className='flex max-sm:min-w-[320px] items-center cursor-pointer relative group rounded-xl max-sm:h-[270px] md:h-[300px]'>
+    <div className='flex max-sm:min-w-[320px] items-center cursor-pointer relative group rounded-xl max-sm:h-[270px] md:h-[370px]'>
       <img
-        className='md:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in md:h-[300px] md:min-w-[225px] md:max-w-[225px] rounded-xl'
+        className='md:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in md:h-[370px] md:min-w-[225px] md:max-w-[225px] rounded-xl'
         src={cdnPath + product.imageUrl}
         alt={product?.title || 'clothes2wear'}
       />
-      <div className='w-2 p-3 max-sm:w-[170px] h-[90%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
+      <div className='w-1 p-2 group-hover:p-2 max-sm:w-[170px] h-[95%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
         <p className='text-sm max-sm:text-xs hidden max-sm:block group-hover:block font-semibold'>
           {product?.title.slice(0, 50)}
         </p>
