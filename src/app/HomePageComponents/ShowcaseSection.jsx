@@ -1,28 +1,13 @@
 /* eslint-disable react/prop-types */
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
 import { ChevronsLeft, ChevronsRight } from 'lucide-react'
-import axios from 'axios'
 
-const ShowcaseSection = () => {
-  const [showcases, setShowcases] = useState([])
+const ShowcaseSection = ({ showcases }) => {
   const scrollContainerRef = useRef(null)
-
-  const handleFetchShowcases = async () => {
-    try {
-      const response = await axios.get('/api/customs/showcases/get')
-      setShowcases(response.data.showcases)
-    } catch {
-      // Empty
-    }
-  }
-
-  useEffect(() => {
-    handleFetchShowcases()
-  }, [])
 
   const handleScroll = (direction) => {
     const container = scrollContainerRef.current
@@ -52,7 +37,7 @@ const ShowcaseSection = () => {
             <ShowcaseCard key={index} showcase={showcase} />
           ))}
 
-        {showcases.length === 0 &&
+        {!showcases &&
           Array.from({ length: 7 }, (_, index) => (
             <Skeleton
               key={index}
