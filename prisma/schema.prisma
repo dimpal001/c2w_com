@@ -16,6 +16,7 @@ model User {
   lastName       String?
   mobileNumber   String?
   whatsAppNumber String?
+  isViewed       Boolean         @default(false)
   isVerified     Boolean         @default(false)
   isLoggedIn     Boolean         @default(false)
   createdAt      DateTime        @default(now())
