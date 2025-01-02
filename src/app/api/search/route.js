@@ -153,8 +153,6 @@ export async function GET(request) {
       isActive: true,
     })
 
-    console.log(whereConditions)
-
     const totalProducts = await prisma.product.count({
       where: whereConditions.AND.length > 0 ? whereConditions : undefined,
     })
@@ -171,6 +169,12 @@ export async function GET(request) {
         discounts: true,
         subcategories: true,
         inventory: true,
+        images: {
+          select: {
+            imageUrl: true,
+          },
+          take: 2,
+        },
       },
     })
 

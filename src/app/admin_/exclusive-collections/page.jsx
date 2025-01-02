@@ -288,6 +288,7 @@ const Page = () => {
                       src={`${cdnPath}${item?.imageUrl}`}
                       alt={item.title}
                       className='w-[70px] h-[80px] border object-cover rounded'
+                      loading='lazy'
                     />
                   </td>
                   <td className='border px-4 py-2'>

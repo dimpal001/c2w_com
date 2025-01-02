@@ -71,6 +71,7 @@ const ProductCard = ({ product }) => {
         className='md:w-[225px] object-cover w-[150px] max-sm:min-w-[150px] group-hover:animate-appearance-in md:h-[370px] md:min-w-[225px] md:max-w-[225px] rounded-xl'
         src={cdnPath + product.imageUrl}
         alt={product?.title || 'clothes2wear'}
+        loading='lazy'
       />
       <div className='w-1 p-2 group-hover:p-2 max-sm:w-[170px] h-[95%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
         <p className='text-sm max-sm:text-xs hidden max-sm:block group-hover:block font-semibold'>

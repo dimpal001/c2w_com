@@ -54,6 +54,7 @@ const ImageWeekSection = ({ products }) => {
               src={cdnPath + products[0]?.imageUrl}
               className='object-cover md:w-[359px] md:h-[397px] max-sm:w-full'
               alt={'clothes2wear'}
+              loading='lazy'
             />
           ) : (
             <div className='md:w-[359px] md:h-[397px] max-sm:w-full'></div>
@@ -73,6 +74,7 @@ const ImageWeekSection = ({ products }) => {
                   className='md:w-[161px] md:h-[200px] object-cover'
                   src={cdnPath + image.imageUrl}
                   alt='clothes2wear'
+                  loading='lazy'
                 />
               </Link>
             ))}
@@ -94,6 +96,7 @@ const ImageWeekSection = ({ products }) => {
                 src={cdnPath + image.imageUrl}
                 className='object-cover md:w-[166px] md:h-[201px]'
                 alt='clothes2wear'
+                loading='lazy'
               />
             </Link>
           ))}
@@ -120,6 +123,7 @@ const ProductWeekSection = ({ products, start, end }) => {
               width={100}
               height={100}
               alt='clothes2wear'
+              loading='lazy'
             />
             <p className='text-sm max-sm:hidden group-hover:underline'>
               {product?.title}

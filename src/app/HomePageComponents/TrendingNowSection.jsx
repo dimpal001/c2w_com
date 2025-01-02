@@ -86,6 +86,7 @@ const TrendingNowCard = ({ product }) => {
               src={cdnPath + product.avatarUrl}
               className='md:w-[50px] md:h-[50px] max-sm:w-[30px] max-sm:h-[30px] rounded-full'
               alt={product?.title || 'clothes2wear'}
+              loading='lazy'
             />
             <marquee direction='left'>
               <span className='max-sm:text-sm'>{product?.title}</span>

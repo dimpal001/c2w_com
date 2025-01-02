@@ -94,6 +94,7 @@ const Card = ({ product }) => {
         src={cdnPath + product.imageUrl}
         className='md:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] object-cover'
         alt={product?.title || 'clothes2wear'}
+        loading='lazy'
       />
     </a>
   )

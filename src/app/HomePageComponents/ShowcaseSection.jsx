@@ -1,13 +1,29 @@
 /* eslint-disable react/prop-types */
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Skeleton from '../Components/Skeleton'
 import { cdnPath } from '../Components/cdnPath'
 import { ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 const ShowcaseSection = ({ showcases }) => {
   const scrollContainerRef = useRef(null)
+
+  const [newShowcases, setNewShowcases] = useState([])
+
+  const handleFetchNewShowcases = async () => {
+    try {
+      const response = await fetch('/api/customs/showcases/get')
+      const data = await response.json()
+      setNewShowcases(data)
+    } catch {
+      // Empty
+    }
+  }
+
+  useEffect(() => {
+    handleFetchNewShowcases()
+  }, [])
 
   const handleScroll = (direction) => {
     const container = scrollContainerRef.current
@@ -32,20 +48,20 @@ const ShowcaseSection = ({ showcases }) => {
         ref={scrollContainerRef}
         className='w-auto flex overflow-auto scrollbar-hide items-center gap-6 px-14 max-sm:px-5 max-sm:gap-3 md:h-[320px] max-sm:h-[192px]'
       >
-        {showcases.length > 0 &&
-          showcases.map((showcase, index) => (
-            <ShowcaseCard key={index} showcase={showcase} />
-          ))}
-
-        {!showcases &&
-          Array.from({ length: 7 }, (_, index) => (
-            <Skeleton
-              key={index}
-              className={
-                'md:w-[200px] rounded-xl max-sm:w-[100px] max-sm:min-w-[100px] md:min-w-[200px] max-sm:h-[146px] md:h-[270px]'
-              }
-            />
-          ))}
+        {newShowcases.length > 0
+          ? (newShowcases || []).map((showcase) => (
+              <ShowcaseCard key={showcase._id} showcase={showcase} />
+            ))
+          : showcases.length > 0
+          ? (showcases || []).map((showcase) => (
+              <ShowcaseCard key={showcase._id} showcase={showcase} />
+            ))
+          : Array.from({ length: 7 }, (_, index) => (
+              <Skeleton
+                key={index}
+                className='md:w-[200px] rounded-xl max-sm:w-[100px] max-sm:min-w-[100px] md:min-w-[200px] max-sm:h-[146px] md:h-[270px]'
+              />
+            ))}
       </div>
 
       {/* Right Arrow Button */}
@@ -73,7 +89,7 @@ const ShowcaseCard = ({ showcase, onClick }) => {
       />
       <div className='absolute rounded-xl bottom-0 left-0 right-0 h-[120px] z-10 bg-gradient-to-t from-black to-transparent from-[1%]'></div>
       <p className='absolute max-sm:text-xs text-lg inset-0 flex justify-start items-end max-sm:py-1 max-sm:px-2 py-3 px-5 z-20 font-bold text-white'>
-        {showcase.title}
+        {showcase.title.split(' ').slice(0, 2).join(' ')}
       </p>
     </a>
   )

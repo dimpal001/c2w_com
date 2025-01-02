@@ -34,7 +34,6 @@ const HeroSliderCard = ({ slider }) => {
         src={cdnPath + slider.imageUrl}
         className='w-full md:h-[582px] max-sm:h-[225px] object-cover'
         alt='clothes2wear'
-        loading='lazy'
       />
     </a>
   )

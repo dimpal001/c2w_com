@@ -40,6 +40,7 @@ const BlogSection = () => {
                 src={cdnPath + blog.imageUrl}
                 className='w-full'
                 alt={blog.title}
+                loading='lazy'
               />
               <h3 className='text-4xl max-sm:text-xl group-hover:underline font-bold'>
                 {blog.title}

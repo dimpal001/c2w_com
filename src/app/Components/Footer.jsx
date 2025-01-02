@@ -166,24 +166,28 @@ const Footer = () => {
           </p>
           <div className='flex justify-center items-center gap-6 mt-4 sm:mt-0'>
             <img
-              src='https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg'
+              src='https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/visa_logo.svg'
               alt='Visa'
               className='w-8 h-8'
+              loading='lazy'
             />
             <img
-              src='https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg'
+              src='https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/mastercard_logo.svg'
               alt='Mastercard'
               className='w-8 h-5'
+              loading='lazy'
             />
             <img
-              src='https://upload.wikimedia.org/wikipedia/commons/4/49/RuPay_Logo.jpg'
+              src='https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/rupay_logo.jpg'
               alt='Rupay'
               className='w-9 h-5'
+              loading='lazy'
             />
             <img
-              src='https://upload.wikimedia.org/wikipedia/commons/6/6f/UPI_logo.svg'
+              src='https://clothes2wear.blr1.cdn.digitaloceanspaces.com/icons/UPI_logo.svg'
               alt='UPI'
               className='w-8 h-8'
+              loading='lazy'
             />
           </div>
         </div>

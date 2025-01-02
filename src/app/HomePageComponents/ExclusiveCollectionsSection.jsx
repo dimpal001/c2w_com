@@ -131,6 +131,7 @@ const ProductCard1 = ({ product }) => {
                 key={index}
                 className='md:w-[168px] max-sm:h-[85%] object-cover md:h-[270px]]'
                 alt={'Clothes2wear'}
+                loading='lazy'
               />
             ))}
       </div>
@@ -161,6 +162,7 @@ const ProductCard2 = ({ product }) => {
         src={cdnPath + product.imageUrl}
         className='md:w-[202px] md:h-[322px] rounded-2xl'
         alt={'Clothes2wear'}
+        loading='lazy'
       />
       <div className='absolute rounded-2xl inset-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>
         <div className='flex flex-col w-full h-full justify-end p-5 max-sm:p-3 text-white'>

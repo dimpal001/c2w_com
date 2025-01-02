@@ -48,10 +48,12 @@ const SocialLinkSection = () => {
                   key={index}
                   src={cdnPath + image.imageUrl}
                   alt={image.imageUrl}
+                  loading='lazy'
                 />
                 <div className='bg-black inset-0 rounded-xl absolute z-10 opacity-30'></div>
                 <div className='flex justify-center items-center absolute z-20 inset-0'>
                   <img
+                    loading='lazy'
                     className='w-16 max-sm:w-10 shadow-2xl max-sm:rounded-lg rounded-2xl shadow-black'
                     src={
                       image.hyperLink?.toLowerCase().includes('instagram')

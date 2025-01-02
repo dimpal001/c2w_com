@@ -102,6 +102,7 @@ const AboutPage = () => {
               src={`https://picsum.photos/451/520`}
               alt={`Team Member `}
               className='w-24 h-24 mx-auto rounded-full shadow-md'
+              loading='lazy'
             />
             <h3 className='mt-4 text-lg font-semibold text-gray-800'>
               Member 1
@@ -113,6 +114,7 @@ const AboutPage = () => {
               src={`https://picsum.photos/573/520`}
               alt={`Team Member `}
               className='w-24 h-24 mx-auto rounded-full shadow-md'
+              loading='lazy'
             />
             <h3 className='mt-4 text-lg font-semibold text-gray-800'>
               Member 2
@@ -124,6 +126,7 @@ const AboutPage = () => {
               src={`https://picsum.photos/641/451`}
               alt={`Team Member `}
               className='w-24 h-24 mx-auto rounded-full shadow-md'
+              loading='lazy'
             />
             <h3 className='mt-4 text-lg font-semibold text-gray-800'>
               Member 3

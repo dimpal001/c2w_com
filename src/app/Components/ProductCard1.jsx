@@ -12,6 +12,7 @@ import Link from 'next/link'
 const ProductCard1 = ({ product }) => {
   const router = useRouter()
   const [addingWishList, setAddingWishList] = useState(false)
+  const [thumbnail, setThumbnail] = useState(product.thumbnailUrl)
 
   const { user, setUser } = useUserContext()
 
@@ -64,12 +65,22 @@ const ProductCard1 = ({ product }) => {
   }
 
   return (
-    <div className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'>
+    <div
+      onMouseEnter={() =>
+        setThumbnail(
+          product?.thumbnailUrl === product?.images[0]?.imageUrl
+            ? product?.images[1]?.imageUrl
+            : product?.images[0]?.imageUrl
+        )
+      }
+      onMouseLeave={() => setThumbnail(product.thumbnailUrl)}
+      className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'
+    >
       {/* Product Image */}
       <div className='h-[350px] max-sm:h-56 max-sm:w-full bg-stone-200 rounded-lg'>
         <Link href={`/product/${product?.slug}`}>
           <img
-            src={cdnPath + product.thumbnailUrl}
+            src={cdnPath + thumbnail}
             alt={product.title}
             className='w-full h-full max-sm:w-full rounded-lg object-cover'
           />
