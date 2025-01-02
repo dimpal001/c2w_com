@@ -76,7 +76,7 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
         fetchFilterData(currentPage)
         const newPage = currentPage + 1
         setCurrentPage(newPage)
-      }, 2000)
+      }, 700)
     }
   }, [currentPage])
 

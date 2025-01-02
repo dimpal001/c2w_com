@@ -13,7 +13,7 @@ export async function GET(request) {
   const minPrice = parseFloat(url.searchParams.get('minPrice')) || 0
   const maxPrice = parseFloat(url.searchParams.get('maxPrice')) || 0
   const page = parseInt(url.searchParams.get('page')) || 1
-  const pageSize = parseInt(url.searchParams.get('pageSize')) || 15
+  const pageSize = parseInt(url.searchParams.get('pageSize')) || 5
   const searchQuery = url.searchParams.get('searchQuery') || ''
 
   try {
