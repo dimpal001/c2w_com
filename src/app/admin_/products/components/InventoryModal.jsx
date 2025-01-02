@@ -21,9 +21,17 @@ const InventoryModal = ({
   inventoryData,
 }) => {
   const uppercaseText = (text) => text.toUpperCase()
-  console.log(sizes)
+
+  const generateId = () => {
+    // Generate a random 10-character alphanumeric string
+    return (
+      Math.random().toString(36).substring(2, 12) +
+      Date.now().toString(36).substring(5, 15)
+    )
+  }
 
   const [inventory, setInventory] = useState({
+    id: isEditMode ? inventoryData?.id || '' : generateId(), // Generate id if new item
     size: { id: '', name: '' },
     mrp: 0,
     price: 0,
@@ -127,10 +135,11 @@ const InventoryModal = ({
     }
 
     if (isEditMode) {
+      // Update the inventory array without changing the size of other items
       setFormData((prevData) => ({
         ...prevData,
         inventory: prevData.inventory.map((item) =>
-          item.id === inventory.id ? inventory : item
+          item.id === inventory.id ? { ...item, ...inventory } : item
         ),
       }))
     } else {
@@ -146,6 +155,7 @@ const InventoryModal = ({
 
   const resetForm = () => {
     setInventory({
+      id: generateId(), // Generate new id for next item
       size: { id: '', name: '' },
       mrp: 0,
       price: 0,

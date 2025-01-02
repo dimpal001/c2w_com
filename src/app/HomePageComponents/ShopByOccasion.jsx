@@ -67,7 +67,7 @@ const Occasion = ({ occasion, index }) => {
         index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
       }`}
     >
-      {occasion.products.slice(0, 6).map((item, index) => (
+      {occasion.products.slice(0, 5).map((item, index) => (
         <Card key={index} product={item} />
       ))}
       <div className='md:w-[232px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] p-6 flex flex-col justify-center items-start'>
@@ -88,11 +88,11 @@ const Card = ({ product }) => {
       rel='noreferrer'
       target='_blank'
       href={product.hyperLink}
-      className='md:w-[232px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px]'
+      className='md:min-w-[245px] cursor-pointer animate__animated animate__flip animate__delay-1s max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px]'
     >
       <img
         src={cdnPath + product.imageUrl}
-        className='md:w-[232px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] object-cover'
+        className='md:min-w-[245px] max-sm:min-w-[131px] max-sm:w-[131px] max-sm:h-[210px] md:h-[340px] object-cover'
         alt={product?.title || 'clothes2wear'}
         loading='lazy'
       />

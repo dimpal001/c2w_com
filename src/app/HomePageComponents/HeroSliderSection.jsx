@@ -1,23 +1,69 @@
+'use client'
+
 /* eslint-disable react/prop-types */
-import React from 'react'
+import React, { useState } from 'react'
 import Skeleton from '../Components/Skeleton'
-import { SlideItem, Slider } from './Slider'
 import { cdnPath } from '../Components/cdnPath'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 
 const HeroSliderSection = ({ heroSliders }) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      autoplay: true,
+      autoplayDelay: 7000,
+    },
+    [Autoplay({ playOnInit: true, delay: 3000 })]
+  )
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const handleSelect = (index) => {
+    if (emblaApi) {
+      emblaApi.scrollTo(index)
+      setActiveIndex(index)
+    }
+  }
+
+  // Update activeIndex when the slide changes
+  if (emblaApi) {
+    emblaApi.on('select', () => {
+      setActiveIndex(emblaApi.selectedScrollSnap())
+    })
+  }
+
   return (
-    <div className='w-full flex items-center gap-6 md:h-[582px] '>
-      <Slider showArrows={false} showIndicators={true} slideInterval={6000}>
-        {heroSliders.length > 0 &&
-          heroSliders.map((slider, index) => (
-            <SlideItem key={index}>
-              <HeroSliderCard slider={slider} />
-            </SlideItem>
-          ))}
-      </Slider>
-      {!heroSliders && (
-        <Skeleton className={'w-screen md:h-[582px] max-sm:h-[225px]'} />
-      )}
+    <div>
+      <div className='embla' ref={emblaRef}>
+        <div className='embla__container'>
+          {heroSliders.length > 0 &&
+            heroSliders.map((slider, index) => (
+              <div key={index} className='embla__slide'>
+                <HeroSliderCard slider={slider} />
+              </div>
+            ))}
+        </div>
+      </div>
+
+      {/* Skeleton loader */}
+      <div className='w-full flex items-center gap-6 md:h-[582px] '>
+        {!heroSliders && (
+          <Skeleton className={'w-screen md:h-[582px] max-sm:h-[225px]'} />
+        )}
+      </div>
+
+      {/* Slider indicators */}
+      <div className='embla__indicators'>
+        {heroSliders.map((_, index) => (
+          <button
+            key={index}
+            className={`embla__indicator ${
+              index === activeIndex ? 'active' : ''
+            }`}
+            onClick={() => handleSelect(index)}
+          />
+        ))}
+      </div>
     </div>
   )
 }

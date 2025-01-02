@@ -57,9 +57,7 @@ const InventorySection = ({ formData, setFormData, sizes }) => {
                     {index + 1}
                   </td>
                   <td className='p-2 border text-center uppercase border-gray-300'>
-                    {item?.size?.name
-                      ? item?.size?.name
-                      : sizes.find((size) => size.id === item.size)?.name}
+                    {sizes.find((size) => size.id === item.size.id)?.name}
                   </td>
                   <td className='p-2 border text-center border-gray-300'>
                     {parseInt(item?.mrp)?.toFixed(2)}
