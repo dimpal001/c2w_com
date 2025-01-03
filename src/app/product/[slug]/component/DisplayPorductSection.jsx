@@ -296,7 +296,7 @@ const DisplayPorductSection = ({ product }) => {
           </div>
         </div>
 
-        <div className='w-full max-sm:hidden flex gap-2 items-center'>
+        <div className='w-full flex-wrap max-sm:hidden flex gap-2 items-center'>
           {product?.images.length > 0 &&
             Array.from(
               new Set(product.images.map((item) => item?.color?.code))
@@ -557,7 +557,7 @@ const SimilarProductImage = ({ product, onClick }) => {
       <img
         src={cdnPath + product?.thumbnailUrl}
         alt={product?.altText}
-        className='w-[80px] h-[100px] rounded-lg'
+        className='w-[110px] h-[150px] rounded-lg object-cover'
       />
     </div>
   )

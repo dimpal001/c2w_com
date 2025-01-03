@@ -8,7 +8,7 @@ import ProductCard1 from '@/app/Components/ProductCard1'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import axios from 'axios'
-import { Frown, Loader } from 'lucide-react'
+import { Frown } from 'lucide-react'
 import { useSearch } from '@/app/context/SearchContext'
 import { useUserContext } from '@/app/context/UserContext'
 import Skeleton from '@/app/Components/Skeleton'
@@ -35,7 +35,6 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
 
   const [isEmptyProduct, setIsEmptyProduct] = useState(false)
   const [fetching, setFetching] = useState(true)
-  const [loadingMore, setLoadingMore] = useState(false)
 
   const [currentPage, setCurrentPage] = useState(1)
   const [hasMoreProducts, setHasMoreProducts] = useState(true)
@@ -68,6 +67,7 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
     fetchFilterData(currentPage)
     const newPage = currentPage + 1
     setCurrentPage(newPage)
+    console.log('Its calling')
   }, [])
 
   useEffect(() => {
@@ -76,8 +76,10 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
         fetchFilterData(currentPage)
         const newPage = currentPage + 1
         setCurrentPage(newPage)
-      }, 700)
+      }, 1000)
     }
+    console.log(hasMoreProducts)
+    console.log(currentPage)
   }, [currentPage])
 
   const fetchFilterData = async (page = 1) => {
@@ -92,7 +94,6 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
     try {
       setIsEmptyProduct(false)
       setFetching(page === 1)
-      setLoadingMore(page !== 1)
       const params = {
         searchQuery: searchQuery,
         colors:
@@ -115,9 +116,7 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
           : [...prevProducts, ...response.data.products]
       )
 
-      setHasMoreProducts(
-        response.data.totalProducts === products.length ? false : true
-      )
+      setHasMoreProducts(response.data.hasMoreProducts)
 
       if (response.data.products.length === 0) {
         setIsEmptyProduct(true)
@@ -128,7 +127,6 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
       )
     } finally {
       setFetching(false)
-      setLoadingMore(false)
     }
   }
 
@@ -275,15 +273,6 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
                 {products.map((item, index) => (
                   <ProductCard1 key={index} product={item} />
                 ))}
-              </div>
-
-              {/* Load more  */}
-              <div className='flex justify-center items-center'>
-                {loadingMore && (
-                  <div className='flex justify-center items-center py-2'>
-                    <Loader className='animate-spin' size={24} />
-                  </div>
-                )}
               </div>
 
               <div>

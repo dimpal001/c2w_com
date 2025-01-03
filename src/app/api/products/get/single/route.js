@@ -34,6 +34,7 @@ export async function GET(request) {
             color: {
               select: {
                 code: true,
+                slug: true,
               },
             },
           },

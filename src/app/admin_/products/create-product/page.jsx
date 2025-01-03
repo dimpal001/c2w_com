@@ -25,7 +25,7 @@ const Page = ({ productId }) => {
     isActive: false,
     description: '',
     summary: '',
-    userId: user?.id || '123',
+    userId: user?.id || '',
     images: [],
     inventory: [],
     returnPolicy: '',

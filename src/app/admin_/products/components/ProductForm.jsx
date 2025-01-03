@@ -166,6 +166,14 @@ const ProductForm = ({
   }
 
   const handleSubmit = async () => {
+    if (formData.userId === '' || formData.userId === null) {
+      enqueueSnackbar(
+        'Unfortunately, you have been logged out for some reason. Please log in again in the same browser session.',
+        { variant: 'error' }
+      )
+      return
+    }
+
     if (formData.title === '') {
       enqueueSnackbar('Add the title', { variant: 'error' })
       return
@@ -604,12 +612,15 @@ const ProductForm = ({
                       </div>
                       <div className='absolute flex items-center gap-2 top-2 right-2'>
                         {/* Remove Button */}
-                        <span
+                        <div
                           style={{
-                            backgroundColor: img.color.code,
+                            background:
+                              img.color.slug === 'multicolor'
+                                ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
+                                : img.color.code,
                           }}
                           className='w-8 h-8 border-black rounded-full border-2'
-                        ></span>
+                        ></div>
                         <X
                           onClick={() => removeFormDataCard(index, img)}
                           className='text-red-500 cursor-pointer hover:w-10 hover:h-10 transition-all duration-300 w-8 h-8'
@@ -639,9 +650,12 @@ const ProductForm = ({
                         <div
                           className={`w-full h-5`}
                           style={{
-                            backgroundColor: colors.find(
-                              (color) => color.id === img.color
-                            )?.code,
+                            background:
+                              colors.find((color) => color.id === img.color)
+                                ?.slug === 'multicolor'
+                                ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
+                                : colors.find((color) => color.id === img.color)
+                                    ?.code,
                           }}
                         ></div>
                       )}
@@ -675,6 +689,14 @@ const ProductForm = ({
               onChange={handleChange}
             >
               <option value=''>Select a color</option>
+              {colors
+                ?.slice(1)
+                ?.filter((item) => item.slug === 'multicolor')
+                ?.map((color) => (
+                  <option value={color.id} key={color.id}>
+                    {uppercaseText(color.name)}
+                  </option>
+                ))}
               {colors.map((color) => (
                 <option
                   key={color.id}

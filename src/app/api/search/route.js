@@ -94,7 +94,6 @@ export async function GET(request) {
     }
 
     if (subCategorySlug) {
-      console.log(subCategorySlug)
       whereConditions.AND.push({
         subcategories: {
           some: {
@@ -178,7 +177,9 @@ export async function GET(request) {
       },
     })
 
-    console.log(products)
+    const hasMoreProducts = totalProducts > page * pageSize
+
+    console.log(totalProducts, totalPages, hasMoreProducts)
 
     return new Response(
       JSON.stringify({
@@ -186,6 +187,7 @@ export async function GET(request) {
         currentPage: page,
         totalPages,
         products,
+        hasMoreProducts,
       }),
       {
         status: 200,

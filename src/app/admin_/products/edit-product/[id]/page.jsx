@@ -31,7 +31,7 @@ const Page = ({ params }) => {
     isActive: false,
     description: '',
     summary: '',
-    userId: user.id,
+    userId: user?.id,
     images: [],
     inventory: [],
     similarProducts: [],
