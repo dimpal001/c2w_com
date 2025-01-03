@@ -82,21 +82,13 @@ const Layout = ({ children }) => {
 
   const handleCheckIsViewed = async () => {
     try {
-      console.log(user?.id)
-      if (!user?.id) {
-        enqueueSnackbar('User ID is missing!', { variant: 'error' })
-        return
-      }
-
       const response = await axios.get(`/api/admin/is-viewed?id=${user?.id}`)
 
       if (response.data.isViewed.isViewed === false) {
         setShowWarning(true)
       }
     } catch {
-      enqueueSnackbar('Failed to check viewed status. Please try again.', {
-        variant: 'error',
-      })
+      // Empty
     }
   }
 
