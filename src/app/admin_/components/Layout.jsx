@@ -90,7 +90,7 @@ const Layout = ({ children }) => {
 
       const response = await axios.get(`/api/admin/is-viewed?id=${user?.id}`)
 
-      if (response.data === 200) {
+      if (response.isViewed === false) {
         setShowWarning(true)
       }
     } catch {

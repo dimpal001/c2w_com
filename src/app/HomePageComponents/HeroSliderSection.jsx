@@ -38,7 +38,10 @@ const HeroSliderSection = ({ heroSliders }) => {
         <div className='embla__container'>
           {heroSliders.length > 0 &&
             heroSliders.map((slider, index) => (
-              <div key={index} className='embla__slide'>
+              <div
+                key={index}
+                className='embla__slide md:h-[582px] max-sm:h-[225px]'
+              >
                 <HeroSliderCard slider={slider} />
               </div>
             ))}
