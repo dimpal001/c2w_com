@@ -14,7 +14,7 @@ const HeroSliderSection = ({ heroSliders }) => {
       autoplay: true,
       autoplayDelay: 7000,
     },
-    [Autoplay({ playOnInit: true, delay: 3000 })]
+    [Autoplay({ playOnInit: true, delay: 7000 })]
   )
 
   return (

@@ -45,7 +45,7 @@ const ExclusiveCollectionsSection = () => {
       {/* label  */}
       <div className='flex justify-between md:px-8 items-center max-sm:p-4'>
         <div className='max-sm:w-[80%]'>
-          <h2 className='md:text-5xl font-bold max-sm:font-extrabold max-sm:text-xl'>
+          <h2 className='md:text-5xl font-bold max-sm:font-extrabold max-md:text-2xl'>
             Exclusive Collections
           </h2>
           <p className='md:pt-3 max-sm:font-[500] max-sm:text-neutral-600 max-sm:leading-[21px] text-xl max-sm:text-[14px] text-neutral-700'>
@@ -87,10 +87,10 @@ const ExclusiveCollectionsSection = () => {
       </div>
 
       {/* Product  */}
-      <div className='flex gap-7 max-sm:grid grid-cols-2 max-sm:p-5 max-sm:gap-3 py-7 justify-center items-center'>
+      <div className='flex gap-6 max-sm:grid grid-cols-2 max-sm:p-5 max-sm:gap-3 py-7 justify-center items-center'>
         {products?.length > 0 &&
           products
-            .slice(0, 5)
+            .slice(0, 6)
             .map((product, index) => (
               <ProductCard2 key={index} product={product} />
             ))}
@@ -160,11 +160,11 @@ const ProductCard2 = ({ product }) => {
     >
       <img
         src={cdnPath + product.imageUrl}
-        className='md:w-[202px] md:h-[322px] rounded-2xl'
+        className='md:w-[202px] md:h-[322px] object-cover rounded-2xl'
         alt={'Clothes2wear'}
         loading='lazy'
       />
-      <div className='absolute rounded-2xl inset-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>
+      <div className='absolute rounded-2xl bottom-0 left-0 right-0 h-[70%] self-end from-20% bg-gradient-to-t from-black to-transparent'>
         <div className='flex flex-col w-full h-full justify-end p-5 max-sm:p-3 text-white'>
           <p className='text-xs'>{product?.categoryHyperLink.slice(0, 50)}</p>
           <strike className='text-center text-neutral-400'>

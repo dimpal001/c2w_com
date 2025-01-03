@@ -253,6 +253,50 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
           )}
         </div>
 
+        {/* Color Filter */}
+        <div className='mb-4 bg-neutral-200 p-3 rounded-md'>
+          <div
+            className='flex items-center justify-between cursor-pointer'
+            onClick={() => setShowColorFilter(!showColorFilter)}
+          >
+            <h3 className='text-lg font-medium text-gray-700'>Color</h3>
+            {showColorFilter ? (
+              <ChevronUp className='w-5 h-5 text-gray-600' />
+            ) : (
+              <ChevronDown className='w-5 h-5 text-gray-600' />
+            )}
+          </div>
+          {showColorFilter && (
+            <div className='mt-2'>
+              {colors
+                .filter((color) => color.slug !== 'nocolor')
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((color) => (
+                  <label
+                    key={color.id}
+                    className='flex items-center space-x-2 mb-2 text-gray-700'
+                  >
+                    <input
+                      type='checkbox'
+                      onChange={(e) => handleColorChange(e, color)}
+                      className='accent-pink-500'
+                    />
+                    <span
+                      className={`w-6 h-6 rounded-full border border-gray-300`}
+                      style={{
+                        background:
+                          color.slug === 'multicolor'
+                            ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
+                            : color.code,
+                      }}
+                    ></span>
+                    <span className='capitalize'>{color.name}</span>
+                  </label>
+                ))}
+            </div>
+          )}
+        </div>
+
         {/* Size Filter */}
         <div className='mb-4 bg-neutral-200 p-3 rounded-md'>
           <div
@@ -281,42 +325,6 @@ const Sidebar = ({ onHandleFilter, toggleFilterDrawer }) => {
                   <span className='text-gray-700 capitalize'>
                     {fabric.name}
                   </span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Color Filter */}
-        <div className='mb-4 bg-neutral-200 p-3 rounded-md'>
-          <div
-            className='flex items-center justify-between cursor-pointer'
-            onClick={() => setShowColorFilter(!showColorFilter)}
-          >
-            <h3 className='text-lg font-medium text-gray-700'>Color</h3>
-            {showColorFilter ? (
-              <ChevronUp className='w-5 h-5 text-gray-600' />
-            ) : (
-              <ChevronDown className='w-5 h-5 text-gray-600' />
-            )}
-          </div>
-          {showColorFilter && (
-            <div className='mt-2'>
-              {colors.map((color) => (
-                <label
-                  key={color.id}
-                  className='flex items-center space-x-2 mb-2 text-gray-700'
-                >
-                  <input
-                    type='checkbox'
-                    onChange={(e) => handleColorChange(e, color)}
-                    className='accent-pink-500'
-                  />
-                  <span
-                    className={`w-4 h-4 rounded-full border border-gray-300`}
-                    style={{ backgroundColor: color.code }}
-                  ></span>
-                  <span className='capitalize'>{color.name}</span>
                 </label>
               ))}
             </div>

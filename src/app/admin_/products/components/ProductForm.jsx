@@ -569,58 +569,76 @@ const ProductForm = ({
         <div>
           <div>
             {/* Display selected color and image in a single card */}
-            <div className='mb-4 flex flex-wrap gap-5'>
+            <div className='mb-4 grid grid-cols-5 gap-5'>
               {formData.images.length > 0 &&
                 formData.images.map((img, index) => (
                   <div
                     key={index}
-                    className='border max-w-40 border-slate-700 rounded-md flex items-center justify-between'
+                    className='border border-slate-700 rounded-lg overflow-hidden max-w-xs mx-auto mb-4 shadow-md transition-transform transform hover:scale-105'
                   >
-                    <div className='border flex flex-col justify-between h-full relative rounded-md'>
+                    <div className='relative max-w-[220px] flex flex-col justify-between h-full bg-white'>
                       {/* Display Image */}
                       {img.imageUrl && (
                         <img
                           src={cdnPath + img.imageUrl}
                           alt='Selected Product'
-                          className='w-40 object-cover'
+                          className='w-[220px] h-auto object-cover rounded-t-lg'
                         />
                       )}
-                      <p className='text-xs text-center text-wrap py-2'>
-                        <span className='font-bold text-blue-700'>Alt:</span>{' '}
-                        {img.altText && img.altText}
-                      </p>
-                      <div className='p-1 w-full'>
-                        <button
-                          onClick={() => handleSetThumbnail(img.imageUrl)}
-                          disabled={
-                            thumbnailImage === img.imageUrl ? true : false
-                          }
-                          className={`flex ${
-                            thumbnailImage === img.imageUrl
-                              ? 'bg-gray-600'
-                              : 'bg-blue-700'
-                          } text-white justify-center items-center w-full p-1 rounded-lg`}
-                        >
-                          {thumbnailImage === img.imageUrl ? (
-                            'Thumbnail'
-                          ) : imageSetting ? (
-                            <Loader2 className='animate-spin w-5 h-5' />
-                          ) : (
-                            'Set Thumbnail'
-                          )}
-                        </button>
+
+                      <div className='p-3'>
+                        {/* Color Name and Color Code */}
+                        {img.color && (
+                          <div className='flex items-center gap-2 mb-2'>
+                            <div
+                              className='w-6 h-6 rounded-full'
+                              style={{
+                                backgroundColor:
+                                  img.color.slug === 'multicolor'
+                                    ? 'transparent'
+                                    : img.color.code,
+                                background:
+                                  img.color.slug === 'multicolor'
+                                    ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
+                                    : img.color.code,
+                              }}
+                            ></div>
+                            <span className='text-sm capitalize font-medium'>
+                              {img.color.name}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Alt Text */}
+                        <p className='text-xs text-gray-600 overflow-scroll scrollbar-hide text-nowrap'>
+                          <span className='font-bold text-blue-700'>Alt:</span>{' '}
+                          {img.altText}
+                        </p>
+
+                        {/* Set Thumbnail Button */}
+                        <div className='mt-3'>
+                          <button
+                            onClick={() => handleSetThumbnail(img.imageUrl)}
+                            disabled={thumbnailImage === img.imageUrl}
+                            className={`w-full p-2 rounded-lg text-white ${
+                              thumbnailImage === img.imageUrl
+                                ? 'bg-gray-600'
+                                : 'bg-blue-700'
+                            } flex items-center justify-center gap-2`}
+                          >
+                            {thumbnailImage === img.imageUrl ? (
+                              'Thumbnail'
+                            ) : imageSetting ? (
+                              <Loader2 className='animate-spin w-5 h-5' />
+                            ) : (
+                              'Set Thumbnail'
+                            )}
+                          </button>
+                        </div>
                       </div>
-                      <div className='absolute flex items-center gap-2 top-2 right-2'>
-                        {/* Remove Button */}
-                        <div
-                          style={{
-                            background:
-                              img.color.slug === 'multicolor'
-                                ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
-                                : img.color.code,
-                          }}
-                          className='w-8 h-8 border-black rounded-full border-2'
-                        ></div>
+
+                      {/* Remove Button */}
+                      <div className='absolute top-2 right-2 flex items-center gap-2'>
                         <X
                           onClick={() => removeFormDataCard(index, img)}
                           className='text-red-500 cursor-pointer hover:w-10 hover:h-10 transition-all duration-300 w-8 h-8'
@@ -634,42 +652,68 @@ const ProductForm = ({
                 images.map((img, index) => (
                   <div
                     key={index}
-                    className='border border-slate-700 rounded-md flex items-center justify-between'
+                    className='border border-slate-700 rounded-lg overflow-hidden max-w-xs mx-auto mb-4 shadow-md transition-transform transform hover:scale-105'
                   >
-                    <div className='border relative rounded-md'>
+                    <div className='relative flex max-w-[220px] flex-col justify-between h-full bg-white'>
                       {/* Display Image */}
                       {img.imageUrl && (
                         <img
                           src={img.imageUrl}
                           alt='Selected Product'
-                          className='w-40 object-cover'
+                          className='w-[220px] h-auto object-cover rounded-t-lg'
                         />
                       )}
-                      {/* Display Color */}
-                      {img.color && (
-                        <div
-                          className={`w-full h-5`}
-                          style={{
-                            background:
-                              colors.find((color) => color.id === img.color)
-                                ?.slug === 'multicolor'
-                                ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
-                                : colors.find((color) => color.id === img.color)
-                                    ?.code,
-                          }}
-                        ></div>
-                      )}
-                      {img.altText && (
-                        <p className='text-xs text-center py-1'>
-                          <span className='font-bold'>Alt:</span> {img.altText}
-                        </p>
-                      )}
-                      <div className='absolute top-5 right-5'>
-                        {/* Remove Button */}
+
+                      <div className='p-3'>
+                        {/* Display Color */}
+                        {img.color && (
+                          <div className='flex items-center gap-2 mb-2'>
+                            <div
+                              className='w-6 h-6 rounded-full'
+                              style={{
+                                backgroundColor:
+                                  colors.find((color) => color.id === img.color)
+                                    ?.slug === 'multicolor'
+                                    ? 'transparent'
+                                    : colors.find(
+                                        (color) => color.id === img.color
+                                      )?.code,
+                                background:
+                                  colors.find((color) => color.id === img.color)
+                                    ?.slug === 'multicolor'
+                                    ? 'linear-gradient(to right, #dc2626, #2563eb, #16a34a)'
+                                    : colors.find(
+                                        (color) => color.id === img.color
+                                      )?.code,
+                              }}
+                            ></div>
+                            <span className='text-sm capitalize font-medium'>
+                              {
+                                colors.find((color) => color.id === img.color)
+                                  ?.name
+                              }
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Alt Text */}
+                        {img.altText && (
+                          <p className='text-xs text-gray-600'>
+                            <span className='font-bold text-blue-700'>
+                              Alt:
+                            </span>{' '}
+                            {img.altText}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Remove Button */}
+                      <div className='absolute top-2 right-2 flex items-center gap-2'>
                         <Button
                           label='Remove'
                           variant='error'
                           onClick={() => removeCard(index)}
+                          className='w-24 p-2 text-white rounded-lg bg-red-500 hover:bg-red-600 transition-all duration-300'
                         />
                       </div>
                     </div>

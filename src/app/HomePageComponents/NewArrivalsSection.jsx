@@ -73,11 +73,11 @@ const ProductCard = ({ product }) => {
         alt={product?.title || 'clothes2wear'}
         loading='lazy'
       />
-      <div className='w-1 p-2 group-hover:p-2 max-sm:w-[170px] h-[95%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
+      <div className='w-1 p-2 group-hover:p-4 max-sm:w-[170px] h-[95%] md:group-hover:w-[220px] overflow-hidden transition-all duration-300 bg-pink-500 rounded-e-xl'>
         <p className='text-sm max-sm:text-xs hidden max-sm:block group-hover:block font-semibold'>
           {product?.title.slice(0, 50)}
         </p>
-        <p className='text-[11px] max-sm:text-[9px] hidden max-sm:block group-hover:block font-light'>
+        <p className='text-[11px] py-3 max-sm:text-[9px] hidden max-sm:block group-hover:block font-light'>
           {product?.description.slice(0, 180)}...
         </p>
         <p className='text-center hidden max-sm:block group-hover:block tracking-wider'>
