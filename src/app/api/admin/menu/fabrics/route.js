@@ -16,7 +16,6 @@ export async function POST(request) {
     }
 
     const { name } = await request.json()
-    console.log(name)
 
     // Generate slug
     const slug = slugify(name, { lower: true })
@@ -47,8 +46,7 @@ export async function POST(request) {
       { message: 'Fabric added successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error.message)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding fabric' },
       { status: 500 }
@@ -116,8 +114,7 @@ export async function PATCH(request) {
       { message: 'Fabric updated successfully' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error.message)
+  } catch {
     return NextResponse.json(
       { message: 'Error adding fabric' },
       { status: 500 }

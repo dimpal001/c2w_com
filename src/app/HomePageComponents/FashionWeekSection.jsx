@@ -21,13 +21,11 @@ const FashionWeekSection = () => {
   const fetchProductWeek = async () => {
     const response = await axios.get('/api/customs/fashion-week/product-week')
     setProducts(response.data)
-    console.log(response.data)
   }
 
   const fetchImageWeek = async () => {
     const response = await axios.get('/api/customs/fashion-week/image-week')
     setImages(response.data)
-    console.log(response.data)
   }
 
   return (

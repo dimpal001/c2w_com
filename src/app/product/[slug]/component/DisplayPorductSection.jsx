@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ProductInfo from './ProductInfo'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
@@ -201,11 +201,6 @@ const DisplayPorductSection = ({ product }) => {
       setAddingWishList(false)
     }
   }
-
-  useEffect(() => {
-    console.log(selectedColor)
-    console.log(product?.images)
-  }, [])
 
   return (
     <div className='flex max-sm:flex-col gap-3 lg:gap-8'>
@@ -399,7 +394,7 @@ const DisplayPorductSection = ({ product }) => {
         {/* Similar Product  */}
         <div>
           {/* <p className='text-xl font-semibold'>Similar Product</p> */}
-          <div className='flex gap-4 py-2 flex-wrap'>
+          <div className='flex gap-4 max-sm:gap-2 py-2 flex-wrap max-sm:grid grid-cols-3'>
             {product?.similarProducts?.length > 0 &&
               product?.similarProducts?.map((product, index) => (
                 <SimilarProductImage
@@ -444,7 +439,7 @@ const ProductImage = ({ image, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className='cursor-pointer w-[130px] h-[180px] max-sm:w-[50px] max-sm:h-[70px]'
+      className='cursor-pointer w-[130px] h-[180px] max-sm:w-[50px] max-sm:min-w-[50px] max-sm:h-[70px]'
     >
       <img
         src={cdnPath + image.imageUrl}
@@ -553,11 +548,11 @@ const ProductInventorySection = ({
 
 const SimilarProductImage = ({ product, onClick }) => {
   return (
-    <div onClick={onClick} className='cursor-pointer'>
+    <div onClick={onClick} className='cursor-pointer max-sm:w-full'>
       <img
         src={cdnPath + product?.thumbnailUrl}
         alt={product?.altText}
-        className='w-[110px] h-[150px] rounded-lg object-cover'
+        className='w-[110px] max-sm:w-full max-sm:h-auto h-[150px] rounded-lg object-cover'
       />
     </div>
   )

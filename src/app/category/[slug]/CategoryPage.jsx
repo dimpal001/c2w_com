@@ -67,7 +67,6 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
     fetchFilterData(currentPage)
     const newPage = currentPage + 1
     setCurrentPage(newPage)
-    console.log('Its calling')
   }, [])
 
   useEffect(() => {
@@ -78,8 +77,6 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
         setCurrentPage(newPage)
       }, 1000)
     }
-    console.log(hasMoreProducts)
-    console.log(currentPage)
   }, [currentPage])
 
   const fetchFilterData = async (page = 1) => {

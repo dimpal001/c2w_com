@@ -222,8 +222,6 @@ const Item = ({ item, updateProduct, handleRemoveFromWishlist, deleting }) => {
 
   const router = useRouter()
 
-  console.log(item.color.name)
-
   useEffect(() => {
     updateProduct({
       ...item,

@@ -59,7 +59,6 @@ const page = () => {
   }, [searchQuery])
 
   const fetchUserList = async (page) => {
-    console.log(userRole)
     try {
       setFetching(true)
       const params = {
@@ -122,7 +121,6 @@ const page = () => {
   }
 
   useEffect(() => {
-    console.log(userRole)
     fetchUserList()
   }, [debouncedQuery, userRole])
 

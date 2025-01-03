@@ -19,8 +19,7 @@ export async function GET(request) {
     })
 
     return NextResponse.json({ isViewed }, { status: 200 })
-  } catch (error) {
-    console.log(error.message)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

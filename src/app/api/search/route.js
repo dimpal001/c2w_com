@@ -179,8 +179,6 @@ export async function GET(request) {
 
     const hasMoreProducts = totalProducts > page * pageSize
 
-    console.log(totalProducts, totalPages, hasMoreProducts)
-
     return new Response(
       JSON.stringify({
         totalProducts,

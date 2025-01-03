@@ -7,7 +7,6 @@ const prisma = new PrismaClient()
 // Add to Newsletter
 export async function POST(request) {
   const { email } = await request.json()
-  console.log(email)
 
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   if (!email) {
@@ -47,8 +46,7 @@ export async function POST(request) {
       { message: 'You have successfully subscribed!' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error.message)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }
@@ -99,8 +97,7 @@ export async function DELETE(request) {
       { message: 'Newsletter has been deleted' },
       { status: 200 }
     )
-  } catch (error) {
-    console.log(error.message)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, try again!' },
       { status: 500 }

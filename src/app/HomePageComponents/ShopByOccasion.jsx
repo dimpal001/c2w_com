@@ -60,7 +60,6 @@ const ShopByOccasion = () => {
 }
 
 const Occasion = ({ occasion, index }) => {
-  console.log(index)
   return (
     <div
       className={`w-full max-sm:grid grid-cols-3 flex ${

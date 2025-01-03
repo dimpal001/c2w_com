@@ -121,8 +121,7 @@ export async function GET(request) {
     }
 
     return NextResponse.json(product)
-  } catch (error) {
-    console.log(error.message)
+  } catch {
     return NextResponse.json(
       { message: 'Something went wrong, please try again.' },
       { status: 500 }
