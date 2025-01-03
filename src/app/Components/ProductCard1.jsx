@@ -66,13 +66,15 @@ const ProductCard1 = ({ product }) => {
 
   return (
     <div
-      onMouseEnter={() =>
-        setThumbnail(
-          product?.thumbnailUrl === product?.images[0]?.imageUrl
-            ? product?.images[1]?.imageUrl
-            : product?.images[0]?.imageUrl
-        )
-      }
+      onMouseEnter={() => {
+        if (product?.images.length > 1) {
+          setThumbnail(
+            product?.thumbnailUrl === product?.images[0]?.imageUrl
+              ? product?.images[1]?.imageUrl
+              : product?.images[0]?.imageUrl
+          )
+        }
+      }}
       onMouseLeave={() => setThumbnail(product.thumbnailUrl)}
       className='w-60 max-sm:w-full max-sm:h-full relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'
     >
@@ -88,8 +90,8 @@ const ProductCard1 = ({ product }) => {
       </div>
 
       {/* Product Details */}
-      {/* Title */}
       <div className='p-2 max-sm:p-[3px] relative'>
+        {/* Title */}
         <h2
           onClick={() => window.open(`/product/${product?.slug}`, '_blank')}
           className='text-sm max-sm:text-[12px] hover:text-pink-600 hover:underline font-semibold text-gray-800 max-sm:font-normal text-wrap'
