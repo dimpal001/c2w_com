@@ -565,7 +565,7 @@ const SimilarProductImage = ({ product, onClick }) => {
 
 const ThumbnailImage = ({ image }) => {
   return (
-    <div className='md:w-[550px] md:h-[900px] max-sm:w-[353px] max-sm:h-[600px]'>
+    <div className='md:w-[550px] md:h-[900px] max-sm:w-full max-sm:h-auto'>
       <Zoom>
         <ImageMagnifier imageUrl={cdnPath + image} />
         {/* <img

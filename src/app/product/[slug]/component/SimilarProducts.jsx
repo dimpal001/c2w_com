@@ -40,12 +40,12 @@ const ProductCard = ({ product, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className='w-[180px] group cursor-pointer max-sm:w-full h-[220px] rounded-lg relative z-10'
+      className='w-[180px] group cursor-pointer max-sm:w-full max-sm:h-[310px] h-[220px] rounded-lg relative z-10'
     >
       <img
         src={cdnPath + product.thumbnailUrl}
         alt={product?.title || 'clothes2wear'}
-        className='w-[180px] max-sm:w-full h-[220px] object-cover rounded-lg'
+        className='w-[180px] max-sm:w-full h-[220px] max-sm:h-full object-cover rounded-lg'
       />
       <div className='absolute bg-gradient-to-b from-transparent to-black rounded-lg h-[90%] bottom-0 left-0 right-0'>
         <div className='flex flex-col justify-end text-white inset-0 w-full h-full p-3'>

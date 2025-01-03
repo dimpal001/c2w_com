@@ -74,10 +74,10 @@ const ProductCard1 = ({ product }) => {
         )
       }
       onMouseLeave={() => setThumbnail(product.thumbnailUrl)}
-      className='w-60 max-sm:w-[182px] relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'
+      className='w-60 max-sm:w-full max-sm:h-full relative bg-zinc-100 p-2 hover:bg-zinc-200 cursor-pointer  rounded-lg overflow-hidden'
     >
       {/* Product Image */}
-      <div className='h-[350px] max-sm:h-56 max-sm:w-full bg-stone-200 rounded-lg'>
+      <div className='h-[350px] max-sm:w-auto bg-stone-200 rounded-lg'>
         <Link href={`/product/${product?.slug}`}>
           <img
             src={cdnPath + thumbnail}

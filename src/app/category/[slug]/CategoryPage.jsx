@@ -255,7 +255,7 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
                 <Skeleton
                   key={index}
                   className={
-                    'w-60 max-sm:w-[182px] max-w-60 max-sm:max-w-[182px] h-96 max-sm:h-72 max-sm:max-h-72 max-h-96'
+                    'w-60 max-sm:w-full md:max-w-60 h-96 max-sm:h-80 max-sm:max-h-80 max-h-96'
                   }
                 />
               ))}
