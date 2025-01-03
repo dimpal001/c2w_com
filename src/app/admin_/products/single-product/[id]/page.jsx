@@ -241,6 +241,9 @@ const ProductDetailsPage = ({ params }) => {
                             Estimated delivery day
                           </th>
                           <th className='p-2 text-center border-r border-white'>
+                            Seller Code
+                          </th>
+                          <th className='p-2 text-center border-r border-white'>
                             Available COD
                           </th>
                         </tr>
@@ -261,12 +264,11 @@ const ProductDetailsPage = ({ params }) => {
                           >
                             {productDetails.isActive ? 'Active' : 'Not active'}
                           </td>
-                          <td
-                            className='p-3 border
-                      <p>{img?.imageUrl}</p>
-                      <p>{thumbnailImage && thumbnailImage}</p> text-center'
-                          >
+                          <td className='p-3 border text-center'>
                             {productDetails.estimatedDeliveryDay}
+                          </td>
+                          <td className='p-3 border'>
+                            {productDetails?.sellerCode}
                           </td>
                           <td className='p-3 border text-center'>
                             {productDetails.isCODAvailable
