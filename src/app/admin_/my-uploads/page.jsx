@@ -48,7 +48,6 @@ const page = () => {
     const query = e.target.value
     setQuery(query)
 
-    // Filter products based on title (case-insensitive search)
     if (query) {
       const filtered = products.filter((product) =>
         product.title.toLowerCase().includes(query.toLowerCase())

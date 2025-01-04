@@ -42,6 +42,9 @@ const AdminLoginPage = () => {
         const sessionExpiryTimestamp = Math.floor(Date.now() / 1000) + 10
         document.cookie = `sessionExpiredTime=${sessionExpiryTimestamp}; path=/;`
 
+        const logoutTime = Math.floor(Date.now() / 1000) + 8 * 3600
+        localStorage.setItem('logoutTime', logoutTime)
+
         setUser(response.data.user)
         localStorage.setItem('user', JSON.stringify(response.data.user))
         if (response.data.user.role === 'ADMIN') {

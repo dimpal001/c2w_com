@@ -11,6 +11,7 @@ import Loading from './Loading'
 import authCheck from '@/utils/authCheck'
 import { useUserContext } from '@/app/context/UserContext'
 import WarningModal from './WarningModal'
+import LogoutModal from './LogoutModa'
 
 // eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
@@ -22,8 +23,17 @@ const Layout = ({ children }) => {
   const { user } = useUserContext()
 
   const [showWarning, setShowWarning] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   useEffect(() => {
+    const logoutTime = localStorage.getItem('logoutTime')
+    const currentTime = Math.floor(Date.now() / 1000)
+    console.log(logoutTime)
+    console.log(currentTime)
+    if (currentTime > logoutTime) {
+      setShowLogoutModal(true)
+    }
+
     const checkAuth = async () => {
       const isAuth = await authCheck(router)
       setIsAuthenticated(isAuth)
@@ -48,6 +58,8 @@ const Layout = ({ children }) => {
         }
       }
     }
+
+    handleCheckIsViewed()
 
     setIsClient(true)
   }, [router, user, pathname])
@@ -75,10 +87,6 @@ const Layout = ({ children }) => {
       enqueueSnackbar('Something went wrong, try again!')
     }
   }
-
-  useEffect(() => {
-    handleCheckIsViewed()
-  }, [user])
 
   const handleCheckIsViewed = async () => {
     try {
@@ -155,6 +163,9 @@ const Layout = ({ children }) => {
           onClose={() => setShowWarning(false)}
           onClick={handleChangeIsViewed}
         />
+      )}
+      {showLogoutModal && (
+        <LogoutModal isOpen={true} onClose={() => setShowLogoutModal(false)} />
       )}
     </div>
   )
