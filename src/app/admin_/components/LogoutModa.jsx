@@ -3,7 +3,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useUserContext } from '@/app/context/UserContext'
 
-const LogoutModal = ({ isOpen, onClose }) => {
+const LogoutModal = ({ isOpen }) => {
   const router = useRouter()
   const { setUser } = useUserContext()
 
