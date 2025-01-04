@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, Store } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
@@ -25,7 +25,6 @@ const AdminLoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // Basic validation
     if (!email || !password) {
       setError('Please fill in both fields.')
       return
@@ -59,91 +58,116 @@ const AdminLoginPage = () => {
   }
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500'>
-      <div className='bg-white text-black p-8 rounded-xl shadow-xl w-full sm:max-w-md'>
-        <h2 className='text-3xl unbounded font-extrabold  text-center mb-6'>
-          Official Login
-        </h2>
+    <div className='flex h-screen w-full'>
+      {/* text content  */}
+      <div className='flex items-center text-white p-24 lg:w-[55%] bg-blue-700'>
+        <div>
+          <Store className='w-20 h-20 mb-6' />
+          <h1 className='text-4xl font-bold mb-4'>Clothes2Wear Admin Portal</h1>
+          <p className='text-lg mb-4 leading-relaxed'>
+            Welcome to the admin portal of Clothes2Wear! Please log in to access
+            your dashboard and manage platform operations efficiently.
+          </p>
+          <p className='text-lg leading-relaxed'>
+            This portal is for authorized staff and admin users only. Ensure
+            your credentials remain secure.
+          </p>
+        </div>
+      </div>
 
-        {/* Error Message */}
-        {error && <p className='text-red-400 text-center mb-4'>{error}</p>}
+      {/* form content  */}
+      <div className='text-black lg:w-[45%] p-24 px-28 w-full flex flex-col justify-center'>
+        <h2 className='text-5xl font-extrabold text-gray-800'>
+          Welcome Back 👋
+        </h2>
+        <p className=' text-gray-600 mb-8'>
+          Log in to your account to manage and monitor the platform.
+        </p>
+
+        {error && (
+          <p className='text-red-600 bg-red-100 rounded-lg text-center p-3 mb-4'>
+            {error}
+          </p>
+        )}
 
         <form onSubmit={handleSubmit}>
-          <div className='mb-5'>
-            <label htmlFor='email' className='block text-sm font-medium '>
-              Email
+          <div className='mb-6'>
+            <label
+              htmlFor='email'
+              className='block text-sm font-medium text-gray-700'
+            >
+              Email Address
             </label>
-            <div className='relative mt-1'>
+            <div className='relative mt-2'>
               <input
-                type='text'
+                type='email'
                 id='email'
-                name='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder='Enter your email'
-                className='pl-10 py-3 border-2 border-gray-300 rounded-lg w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                className='w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50'
                 required
               />
-              <Mail className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500' />
+              <Mail className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
             </div>
           </div>
 
           <div className='mb-6'>
-            <label htmlFor='password' className='block text-sm font-medium '>
+            <label
+              htmlFor='password'
+              className='block text-sm font-medium text-gray-700'
+            >
               Password
             </label>
-            <div className='relative mt-1'>
+            <div className='relative mt-2'>
               <input
                 type={showPassword ? 'text' : 'password'}
                 id='password'
-                name='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder='Enter your password'
-                className='pl-10 py-3 border-2 border-gray-300 rounded-lg w-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                className='w-full pl-10 pr-10 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50'
                 required
               />
-              <Lock className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500' />
+              <Lock className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
               {showPassword ? (
                 <EyeOff
                   onClick={() => setShowPassword(false)}
-                  className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+                  className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-400'
                 />
               ) : (
                 <Eye
                   onClick={() => setShowPassword(true)}
-                  className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
+                  className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-400'
                 />
               )}
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type='submit'
-            className={`w-full ${
-              submitting && 'opacity-60'
-            } unbounded py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105`}
+            className={`w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-transform transform ${
+              submitting ? 'opacity-70 cursor-not-allowed' : 'hover:scale-105'
+            }`}
             disabled={submitting}
           >
-            {submitting ? 'Logging in...' : 'Login'}
+            {submitting ? 'Logging in...' : 'Log In'}
           </button>
         </form>
 
-        <div className='flex justify-between items-center mt-4'>
-          {/* Reset Password Link */}
+        <div className='flex justify-between items-center mt-4 text-sm'>
           <p
             onClick={() => setShowResetPasswordModal(true)}
-            className='text-sm text-black hover:underline cursor-pointer'
+            className='text-indigo-600 cursor-pointer hover:underline'
           >
             Forgot password?
           </p>
         </div>
+
         {showResetPasswordModal && (
           <ResetPasswordModal
             isOpen={true}
             onClose={() => setShowResetPasswordModal(false)}
-            close={() => setShowResetPasswordModal(false)}
           />
         )}
       </div>

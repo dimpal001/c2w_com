@@ -39,6 +39,10 @@ const page = () => {
     fetchData()
   }, [user])
 
+  useEffect(() => {
+    document.title = 'My Uploads'
+  }, [])
+
   // Handle search query change
   const handleSearch = (e) => {
     const query = e.target.value
@@ -83,6 +87,7 @@ const page = () => {
                   <tr className='bg-blue-800 text-white'>
                     <th className='p-2 border border-gray-300'>SL</th>
                     <th className='p-2 border border-gray-300'>Title</th>
+                    <th className='p-2 border border-gray-300'>Status</th>
                     <th className='p-2 border border-gray-300'>Uploaded On</th>
                   </tr>
                 </thead>
@@ -110,8 +115,21 @@ const page = () => {
                             {product.title}
                           </span>
                         </td>
+                        <td className='p-3 border text-center capitalize border-gray-300'>
+                          {product?.isActive ? (
+                            <span className='py-[5px] px-4 rounded-full bg-green-500 text-green-500 bg-opacity-20 text-xs'>
+                              Active
+                            </span>
+                          ) : (
+                            <span className='py-[5px] px-4 rounded-full bg-red-500 text-red-500 bg-opacity-20 text-xs'>
+                              Inactive{' '}
+                            </span>
+                          )}
+                        </td>
                         <td className='p-2 border capitalize border-gray-300'>
-                          {new Date(product.createdAt).toLocaleDateString()}
+                          <p className='text-center'>
+                            {new Date(product.createdAt).toLocaleDateString()}
+                          </p>
                         </td>
                       </tr>
                     ))
