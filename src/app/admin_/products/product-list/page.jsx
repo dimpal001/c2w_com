@@ -220,6 +220,11 @@ const page = () => {
             </h2>
             <div className='flex items-center gap-2'>
               <Button
+                className={'bg-pink-600 border-pink-600'}
+                onClick={() => router.push('/admin_/my-uploads')}
+                label={'My Uploads'}
+              />
+              <Button
                 onClick={() => router.push('/admin_/products/reviews')}
                 label={'Reviews'}
               />

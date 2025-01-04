@@ -10,7 +10,7 @@ import { enqueueSnackbar } from 'notistack'
 import Loading from './Loading'
 import authCheck from '@/utils/authCheck'
 import { useUserContext } from '@/app/context/UserContext'
-import WishModal from './WishModal'
+import WarningModal from './WarningModal'
 
 // eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
@@ -150,7 +150,7 @@ const Layout = ({ children }) => {
         </div>
       )}
       {showWarning && (
-        <WishModal
+        <WarningModal
           isOpen={true}
           onClose={() => setShowWarning(false)}
           onClick={handleChangeIsViewed}

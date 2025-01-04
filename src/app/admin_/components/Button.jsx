@@ -8,6 +8,7 @@ const Button = ({
   loading = false,
   loadingText,
   disabled,
+  className,
 }) => {
   const bgColor = {
     primary: 'bg-blue-800',
@@ -49,7 +50,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`${buttonClass} ${loadingClass} ${
+      className={`${className} ${buttonClass} ${loadingClass} ${
         disabled && 'opacity-60'
       } flex items-center justify-center`}
       disabled={disabled ? disabled : loading}
