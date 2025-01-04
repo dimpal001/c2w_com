@@ -111,7 +111,7 @@ const page = () => {
                           </span>
                         </td>
                         <td className='p-2 border capitalize border-gray-300'>
-                          {new Date(product.createdAt).toLocaleString()}
+                          {new Date(product.createdAt).toLocaleDateString()}
                         </td>
                       </tr>
                     ))
