@@ -435,13 +435,13 @@ const ProductForm = ({
             <Select
               label='Select A Fabric '
               name='fabricId'
-              defaultValue={formData.fabricId}
-              value={formData.fabricId}
+              defaultValue={formData?.fabricId}
+              value={formData?.fabricId}
               onChange={handleChange}
             >
               <option value=''>Select A Fabric</option>
               {fabrics.map((fabric) => (
-                <option key={fabric.id} value={fabric.id}>
+                <option key={fabric?.id} value={fabric?.id}>
                   {fabric?.name}
                 </option>
               ))}

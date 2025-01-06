@@ -10,6 +10,7 @@ import { CategoryProvider } from './context/CategoryContext'
 import { SearchProvider } from './context/SearchContext'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import RouteGuard from './context/RouteGuard'
+import { MantineProvider } from '@mantine/core'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -90,45 +91,47 @@ export default function RootLayout({ children }) {
       <body
         className={`${plhu.variable} ${unbounded.variable} ${inter.variable} antialiased`}
       >
-        <SearchProvider>
-          <CategoryProvider>
-            <UserProvider>
-              <RouteGuard>
-                <SnackbarProvider
-                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                  autoHideDuration={2000}
-                />
-                <div className='font-inter relative'>
-                  <div>{children}</div>
-                </div>{' '}
-                {/* Applies Inter font */}
-                {/* Scroll Buttons */}
-                {isVisible && (
-                  <div className='fixed z-20 bottom-4 right-4 max-sm:bottom-[70px] md:bottom-16 md:right-16 flex flex-col space-y-2'>
-                    <button
-                      onClick={scrollToTop}
-                      className='bg-pink-500 text-white animate__animated animate__fadeInUp flex justify-center p-2 rounded-lg shadow-lg'
-                    >
-                      <ChevronUp
-                        strokeWidth={3}
-                        className='max-sm:w-8 max-sm:h-8 text-white'
-                      />
-                    </button>
-                    <button
-                      onClick={scrollToBottom}
-                      className='bg-pink-500 text-white animate__animated animate__fadeInUp flex justify-center p-2 rounded-lg shadow-lg'
-                    >
-                      <ChevronDown
-                        strokeWidth={3}
-                        className='max-sm:w-8 text-white max-sm:h-8'
-                      />
-                    </button>
-                  </div>
-                )}
-              </RouteGuard>
-            </UserProvider>
-          </CategoryProvider>
-        </SearchProvider>
+        <MantineProvider>
+          <SearchProvider>
+            <CategoryProvider>
+              <UserProvider>
+                <RouteGuard>
+                  <SnackbarProvider
+                    anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    autoHideDuration={2000}
+                  />
+                  <div className='font-inter relative'>
+                    <div>{children}</div>
+                  </div>{' '}
+                  {/* Applies Inter font */}
+                  {/* Scroll Buttons */}
+                  {isVisible && (
+                    <div className='fixed z-20 bottom-4 right-4 max-sm:bottom-[70px] md:bottom-16 md:right-16 flex flex-col space-y-2'>
+                      <button
+                        onClick={scrollToTop}
+                        className='bg-pink-500 text-white animate__animated animate__fadeInUp flex justify-center p-2 rounded-lg shadow-lg'
+                      >
+                        <ChevronUp
+                          strokeWidth={3}
+                          className='max-sm:w-8 max-sm:h-8 text-white'
+                        />
+                      </button>
+                      <button
+                        onClick={scrollToBottom}
+                        className='bg-pink-500 text-white animate__animated animate__fadeInUp flex justify-center p-2 rounded-lg shadow-lg'
+                      >
+                        <ChevronDown
+                          strokeWidth={3}
+                          className='max-sm:w-8 text-white max-sm:h-8'
+                        />
+                      </button>
+                    </div>
+                  )}
+                </RouteGuard>
+              </UserProvider>
+            </CategoryProvider>
+          </SearchProvider>
+        </MantineProvider>
       </body>
     </html>
   )
