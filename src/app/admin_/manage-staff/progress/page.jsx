@@ -135,8 +135,15 @@ const page = () => {
                 onChange={handleSearch}
               />
               <Button label={'Show All'} onClick={clearDateFilter} />
+              <Button
+                variant='secondary'
+                label={`Total: ${products?.length}`}
+              />
               {selectedDate && (
-                <div>{new Date(selectedDate).toLocaleDateString()}</div>
+                <Button
+                  variant='secondary'
+                  label={new Date(selectedDate).toLocaleDateString()}
+                />
               )}
             </div>
 
