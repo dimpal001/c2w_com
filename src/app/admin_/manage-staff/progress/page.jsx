@@ -19,15 +19,16 @@ const page = () => {
   const [selectedDate, setSelectedDate] = useState(null)
 
   let id
-  let firstName
-  let lastName
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      setLoading(true)
       const searchParams = new URLSearchParams(window.location.search)
       id = searchParams.get('id') || ''
-      firstName = searchParams.get('firstName')
-      lastName = searchParams.get('lastName')
+      setFirstName(searchParams.get('firstName'))
+      setLastName(searchParams.get('lastName'))
     }
   }, [])
 
