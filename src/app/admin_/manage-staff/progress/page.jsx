@@ -210,7 +210,7 @@ const page = () => {
                   )}
                 </tbody>
               </table>
-              <div className='text-black'>
+              <div className=''>
                 <Calendar
                   aria-label='Date (Uncontrolled)'
                   value={
@@ -219,7 +219,6 @@ const page = () => {
                       : null
                   }
                   onChange={(date) => handleDateChange(date.toString())}
-                  className='bg-slate-900'
                 />
               </div>
             </div>

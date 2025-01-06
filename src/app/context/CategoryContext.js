@@ -13,7 +13,9 @@ export const CategoryProvider = ({ children }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`/api/admin/menu/categories`)
+        const response = await axios.get(
+          `/api/admin/menu/categories?type=visible`
+        )
         setCategories(response.data)
       } catch {
         /* empty */

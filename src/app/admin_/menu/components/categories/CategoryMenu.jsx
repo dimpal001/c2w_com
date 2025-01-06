@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Eye } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import Button from '../../../components/Button'
 import axios from 'axios'
@@ -89,7 +89,10 @@ const CategoryMenu = () => {
                     fetchedItems.map((item, index) => (
                       <tr key={index}>
                         <td className='border px-4 py-2 capitalize'>
-                          {item?.name}
+                          <div className='flex items-center justify-between'>
+                            <div>{item?.name}</div>
+                            {item?.isVisible && <Eye />}
+                          </div>
                         </td>
                         <td className='border flex justify-center py-2'>
                           <div className='flex items-center justify-center gap-2'>

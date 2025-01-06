@@ -15,7 +15,7 @@ export async function POST(request) {
       )
     }
 
-    const { name } = await request.json()
+    const { name, visibility } = await request.json()
 
     // Generate slug
     const slug = slugify(name, { lower: true })
@@ -38,6 +38,7 @@ export async function POST(request) {
       data: {
         name,
         slug,
+        isVisible: visibility === 'visible' ? true : false,
       },
     })
 
@@ -59,6 +60,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
 
   const id = searchParams.get('id')
+  const type = searchParams.get('type')
   try {
     if (id) {
       const category = await prisma.productCategory.findUnique({
@@ -68,6 +70,17 @@ export async function GET(request) {
         },
       })
       return NextResponse.json(category, { status: 200 })
+    }
+
+    if (type) {
+      const categories = await prisma.productCategory.findMany({
+        where: { isVisible: true },
+        include: {
+          subcategories: true,
+        },
+      })
+
+      return NextResponse.json(categories, { status: 200 })
     }
 
     const categories = await prisma.productCategory.findMany({
@@ -94,37 +107,25 @@ export async function PATCH(request) {
       )
     }
 
-    const { id, name } = await request.json()
+    const { id, name, visibility } = await request.json()
 
     // Generate slug
     const slug = slugify(name, { lower: true })
 
-    const isExist = await prisma.productCategory.findUnique({
-      where: {
-        slug,
-      },
-    })
-
-    if (isExist) {
-      return NextResponse.json(
-        { message: 'Category already exist' },
-        { status: 409 }
-      )
-    }
-
-    // Add the new Size to the database
-    const size = await prisma.productCategory.update({
+    // Add the new Category to the database
+    const category = await prisma.productCategory.update({
       where: {
         id,
       },
       data: {
         name,
         slug,
+        isVisible: visibility === 'visible' ? true : false,
       },
     })
 
     return NextResponse.json(
-      size,
+      category,
       { message: 'Cateogry updated successfully' },
       { status: 200 }
     )

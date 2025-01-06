@@ -15,7 +15,7 @@ export async function GET(request) {
   const page = searchParams.get('page')
   try {
     // Pagination settings
-    const itemsPerPage = 12
+    const itemsPerPage = 50
     const skip = (page - 1) * itemsPerPage
 
     const where = {}

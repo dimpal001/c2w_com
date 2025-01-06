@@ -208,6 +208,7 @@ model ProductCategory {
   id            String        @id @default(uuid())
   name          String
   slug          String        @unique
+  isVisible     Boolean       @default(false)
   products      Product[]     @relation("ProductCategories")
   subcategories SubCategory[]
 
