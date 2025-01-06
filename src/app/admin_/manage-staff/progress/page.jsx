@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Layout from '../../components/Layout'
 import Loading from '../../components/Loading'
 import Input from '../../products/components/Input'
@@ -16,12 +16,20 @@ const page = () => {
   const [filteredProducts, setFilteredProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const [selectedDate, setSelectedDate] = useState(null) // No date selected initially
+  const [selectedDate, setSelectedDate] = useState(null)
 
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
-  const firstName = searchParams.get('firstName')
-  const lastName = searchParams.get('lastName')
+  let id
+  let firstName
+  let lastName
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search)
+      id = searchParams.get('id') || ''
+      firstName = searchParams.get('firstName')
+      lastName = searchParams.get('lastName')
+    }
+  }, [])
 
   const router = useRouter()
 
@@ -35,7 +43,7 @@ const page = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         )
         setProducts(sortedProducts)
-        setFilteredProducts(sortedProducts) // Show all products by default
+        setFilteredProducts(sortedProducts)
       }
     } catch {
       // Handle any errors here
