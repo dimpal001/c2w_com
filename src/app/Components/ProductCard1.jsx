@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
+'use client'
+
 import React, { useState } from 'react'
 import { Heart, Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { cdnPath } from './cdnPath'
 import { useUserContext } from '../context/UserContext'
 import { enqueueSnackbar } from 'notistack'
@@ -16,8 +18,11 @@ const ProductCard1 = ({ product }) => {
 
   const { user, setUser } = useUserContext()
 
+  const pathname = usePathname()
+
   const handleAddWishList = async () => {
     if (!user) {
+      localStorage.setItem('currentPath', pathname)
       router.push('/auth/signin')
       return
     }

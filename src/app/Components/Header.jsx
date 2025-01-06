@@ -88,7 +88,7 @@ const Header = ({ sticky = true }) => {
               <input
                 // placeholder='Search here...'
                 type='text'
-                className='w-full text-sm focus:outline-none bg-transparent'
+                className='w-full relative z-20 text-sm focus:outline-none bg-transparent'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -105,7 +105,7 @@ const Header = ({ sticky = true }) => {
                   ]}
                   wrapper='span'
                   speed={30}
-                  className='text-sm text-gray-600 absolute top-1 left-1'
+                  className='text-sm text-gray-600 absolute z-10 top-1 left-1'
                   repeat={Infinity}
                 />
               )}

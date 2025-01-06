@@ -83,7 +83,15 @@ export default function FullNamePage() {
         setUser(response.data.user)
         localStorage.setItem('user', JSON.stringify(response.data.user))
         enqueueSnackbar(response.data.message, { variant: 'success' })
-        router.push('/')
+
+        const currentPath = localStorage.getItem('currentPath')
+
+        if (currentPath) {
+          router.replace(currentPath)
+          localStorage.removeItem('currentPath')
+        } else {
+          router.push('/')
+        }
       }
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })

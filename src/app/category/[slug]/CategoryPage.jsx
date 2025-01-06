@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 'use client'
 
-/* eslint-disable react/prop-types */
 import CategoryBar from '@/app/Components/CategoryBar'
 import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from './Sidebar'
@@ -59,25 +59,20 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
 
   useEffect(() => {
     if (searchQuery) {
+      setCurrentPage(1)
       fetchFilterData(1)
     }
   }, [searchQuery])
 
   useEffect(() => {
     fetchFilterData(currentPage)
-    const newPage = currentPage + 1
-    setCurrentPage(newPage)
   }, [])
 
   useEffect(() => {
-    if (hasMoreProducts) {
-      setTimeout(() => {
-        fetchFilterData(currentPage)
-        const newPage = currentPage + 1
-        setCurrentPage(newPage)
-      }, 1000)
+    if (hasMoreProducts && !fetching) {
+      fetchFilterData(currentPage)
     }
-  }, [currentPage])
+  }, [currentPage, hasMoreProducts])
 
   const fetchFilterData = async (page = 1) => {
     const storedColors =
@@ -114,6 +109,12 @@ const CategoryPage = ({ slug, subCategorySlug }) => {
       )
 
       setHasMoreProducts(response.data.hasMoreProducts)
+
+      if (response?.data?.hasMoreProducts) {
+        setCurrentPage((prevPage) => prevPage + 1)
+      } else {
+        setHasMoreProducts(false)
+      }
 
       if (response.data.products.length === 0) {
         setIsEmptyProduct(true)

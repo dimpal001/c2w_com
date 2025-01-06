@@ -3,10 +3,13 @@
 import React, { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCategories } from '../context/CategoryContext'
+import { useSearch } from '../context/SearchContext'
 
 const CategoryBar = () => {
   const { categories } = useCategories()
   const router = useRouter()
+
+  const { setSearchQuery } = useSearch()
 
   const pathname = usePathname()
   const currentCategory = pathname.split('/')[2]
@@ -26,7 +29,10 @@ const CategoryBar = () => {
         categories.map((item, index) => (
           <div
             className='group relative'
-            onClick={() => router.push(`/category/${item.slug}`)}
+            onClick={() => {
+              setSearchQuery('')
+              router.push(`/category/${item.slug}`)
+            }}
             onMouseEnter={() => setHoveredCategory(item)}
             key={index}
           >

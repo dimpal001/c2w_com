@@ -10,7 +10,6 @@ import Link from 'next/link'
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
 import { useRouter } from 'next/navigation'
-import Button from '@/app/admin_/components/Button'
 import { useUserContext } from '@/app/context/UserContext'
 import LogoImg from '../../../assets/img.webp'
 
@@ -20,10 +19,7 @@ export default function SigninPage() {
   const [isForgot, setIsForgot] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({ email: '', password: '' })
-  const [loginError, setLoginError] = useState(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [showLogoutButton, setShowLogoutButton] = useState(false)
-  const [loggingOut, setLoggingOut] = useState(false)
 
   const { user, setUser } = useUserContext()
 
@@ -52,14 +48,12 @@ export default function SigninPage() {
 
   const handleSignIn = async (e) => {
     e.preventDefault()
-    setLoginError(null)
 
     if (!validateFields()) {
       return
     }
 
     try {
-      setShowLogoutButton(true)
       setSubmitting(true)
       if (validateFields()) {
         const response = await axios.post('/api/auth/login', {
@@ -73,22 +67,25 @@ export default function SigninPage() {
 
         enqueueSnackbar(response.data.message, { variant: 'success' })
       }
-      router.push('/')
+
+      const currentPath = localStorage.getItem('currentPath')
+
+      if (currentPath) {
+        router.replace(currentPath)
+        localStorage.removeItem('currentPath')
+      } else {
+        router.push('/')
+      }
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.message, {
         variant: 'error',
         autoHideDuration: 4000,
       })
       if (error.response.status === 301) {
-        setLoginError(error?.response?.data?.message)
         enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
         localStorage.setItem('email', email)
         router.push('/auth/otp')
       }
-      if (error.response.status === 403) {
-        setShowLogoutButton(true)
-      }
-      setLoginError(error?.response?.data?.message)
     } finally {
       setSubmitting(false)
     }
@@ -104,20 +101,6 @@ export default function SigninPage() {
       router.push('/')
     }
   }, [])
-
-  const handleLogout = async () => {
-    try {
-      setLoggingOut(true)
-      const response = await axios.post(`/api/auth/logout?email=${email}`)
-      enqueueSnackbar(response.data.message, { variant: 'success' })
-    } catch (error) {
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
-    } finally {
-      setShowLogoutButton(false)
-      setLoggingOut(false)
-      setLoginError(null)
-    }
-  }
 
   return (
     <div className='min-h-screen flex items-center max-sm:p-4 justify-center bg-[#faf6f3]'>
@@ -259,26 +242,6 @@ export default function SigninPage() {
             />
           </div>
         </div>
-
-        {/* Show error part  */}
-        {loginError && (
-          <div className='absolute animate__animated animate__fadeInRight animate__faster top-4 right-4 text-xs max-w-[300px] p-3 border-red-600 border rounded-lg bg-red-100 text-red-600'>
-            <div className='flex items-center gap-1'>
-              <CircleAlert className='text-red-600' size={16} />
-              {loginError}
-            </div>
-            {showLogoutButton && (
-              <div className='mt-2'>
-                <Button
-                  loading={loggingOut}
-                  onClick={handleLogout}
-                  label={'Logout from all devices'}
-                  variant='error'
-                />
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </div>
   )

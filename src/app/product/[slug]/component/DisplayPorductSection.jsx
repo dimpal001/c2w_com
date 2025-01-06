@@ -20,7 +20,7 @@ import {
   MoveDown,
   Plus,
 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import React, { useState } from 'react'
 import ProductInfo from './ProductInfo'
@@ -76,6 +76,8 @@ const DisplayPorductSection = ({ product }) => {
     product?.inventory[0].minQuantity
   )
 
+  const pathname = usePathname()
+
   const [addingCart, setAddingCart] = useState(false)
   const [addingWishList, setAddingWishList] = useState(false)
 
@@ -88,6 +90,12 @@ const DisplayPorductSection = ({ product }) => {
   const [submitting, setSubmitting] = useState(false)
 
   const handleBuyNowClick = async () => {
+    if (!user) {
+      localStorage.setItem('currentPath', pathname)
+      router.push('/auth/signin')
+      return
+    }
+
     const selectedSizeId = selectedInventory?.size?.id
     const totalPrice = selectedInventory?.price * selectedQuantity
 
@@ -121,6 +129,7 @@ const DisplayPorductSection = ({ product }) => {
 
   const handleAddToCart = async () => {
     if (!user) {
+      localStorage.setItem('currentPath', pathname)
       router.push('/auth/signin')
       return
     }
@@ -156,6 +165,7 @@ const DisplayPorductSection = ({ product }) => {
 
   const handleAddWishList = async () => {
     if (!user) {
+      localStorage.setItem('currentPath', pathname)
       router.push('/auth/signin')
       return
     }
@@ -325,14 +335,16 @@ const DisplayPorductSection = ({ product }) => {
             className={` p-2 rounded-lg max-sm:px-3 max-sm:p-1 px-4 bg-pink-200`}
           >
             {addingWishList ? (
-              <Loader2 className='text-pink-600 w-10 h-10 max-sm:w-8 max-sm:h-8 animate-spin' />
+              <Loader2 className='text-pink-600 w-8 h-8 max-sm:w-7 max-sm:h-7 animate-spin' />
             ) : (
               <Heart
                 onClick={handleAddWishList}
-                className={`text-pink-500 fill-white cursor-pointer ${
-                  user?.wishlistItem?.some(
+                className={`text-pink-500 cursor-pointer h-8 w-8 max-sm:w-7 max-sm:h-7 ${
+                  user?.wishlistItem?.find(
                     (item) => item.productId === product.id
-                  ) && 'fill-pink-500 h-10 w-10 max-sm:w-8 max-sm:h-8'
+                  )
+                    ? 'fill-pink-500'
+                    : 'fill-white'
                 }`}
               />
             )}
@@ -366,7 +378,7 @@ const DisplayPorductSection = ({ product }) => {
             onClick={handleAddToCart}
             className={`rounded-lg ${
               addingCart && 'opacity-60'
-            } py-2 w-full max-sm:p-1 font-semibold bg-pink-200`}
+            }  py-2 w-full max-sm:p-1 font-semibold bg-pink-200`}
           >
             {addingCart
               ? 'Adding...'
