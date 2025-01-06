@@ -12,6 +12,7 @@ import {
   ArrowLeftCircle,
   BadgeIndianRupee,
   LoaderCircle,
+  AlertCircle,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useUserContext } from '../context/UserContext'
@@ -194,9 +195,15 @@ const CheckoutPage = ({ orderData }) => {
     <div>
       {orderData && (
         <div className='max-w-6xl mx-auto p-6'>
+          <div className='bg-yellow-200 bg-opacity-30 text-yellow-600 p-4 rounded-lg mb-6 flex items-center gap-2'>
+            <AlertCircle size={20} className='text-yellow-600' />
+            <span className='text-sm'>
+              Please do not refresh this page to avoid losing your progress.
+            </span>
+          </div>
           <div className='flex justify-between items-center mb-6'>
             <div className='flex items-center gap-2'>
-              <BadgeIndianRupee className='w-8 h-8 text-pink-600' />
+              <BadgeIndianRupee className='w-8 h-8 text-pink-500' />
               <h1 className='text-3xl font-semibold'>Checkout</h1>
             </div>
             <button
@@ -260,7 +267,7 @@ const CheckoutPage = ({ orderData }) => {
                     ? handleOrderPlace()
                     : handleProceedPayment()
                 }
-                className='w-full py-2 disabled:hover:bg-pink-600 disabled:opacity-70 mt-4 flex gap-2 items-center justify-center text-white bg-pink-600 rounded-lg hover:bg-pink-700'
+                className='w-full py-2 disabled:hover:bg-pink-500 disabled:opacity-70 mt-4 flex gap-2 items-center justify-center text-white bg-pink-500 rounded-lg hover:bg-pink-700'
               >
                 {submitting ? (
                   <LoaderCircle className='animate-spin' />

@@ -23,6 +23,7 @@ export async function GET(request) {
             size: true,
           },
         },
+        fabric: true,
         productReview: true,
         images: {
           select: {
@@ -58,6 +59,7 @@ export async function GET(request) {
               size: true,
             },
           },
+          fabric: true,
           productReview: true,
           images: {
             select: {
@@ -92,6 +94,7 @@ export async function GET(request) {
                   size: true,
                 },
               },
+              fabric: true,
               productReview: true,
               images: {
                 select: {

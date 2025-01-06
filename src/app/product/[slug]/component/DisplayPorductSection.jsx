@@ -231,6 +231,26 @@ const DisplayPorductSection = ({ product }) => {
         </div>
       </div>
 
+      <div className='flex items-center sm:hidden gap-1 overflow-scroll scrollbar-hide text-nowrap text-sm mt-2'>
+        {product?.fabric && (
+          <p className='text-sm'>
+            Fabric: <strong>{product?.fabric?.name}</strong>
+          </p>
+        )}
+        {product?.fabric && <span>|</span>}
+        <p>
+          Est. Delivery by:{' '}
+          {new Date(
+            new Date().setDate(
+              new Date().getDate() + product.estimatedDeliveryDay
+            )
+          ).toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+          })}
+        </p>
+      </div>
+
       <div className='w-full sm:hidden flex gap-2 items-center'>
         {product?.images.length > 0 &&
           Array.from(
@@ -290,14 +310,25 @@ const DisplayPorductSection = ({ product }) => {
                 setSelectedQuantity={setSelectedQuantity}
               />
             )}
-            <p className='text-sm mt-2'>
-              Est. Delivery by:{' '}
-              {new Date(
-                new Date().setDate(
-                  new Date().getDate() + product.estimatedDeliveryDay
-                )
-              ).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}
-            </p>
+            <div className='flex items-center max-sm:hidden gap-3 mt-2'>
+              {product?.fabric && (
+                <p>
+                  Fabric: <strong>{product?.fabric?.name}</strong>
+                </p>
+              )}
+              {product?.fabric && <span>|</span>}
+              <p className='text-sm'>
+                Est. Delivery by:{' '}
+                {new Date(
+                  new Date().setDate(
+                    new Date().getDate() + product.estimatedDeliveryDay
+                  )
+                ).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                })}
+              </p>
+            </div>
           </div>
         </div>
 

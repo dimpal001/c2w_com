@@ -15,6 +15,18 @@ export async function POST(request) {
     }
     const { couponCode, orderDetailsId, userId, device } = await request.json()
 
+    // Fetch discount details
+    const discount = await prisma.discount.findUnique({
+      where: { code: couponCode },
+    })
+
+    if (!discount || !discount.isActive) {
+      return NextResponse.json(
+        { message: 'Invalid coupon code' },
+        { status: 404 }
+      )
+    }
+
     if (device !== '__##mobile()$') {
       return NextResponse.json(
         {
@@ -56,18 +68,6 @@ export async function POST(request) {
       return NextResponse.json(
         { message: 'A discount is already applied to this order' },
         { status: 400 }
-      )
-    }
-
-    // Fetch discount details
-    const discount = await prisma.discount.findUnique({
-      where: { code: couponCode },
-    })
-
-    if (!discount || !discount.isActive) {
-      return NextResponse.json(
-        { message: 'Invalid or inactive coupon code' },
-        { status: 404 }
       )
     }
 

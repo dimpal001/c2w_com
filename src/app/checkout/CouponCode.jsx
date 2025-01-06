@@ -24,7 +24,7 @@ const CouponCode = ({
         />
         <button
           onClick={applyCoupon}
-          className='bg-pink-600 text-white p-2 rounded-lg hover:bg-pink-700'
+          className='bg-pink-500 text-white p-2 rounded-lg hover:bg-pink-600'
         >
           {applying ? <LoaderCircle className='animate-spin' /> : 'Apply'}
         </button>

@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import CustomEditor from './Editor'
 import Layout from '../../components/Layout'
+import CustomEditor from '../../products/components/CustomEditor'
 
 const page = () => {
   return (

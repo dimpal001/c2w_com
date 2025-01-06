@@ -6,11 +6,14 @@ import CreateEditStaffModal from './CreateEditStaffModal'
 import axios from 'axios'
 import { FilePen } from 'lucide-react'
 import { enqueueSnackbar } from 'notistack'
+import { useRouter } from 'next/navigation'
 
 const ManageStaffPage = () => {
   const [showCreateEditModal, setShowCreateEditModal] = useState(false)
   const [selectedStaff, setSelectedStaff] = useState(null)
   const [staffs, setStaffs] = useState([])
+
+  const router = useRouter()
 
   const fetchStaffs = async () => {
     try {
@@ -50,6 +53,7 @@ const ManageStaffPage = () => {
                 <th className='border px-4 py-2 text-left'>Email</th>
                 <th className='border px-4 py-2 text-left'>Privileges</th>
                 <th className='border px-4 py-2 text-center'>Action</th>
+                <th className='border px-4 py-2 text-center'>Review</th>
               </tr>
             </thead>
             <tbody>
@@ -83,6 +87,16 @@ const ManageStaffPage = () => {
                           className='text-blue-600 cursor-pointer'
                         />
                       </div>
+                    </td>
+                    <td className='border px-2 text-center py-2'>
+                      <Button
+                        onClick={() => {
+                          router.push(
+                            `/admin_/manage-staff/progress?id=${item?.id}&firstName=${item?.firstName}&lastName=${item?.lastName}`
+                          )
+                        }}
+                        label={'Progress'}
+                      />
                     </td>
                   </tr>
                 ))}

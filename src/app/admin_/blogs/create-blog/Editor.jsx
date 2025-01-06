@@ -39,10 +39,10 @@ const CustomEditor = () => {
   }
 
   return (
-    <RichTextEditor editor={editor}>
-      <RichTextEditor.Toolbar sticky stickyOffset={60}>
-        <RichTextEditor.ControlsGroup>
-          <div className='flex gap-1'>
+    <div className='max-w-4xl mx-auto mt-10 bg-white shadow-lg rounded-lg border border-gray-200'>
+      <RichTextEditor editor={editor}>
+        <div className='bg-gray-100 border-b border-gray-300 rounded-t-lg p-4 grid grid-cols-4 gap-2'>
+          <div className='space-x-2 flex'>
             <RichTextEditor.Bold />
             <RichTextEditor.Italic />
             <RichTextEditor.Underline />
@@ -51,56 +51,42 @@ const CustomEditor = () => {
             <RichTextEditor.Highlight />
             <RichTextEditor.Code />
           </div>
-        </RichTextEditor.ControlsGroup>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.H1 />
-          <RichTextEditor.H2 />
-          <RichTextEditor.H3 />
-          <RichTextEditor.H4 />
-        </RichTextEditor.ControlsGroup>
+          <div className='space-x-2 flex'>
+            <RichTextEditor.H1 />
+            <RichTextEditor.H2 />
+            <RichTextEditor.H3 />
+            <RichTextEditor.H4 />
+          </div>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Blockquote />
-          <RichTextEditor.Hr />
-          <RichTextEditor.BulletList />
-          <RichTextEditor.OrderedList />
-          <RichTextEditor.Subscript />
-          <RichTextEditor.Superscript />
-        </RichTextEditor.ControlsGroup>
+          <div className='space-x-2 flex'>
+            <RichTextEditor.Blockquote />
+            <RichTextEditor.Hr />
+            <RichTextEditor.BulletList />
+            <RichTextEditor.OrderedList />
+            <RichTextEditor.Subscript />
+            <RichTextEditor.Superscript />
+          </div>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Link />
-          <RichTextEditor.Unlink />
-        </RichTextEditor.ControlsGroup>
+          <div className='space-x-2 flex'>
+            <RichTextEditor.Link />
+            <RichTextEditor.Unlink />
+            <button
+              onClick={addImage}
+              className='flex items-center px-2 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+              type='button'
+            >
+              <ImageIcon className='w-5 h-5 mr-1' />
+              Image
+            </button>
+          </div>
+        </div>
 
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.AlignLeft />
-          <RichTextEditor.AlignCenter />
-          <RichTextEditor.AlignJustify />
-          <RichTextEditor.AlignRight />
-        </RichTextEditor.ControlsGroup>
-
-        <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Undo />
-          <RichTextEditor.Redo />
-        </RichTextEditor.ControlsGroup>
-
-        {/* Add Image Button */}
-        <RichTextEditor.ControlsGroup>
-          <button
-            onClick={addImage}
-            className='flex items-center px-2 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-            type='button'
-          >
-            <ImageIcon className='w-5 h-5 mr-1 text-gray-700' />
-            Image
-          </button>
-        </RichTextEditor.ControlsGroup>
-      </RichTextEditor.Toolbar>
-
-      <RichTextEditor.Content />
-    </RichTextEditor>
+        <div className='p-4'>
+          <RichTextEditor.Content />
+        </div>
+      </RichTextEditor>
+    </div>
   )
 }
 
