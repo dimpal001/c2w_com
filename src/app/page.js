@@ -9,7 +9,7 @@ const schemaData = {
   name: 'Clothes2Wear',
   url: 'https://www.clothes2wear.com',
   description:
-    'Clothes2Wear offers the latest trends in fashion, with the best deals on clothing, shoes, and accessories.',
+    'Clothes2wear is fastest growing online shopping website for Indian ethnic wear with a huge variety of sarees, lehengas, salwar suit, sherwanis and many more.',
   potentialAction: {
     '@type': 'SearchAction',
     target: 'https://www.clothes2wear.com/search',
@@ -23,13 +23,13 @@ const schemaData = {
     'https://www.linkedin.com/company/clothes2wear',
   ],
   mainEntityOfPage: 'https://www.clothes2wear.com',
-  headline: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+  headline: 'Fastest growing Indian Ethnic Wear Online Store of the World',
 }
 
 export const metadata = {
-  title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+  title: 'Fastest growing Indian Ethnic Wear Online Store of the World',
   description:
-    'Clothes2Wear offers the latest fashion trends, Clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+    'Clothes2wear is fastest growing online shopping website for Indian ethnic wear with a huge variety of sarees, lehengas, salwar suit, sherwanis and many more.',
   keywords:
     'Clothing, fashion, online shopping, shoes, accessories, latest trends, Clothes2wear',
   robots: 'index, follow',
@@ -38,9 +38,9 @@ export const metadata = {
   structuredData: schemaData,
 
   openGraph: {
-    title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+    title: 'Fastest growing Indian Ethnic Wear Online Store of the World',
     description:
-      'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+      'Clothes2wear is fastest growing online shopping website for Indian ethnic wear with a huge variety of sarees, lehengas, salwar suit, sherwanis and many more.',
     url: 'https://www.clothes2wear.com',
     type: 'website',
     site_name: 'Clothes2Wear',
@@ -57,9 +57,9 @@ export const metadata = {
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+    title: 'Fastest growing Indian Ethnic Wear Online Store of the World',
     description:
-      'Clothes2Wear offers the latest fashion trends, clothing, shoes, and accessories for men and women at the best prices. Shop online now!',
+      'Clothes2wear is fastest growing online shopping website for Indian ethnic wear with a huge variety of sarees, lehengas, salwar suit, sherwanis and many more.',
     image: 'https://www.clothes2wear.com/twitter-card-image.jpg',
     creator: '@clothes2wear',
   },

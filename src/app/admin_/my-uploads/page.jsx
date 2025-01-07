@@ -58,6 +58,20 @@ const page = () => {
     }
   }
 
+  const groupProductsByDate = (products) => {
+    const grouped = {}
+    products.forEach((product) => {
+      const date = new Date(product.createdAt).toLocaleDateString()
+      if (!grouped[date]) {
+        grouped[date] = []
+      }
+      grouped[date].push(product)
+    })
+    return grouped
+  }
+
+  const groupedProducts = groupProductsByDate(filteredProducts)
+
   return (
     <div>
       <Layout>
@@ -87,50 +101,59 @@ const page = () => {
                     <th className='p-2 border border-gray-300'>SL</th>
                     <th className='p-2 border border-gray-300'>Title</th>
                     <th className='p-2 border border-gray-300'>Status</th>
-                    <th className='p-2 border border-gray-300'>Uploaded On</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProducts.length > 0 ? (
-                    filteredProducts.map((product, index) => (
-                      <tr
-                        key={index}
-                        className={`${
-                          index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
-                        }`}
-                      >
-                        <td className='p-2 border text-center border-gray-300'>
-                          {index + 1}
-                        </td>
-                        <td className='p-2 border capitalize border-gray-300'>
-                          <span
-                            onClick={() =>
-                              router.push(
-                                `/admin_/products/single-product/${product?.id}`
-                              )
-                            }
-                            className='hover:text-blue-800 hover:underline cursor-pointer'
+                  {Object.keys(groupedProducts).length > 0 ? (
+                    Object.keys(groupedProducts).map((date, dateIndex) => (
+                      <React.Fragment key={dateIndex}>
+                        <tr className='bg-blue-200'>
+                          <td
+                            colSpan='3'
+                            className='p-2 border text-center border-gray-300 font-bold'
                           >
-                            {product.title}
-                          </span>
-                        </td>
-                        <td className='p-3 border text-center capitalize border-gray-300'>
-                          {product?.isActive ? (
-                            <span className='py-[5px] px-4 rounded-full bg-green-500 text-green-500 bg-opacity-20 text-xs'>
-                              Active
+                            {date}
+                            <span className='pl-4 text-green-500 text-xl'>
+                              [{groupedProducts[date]?.length}]
                             </span>
-                          ) : (
-                            <span className='py-[5px] px-4 rounded-full bg-red-500 text-red-500 bg-opacity-20 text-xs'>
-                              Inactive{' '}
-                            </span>
-                          )}
-                        </td>
-                        <td className='p-2 border capitalize border-gray-300'>
-                          <p className='text-center'>
-                            {new Date(product.createdAt).toLocaleDateString()}
-                          </p>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
+                        {groupedProducts[date].map((product, index) => (
+                          <tr
+                            key={index}
+                            className={`${
+                              index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                            }`}
+                          >
+                            <td className='p-2 border text-center border-gray-300'>
+                              {index + 1}
+                            </td>
+                            <td className='p-2 border capitalize border-gray-300'>
+                              <span
+                                onClick={() =>
+                                  router.push(
+                                    `/admin_/products/single-product/${product?.id}`
+                                  )
+                                }
+                                className='hover:text-blue-800 hover:underline cursor-pointer'
+                              >
+                                {product.title}
+                              </span>
+                            </td>
+                            <td className='p-3 border text-center capitalize border-gray-300'>
+                              {product?.isActive ? (
+                                <span className='py-[5px] px-4 rounded-full bg-green-500 text-green-500 bg-opacity-20 text-xs'>
+                                  Active
+                                </span>
+                              ) : (
+                                <span className='py-[5px] px-4 rounded-full bg-red-500 text-red-500 bg-opacity-20 text-xs'>
+                                  Inactive{' '}
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </React.Fragment>
                     ))
                   ) : (
                     <tr>

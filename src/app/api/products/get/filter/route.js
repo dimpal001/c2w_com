@@ -6,6 +6,7 @@ const prisma = new PrismaClient()
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const searchQuery = searchParams.get('searchQuery')
+  const sellerCode = searchParams.get('sellerCode')
   const categoryId = searchParams.get('categoryId')
   const subCategoryId = searchParams.get('subCategoryId')
   const minPrice = searchParams.get('minPrice')
@@ -23,6 +24,12 @@ export async function GET(request) {
     if (searchQuery) {
       where.title = {
         contains: searchQuery,
+      }
+    }
+
+    if (sellerCode) {
+      where.sellerCode = {
+        contains: sellerCode,
       }
     }
 

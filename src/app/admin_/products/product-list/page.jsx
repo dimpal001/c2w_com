@@ -21,22 +21,23 @@ import {
   Ellipsis,
   FilePen,
   FileText,
+  Info,
   Star,
   Trash2,
 } from 'lucide-react'
 import DeleteModal from '@/app/Components/DeleteModal'
 import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
 import ErrorComponent from '../../components/ErrorComponent'
+import { Tooltip } from '@nextui-org/tooltip'
 
 const page = () => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [sellerCode, setSellerCode] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [productList, setProductList] = useState([])
   const [allCategories, setAllCategories] = useState([])
-  const [colors, setColors] = useState([])
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
-  const [color, setColor] = useState('')
   const [subCategoryId, setSubCategoryId] = useState('')
   const [fetching, setFetching] = useState(false)
   const [currentPage, setCurrentPage] = useState(null)
@@ -46,6 +47,7 @@ const page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [debouncedQuery, setDebouncedQuery] = useState('')
+  const [debouncedSellerCode, setDebouncedSellerCode] = useState('')
   const [debouncedMinPrice, setDebouncedMinPrice] = useState('')
   const [debouncedMaxPrice, setDebouncedMaxPrice] = useState('')
   const [filteredSubCategories, setFilteredSubCategories] = useState([])
@@ -62,13 +64,8 @@ const page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoriesRes, colorsRes] = await Promise.all([
-          axios.get('/api/admin/menu?type=categories'),
-          axios.get('/api/admin/menu?type=colors'),
-        ])
-
-        setColors(colorsRes.data)
-        setAllCategories(categoriesRes.data)
+        const response = await axios.get('/api/admin/menu?type=categories')
+        setAllCategories(response.data)
       } catch (error) {
         setError(error.message || 'An unexpected error occured!')
       }
@@ -77,14 +74,24 @@ const page = () => {
   }, [])
 
   useEffect(() => {
-    const handler1 = setTimeout(() => {
+    const handler = setTimeout(() => {
       setDebouncedQuery(searchQuery)
     }, 500)
 
     return () => {
-      clearTimeout(handler1)
+      clearTimeout(handler)
     }
   }, [searchQuery])
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSellerCode(sellerCode)
+    }, 500)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [sellerCode])
 
   useEffect(() => {
     const handler2 = setTimeout(() => {
@@ -115,7 +122,7 @@ const page = () => {
         subCategoryId,
         minPrice,
         maxPrice,
-        color,
+        sellerCode,
         sortOption,
         page: page || 1,
       }
@@ -183,11 +190,11 @@ const page = () => {
     fetchProductList()
   }, [
     debouncedQuery,
+    debouncedSellerCode,
     categoryId,
     subCategoryId,
     debouncedMinPrice,
     debouncedMaxPrice,
-    color,
     sortOption,
   ])
 
@@ -240,13 +247,25 @@ const page = () => {
           </div>
 
           {/* Filters */}
-          <div className='flex my-2 flex-wrap items-end gap-2'>
+          <div className='flex my-2 flex-wrap items-end gap-1'>
             <Input
               type='text'
               placeholder='Search by title'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <div className='relative'>
+              <Input
+                className={'uppercase placeholder:capitalize'}
+                type='text'
+                placeholder='Search by seller code'
+                value={sellerCode}
+                onChange={(e) => setSellerCode(e.target.value)}
+              />
+              <Tooltip content='Fill the exact seller code' color='warning'>
+                <Info className='w-4 mx-auto h-4 absolute top-[13px] right-2' />
+              </Tooltip>
+            </div>
 
             <Select
               value={categoryId}
@@ -273,20 +292,6 @@ const page = () => {
               {filteredSubCategories?.map((subCategory) => (
                 <option key={subCategory?.id} value={subCategory?.id}>
                   {subCategory.name.toUpperCase()}
-                </option>
-              ))}
-            </Select>
-
-            <Select
-              value={color}
-              className={'w-full'}
-              onChange={(e) => setColor(e.target.value)}
-              name='color'
-            >
-              <option value=''>Select Color</option>
-              {colors?.map((colorOption) => (
-                <option key={colorOption?.id} value={colorOption?.id}>
-                  {colorOption.name.toUpperCase()}
                 </option>
               ))}
             </Select>

@@ -73,7 +73,7 @@ export default function RootLayout({ children }) {
       'https://www.linkedin.com/company/clothes2wear',
     ],
     mainEntityOfPage: 'https://www.clothes2wear.com',
-    headline: 'Clothes2Wear | Trendy Fashion, Best Deals on Clothing',
+    headline: 'Fastest growing Indian Ethnic Wear Online Store of the World',
   }
 
   return (
