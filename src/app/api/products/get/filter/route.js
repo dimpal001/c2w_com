@@ -128,6 +128,7 @@ export async function GET(request) {
           },
         },
         images: true,
+        user: true,
       },
     })
 
@@ -143,6 +144,7 @@ export async function GET(request) {
         displayPrice: product.displayPrice,
         thumbnailUrl: product.thumbnailUrl,
         images: product.images,
+        user: product.user,
       })),
       currentPage: page,
       totalPages,

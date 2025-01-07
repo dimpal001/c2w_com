@@ -109,6 +109,9 @@ export async function PATCH(request) {
       })
     )
 
+    const allCategories = await prisma.productCategory.findMany()
+    const allSubCategories = await prisma.subCategory.findMany()
+
     // Start a transaction to update product details
     await prisma.$transaction([
       prisma.productImage.deleteMany({
@@ -145,9 +148,13 @@ export async function PATCH(request) {
                 }
               : undefined,
           categories: {
+            disconnect: allCategories.map((category) => ({ id: category.id })),
             connect: categories.map((category) => ({ id: category.id })),
           },
           subcategories: {
+            disconnect: allSubCategories.map((subcategory) => ({
+              id: subcategory.id,
+            })),
             connect: subcategories.map((subcategory) => ({
               id: subcategory.id,
             })),

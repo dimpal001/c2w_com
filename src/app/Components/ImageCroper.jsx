@@ -47,14 +47,28 @@ export default function ImageCroper({
   const [fileName, setFileName] = useState(null)
   const [imageAltText, setImageAltText] = useState(altText || '')
 
+  const [adding, setAdding] = useState(false)
+
   const fileInputRef = useRef(null)
 
   function onSelectFile(e) {
     if (e.target.files && e.target.files.length > 0) {
       setFileName(e.target.files[0].name)
       setCrop(undefined)
+
       const reader = new FileReader()
-      reader.addEventListener('load', () => setImgSrc(reader.result || ''))
+      reader.addEventListener('load', () => {
+        const base64String = reader.result.split(',')[1]
+        const binary = atob(base64String)
+        const array = new Uint8Array(binary.length)
+        for (let i = 0; i < binary.length; i++) {
+          array[i] = binary.charCodeAt(i)
+        }
+        const blob = new Blob([array], { type: e.target.files[0].type })
+        console.log('Blob:', blob)
+        setImgSrc(reader.result || '')
+      })
+
       reader.readAsDataURL(e.target.files[0])
     }
   }
@@ -67,6 +81,7 @@ export default function ImageCroper({
   }
 
   async function onDownloadCropClick() {
+    setAdding(true)
     const image = imgRef.current
     const previewCanvas = previewCanvasRef.current
     if (!image || !previewCanvas || !completedCrop) {
@@ -105,6 +120,7 @@ export default function ImageCroper({
     const croppedImageUrl = URL.createObjectURL(blob)
     onCropComplete(blob, croppedImageUrl, fileName, imageAltText)
     onClose()
+    setAdding(false)
   }
 
   useDebounceEffect(
@@ -191,7 +207,6 @@ export default function ImageCroper({
                     }}
                   />
                 </div>
-                <div></div>
               </>
             )}
           </div>
@@ -219,8 +234,11 @@ export default function ImageCroper({
         )}
         {fileName && (
           <button
+            disabled={adding}
             onClick={onDownloadCropClick}
-            className='rounded-sm p-2 px-4 bg-blue-600 text-white'
+            className={`rounded-sm ${
+              adding && 'opacity-60'
+            } p-2 px-4 bg-blue-600 text-white`}
           >
             Upload
           </button>

@@ -229,9 +229,19 @@ const ProductForm = ({
 
     try {
       setSaving(true)
+      images.map((image) => {
+        if (image.bob === null) {
+          enqueueSnackbar(
+            'Something is wrong in the image format, upload again!'
+          )
+          return
+        }
+      })
+
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
-          const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
+          console.log(image?.blob)
+          const imageUrl = await uploadImageToCDN(image?.blob, image?.fileName)
           return { color: image.color, imageUrl, altText: image.altText }
         })
       )
@@ -311,9 +321,19 @@ const ProductForm = ({
     try {
       setSaving(true)
 
+      images.map((image) => {
+        if (image.bob === null) {
+          enqueueSnackbar(
+            'Something is wrong in the image format, upload again!'
+          )
+          return
+        }
+      })
+
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
-          const imageUrl = await uploadImageToCDN(image.blob, image.fileName)
+          console.log(image?.blob)
+          const imageUrl = await uploadImageToCDN(image?.blob, image.fileName)
           return { color: image.color, imageUrl, altText: image.altText }
         })
       )

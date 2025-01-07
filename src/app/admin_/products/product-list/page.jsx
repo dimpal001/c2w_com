@@ -29,6 +29,7 @@ import DeleteModal from '@/app/Components/DeleteModal'
 import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
 import ErrorComponent from '../../components/ErrorComponent'
 import { Tooltip } from '@nextui-org/tooltip'
+import { useUserContext } from '@/app/context/UserContext'
 
 const page = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -54,6 +55,7 @@ const page = () => {
   const [sortOption, setSortOption] = useState('newest')
 
   const router = useRouter()
+  const { user } = useUserContext()
 
   const [error, setError] = useState(null)
 
@@ -335,8 +337,8 @@ const page = () => {
                   <tr className='bg-blue-800 text-white'>
                     <th className='p-2 border border-gray-300'>SL</th>
                     <th className='p-2 border border-gray-300'>Title</th>
+                    <th className='p-2 border border-gray-300'>Created By</th>
                     <th className='p-2 border border-gray-300'>Product ID</th>
-                    <th className='p-2 border border-gray-300'>Amount</th>
                     <th className='p-2 border border-gray-300'>Status</th>
                     <th className='p-2 border border-gray-300'>Hyper Link</th>
                     <th className='p-2 border border-gray-300 w-40'>Action</th>
@@ -348,7 +350,9 @@ const page = () => {
                       <tr
                         key={index}
                         className={`${
-                          index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                          user?.id === product?.user?.id
+                            ? 'bg-gray-200'
+                            : 'bg-white'
                         }`}
                       >
                         <td className='p-2 border text-center border-gray-300'>
@@ -366,6 +370,14 @@ const page = () => {
                             {product.title}
                           </span>
                         </td>
+                        <td
+                          className={`p-2 border ${
+                            user?.id === product?.user?.id &&
+                            'text-blue-600 font-semibold'
+                          } capitalize border-gray-300`}
+                        >
+                          {product?.user?.firstName}
+                        </td>
                         <td className='p-2 border capitalize border-gray-300'>
                           <span
                             onClick={() =>
@@ -377,9 +389,6 @@ const page = () => {
                           >
                             {product.styleId}
                           </span>
-                        </td>
-                        <td className='p-2 border capitalize border-gray-300'>
-                          ₹{product.displayPrice.toFixed(2)}
                         </td>
                         <td
                           className={`p-2 border capitalize border-gray-300 ${
