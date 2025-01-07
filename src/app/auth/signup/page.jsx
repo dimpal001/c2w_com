@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import 'animate.css'
 
-import { ArrowRight, CircleAlert } from 'lucide-react'
+import { ArrowRight, CircleAlert, Eye, EyeOff } from 'lucide-react'
 import Image from 'next/image'
 import LoginCartImage from '../../../assets/login_cart.svg'
 import Link from 'next/link'
@@ -18,6 +18,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState({ email: '', password: '' })
+  const [showPassword, setShowPassword] = useState(false)
 
   const router = useRouter()
 
@@ -143,21 +144,36 @@ export default function SignupPage() {
               >
                 Password
               </label>
-              <input
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                  clearError('password')
-                }}
-                type='password'
-                id='password'
-                placeholder='**********'
-                className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 ${
-                  errors.password
-                    ? 'border-red-500 focus:ring-red-300'
-                    : 'focus:ring-pink-300'
-                } outline-none text-gray-800`}
-              />
+              <div className='relative'>
+                <input
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                    clearError('password')
+                  }}
+                  type={showPassword ? 'text' : 'password'}
+                  id='password'
+                  placeholder='**********'
+                  className={`w-full px-4 py-3 bg-[#FDF3E9] rounded-lg border focus:ring-2 ${
+                    errors.password
+                      ? 'border-red-500 focus:ring-red-300'
+                      : 'focus:ring-pink-300'
+                  } outline-none text-gray-800`}
+                />
+                <div className='absolute top-0 bottom-0 right-3 flex items-center'>
+                  {showPassword ? (
+                    <EyeOff
+                      onClick={() => setShowPassword(false)}
+                      className='text-pink-500 cursor-pointer'
+                    />
+                  ) : (
+                    <Eye
+                      onClick={() => setShowPassword(true)}
+                      className='text-pink-500 cursor-pointer'
+                    />
+                  )}
+                </div>
+              </div>
               {errors.password && (
                 <p className='text-red-500 text-sm mt-2 flex items-center gap-1'>
                   <CircleAlert className='w-4 h-4' /> {errors.password}
