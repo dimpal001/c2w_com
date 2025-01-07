@@ -13,6 +13,7 @@ import Image from 'next/image'
 import { deleteImageFromCDN } from '../../../../utils/deleteImageFromCDN'
 import EditModal from './EditModal'
 import { cdnPath } from '@/app/Components/cdnPath'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
   const [items, setItems] = useState([])
@@ -33,6 +34,8 @@ const Page = () => {
     imageUrl: null,
   })
   const [showForm, setShowForm] = useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     fetchitems()
@@ -143,9 +146,13 @@ const Page = () => {
           <h2 className='text-xl font-semibold text-blue-800'>Manage Blogs</h2>
           <div className='flex items-center gap-2'>
             <Button
+              label={'Create a blog'}
+              onClick={() => router.push('/admin_/manage-blogs/create-blog')}
+            />
+            {/* <Button
               label={'Add a Blog'}
               onClick={() => setShowForm(!showForm)}
-            />
+            /> */}
           </div>
         </div>
 

@@ -10,7 +10,7 @@ export async function GET(request) {
 
   try {
     let product = await prisma.product.findUnique({
-      where: { slug },
+      where: { slug, isActive: true },
       include: {
         inventory: {
           select: {
@@ -43,6 +43,7 @@ export async function GET(request) {
 
       product = await prisma.product.findFirst({
         where: {
+          isActive: true,
           title: {
             contains: slugWords[0],
           },
@@ -78,6 +79,7 @@ export async function GET(request) {
         for (let i = 1; i < slugWords.length; i++) {
           product = await prisma.product.findFirst({
             where: {
+              isActive: true,
               title: {
                 contains: slugWords[i],
               },
