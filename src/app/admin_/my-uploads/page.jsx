@@ -7,6 +7,7 @@ import Loading from '../components/Loading'
 import { useRouter } from 'next/navigation'
 import Layout from '../components/Layout'
 import Input from '../products/components/Input'
+import Button from '../components/Button'
 
 const page = () => {
   const [query, setQuery] = useState('')
@@ -86,11 +87,15 @@ const page = () => {
               </h2>
             </div>
 
-            <div className='flex my-2 flex-wrap items-end gap-2'>
+            <div className='flex my-2 flex-wrap items-center gap-2'>
               <Input
                 placeholder={'Search by title'}
                 value={query}
                 onChange={handleSearch}
+              />
+              <Button
+                variant='secondary'
+                label={`Total: ${products?.length}`}
               />
             </div>
 
