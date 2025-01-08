@@ -106,6 +106,7 @@ const page = () => {
                     <th className='p-2 border border-gray-300'>SL</th>
                     <th className='p-2 border border-gray-300'>Title</th>
                     <th className='p-2 border border-gray-300'>Status</th>
+                    <th className='p-2 border border-gray-300'>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -114,7 +115,7 @@ const page = () => {
                       <React.Fragment key={dateIndex}>
                         <tr className='bg-blue-200'>
                           <td
-                            colSpan='3'
+                            colSpan='4'
                             className='p-2 border text-center border-gray-300 font-bold'
                           >
                             {date}
@@ -155,6 +156,18 @@ const page = () => {
                                   Inactive{' '}
                                 </span>
                               )}
+                            </td>
+                            <td className='p-3 border text-center capitalize border-gray-300'>
+                              <div className='flex items-center justify-center'>
+                                <Button
+                                  onClick={() =>
+                                    router.push(
+                                      `/admin_/products/edit-product/${product?.id}`
+                                    )
+                                  }
+                                  label={'Edit'}
+                                />
+                              </div>
                             </td>
                           </tr>
                         ))}
