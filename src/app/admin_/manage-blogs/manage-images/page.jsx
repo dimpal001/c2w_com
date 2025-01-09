@@ -94,13 +94,16 @@ const page = () => {
             />
           </div>
         </div>
-        <div className='flex gap-4 flex-wrap'>
+        <div className='flex gap-4 flex-wrap items-start'>
           {filteredImages.length > 0 &&
             filteredImages.map((image, index) => (
-              <div key={index} className='relative w-64 group overflow-hidden'>
+              <div
+                key={index}
+                className='relative h-auto w-64 group overflow-hidden'
+              >
                 <img
                   src={cdnPath + image.imageUrl}
-                  className='w-64 min-w-64 max-w-64 min-h-64 border border-slate-700'
+                  className='w-64 min-w-64 max-w-64 border border-slate-700'
                   alt=''
                 />
                 <div className='absolute p-4 z-10 group-hover:translate-y-0 transition-all duration-300 translate-y-full inset-0 top-0 left-0 right-0 bottom-0 bg-black bg-opacity-70'>
