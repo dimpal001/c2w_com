@@ -9,6 +9,8 @@ const Button = ({
   loadingText,
   disabled,
   className,
+  icon: Icon,
+  ref,
 }) => {
   const bgColor = {
     primary: 'bg-blue-800',
@@ -49,6 +51,7 @@ const Button = ({
 
   return (
     <button
+      ref={ref}
       onClick={onClick}
       className={`${className} ${buttonClass} ${loadingClass} ${
         disabled && 'opacity-60'
@@ -80,7 +83,10 @@ const Button = ({
           <span>{loadingText ? loadingText : 'Please wait'}</span>
         </span>
       ) : (
-        label
+        <div className='flex items-center justify-center gap-2'>
+          {Icon && <Icon className={'w-[17px] h-[17px]'} />}
+          {label}
+        </div>
       )}
     </button>
   )

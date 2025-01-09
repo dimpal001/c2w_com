@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
-export const uploadImageToCDN = async (image, name) => {
+export const uploadImageToCDN = async (image, name, prefix) => {
   const s3Client = new S3Client({
     endpoint: 'https://blr1.digitaloceanspaces.com',
     forcePathStyle: false,
@@ -13,7 +13,12 @@ export const uploadImageToCDN = async (image, name) => {
   })
 
   const extension = name.split('.').pop()
-  let imageName = `image-${Date.now()}.${extension}`
+  let imageName
+  if (prefix) {
+    imageName = `${prefix}-image-${Date.now()}.${extension}`
+  } else {
+    imageName = `image-${Date.now()}.${extension}`
+  }
 
   const file = new File([image], name, { type: image.type })
   if (!file || !file) return

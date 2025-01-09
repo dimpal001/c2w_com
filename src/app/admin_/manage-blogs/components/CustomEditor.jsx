@@ -29,7 +29,6 @@ const MenuBar = ({ editor, images }) => {
     region: 'blr1',
     credentials: {
       accessKeyId: 'DO00TK892YLJBW7MV82Y',
-      secretAccessKey: '9a1ueUXe6X+ngKZoZEyvnfjQw5PI7t3bzbquBCWc2bY',
     },
   })
 
@@ -177,7 +176,7 @@ const CustomEditor = ({ value, onChange, images }) => {
       StarterKit,
       Heading.configure({
         HTMLAttributes: {
-          class: 'text-2xl max-md:text-xl font-bold',
+          class: 'text-lg max-md:text-xl font-bold',
           levels: [2],
         },
       }),
@@ -227,7 +226,7 @@ const CustomEditor = ({ value, onChange, images }) => {
       Link.configure({
         defaultProtocol: 'https',
         linkOnPaste: true,
-        HTMLAttributes: { class: 'text-first underline' },
+        HTMLAttributes: { class: 'text-blue-600 underline' },
       }),
     ],
     content: value || '',

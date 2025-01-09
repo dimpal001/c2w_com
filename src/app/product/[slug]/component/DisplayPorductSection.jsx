@@ -27,6 +27,7 @@ import ProductInfo from './ProductInfo'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import ImageMagnifier from './ImageMagnifier'
+import { capitalizeTitle } from '@/app/admin_/components/titleCapitalize'
 
 const faqs = `<div style="max-width: 800px; margin: 0 auto; padding: 20px;">
 
@@ -283,7 +284,7 @@ const DisplayPorductSection = ({ product }) => {
       <div className='py-5 max-sm:py-2 md:w-[46%] flex-col flex gap-3 justify-start'>
         <div className='flex flex-col gap-1 lg:gap-2'>
           <h1 className='font-bold text-2xl leading-[27px] max-sm:leading-[20px] max-sm:text-lg'>
-            {product?.title}
+            {capitalizeTitle(product?.title)}
           </h1>
           <p className='text-base max-sm:text-sm'>
             Seller Code. <strong>{product?.sellerCode}</strong>

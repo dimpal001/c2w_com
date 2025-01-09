@@ -106,6 +106,20 @@ const InventoryModal = ({
       return
     }
 
+    if (inventory.discount > 100) {
+      enqueueSnackbar('Discount cannot be greater than 100', {
+        variant: 'error',
+      })
+      return
+    }
+
+    if (inventory.discount < 0) {
+      enqueueSnackbar('Discount cannot be less than 0', {
+        variant: 'error',
+      })
+      return
+    }
+
     // Check if the selected size already exists in the inventory
     const sizeExists = formData.inventory.some(
       (item) => item.size.id === inventory.size.id && item.id !== inventory.id

@@ -21,6 +21,7 @@ import Input from './Input'
 import SizeChartSection from './SizeChartSection'
 import CustomEditor from './CustomEditor'
 import InventorySection from './InventorySection'
+import { capitalizeTitle } from '../../components/titleCapitalize'
 
 const ProductForm = ({
   formData,
@@ -246,7 +247,12 @@ const ProductForm = ({
         })
       )
 
-      const submissionData = { ...formData, images: uploadedImages }
+      const submissionData = {
+        ...formData,
+        images: uploadedImages,
+        title: capitalizeTitle(formData.title),
+      }
+      console.log(submissionData)
 
       const response = await axios.post('/api/products/add', submissionData)
       enqueueSnackbar(response.data.message, { variant: 'success' })
@@ -348,6 +354,7 @@ const ProductForm = ({
       const submissionData = {
         ...formData,
         images: allImages,
+        title: capitalizeTitle(formData.title),
       }
 
       const response = await axios.patch('/api/products/update', submissionData)

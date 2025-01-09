@@ -358,7 +358,7 @@ const page = () => {
                         <td className='p-2 border text-center border-gray-300'>
                           {index + 1}
                         </td>
-                        <td className='p-2 border capitalize border-gray-300'>
+                        <td className='p-2 border border-gray-300'>
                           <span
                             onClick={() =>
                               router.push(

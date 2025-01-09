@@ -46,6 +46,13 @@ export async function POST(request) {
         { status: 401 }
       )
     }
+    // Create a JWT token
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },
+      // eslint-disable-next-line no-undef
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    )
 
     // Return success response
     const response = NextResponse.json({
@@ -58,16 +65,9 @@ export async function POST(request) {
         lastName: user.lastName,
         role: user.role,
         privileges: user.UserPrivilege,
+        token: token,
       },
     })
-
-    // Create a JWT token
-    const token = jwt.sign(
-      { userId: user.id, email: user.email, role: user.role },
-      // eslint-disable-next-line no-undef
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    )
 
     response.cookies.set('token', token, {
       httpOnly: true,
