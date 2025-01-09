@@ -13,6 +13,7 @@ import { cdnPath } from '@/app/Components/cdnPath'
 import { CircleCheck } from 'lucide-react'
 import Button from '../../components/Button'
 import Loading from '../../components/Loading'
+import ImageModal from './ImageModal'
 
 const SelectImageSection = ({
   isOpen,
@@ -27,6 +28,7 @@ const SelectImageSection = ({
   const [filteredImages, setFilteredImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [showImageModal, setShowImageModal] = useState(false)
 
   const fetchImageData = async () => {
     try {
@@ -80,6 +82,10 @@ const SelectImageSection = ({
                 <Button label={'Done'} onClick={() => handleSelectImage()} />
               )}
               <Button label={'Refresh'} onClick={fetchImageData} />
+              <Button
+                label={'Add new'}
+                onClick={() => setShowImageModal(true)}
+              />
               <Input
                 placeholder={'Search by note here'}
                 value={searchQuery}
@@ -93,7 +99,7 @@ const SelectImageSection = ({
             {loading ? (
               <Loading />
             ) : (
-              <div className='flex flex-wrap gap-2'>
+              <div className='flex flex-wrap items-start gap-2'>
                 {filteredImages.length > 0 ? (
                   filteredImages.map((image, index) => (
                     <div
@@ -121,6 +127,13 @@ const SelectImageSection = ({
               </div>
             )}
           </div>
+          {showImageModal && (
+            <ImageModal
+              isOpen={true}
+              onClose={() => setShowImageModal(false)}
+              refresh={fetchImageData}
+            />
+          )}
         </DrawerBody>
       </DrawerContent>
     </Drawer>

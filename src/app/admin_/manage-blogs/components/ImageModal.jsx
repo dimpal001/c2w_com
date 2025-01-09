@@ -91,7 +91,9 @@ const ImageModal = ({
             },
           }
         )
-        setImages((prev) => [...prev, response.data])
+        if (setImages) {
+          setImages((prev) => [...prev, response.data])
+        }
         setAltText(null)
         setNote(null)
         setFileName(null)
@@ -101,8 +103,10 @@ const ImageModal = ({
       onClose()
       refresh()
     } catch (error) {
-      console.log(error)
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' })
+      console.log(error.message)
+      enqueueSnackbar(error?.response?.data?.message || '', {
+        variant: 'error',
+      })
     } finally {
       setSubmitting(false)
     }
