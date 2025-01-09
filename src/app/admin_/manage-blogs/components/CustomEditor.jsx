@@ -16,65 +16,31 @@ import BulletList from '@tiptap/extension-bullet-list'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { enqueueSnackbar } from 'notistack'
+import { cdnPath } from '@/app/Components/cdnPath'
 
-const MenuBar = ({ editor, images }) => {
-  const fileInputRef = useRef(null)
+const MenuBar = ({ editor, onImageButtonClick, selectedContentImage }) => {
   if (!editor) return null
 
-  const s3Client = new S3Client({
-    endpoint: 'https://blr1.digitaloceanspaces.com',
-    forcePathStyle: false,
-    region: 'blr1',
-    credentials: {
-      accessKeyId: 'DO00TK892YLJBW7MV82Y',
-    },
-  })
-
-  const handleImageUpload = async (fileName, file) => {
-    const params = {
-      Bucket: 'the-fashion-salad',
-      Key: `blog-post-images/${fileName}`,
-      Body: file,
-      ACL: 'public-read',
-    }
+  useEffect(() => {
     try {
-      images.push(fileName)
+      if (selectedContentImage?.imageUrl) {
+        editor
+          .chain()
+          .focus()
+          .setImage({
+            src: cdnPath + selectedContentImage.imageUrl,
+            alt: selectedContentImage.altText || '',
+          })
+          .insertContent('<p></p>')
+          .run()
 
-      const data = await s3Client.send(new PutObjectCommand(params))
-      if (data.$metadata.httpStatusCode === 200) {
-        const url = `https://cdn.thefashionsalad.com/blog-post-images/${fileName}`
-        editor.chain().focus().setImage({ src: url }).run()
-      } else {
-        enqueueSnackbar('Error uploading image, try again')
+        editor.commands.blur()
+        editor.commands.focus()
       }
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0]
-    if (!file) return
-
-    const sanitizedFileName = file.name.replace(/\s+/g, '')
-    const timestamp = new Date().toISOString().replace(/[-:.]/g, '')
-    const customFileName = `blog-${timestamp}-${sanitizedFileName}`
-
-    const validExtensions = ['jpg', 'jpeg', 'png', 'webp']
-    const fileExtension = file.name.split('.').pop().toLowerCase()
-
-    if (!validExtensions.includes(fileExtension)) {
-      enqueueSnackbar(
-        'Please upload a valid image file (jpg, jpeg, png, webp).',
-        { variant: 'error' }
-      )
-      return
-    }
-
-    handleImageUpload(customFileName, file)
-  }
+  }, [selectedContentImage])
 
   const handleLink = () => {
     const { from, to } = editor.state.selection
@@ -85,13 +51,13 @@ const MenuBar = ({ editor, images }) => {
 
     const url = prompt('Enter the URL')
     if (url) {
-      editor.commands.toggleLink({ href: url })
-      editor.commands.focus()
+      editor?.commands?.toggleLink({ href: url })
+      editor?.commands?.focus()
     }
   }
 
   return (
-    <div className='flex sticky top-0 z-20 gap-3 border border-dotted p-2 bg-blue-600 text-white'>
+    <div className='flex sticky top-7 z-20 gap-3 border border-dotted p-2 bg-blue-600 text-white'>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={`p-1 rounded-md ${
@@ -142,24 +108,20 @@ const MenuBar = ({ editor, images }) => {
         <LinkIcon size={18} />
       </button>
 
-      <input
-        type='file'
-        ref={fileInputRef}
-        accept='image/*'
-        className='hidden'
-        onChange={handleFileChange}
-      />
-
-      <button
-        onClick={() => fileInputRef.current && fileInputRef.current.click()}
-      >
+      <button onClick={onImageButtonClick}>
         <ImagePlus size={18} />
       </button>
     </div>
   )
 }
 
-const CustomEditor = ({ value, onChange, images }) => {
+const CustomEditor = ({
+  value,
+  onChange,
+  images,
+  onImageButtonClick,
+  selectedContentImage,
+}) => {
   const [isClient, setIsClient] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [altText, setAltText] = useState('')
@@ -191,7 +153,7 @@ const CustomEditor = ({ value, onChange, images }) => {
 
             img.onload = () => {
               // Ensure image is loaded before rendering
-              editor.commands.updateImageNode(node, img)
+              editor?.commands?.updateImageNode(node, img)
             }
 
             img.onclick = (event) => {
@@ -219,7 +181,7 @@ const CustomEditor = ({ value, onChange, images }) => {
         },
       }).configure({
         HTMLAttributes: {
-          class: 'p-3 mx-auto w-[75%] max-md:w-full',
+          class: 'p-3 mx-auto w-[90%] max-md:w-full',
         },
         inline: true,
       }),
@@ -263,7 +225,7 @@ const CustomEditor = ({ value, onChange, images }) => {
 
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || '')
+      editor?.commands?.setContent(value || '')
     }
   }, [editor, value])
 
@@ -324,10 +286,15 @@ const CustomEditor = ({ value, onChange, images }) => {
 
   return (
     <div className='w-full'>
-      <MenuBar images={images} editor={editor} />
+      <MenuBar
+        images={images}
+        editor={editor}
+        onImageButtonClick={onImageButtonClick}
+        selectedContentImage={selectedContentImage}
+      />
       <EditorContent
         editor={editor}
-        className='min-h-[150px] editor-content bg-white border border-dotted border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none leading-[26px] text-base text-gray-800 placeholder-gray-400'
+        className='min-h-[150px] editor-content bg-white border border-dotted border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-2xl font-serif text-gray-800 placeholder-gray-400'
       />
 
       {isDialogOpen && selectedImage && (

@@ -11,6 +11,7 @@ import { enqueueSnackbar } from 'notistack'
 import { deleteImageFromCDN } from '../../../../../utils/deleteImageFromCDN'
 import DeleteModal from '@/app/Components/DeleteModal'
 import Input from '../../products/components/Input'
+import { CircleCheck } from 'lucide-react'
 
 const page = () => {
   const [images, setImages] = useState([])
@@ -27,7 +28,7 @@ const page = () => {
 
   const fetchData = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem('user')).token
+      const token = JSON.parse(localStorage.getItem('user'))?.token
       const response = await axios.get(`${blogApi}/images`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -129,6 +130,9 @@ const page = () => {
                     </p>
                   </div>
                 </div>
+                {image?.isUsed === true && (
+                  <CircleCheck className='fill-blue-600 z-20 text-white w-7 h-7 absolute top-2 right-2' />
+                )}
               </div>
             ))}
         </div>

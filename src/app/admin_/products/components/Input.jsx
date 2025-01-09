@@ -13,8 +13,8 @@ const Input = ({
   disabled,
 }) => {
   return (
-    <div className={`flex flex-col gap-1 ${width && width}`}>
-      <label htmlFor={label}>{label}</label>
+    <div className={`flex flex-col ${label && 'gap-1'} ${width && width}`}>
+      {label && <label htmlFor={label}>{label}</label>}
       <input
         id={label}
         disabled={disabled}
