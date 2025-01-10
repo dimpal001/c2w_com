@@ -88,6 +88,10 @@ const Page = () => {
               label={'Create a blog'}
               onClick={() => router.push('/admin_/manage-blogs/create-blog')}
             />
+            <Button
+              label={'Newsletters'}
+              onClick={() => router.push('/admin_/manage-blogs/newsletters')}
+            />
           </div>
         </div>
         <div

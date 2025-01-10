@@ -92,8 +92,17 @@ body {
 
 @media (max-width: 768px) {
   .editor-content img {
-    width: 90%;
+    width: 100%;
     margin-inline: auto;
+  }
+  .editor-content p {
+    line-height: 25px;
+    word-spacing: 3px;
+    font-size: 18px;
+  }
+  .editor-content h2 {
+    font-size: 25px;
+    line-height: 32px;
   }
 }
 

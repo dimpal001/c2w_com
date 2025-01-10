@@ -24,7 +24,7 @@ const page = () => {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    document.title = 'Create blog post'
+    document.title = 'Create Blog Post || Clothes2wear'
   }, [])
 
   const handleSubmit = async () => {

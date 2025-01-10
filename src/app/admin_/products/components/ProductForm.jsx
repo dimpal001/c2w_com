@@ -195,12 +195,12 @@ const ProductForm = ({
       })
       return
     }
-    // if (formData.inventory.length === 0) {
-    //   enqueueSnackbar('Add an inventory', {
-    //     variant: 'error',
-    //   })
-    //   return
-    // }
+    if (formData.inventory.length === 0) {
+      enqueueSnackbar('Add an inventory', {
+        variant: 'error',
+      })
+      return
+    }
     if (images.length === 0) {
       enqueueSnackbar('Add an image', {
         variant: 'error',
