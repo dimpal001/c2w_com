@@ -39,6 +39,7 @@ const page = () => {
 
   const handleDeleteNewsletter = async () => {
     try {
+      setShowDeleteModal(false)
       setDeleting(true)
       const token = JSON.parse(localStorage.getItem('user'))?.token
       const response = await axios.delete(
@@ -55,7 +56,6 @@ const page = () => {
       )
 
       setNewsletters(updatedNewsletters)
-      setShowDeleteModal(false)
 
       enqueueSnackbar(
         response?.data?.message || 'Newsletter has been deleted',
@@ -103,7 +103,7 @@ const page = () => {
                         <Button
                           variant='error'
                           label={'Delete'}
-                          loading={deleting}
+                          loading={deleting && item?.id === selectedItem.id}
                           loadingText={'Deleting'}
                           onClick={() => {
                             setShowDeleteModal(true)

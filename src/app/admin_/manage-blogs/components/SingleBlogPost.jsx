@@ -16,6 +16,22 @@ const SingleBlogPost = ({ blog, deleteComplete, updateComplete }) => {
   const [deleting, setDeleteing] = useState(false)
   const router = useRouter()
 
+  const [buttonLabel, setButtonLabel] = useState('Copy Link')
+
+  const handleCopyLink = async () => {
+    const url = `https://www.clothes2wear.com/blogs/${blog?.slug}`
+    try {
+      await navigator.clipboard.writeText(url)
+      setButtonLabel('Link Copied!')
+
+      setTimeout(() => {
+        setButtonLabel('Copy Link')
+      }, 2000)
+    } catch (error) {
+      console.error('Failed to copy link:', error)
+    }
+  }
+
   const handleDelete = async () => {
     try {
       setDeleteing(true)
@@ -74,7 +90,7 @@ const SingleBlogPost = ({ blog, deleteComplete, updateComplete }) => {
           <p className='font-semibold leading-5 text-white text-base'>
             {blog?.title}
           </p>
-          <div className='flex items-center mt-2 gap-2'>
+          <div className='flex items-center flex-wrap mt-2 gap-2'>
             <Button
               onClick={() =>
                 router.push(`/admin_/manage-blogs/edit-blog/${blog?.id}`)
@@ -105,6 +121,11 @@ const SingleBlogPost = ({ blog, deleteComplete, updateComplete }) => {
               loading={deleting}
               label={'Delete'}
               variant='error'
+            />
+            <Button
+              onClick={handleCopyLink}
+              variant={buttonLabel === 'Copy Link' ? 'primary' : 'success'}
+              label={buttonLabel}
             />
           </div>
         </div>

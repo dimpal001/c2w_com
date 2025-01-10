@@ -7,9 +7,9 @@ import React from 'react'
 const PreviewBlogPage = ({ isOpen, onClose, postData }) => {
   return (
     <Drawer isOpen={isOpen} size='full' onClose={onClose}>
-      <DrawerContent className='h-screen overflow-scroll'>
-        <DrawerBody>
-          <div className='w-1/2 py-5 mx-auto h-screen'>
+      <DrawerContent className='h-screen overflow-scroll scrollbar-hide'>
+        <DrawerBody className='scrollbar-hide'>
+          <div className='w-1/2 py-5 mx-auto h-screen scrollbar-hide'>
             {postData?.thumbnailImage && (
               <Image
                 className='w-full h-[400px] object-cover'
