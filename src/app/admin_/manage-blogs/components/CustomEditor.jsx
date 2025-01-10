@@ -138,7 +138,7 @@ const CustomEditor = ({
       StarterKit,
       Heading.configure({
         HTMLAttributes: {
-          class: 'text-lg max-md:text-xl font-bold',
+          class: 'text-xl max-md:text-2xl font-bold',
           levels: [2],
         },
       }),

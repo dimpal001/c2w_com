@@ -69,36 +69,36 @@ const Page = ({ params }) => {
   useEffect(() => {
     if (productDetails) {
       setFormData({
-        title: productDetails.title || '',
-        customerTypeId: productDetails.customerTypeId || '',
-        categories: productDetails.categories || [],
-        isReturnable: productDetails.isReturnable || false,
-        isCODAvailable: productDetails.isCODAvailable || false,
-        estimatedDeliveryDay: productDetails.estimatedDeliveryDay || 0,
-        isActive: productDetails.isActive || false,
-        description: productDetails.description || '',
-        summary: productDetails.summary || '',
-        userId: productDetails.userId || user.id,
-        images: productDetails.images || [],
-        inventory: productDetails.inventory || [],
-        similarProducts: productDetails.similarProducts || [],
-        tags: productDetails.tags || [],
-        discounts: productDetails.discounts || [],
-        productId: productDetails.id,
-        displayPrice: productDetails.displayPrice,
-        returnPolicy: productDetails.returnPolicy,
-        subcategories: productDetails.subcategories,
-        longTailKeyword: productDetails.longTailKeyword,
-        sellerCode: productDetails.sellerCode,
-        sizeChartId: productDetails.sizeChartId,
-        fabricId: productDetails.fabricId,
+        title: productDetails?.title || '',
+        customerTypeId: productDetails?.customerTypeId || '',
+        categories: productDetails?.categories || [],
+        isReturnable: productDetails?.isReturnable || false,
+        isCODAvailable: productDetails?.isCODAvailable || false,
+        estimatedDeliveryDay: productDetails?.estimatedDeliveryDay || 0,
+        isActive: productDetails?.isActive || false,
+        description: productDetails?.description || '',
+        summary: productDetails?.summary || '',
+        userId: productDetails?.userId || user.id,
+        images: productDetails?.images || [],
+        inventory: productDetails?.inventory || [],
+        similarProducts: productDetails?.similarProducts || [],
+        tags: productDetails?.tags || [],
+        discounts: productDetails?.discounts || [],
+        productId: productDetails?.id,
+        displayPrice: productDetails?.displayPrice,
+        returnPolicy: productDetails?.returnPolicy,
+        subcategories: productDetails?.subcategories,
+        longTailKeyword: productDetails?.longTailKeyword,
+        sellerCode: productDetails?.sellerCode,
+        sizeChartId: productDetails?.sizeChartId,
+        fabricId: productDetails?.fabricId,
       })
     }
 
     setTimeout(() => {
       setShowForm(false)
     }, 1000)
-  }, [productDetails, user.id])
+  }, [productDetails, user?.id])
 
   useEffect(() => {
     document.title = 'Edit Product | Clothes2Wear'

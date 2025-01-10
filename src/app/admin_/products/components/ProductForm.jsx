@@ -167,14 +167,6 @@ const ProductForm = ({
   }
 
   const handleSubmit = async () => {
-    if (formData.userId === '' || formData.userId === null) {
-      enqueueSnackbar(
-        'Unfortunately, you have been logged out for some reason. Please log in again in the same browser session.',
-        { variant: 'error' }
-      )
-      return
-    }
-
     if (formData.title === '') {
       enqueueSnackbar('Add the title', { variant: 'error' })
       return
@@ -203,12 +195,12 @@ const ProductForm = ({
       })
       return
     }
-    if (formData.inventory.length === 0) {
-      enqueueSnackbar('Add an inventory', {
-        variant: 'error',
-      })
-      return
-    }
+    // if (formData.inventory.length === 0) {
+    //   enqueueSnackbar('Add an inventory', {
+    //     variant: 'error',
+    //   })
+    //   return
+    // }
     if (images.length === 0) {
       enqueueSnackbar('Add an image', {
         variant: 'error',
@@ -239,6 +231,16 @@ const ProductForm = ({
         }
       })
 
+      const userId = JSON.parse(localStorage.getItem('user'))?.id
+
+      if (userId === '' || userId === null) {
+        enqueueSnackbar(
+          'Unfortunately, you have been logged out for some reason. Please log in again in the same browser session.',
+          { variant: 'error' }
+        )
+        return
+      }
+
       const uploadedImages = await Promise.all(
         images.map(async (image) => {
           console.log(image?.blob)
@@ -251,8 +253,8 @@ const ProductForm = ({
         ...formData,
         images: uploadedImages,
         title: capitalizeTitle(formData.title),
+        userId: userId,
       }
-      console.log(submissionData)
 
       const response = await axios.post('/api/products/add', submissionData)
       enqueueSnackbar(response.data.message, { variant: 'success' })
@@ -799,6 +801,7 @@ const ProductForm = ({
       <Section className={'rounded-sm p-5 bg-stone-300'}>
         <CustomEditor
           name='summary'
+          editorClass={'editor-content2'}
           label={'Enter Summary'}
           value={formData.summary}
           onChange={(content) => {
@@ -814,6 +817,7 @@ const ProductForm = ({
 
       <Section className={'rounded-sm p-5 bg-stone-300'}>
         <CustomEditor
+          editorClass={'editor-content2'}
           name='description'
           label={'Enter description'}
           value={formData.description}

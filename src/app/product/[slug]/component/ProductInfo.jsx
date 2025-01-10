@@ -31,7 +31,7 @@ const ProductInfo = ({ title, data, isDangerouslySetInnerHTML }) => {
       >
         {isDangerouslySetInnerHTML ? (
           <div
-            className='editor-content text-sm md:pl-9 p-2'
+            className='editor-content2 text-sm md:pl-9 p-2'
             dangerouslySetInnerHTML={{ __html: data }}
           />
         ) : (

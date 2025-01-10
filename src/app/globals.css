@@ -64,6 +64,27 @@ body {
   /* height: 1rem; */
 }
 
+.editor-content2 p:empty::before {
+  content: '\00a0';
+  display: block;
+  /* height: 1rem; */
+}
+
+.editor-content p {
+  line-height: 35px;
+  word-spacing: 3px;
+}
+
+.editor-content2 p {
+  /* line-height: 20px;
+  word-spacing: 3px; */
+}
+
+.editor-content h2 {
+  font-size: 30px;
+  line-height: 32px;
+}
+
 .editor-content img {
   width: 75%;
   margin-inline: auto;

@@ -157,7 +157,14 @@ const MenuBar = ({ editor }) => {
   )
 }
 
-const CustomEditor = ({ value, onChange, images, label, name }) => {
+const CustomEditor = ({
+  value,
+  onChange,
+  images,
+  label,
+  name,
+  editorClass,
+}) => {
   const [isClient, setIsClient] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [altText, setAltText] = useState('')
@@ -328,7 +335,9 @@ const CustomEditor = ({ value, onChange, images, label, name }) => {
         name={name}
         placeholder='Enter here'
         editor={editor}
-        className='min-h-[120px] editor-content bg-white border border-dotted border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none leading-5 text-base text-gray-800 placeholder-gray-400'
+        className={`min-h-[120px] ${
+          editorClass ? editorClass : 'editor-content'
+        } bg-white border border-dotted border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none leading-5 text-base text-gray-800 placeholder-gray-400`}
       />
 
       {isDialogOpen && selectedImage && (

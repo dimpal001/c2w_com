@@ -96,12 +96,12 @@ export async function POST(request) {
       )
     }
 
-    if (inventory.length === 0) {
-      return NextResponse.json(
-        { message: 'Please add inventory details for the product.' },
-        { status: 400 }
-      )
-    }
+    // if (inventory.length === 0) {
+    //   return NextResponse.json(
+    //     { message: 'Please add inventory details for the product.' },
+    //     { status: 400 }
+    //   )
+    // }
 
     if (!summary) {
       return NextResponse.json(
@@ -186,18 +186,21 @@ export async function POST(request) {
         discounts: {
           connect: discounts.map((item) => ({ id: item.id })),
         },
-        inventory: inventory.length > 0 && {
-          create: inventory.map(
-            ({ size, mrp, price, stock, discount, minQuantity }) => ({
-              price: parseFloat(price),
-              mrp: parseFloat(mrp),
-              stock: parseFloat(stock),
-              discount: parseFloat(discount),
-              minQuantity: parseInt(minQuantity),
-              sizeId: size.id,
-            })
-          ),
-        },
+        inventory:
+          inventory.length > 0
+            ? {
+                create: inventory.map(
+                  ({ size, mrp, price, stock, discount, minQuantity }) => ({
+                    price: parseFloat(price),
+                    mrp: parseFloat(mrp),
+                    stock: parseFloat(stock),
+                    discount: parseFloat(discount),
+                    minQuantity: parseInt(minQuantity),
+                    sizeId: size.id,
+                  })
+                ),
+              }
+            : null,
         similarProducts: {
           connect: similarProducts.map((product) => ({ id: product.id })),
         },
