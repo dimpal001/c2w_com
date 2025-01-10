@@ -8,12 +8,14 @@ import { useRouter } from 'next/navigation'
 import Layout from '../components/Layout'
 import Input from '../products/components/Input'
 import Button from '../components/Button'
+import ChartModal from '../manage-staff/progress/ChartModal'
 
 const page = () => {
   const [query, setQuery] = useState('')
   const [products, setProducts] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showChartModal, setShowChartModal] = useState(false)
   const { user } = useUserContext()
 
   const router = useRouter()
@@ -96,6 +98,10 @@ const page = () => {
               <Button
                 variant='secondary'
                 label={`Total: ${products?.length}`}
+              />{' '}
+              <Button
+                onClick={() => setShowChartModal(true)}
+                label={'Show Chart'}
               />
             </div>
 
@@ -184,6 +190,14 @@ const page = () => {
               </table>
             </div>
           </div>
+        )}
+        {showChartModal && (
+          <ChartModal
+            isOpen={true}
+            onClose={() => setShowChartModal(false)}
+            data={groupedProducts}
+            name={user?.firstName + ' ' + user?.lastName}
+          />
         )}
       </Layout>
     </div>

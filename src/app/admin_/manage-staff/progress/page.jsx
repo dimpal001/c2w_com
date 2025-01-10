@@ -242,6 +242,9 @@ const page = () => {
             isOpen={true}
             onClose={() => setShowChartModal(false)}
             data={groupedProducts}
+            name={
+              (firstName ? firstName : '') + ' ' + (lastName ? lastName : '')
+            }
           />
         )}
       </Layout>
