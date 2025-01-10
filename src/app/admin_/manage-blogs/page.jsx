@@ -59,12 +59,10 @@ const Page = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      const filteredBlogs = blogs.filter((item) =>
-        item?.title.toLowerCase().includes(searchQuery.toLocaleLowerCase())
-      )
-      setFilteredBlogs(filteredBlogs)
-    }, 500)
+    const filteredBlogs = blogs.filter((item) =>
+      item?.title.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+    )
+    setFilteredBlogs(filteredBlogs)
   }, [searchQuery])
 
   return (
@@ -95,7 +93,7 @@ const Page = () => {
         <div
           className={`${filteredBlogs.length > 0 && 'grid'} grid-cols-3 gap-4`}
         >
-          {filteredBlogs.length > 0 ? (
+          {filteredBlogs.length > 0 &&
             filteredBlogs?.map((item, index) => (
               <SingleBlogPost
                 key={index}
@@ -103,12 +101,7 @@ const Page = () => {
                 deleteComplete={handleDeleteComplete}
                 updateComplete={handleUpdateComplete}
               />
-            ))
-          ) : (
-            <div className='flex text-gray-500 items-center justify-center h-64 w-full text-base'>
-              <p>No blog post found</p>
-            </div>
-          )}
+            ))}
         </div>
         {showCategoryModal && (
           <CategoryModal
