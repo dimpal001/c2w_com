@@ -9,12 +9,14 @@ import Input from '../../products/components/Input'
 import { Calendar } from '@nextui-org/calendar'
 import { parseDate } from '@internationalized/date'
 import Button from '../../components/Button'
+import ChartModal from './ChartModal'
 
 const page = () => {
   const [query, setQuery] = useState('')
   const [products, setProducts] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showChartModal, setShowChartModal] = useState(false)
 
   const [selectedDate, setSelectedDate] = useState(null)
 
@@ -136,6 +138,10 @@ const page = () => {
               />
               <Button label={'Show All'} onClick={clearDateFilter} />
               <Button
+                label={'Show Chart'}
+                onClick={() => setShowChartModal(true)}
+              />
+              <Button
                 variant='secondary'
                 label={`Total: ${products?.length}`}
               />
@@ -230,6 +236,13 @@ const page = () => {
               </div>
             </div>
           </div>
+        )}
+        {showChartModal && (
+          <ChartModal
+            isOpen={true}
+            onClose={() => setShowChartModal(false)}
+            data={groupedProducts}
+          />
         )}
       </Layout>
     </div>
