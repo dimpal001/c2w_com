@@ -92,8 +92,10 @@ const Page = () => {
             />
           </div>
         </div>
-        <div className='grid grid-cols-3 gap-4'>
-          {filteredBlogs.length > 0 &&
+        <div
+          className={`${filteredBlogs.length > 0 && 'grid'} grid-cols-3 gap-4`}
+        >
+          {filteredBlogs.length > 0 ? (
             filteredBlogs?.map((item, index) => (
               <SingleBlogPost
                 key={index}
@@ -101,7 +103,12 @@ const Page = () => {
                 deleteComplete={handleDeleteComplete}
                 updateComplete={handleUpdateComplete}
               />
-            ))}
+            ))
+          ) : (
+            <div className='flex text-gray-500 items-center justify-center h-64 w-full text-base'>
+              <p>No blog post found</p>
+            </div>
+          )}
         </div>
         {showCategoryModal && (
           <CategoryModal
