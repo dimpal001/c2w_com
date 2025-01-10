@@ -55,7 +55,7 @@ const Page = () => {
     const updatedBlogs = blogs.map((item) =>
       item?.id === blog?.id ? { ...item, status: status } : item
     )
-    setBlogs(updatedBlogs)
+    setFilteredBlogs(updatedBlogs)
   }
 
   useEffect(() => {
