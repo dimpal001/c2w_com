@@ -19,7 +19,7 @@ const AdminLoginPage = () => {
   const { setUser } = useUserContext()
 
   useEffect(() => {
-    window.document.title = 'Login | Clothes2Wear'
+    document.title = 'Official Login | Clothes2Wear'
   }, [])
 
   const handleSubmit = async (e) => {

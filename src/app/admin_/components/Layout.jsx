@@ -18,6 +18,7 @@ const Layout = ({ children }) => {
   const [isExpanded, setIsExpanded] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(null)
   const [isClient, setIsClient] = useState(false)
+  const [message, setMessage] = useState('')
   const router = useRouter()
   const pathname = usePathname()
   const { user } = useUserContext()
@@ -109,6 +110,26 @@ const Layout = ({ children }) => {
     }
   }
 
+  useEffect(() => {
+    const indianTime = new Date().toLocaleString('en-US', {
+      timeZone: 'Asia/Kolkata',
+    })
+    const currentHour = new Date(indianTime).getHours()
+
+    let greeting
+    if (currentHour >= 5 && currentHour < 12) {
+      greeting = 'Good Morning'
+    } else if (currentHour >= 12 && currentHour < 17) {
+      greeting = 'Good Afternoon'
+    } else if (currentHour >= 17 && currentHour < 21) {
+      greeting = 'Good Evening'
+    } else {
+      greeting = 'Good Night'
+    }
+
+    setMessage(`${greeting}, ${user?.firstName}`)
+  }, [pathname, user])
+
   // useEffect(() => {
   //   const storedData = localStorage.getItem('showWarning')
 
@@ -135,11 +156,7 @@ const Layout = ({ children }) => {
                     <button onClick={toggleSidebar} className='mr-3'>
                       <LayoutGrid size={20} />
                     </button>
-                    <h1 className='font-semibold'>
-                      {user?.role === 'ADMIN'
-                        ? 'Admin Panel'
-                        : 'Staff Work Area'}
-                    </h1>
+                    <h1 className='font-semibold'>{message}</h1>
                   </div>
                   <div>
                     <Button
