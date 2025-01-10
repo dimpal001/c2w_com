@@ -11,11 +11,14 @@ import { enqueueSnackbar } from 'notistack'
 import axios from 'axios'
 import { blogApi } from '../components/apis'
 import SingleBlogPost from './components/SingleBlogPost'
+import Input from '../products/components/Input'
 
 const Page = () => {
   const [showCategoryModal, setShowCategoryModal] = useState(false)
   const [showImageModal, setShowImageModal] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const [blogs, setBlogs] = useState([])
+  const [filteredBlogs, setFilteredBlogs] = useState([])
   const router = useRouter()
 
   useEffect(() => {
@@ -31,6 +34,7 @@ const Page = () => {
         },
       })
       setBlogs(response?.data)
+      setFilteredBlogs(response?.data)
     } catch (error) {
       enqueueSnackbar(error?.response?.data?.mesage || 'Something went wrong', {
         variant: 'error',
@@ -54,12 +58,26 @@ const Page = () => {
     setBlogs(updatedBlogs)
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      const filteredBlogs = blogs.filter((item) =>
+        item?.title.toLowerCase().includes(searchQuery.toLocaleLowerCase())
+      )
+      setFilteredBlogs(filteredBlogs)
+    }, 500)
+  }, [searchQuery])
+
   return (
     <Layout>
       <div className='p-6 bg-gray-100 min-h-[530px]'>
         <div className='flex items-center justify-between mb-5'>
           <h2 className='text-xl font-semibold text-blue-800'>Manage Blogs</h2>
           <div className='flex items-center gap-2'>
+            <Input
+              placeholder={'Search by title'}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <Button
               label={'Manage Images'}
               onClick={() => router.push('/admin_/manage-blogs/manage-images')}
@@ -75,8 +93,8 @@ const Page = () => {
           </div>
         </div>
         <div className='grid grid-cols-3 gap-4'>
-          {blogs.length > 0 &&
-            blogs?.map((item, index) => (
+          {filteredBlogs.length > 0 &&
+            filteredBlogs?.map((item, index) => (
               <SingleBlogPost
                 key={index}
                 blog={item}
